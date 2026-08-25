@@ -90,10 +90,10 @@
     width:min(393px, calc(100vw - 32px), calc((100dvh - 32px) * 393 / 852));
   }
   html.is-app, html.is-app body{
-    height:100%;min-height:100%;overflow:hidden;
+    height:100%;min-height:100%;min-height:100dvh;overflow:hidden;
   }
   html.is-app body{
-    padding:env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+    padding:0;
     background:#000;
   }
   html.is-app .page,
@@ -104,23 +104,33 @@
     width:100%;height:100%;max-width:none;aspect-ratio:auto;
     border:0;border-radius:0;box-shadow:none;
   }
+  @media (max-width:540px){
+    html.is-app .page,
+    html.is-app .stage,
+    html.is-app .phone{
+      position:fixed;inset:0;
+    }
+  }
+  html.is-standalone .page,
+  html.is-standalone .stage,
+  html.is-standalone .phone{
+    position:fixed;inset:0;
+    width:100%;height:100%;max-width:none;margin:0;
+    border:0;border-radius:0;box-shadow:none;aspect-ratio:auto;
+  }
+  html.is-standalone, html.is-standalone body{
+    height:100%;min-height:100dvh;overflow:hidden;
+  }
+  html.is-standalone body{padding:0;background:#000}
   @media (min-width:541px){
     html.is-app:not(.is-standalone) body{padding:0;background:#000}
+    html.is-app:not(.is-standalone) .page,
+    html.is-app:not(.is-standalone) .stage{position:relative;inset:auto}
     html.is-app:not(.is-standalone) .phone{
+      position:relative;
       width:min(100vw, calc(100dvh * 393 / 852));
       height:100%;
     }
-  }
-  html.is-standalone, html.is-standalone body{
-    height:100%;min-height:100%;overflow:hidden;
-  }
-  html.is-standalone body{
-    padding:env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
-    background:#000;
-  }
-  html.is-standalone .phone{
-    width:100%;height:100%;max-width:none;aspect-ratio:auto;
-    border:0;border-radius:0;box-shadow:none;
   }
 
   .phone{
@@ -152,23 +162,49 @@
   </div>
   <div class="stage">
     <div class="phone" id="phone">
-      <iframe data-app="home" class="is-on" title="Home" src="ah-gummy-ask-smear.html?app=1" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="stuff" title="Bookmarks" src="ah-gummy-my-stuff.html?app=1" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="follow" title="Following" src="ah-gummy-following.html?app=1" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="search" title="Search" src="ah-gummy-search.html?app=1" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="home" class="is-on" title="Home" src="ah-gummy-ask-smear.html?app=1&v=safe1" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="stuff" title="Bookmarks" src="ah-gummy-my-stuff.html?app=1&v=safe1" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="follow" title="Following" src="ah-gummy-following.html?app=1&v=safe1" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="search" title="Search" src="ah-gummy-search.html?app=1&v=safe1" allow="autoplay; encrypted-media"></iframe>
     </div>
   </div>
 </div>
 <script>
-function screenFor(href){
-  const path = String(href || "").split("?")[0];
-  if (path.includes("following")) return "follow";
-  if (path.includes("my-stuff")) return "stuff";
-  if (path.includes("search")) return "search";
+function screenFor(data){
+  const id = String(data?.id || "");
+  const path = String(data?.href || "").split("?")[0];
+  if (id === "gummy-search" || path.includes("search")) return "search";
+  if (id === "gummy-following" || path.includes("following")) return "follow";
+  if (id === "gummy-my-stuff" || path.includes("my-stuff")) return "stuff";
   return "home";
 }
-function ping(frame, type){
-  try { frame.contentWindow.postMessage({type}, "*"); } catch (_) {}
+function ping(frame, type, extra){
+  try { frame.contentWindow.postMessage({type, ...(extra || {})}, "*"); } catch (_) {}
+}
+function readSafe(){
+  const el = document.createElement("div");
+  el.style.cssText = "position:fixed;inset:0 auto auto 0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)";
+  document.body.appendChild(el);
+  const cs = getComputedStyle(el);
+  const safe = {top:cs.paddingTop, right:cs.paddingRight, bottom:cs.paddingBottom, left:cs.paddingLeft};
+  el.remove();
+  return safe;
+}
+function paintSafe(frame){
+  const safe = readSafe();
+  try{
+    const root = frame.contentDocument && frame.contentDocument.documentElement;
+    if (root){
+      root.style.setProperty("--app-safe-top", safe.top);
+      root.style.setProperty("--app-safe-right", safe.right);
+      root.style.setProperty("--app-safe-bottom", safe.bottom);
+      root.style.setProperty("--app-safe-left", safe.left);
+    }
+  }catch(_){}
+  ping(frame, "app-safe", safe);
+}
+function paintAllSafe(){
+  document.querySelectorAll("[data-app]").forEach(paintSafe);
 }
 function show(key){
   document.querySelectorAll("[data-app]").forEach(frame => {
@@ -183,15 +219,20 @@ function show(key){
 document.querySelectorAll("[data-app]").forEach(frame => {
   frame.inert = !frame.classList.contains("is-on");
   frame.addEventListener("load", () => {
+    paintSafe(frame);
     if (!frame.classList.contains("is-on")) ping(frame, "app-pause");
   });
 });
+paintAllSafe();
+window.addEventListener("resize", paintAllSafe);
+window.addEventListener("orientationchange", paintAllSafe);
+if (window.visualViewport) visualViewport.addEventListener("resize", paintAllSafe);
 window.addEventListener("message", e => {
   const d = e.data;
   if (!d || typeof d !== "object") return;
   if (d.type !== "app-go" && d.type !== "playground-go") return;
-  if (!d.href) return;
-  show(screenFor(d.href));
+  if (!d.href && !d.id) return;
+  show(screenFor(d));
 });
 if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
   navigator.serviceWorker.register("./sw.js");

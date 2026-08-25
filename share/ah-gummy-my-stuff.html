@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>AH · Gummy · My Stuff · Bookmarks · 24 Aug 2026</title>
+<meta http-equiv="Cache-Control" content="no-store">
 <script>
 (function(){
   const html = document.documentElement;
@@ -25,6 +26,12 @@
   apply();
   mq.addEventListener("change", apply);
   standaloneMq.addEventListener("change", apply);
+  window.addEventListener("message", e => {
+    const d = e.data;
+    if (!d || d.type !== "app-safe") return;
+    if (d.top) html.style.setProperty("--app-safe-top", d.top);
+    if (d.bottom) html.style.setProperty("--app-safe-bottom", d.bottom);
+  });
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -111,21 +118,21 @@
   html.is-embed.is-fill .page, html.is-embed.is-fill .stage{width:100%;height:100%;max-width:none}
   html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
-  html.is-app .status{
-    height:calc(44px + env(safe-area-inset-top, 0px));
-    padding-top:env(safe-area-inset-top, 0px);
+  html.is-app{
+    --safe-top: var(--app-safe-top, env(safe-area-inset-top, 0px));
+    --safe-bottom: var(--app-safe-bottom, env(safe-area-inset-bottom, 0px));
   }
-  html.is-app .tabs{padding-top:calc(48px + env(safe-area-inset-top, 0px))}
+  html.is-app .status{display:none}
+  html.is-app .tabs{padding-top: calc(8px + var(--safe-top))}
   html.is-app .tabbar{
-    height:calc(64px + env(safe-area-inset-bottom, 0px));
-    padding-bottom:env(safe-area-inset-bottom, 0px);
+    height: calc(64px + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
   }
   html.is-app .navfrost{
-    height:calc(64px + env(safe-area-inset-bottom, 0px));
-    border-radius:0;
+    height: calc(64px + var(--safe-bottom));
+    border-radius: 0;
   }
-  html.is-standalone .status{display:none}
-  html.is-standalone .tabs{padding-top:calc(16px + env(safe-area-inset-top, 0px))}
+  html.is-app .scene{bottom: calc(64px + var(--safe-bottom))}
 
   .phone{
     width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
@@ -803,10 +810,10 @@
       </div>
 
       <div class="tabbar">
-        <button class="navitem" type="button" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
-        <button class="navitem on" type="button" aria-label="My Stuff"><svg viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1v16l-6-4-6 4v-16a1 1 0 0 1 1-1z"/></svg><span>My Stuff</span></button>
-        <button class="navitem" type="button" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>Search</span></button>
-        <button class="navitem" type="button" aria-label="Shop"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 11.2A2 2 0 0 1 16.8 21H7.2a2 2 0 0 1-2-1.8L4 8z"/><path d="M8 8V6.5A4 4 0 0 1 12 2.5a4 4 0 0 1 4 4V8"/></svg><span>Shop</span></button>
+        <button class="navitem" type="button" data-nav="home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
+        <button class="navitem on" type="button" data-nav="stuff" aria-label="My Stuff"><svg viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1v16l-6-4-6 4v-16a1 1 0 0 1 1-1z"/></svg><span>My Stuff</span></button>
+        <button class="navitem" type="button" data-nav="search" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>Search</span></button>
+        <button class="navitem" type="button" data-nav="shop" aria-label="Shop"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 11.2A2 2 0 0 1 16.8 21H7.2a2 2 0 0 1-2-1.8L4 8z"/><path d="M8 8V6.5A4 4 0 0 1 12 2.5a4 4 0 0 1 4 4V8"/></svg><span>Shop</span></button>
       </div>
     </div>
   </div>
@@ -1571,14 +1578,14 @@ phoneEl.addEventListener("click", e => {
   }
 });
 
-document.querySelectorAll(".tabbar .navitem").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const label = btn.getAttribute("aria-label");
-    if (label === "Home") goPrototype("gummy-ask-smear", "ah-gummy-ask-smear.html");
-    else if (label === "My Stuff") sceneWatch.scrollTo({top:0, behavior:"smooth"});
-    else if (label === "Search") goPrototype("gummy-search", "ah-gummy-search.html");
-    else toast(`${label} · coming soon`);
-  });
+document.querySelector(".tabbar")?.addEventListener("click", e => {
+  const btn = e.target.closest(".navitem");
+  if (!btn) return;
+  const nav = (btn.dataset.nav || btn.getAttribute("aria-label") || "").toLowerCase();
+  if (nav === "home") goPrototype("gummy-ask-smear", "ah-gummy-ask-smear.html");
+  else if (nav === "stuff" || nav === "my stuff") sceneWatch.scrollTo({top:0, behavior:"smooth"});
+  else if (nav === "search") goPrototype("gummy-search", "ah-gummy-search.html");
+  else toast(`${btn.getAttribute("aria-label") || "Shop"} · coming soon`);
 });
 </script>
 </body>
