@@ -124,7 +124,21 @@
     bottom: calc(64px + var(--safe-bottom));
     padding-top: calc(8px + var(--safe-top));
   }
-  html.is-app .scene.is-ask .search{top: var(--safe-top)}
+  html.is-app .scene.is-ask{
+    padding-top: 0;
+  }
+  html.is-app .scene.is-ask .search{
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    z-index:50;
+    padding: calc(8px + var(--safe-top)) 20px 12px;
+    background:#050507;
+  }
+  html.is-app .scene.is-ask .convo{
+    padding-top: calc(68px + var(--safe-top));
+  }
 
   .phone{
     width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
@@ -218,9 +232,9 @@
     transition:padding .35s ease;
   }
   .scene.is-ask .search{
-    position:sticky;top:0;z-index:8;
+    position:sticky;top:0;z-index:24;
     padding:4px 20px 12px;
-    background:transparent;
+    background:#050507;
   }
   .back-ask{
     display:none;width:40px;height:48px;flex-shrink:0;place-items:center;
