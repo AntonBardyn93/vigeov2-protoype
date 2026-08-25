@@ -24,7 +24,7 @@
   function apply(){
     const standalone = isStandalone();
     const app = params.has("app") || mq.matches || standalone;
-    html.classList.toggle("is-embed", window.parent !== window || app);
+    html.classList.toggle("is-embed", window.parent !== window);
     html.classList.toggle("is-app", app);
     html.classList.toggle("is-standalone", standalone);
   }
@@ -84,7 +84,13 @@
   html.is-embed h1,
   html.is-embed .lead,
   html.is-embed .brief,
-  html.is-embed .note{display:none}
+  html.is-embed .note,
+  html.is-app .intro,
+  html.is-app .brand,
+  html.is-app h1,
+  html.is-app .lead,
+  html.is-app .brief,
+  html.is-app .note{display:none}
   html.is-embed .stage{margin:0}
   html.is-embed .phone{
     width:min(393px, calc(100vw - 32px), calc((100dvh - 32px) * 393 / 852));
@@ -144,6 +150,41 @@
     opacity:0;pointer-events:none;z-index:0;
   }
   .phone iframe.is-on{opacity:1;pointer-events:auto;z-index:1}
+
+  html.is-app, html.is-app body{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:100dvh !important;
+    min-height:100lvh !important;
+    padding:0 !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    align-items:stretch !important;
+    justify-content:flex-start !important;
+  }
+  html.is-app .page,
+  html.is-app .stage,
+  html.is-app .phone{
+    display:block !important;
+    position:fixed !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+  }
+  html.is-app .phone iframe{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+  }
 </style>
 </head>
 <body>
@@ -162,10 +203,10 @@
   </div>
   <div class="stage">
     <div class="phone" id="phone">
-      <iframe data-app="home" class="is-on" title="Home" src="ah-gummy-ask-smear.html?app=1&v=safe1" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="stuff" title="Bookmarks" src="ah-gummy-my-stuff.html?app=1&v=safe1" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="follow" title="Following" src="ah-gummy-following.html?app=1&v=safe1" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="search" title="Search" src="ah-gummy-search.html?app=1&v=safe1" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="home" class="is-on" title="Home" src="ah-gummy-ask-smear.html?app=1&v=fill3" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="stuff" title="Bookmarks" src="ah-gummy-my-stuff.html?app=1&v=fill3" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="follow" title="Following" src="ah-gummy-following.html?app=1&v=fill3" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="search" title="Search" src="ah-gummy-search.html?app=1&v=fill3" allow="autoplay; encrypted-media"></iframe>
     </div>
   </div>
 </div>
