@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AH · Gummy · My Stuff · Bookmarks · 24 Aug 2026</title>
+<script>
+(function(){
+  const html = document.documentElement;
+  const params = new URLSearchParams(location.search);
+  const mq = window.matchMedia("(max-width: 540px)");
+  const standaloneMq = window.matchMedia("(display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui)");
+  function isStandalone(){
+    return window.navigator.standalone === true || standaloneMq.matches;
+  }
+  function apply(){
+    const embed = window.parent !== window;
+    const standalone = isStandalone();
+    const app = params.has("app") || mq.matches || standalone;
+    html.classList.toggle("is-embed", embed || app);
+    html.classList.toggle("is-fill", params.has("fill") || app);
+    html.classList.toggle("is-app", app);
+    html.classList.toggle("is-standalone", standalone);
+  }
+  apply();
+  mq.addEventListener("change", apply);
+  standaloneMq.addEventListener("change", apply);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --desk:#0e1218;
+    --ink:#f6f7fb;
+    --mut:#9aa3b2;
+    --line:rgba(255,255,255,.1);
+    --label-a:.90;
+    --mesh-ask:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,236,140,.5) 0%, transparent 34%),
+      radial-gradient(80% 70% at 40% 0%, rgba(255,140,200,.2) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 38%, rgba(255,90,70,.42) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.55) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,160,70,.22), rgba(255,70,100,.22) 55%, rgba(180,80,220,.14)),
+      linear-gradient(180deg, rgba(16,6,12,.3) 0%, rgba(16,6,12,.12) 100%);
+    --mesh-c2:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,252,170,.58) 0%, transparent 34%),
+      radial-gradient(80% 70% at 38% 0%, rgba(180,255,140,.22) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 40%, rgba(255,160,50,.42) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,80,50,.46) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,220,90,.22), rgba(255,120,50,.18) 55%, rgba(255,90,70,.16)),
+      linear-gradient(180deg, rgba(12,8,8,.28) 0%, rgba(12,8,8,.12) 100%);
+    --mesh-c3:
+      radial-gradient(100% 90% at 6% 8%, rgba(220,255,180,.5) 0%, transparent 34%),
+      radial-gradient(80% 70% at 38% 0%, rgba(180,255,220,.2) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 40%, rgba(50,210,180,.38) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(40,180,160,.42) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(140,255,160,.2), rgba(50,210,180,.16)),
+      linear-gradient(180deg, rgba(8,12,10,.28) 0%, rgba(8,12,10,.12) 100%);
+    --mesh-c4:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,200,240,.48) 0%, transparent 34%),
+      radial-gradient(80% 70% at 38% 0%, rgba(200,180,255,.2) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 40%, rgba(180,120,255,.36) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(120,90,255,.45) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,140,210,.2), rgba(150,120,255,.16)),
+      linear-gradient(180deg, rgba(12,8,16,.28) 0%, rgba(12,8,16,.12) 100%);
+    --mesh-hi: radial-gradient(90% 70% at 28% 10%, rgba(255,255,255,.24) 0%, transparent 50%);
+    --mesh-ember-ask:
+      radial-gradient(60% 50% at 80% 100%, rgba(255,50,80,.3) 0%, transparent 55%),
+      linear-gradient(180deg, transparent 58%, rgba(255,50,80,.3) 100%);
+    --ease-jelly: cubic-bezier(.22,.82,.28,1);
+    --ease-star: cubic-bezier(.18,.72,.22,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;color:var(--ink);font-family:"Outfit",system-ui,sans-serif;
+    background:
+      radial-gradient(900px 480px at 12% -8%, rgba(255,120,70,.16) 0%, transparent 50%),
+      radial-gradient(800px 420px at 88% 0%, rgba(80,220,160,.1) 0%, transparent 48%),
+      var(--desk);
+    padding:28px 18px 64px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+  .intro{min-height:148px}
+  .brand{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  h1{font-size:clamp(26px,3.2vw,34px);font-weight:700;letter-spacing:-.03em;margin-top:8px}
+  .lead{font-size:14.5px;line-height:1.55;color:var(--mut);margin-top:10px;max-width:520px}
+  .brief{
+    margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;
+    background:rgba(255,255,255,.03);font-size:13px;line-height:1.5;color:var(--mut);
+  }
+  .brief strong{color:#fff}
+  .note{margin-top:12px;font-size:12px;color:var(--mut)}
+  .note a{color:#d7dde8;font-weight:650;text-decoration:none;border-bottom:1px solid rgba(215,221,232,.35)}
+
+  .stage{display:flex;justify-content:center;margin-top:26px}
+  html.is-embed, html.is-embed body{height:100%;min-height:100%;overflow:hidden}
+  html.is-embed body{padding:0;justify-content:center;background:var(--desk)}
+  html.is-embed .page{width:auto;max-width:none;height:100%;display:flex;align-items:center;justify-content:center}
+  html.is-embed .intro,
+  html.is-embed .brand,
+  html.is-embed h1,
+  html.is-embed .lead,
+  html.is-embed .brief,
+  html.is-embed .note{display:none}
+  html.is-embed .stage{margin:0}
+  html.is-embed .phone{width:min(393px, calc(100vw - 32px), calc((100dvh - 32px) * 393 / 852))}
+  html.is-embed.is-fill, html.is-embed.is-fill body,
+  html.is-embed.is-fill .page, html.is-embed.is-fill .stage{width:100%;height:100%;max-width:none}
+  html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
+  html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
+  html.is-app .status{
+    height:calc(44px + env(safe-area-inset-top, 0px));
+    padding-top:env(safe-area-inset-top, 0px);
+  }
+  html.is-app .tabs{padding-top:calc(48px + env(safe-area-inset-top, 0px))}
+  html.is-app .tabbar{
+    height:calc(64px + env(safe-area-inset-bottom, 0px));
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+  }
+  html.is-app .navfrost{
+    height:calc(64px + env(safe-area-inset-bottom, 0px));
+    border-radius:0;
+  }
+  html.is-standalone .status{display:none}
+  html.is-standalone .tabs{padding-top:calc(16px + env(safe-area-inset-top, 0px))}
+
+  .phone{
+    width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
+    position:relative;border:5px solid #050505;
+    box-shadow:0 24px 56px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
+    background:#000;isolation:isolate;font-family:"Inter",system-ui,sans-serif;
+    container-type:size;
+  }
+  .phone-bg{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(120% 70% at 8% -10%, rgba(255,90,70,.22) 0%, transparent 42%),
+      radial-gradient(90% 50% at 100% 8%, rgba(180,80,220,.16) 0%, transparent 46%),
+      radial-gradient(80% 40% at 40% 0%, rgba(255,236,140,.1) 0%, transparent 40%),
+      #050507;
+  }
+  .phone-bg::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:26%;
+    pointer-events:none;
+    background:
+      radial-gradient(90% 80% at 14% 115%, rgba(255,236,140,.12) 0%, transparent 62%),
+      radial-gradient(80% 70% at 88% 118%, rgba(255,50,80,.14) 0%, transparent 64%);
+    -webkit-mask-image:linear-gradient(to top, #000 0%, rgba(0,0,0,.35) 40%, transparent 100%);
+    mask-image:linear-gradient(to top, #000 0%, rgba(0,0,0,.35) 40%, transparent 100%);
+  }
+  .topfade{
+    position:absolute;left:0;right:0;top:0;height:88px;z-index:30;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.28) 48%, transparent 100%);
+  }
+  .navfrost{
+    position:absolute;left:0;right:0;bottom:0;height:64px;z-index:25;
+    pointer-events:none;border-radius:0 0 37px 37px;
+  }
+  .navfrost::before,
+  .navfrost::after{content:"";position:absolute;inset:0;border-radius:inherit}
+  .navfrost::before{
+    background:rgba(0,0,0,.18);
+    backdrop-filter:blur(18px) saturate(1.35);
+    -webkit-backdrop-filter:blur(18px) saturate(1.35);
+    -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 58%);
+    mask-image:linear-gradient(180deg, transparent 0%, #000 58%);
+  }
+  .navfrost::after{
+    background:rgba(8,8,10,.42);
+    backdrop-filter:blur(36px) saturate(1.2);
+    -webkit-backdrop-filter:blur(36px) saturate(1.2);
+    -webkit-mask-image:linear-gradient(180deg, transparent 32%, #000 82%);
+    mask-image:linear-gradient(180deg, transparent 32%, #000 82%);
+  }
+  .status{
+    position:absolute;top:0;left:0;right:0;height:44px;z-index:53;
+    display:flex;align-items:flex-end;padding:0 18px 5px;
+    font-size:12px;font-weight:700;color:#fff;pointer-events:none;
+    text-shadow:0 1px 8px rgba(0,0,0,.55);
+  }
+  .tabs{
+    position:absolute;top:0;left:0;right:0;z-index:52;
+    padding:48px 16px 16px;
+    pointer-events:none;
+    isolation:isolate;
+  }
+  .tabs::before,
+  .tabs::after{
+    content:"";position:absolute;left:0;right:0;top:0;height:128px;
+    pointer-events:none;z-index:0;opacity:1;
+  }
+  .tabs::before{
+    background:linear-gradient(180deg,
+      rgba(0,0,0,.88) 0%,
+      rgba(0,0,0,.58) 32%,
+      rgba(0,0,0,.28) 58%,
+      rgba(0,0,0,.08) 80%,
+      transparent 100%);
+  }
+  .tabs::after{
+    backdrop-filter:blur(18px) saturate(1.15);
+    -webkit-backdrop-filter:blur(18px) saturate(1.15);
+    -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 28%, transparent 100%);
+    mask-image:linear-gradient(180deg, #000 0%, #000 28%, transparent 100%);
+  }
+  .tab-labels{
+    position:relative;z-index:1;pointer-events:auto;
+    display:flex;align-items:center;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none;
+  }
+  .tab-labels::-webkit-scrollbar{display:none}
+  .tab-labels .t{
+    flex-shrink:0;font-size:16px;font-weight:500;letter-spacing:-.02em;
+    color:rgba(255,255,255,.92);padding:7px 8px;border-radius:16px;
+    text-shadow:0 1px 8px rgba(0,0,0,.45);
+  }
+  .tab-labels .t.on{
+    color:#fff;font-weight:600;
+    background:rgba(255,255,255,.16);
+    padding:7px 14px;
+  }
+
+  .tabbar{
+    position:absolute;left:0;right:0;bottom:0;height:64px;z-index:40;
+    display:flex;align-items:flex-start;justify-content:space-around;
+    padding:8px 4px 0;
+    background:rgba(8,8,10,.78);
+    backdrop-filter:blur(22px) saturate(1.25);
+    -webkit-backdrop-filter:blur(22px) saturate(1.25);
+    border-top:1px solid rgba(255,255,255,.1);
+    color:rgba(255,255,255,.4);
+  }
+  .navitem{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0;color:inherit}
+  .navitem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .navitem span{font-size:9.5px;font-weight:600}
+  .navitem.on{color:#fff}
+  .navitem.on svg{fill:currentColor;stroke-width:1.2}
+
+  .scene{
+    position:absolute;left:0;right:0;top:0;bottom:64px;z-index:18;
+    opacity:0;pointer-events:none;visibility:hidden;
+    overflow-y:auto;
+    scrollbar-width:none;overscroll-behavior-y:contain;
+    padding:100px 0 168px;
+    transition:opacity .48s cubic-bezier(.22,.7,.28,1), filter .35s ease;
+  }
+  .scene::-webkit-scrollbar{display:none}
+  .scene.is-on{opacity:1;pointer-events:auto;z-index:19;visibility:visible}
+  .phone.is-ask .scene{filter:brightness(.72);pointer-events:none}
+
+  .sec-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px 10px;gap:12px;
+  }
+  .sec-head h2{
+    font-size:15px;font-weight:700;letter-spacing:-.03em;color:#fff;
+    text-shadow:0 2px 12px rgba(0,0,0,.55);
+  }
+  .sec-head .count{
+    font-size:12px;font-weight:600;color:rgba(255,255,255,.55);
+  }
+
+  .cont{
+    display:flex;gap:10px;padding:0 0 26px;overflow-x:auto;scrollbar-width:none;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:20px;
+  }
+  .cont::-webkit-scrollbar{display:none}
+  .cont-card:first-child{margin-left:20px}
+  .cont-card:last-child{margin-right:20px}
+  .cont-card{
+    flex:0 0 176px;scroll-snap-align:start;
+    text-align:left;color:#fff;
+    transform-origin:center;
+    transition:transform .28s var(--ease-jelly);
+  }
+  .cont-card:active{transform:scale(.98)}
+  .cont-still{
+    position:relative;width:176px;height:100px;border-radius:14px;overflow:hidden;
+    background:#111;
+    box-shadow:0 10px 24px rgba(0,0,0,.35);
+  }
+  .cont-still img{width:100%;height:100%;object-fit:cover;display:block;object-position:center 30%}
+  .cont-still::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, transparent 48%, rgba(0,0,0,.7) 100%);
+    pointer-events:none;
+  }
+  .cont-copy{
+    position:absolute;left:8px;right:8px;bottom:16px;z-index:2;
+  }
+  .cont-copy .title{
+    font-size:12.5px;font-weight:700;letter-spacing:-.03em;line-height:1.15;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    text-shadow:0 2px 12px rgba(0,0,0,.55);
+  }
+  .cont-copy .meta{
+    margin-top:2px;font-size:10.5px;font-weight:500;color:rgba(255,255,255,.72);
+  }
+  .progress{
+    position:absolute;left:8px;right:8px;bottom:8px;height:3px;z-index:3;
+    border-radius:99px;overflow:hidden;
+    background:rgba(255,255,255,.28);
+  }
+  .progress i{
+    display:block;height:100%;border-radius:inherit;
+    background:#fff;
+  }
+  .cont-still .svc{top:8px;right:8px;bottom:auto}
+
+  .svc{
+    position:absolute;right:8px;bottom:12px;z-index:4;
+    width:22px;height:22px;border-radius:7px;overflow:visible;
+  }
+  .svc > img{
+    width:22px;height:22px;object-fit:cover;display:block;border-radius:7px;
+    border:1px solid rgba(255,255,255,.28);
+    box-shadow:0 4px 10px rgba(0,0,0,.45);
+  }
+  .svc .badge{
+    position:absolute;right:-5px;top:-6px;width:16px;height:16px;border-radius:50%;
+    display:grid;place-items:center;z-index:3;
+    background:#fff;color:#111;border:2px solid #0a0a0a;
+    box-shadow:0 2px 8px rgba(0,0,0,.4);
+  }
+  .svc .badge svg{
+    width:9px;height:9px;stroke:currentColor;fill:none;
+    stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .svc .badge svg .body{fill:currentColor;stroke:none}
+
+  .top10{
+    position:absolute;top:6px;right:6px;z-index:3;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-width:36px;padding:5px 6px 4px;border-radius:10px;overflow:hidden;
+    line-height:1;color:#fff;
+    backdrop-filter:blur(14px) saturate(1.5);
+    -webkit-backdrop-filter:blur(14px) saturate(1.5);
+  }
+  .top10::before{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
+    background:var(--mesh-hi);
+  }
+  .top10 > *{position:relative;z-index:1}
+  .top10 span{
+    font-size:7px;font-weight:900;letter-spacing:.12em;
+    color:transparent;
+    background:
+      radial-gradient(90% 70% at 30% 12%, rgba(255,255,255,.98) 0%, transparent 46%),
+      linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.58) 55%, rgba(255,255,255,.8) 100%);
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .top10 b{
+    margin-top:1px;font-size:13px;font-weight:800;letter-spacing:-.06em;
+    color:transparent;
+    background:
+      radial-gradient(70% 55% at 28% 16%, rgba(255,255,255,1) 0%, transparent 40%),
+      linear-gradient(165deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.52) 38%, rgba(255,230,190,.62) 68%, rgba(255,255,255,.88) 100%);
+    -webkit-background-clip:text;background-clip:text;
+  }
+
+  .curate-line{
+    min-height:16px;padding:0 20px 10px;
+    font-size:12px;font-weight:500;color:rgba(255,255,255,.5);
+    transition:opacity .28s ease, transform .42s var(--ease-jelly);
+  }
+  .curate-line.is-swap{opacity:0;transform:translateY(4px)}
+
+  .grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:4px 20px 8px;
+  }
+  .grid-fill{height:0;pointer-events:none}
+  .gcard{
+    position:relative;text-align:left;color:#fff;
+    transform-origin:center;
+    animation:cardIn .52s var(--ease-jelly) both;
+  }
+  .gcard.is-out{
+    animation:cardOut .32s cubic-bezier(.4,0,.7,.2) both;
+    pointer-events:none;
+  }
+  .gposter{
+    position:relative;aspect-ratio:2/3;border-radius:12px;overflow:hidden;background:#16161a;
+    box-shadow:0 8px 18px rgba(0,0,0,.32);
+  }
+  .gposter > img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+  .gposter.is-crop > img{transform:scale(1.28);transform-origin:center 40%}
+  .gposter .svc{right:6px;bottom:8px}
+
+  @keyframes cardIn{
+    from{opacity:0;transform:translateY(10px) scale(.92)}
+    70%{transform:translateY(-2px) scale(1.03)}
+    to{opacity:1;transform:none}
+  }
+  @keyframes cardOut{
+    to{opacity:0;transform:scale(.84);filter:blur(2px)}
+  }
+
+  .sec-head .see,
+  .sec-head .back{
+    flex-shrink:0;font-size:12.5px;font-weight:650;
+    color:rgba(255,255,255,.7);padding:4px 0;
+  }
+  .sec-head .back{
+    display:inline-flex;align-items:center;gap:4px;color:#fff;font-weight:700;
+  }
+  .sec-head .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  .lane{
+    display:flex;gap:8px;padding:0 0 22px;overflow-x:auto;scrollbar-width:none;
+    scroll-snap-type:x proximity;
+    scroll-padding-inline:20px;
+  }
+  .lane::-webkit-scrollbar{display:none}
+  .lane-card:first-child{margin-left:20px}
+  .lane-card:last-child{margin-right:20px}
+  .lane-card{
+    flex:0 0 108px;width:108px;scroll-snap-align:start;
+    text-align:left;color:#fff;
+    animation:cardIn .48s var(--ease-jelly) both;
+  }
+  .lane-card:active{transform:scale(.97)}
+  .lane-card .gposter{width:108px}
+
+  .ai-zone{
+    position:relative;
+    margin:0;padding:18px 0 0;
+  }
+  .ai-mark{
+    display:inline-flex;align-items:center;gap:6px;
+    margin:0 20px 6px;padding:0;
+    font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(255,255,255,.62);
+  }
+  .ai-mark .star{width:9px;height:10px;opacity:.7}
+  .ai-lede{
+    margin:0 20px 18px;
+    font-size:13px;font-weight:500;line-height:1.4;color:rgba(255,255,255,.58);
+  }
+  .ai-why{
+    padding:0 20px 10px;margin-top:-4px;
+    font-size:12px;font-weight:500;line-height:1.35;color:rgba(255,255,255,.42);
+  }
+
+  .legend{
+    display:flex;align-items:center;gap:14px;padding:4px 20px 16px;
+    font-size:11.5px;font-weight:600;color:rgba(255,255,255,.58);
+  }
+  .legend i{display:inline-flex;align-items:center;gap:6px}
+  .legend .svc{
+    position:relative;right:auto;bottom:auto;width:18px;height:18px;flex-shrink:0;
+  }
+  .legend .svc > img{width:18px;height:18px;border-radius:6px}
+
+  .day{padding:0 20px 18px}
+  .day h3{
+    font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(255,255,255,.45);margin-bottom:8px;
+  }
+  .event{
+    display:flex;align-items:center;gap:10px;
+    padding:8px;margin-bottom:8px;border-radius:16px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.06);
+    text-align:left;width:100%;color:#fff;
+    transition:transform .28s var(--ease-jelly), background .25s ease;
+  }
+  .event:active{transform:scale(.985)}
+  .event-poster{
+    position:relative;width:44px;height:66px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#16161a;
+  }
+  .event-poster.is-brand{
+    display:grid;place-items:center;padding:7px;
+    background:rgba(255,255,255,.06);
+  }
+  .event-poster.is-brand img{width:78%;height:auto;object-fit:contain}
+  .event-poster .svc{right:3px;bottom:4px;transform:scale(.9);transform-origin:bottom right}
+  .event-copy{min-width:0;flex:1}
+  .event-kicker{
+    font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.48);margin-bottom:2px;
+  }
+  .event-title{
+    font-size:14px;font-weight:700;letter-spacing:-.03em;line-height:1.2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .event-meta{margin-top:3px;font-size:12px;font-weight:500;color:rgba(255,255,255,.52)}
+
+  .follow-note{
+    margin:4px 16px 0;padding:12px 13px;border-radius:16px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+    font-size:12.5px;line-height:1.45;font-weight:500;color:rgba(255,255,255,.62);
+  }
+  .follow-note a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35)}
+
+  .star{
+    width:14px;height:16px;display:block;
+    filter:brightness(0) invert(1);opacity:1;
+  }
+  .ask-rail{
+    position:absolute;right:12px;bottom:84px;z-index:36;
+    display:flex;flex-direction:column;align-items:center;gap:5px;width:54px;
+    transition:opacity .2s ease, transform .45s var(--ease-star);
+  }
+  .askfab{
+    position:relative;width:48px;height:48px;border-radius:16px;
+    display:grid;place-items:center;
+    background:var(--mesh-ask);
+    backdrop-filter:blur(18px) saturate(1.55);
+    -webkit-backdrop-filter:blur(18px) saturate(1.55);
+    transition:box-shadow .45s ease;
+  }
+  .askfab::before{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    background:var(--mesh-hi);
+  }
+  .askfab::after{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    background:var(--mesh-ember-ask);
+  }
+  .askfab .star{position:relative;z-index:1;transform-origin:center;transition:transform .78s var(--ease-star)}
+  .phone.is-ask .askfab .star{transform:rotate(-180deg)}
+  .askfab.is-glow{
+    box-shadow:0 0 0 3px rgba(255,140,60,.14), 0 0 16px rgba(255,80,70,.4);
+  }
+  .ask-lbl{font-size:11px;font-weight:600;color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+  .phone.is-ask .ask-rail{opacity:0;pointer-events:none}
+
+  .qwrap{
+    position:absolute;left:16px;right:76px;bottom:101px;height:48px;z-index:35;
+    pointer-events:auto;
+  }
+  .qcard{
+    position:absolute;top:0;left:0;width:100%;height:48px;z-index:1;
+    border-radius:16px;overflow:hidden;
+    background-color:rgba(28,10,14,.72);
+    background-image:var(--mesh-ask);
+    backdrop-filter:blur(18px) saturate(1.55);
+    -webkit-backdrop-filter:blur(18px) saturate(1.55);
+  }
+  .qcard::before{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
+    background:var(--mesh-hi);
+  }
+  .qcard.m-ask{background-image:var(--mesh-ask)}
+  .qcard.m-c2{background-image:var(--mesh-c2)}
+  .qcard.m-c3{background-image:var(--mesh-c3)}
+  .qcard.m-c4{background-image:var(--mesh-c4)}
+  .qcard-track{
+    position:absolute;top:0;left:0;width:100%;height:48px;z-index:1;
+    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+    scrollbar-width:none;touch-action:pan-x;
+  }
+  .qcard-track::-webkit-scrollbar{display:none}
+  .qcard-q{
+    flex:0 0 100%;height:48px;
+    display:flex;align-items:center;justify-content:center;
+    padding:0 16px;
+    font-size:13.5px;font-weight:500;line-height:1.2;text-align:center;
+    color:#fff;
+    scroll-snap-align:start;scroll-snap-stop:always;
+    position:relative;z-index:2;
+  }
+  .qdots{
+    position:absolute;left:16px;right:76px;bottom:87px;z-index:35;
+    display:flex;justify-content:center;align-items:center;
+    pointer-events:none;
+  }
+  .qdots-rail{position:relative;display:flex;align-items:center;gap:6px}
+  .qdots i{
+    width:5px;height:5px;border-radius:99px;flex-shrink:0;
+    background:rgba(255,255,255,.28);
+  }
+  .qdots-pill{
+    position:absolute;left:0;top:50%;
+    width:16px;height:6px;margin-top:-3px;
+    border-radius:99px;background:#fff;pointer-events:none;z-index:2;
+  }
+  .phone.is-ask .qwrap,
+  .phone.is-ask .qdots,
+  .phone.is-q-off .qwrap,
+  .phone.is-q-off .qdots{
+    opacity:0;pointer-events:none;visibility:hidden;
+  }
+
+  .asheet{
+    position:absolute;left:calc(100% - 63px);right:15px;bottom:102px;height:48px;z-index:37;
+    border-radius:16px;overflow:hidden;opacity:0;pointer-events:none;
+    background:var(--mesh-ask);
+    backdrop-filter:blur(18px) saturate(1.55);
+    -webkit-backdrop-filter:blur(18px) saturate(1.55);
+    transition:height .55s var(--ease-jelly), bottom .55s var(--ease-jelly), left .55s var(--ease-jelly), right .55s var(--ease-jelly), border-radius .55s var(--ease-jelly), opacity .2s ease;
+  }
+  .asheet::before{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
+    background:var(--mesh-hi);
+  }
+  .asheet::after{
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;
+    background:linear-gradient(180deg, rgba(8,8,10,.18) 0%, rgba(8,8,10,.42) 28%, rgba(8,8,10,.62) 100%);
+    opacity:0;transition:opacity .4s ease;
+  }
+  .phone.is-ask .asheet{opacity:1;pointer-events:auto}
+  .phone.is-ask-park .asheet{transition:none}
+  .phone.is-ask.is-open .asheet{
+    left:8px;right:8px;bottom:78px;height:404px;border-radius:20px;
+  }
+  .phone.is-ask.is-open .asheet::after{opacity:1}
+  .asheet-star{
+    display:none;position:absolute;inset:0;z-index:4;
+    place-items:center;pointer-events:none;
+  }
+  .phone.is-ask:not(.is-open) .asheet-star,
+  .phone.is-ask-park .asheet-star{display:grid}
+  .qcard-chev{
+    display:none;position:absolute;left:50%;top:6px;z-index:5;
+    width:36px;height:22px;margin-left:-18px;
+    place-items:center;opacity:.8;
+  }
+  .qcard-chev svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .phone.is-ask.is-open .qcard-chev{display:grid}
+  .qconvo{
+    display:flex;position:absolute;inset:0;z-index:3;
+    flex-direction:column;padding:28px 14px 12px;
+    opacity:0;pointer-events:none;
+    transition:opacity .18s ease;
+  }
+  .phone.is-ask.is-open .qconvo{
+    opacity:1;pointer-events:auto;
+    transition:opacity .22s ease .34s;
+  }
+  .qconvo-scroll{
+    flex:1;min-height:0;overflow-y:auto;padding-bottom:8px;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;
+  }
+  .ask-thread{display:flex;flex-direction:column;gap:12px}
+  .qbubble{
+    align-self:flex-end;max-width:92%;margin:0;padding:10px 12px;
+    font-size:14px;font-weight:600;line-height:1.35;
+    color:#fff;background:rgba(255,255,255,.1);border-radius:16px 16px 5px 16px;
+  }
+  .ansr{
+    margin-top:0;padding:12px 13px;font-size:14px;line-height:1.5;font-weight:500;
+    color:rgba(255,255,255,.94);background:rgba(0,0,0,.28);border-radius:16px;
+    min-height:4.6em;
+  }
+  .ansr .cursor{display:inline-block;margin-left:1px;color:#ffb060;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .ask-continue{margin-top:16px}
+  .label-mini{
+    font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.5);margin-bottom:8px;
+  }
+  .ask-starters{display:flex;gap:8px;flex-wrap:wrap}
+  .ask-starters.hid{opacity:0;pointer-events:none}
+  .qchip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(255,255,255,.1);font-size:12.5px;padding:8px 11px;border-radius:16px;
+    color:rgba(255,255,255,.92);
+  }
+  .qchip .star{width:8px;height:9px}
+  .qconvo-foot{flex-shrink:0;padding-top:8px}
+  .askinput{display:flex;gap:8px;align-items:center;position:relative}
+  .askinput input{
+    flex:1;min-width:0;height:46px;background:rgba(0,0,0,.38);border:0;border-radius:16px;
+    font-size:14px;padding:0 14px;color:#fff;outline:none;font-family:"Inter",system-ui,sans-serif;
+  }
+  .askinput input::placeholder{color:rgba(255,255,255,.38)}
+  .askinput input:focus{background:rgba(0,0,0,.5)}
+  .askinput.is-rec input{color:transparent;caret-color:transparent}
+  .askinput.is-rec input::placeholder{color:transparent}
+  .ask-listen{
+    display:none;position:absolute;left:14px;right:62px;top:0;bottom:0;
+    align-items:center;gap:8px;pointer-events:none;
+  }
+  .askinput.is-rec .ask-listen{display:flex}
+  .ask-listen .wave{display:flex;align-items:center;gap:3px;height:16px}
+  .ask-listen .wave i{
+    width:3px;border-radius:99px;background:rgba(255,255,255,.82);
+    animation:askWave 1s ease-in-out infinite;
+  }
+  .ask-listen .wave i:nth-child(2){height:12px;animation-delay:.12s}
+  .ask-listen .wave i:nth-child(3){height:8px;animation-delay:.24s}
+  .ask-listen .wave i:nth-child(4){height:14px;animation-delay:.08s}
+  .ask-listen .wave i:nth-child(5){height:7px;animation-delay:.2s}
+  @keyframes askWave{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+  .ask-listen span{font-size:13px;font-weight:500;color:rgba(255,255,255,.72)}
+  .askinput button{
+    width:46px;height:46px;flex-shrink:0;border-radius:16px;display:grid;place-items:center;
+  }
+  .askinput button svg{
+    width:20px;height:20px;stroke:currentColor;fill:none;
+    stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .ask-mic{background:#fff;color:#111}
+  .ask-mic svg{stroke:#111}
+  .ask-mic.is-rec{animation:askMicPulse 1.15s ease-in-out infinite;color:#c43b2a}
+  .ask-mic.is-rec svg{stroke:#c43b2a}
+  @keyframes askMicPulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
+    50%{box-shadow:0 0 0 6px rgba(255,255,255,.16)}
+  }
+  .askinput.is-typed .ask-mic,
+  .askinput:not(.is-typed) [data-ask-send]{display:none}
+  .askinput.is-rec .ask-mic{display:grid}
+  .askinput.is-rec [data-ask-send]{display:none}
+  .askinput button.is-idle{background:rgba(255,255,255,.08);color:rgba(255,255,255,.35)}
+  .askinput button.is-ready{background:#fff;color:#111}
+
+  .top10.mesh{position:relative;overflow:hidden;color:#fff}
+  .top10.mesh.m-c2{background:var(--mesh-c2)}
+
+  .toast{
+    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
+    color:#2a1208;font-size:11px;font-weight:800;
+    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .2s;white-space:nowrap;
+    background:
+      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
+      linear-gradient(135deg, #ffe56a, #ff9a50);
+  }
+  .toast.on{opacity:1}
+
+  @media (prefers-reduced-motion:reduce){
+    .scene,.gcard,.lane-card,.cont-card,.event,.curate-line,.asheet,.askfab .star,.qconvo,.qcard,.qwrap,.qdots,.ai-zone{transition:none;animation:none}
+    .gcard.is-out{opacity:.2;transform:none;filter:none}
+    .phone.is-ask.is-open .qconvo{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="intro">
+    <div class="brand">AH · Gummy · My Stuff</div>
+    <h1>Bookmarks · candy smear</h1>
+    <p class="lead">
+      Watch List as a rail, then collections from what you’re watching and what you saved. See all opens the full grid.
+    </p>
+    <div class="brief">
+      <strong>24 Aug 2026.</strong> Same visual system as Ask conversation · candy smear · 16 Aug.
+      Service icon = you can watch. Service icon + lock = not in your plan.
+      Watch List mixes local (VRT MAX, VTM GO, Play, Streamz) with Netflix and HBO Max. VRT MAX is in-plan.
+    </div>
+    <p class="note">source: <a href="ah-gummy-ask-smear.html">Ask conversation · candy smear</a></p>
+  </div>
+
+  <div class="stage">
+    <div class="phone" id="phone">
+      <div class="phone-bg" aria-hidden="true"></div>
+      <div class="toast" id="toast"></div>
+      <div class="topfade"></div>
+      <div class="navfrost"></div>
+      <div class="status"><span>9:41</span></div>
+      <div class="tabs">
+        <div class="tab-labels">
+          <button class="t on" type="button" data-tab="bookmarks">Bookmarks</button>
+          <button class="t" type="button" data-tab="following">Following</button>
+        </div>
+      </div>
+
+      <div class="scene is-on" id="sceneWatch" aria-label="Bookmarks"></div>
+      <div class="scene" id="sceneFollow" aria-label="Following" aria-hidden="true"></div>
+
+      <div class="qwrap" data-qwrap>
+        <div class="qcard m-ask" data-qcard>
+          <div class="qcard-track" data-qtrack></div>
+        </div>
+      </div>
+      <div class="qdots" data-qdots><span class="qdots-rail"><b class="qdots-pill" data-qpill></b></span></div>
+      <div class="ask-rail">
+        <button class="askfab is-glow" type="button" data-open-ask data-ask-fab aria-label="Ask"></button>
+        <span class="ask-lbl">Ask</span>
+      </div>
+      <div class="asheet" data-asheet>
+        <div class="asheet-star" aria-hidden="true"></div>
+        <button class="qcard-chev" type="button" data-collapse-ask aria-label="Collapse question">
+          <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="qconvo" data-qconvo-ask>
+          <div class="qconvo-scroll">
+            <div class="ask-thread"></div>
+            <div class="ask-continue">
+              <div class="label-mini">Ask more</div>
+              <div class="ask-starters"></div>
+            </div>
+          </div>
+          <div class="qconvo-foot">
+            <div class="askinput">
+              <input class="ask-freeq" type="text" placeholder="Ask about your Bookmarks…" autocomplete="off">
+              <div class="ask-listen" aria-hidden="true"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span><span>Listening…</span></div>
+              <button class="ask-mic" type="button" data-ask-mic aria-label="Ask with voice">
+                <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6.5 11a5.5 5.5 0 0 0 11 0"/><path d="M12 16.5V21"/></svg>
+              </button>
+              <button type="button" class="is-idle" data-ask-send aria-label="Send" disabled>
+                <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabbar">
+        <button class="navitem" type="button" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
+        <button class="navitem on" type="button" aria-label="My Stuff"><svg viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1v16l-6-4-6 4v-16a1 1 0 0 1 1-1z"/></svg><span>My Stuff</span></button>
+        <button class="navitem" type="button" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>Search</span></button>
+        <button class="navitem" type="button" aria-label="Shop"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 11.2A2 2 0 0 1 16.8 21H7.2a2 2 0 0 1-2-1.8L4 8z"/><path d="M8 8V6.5A4 4 0 0 1 12 2.5a4 4 0 0 1 4 4V8"/></svg><span>Shop</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
+const STILL = p => `https://image.tmdb.org/t/p/w780${p}`;
+const YT = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const star = '<img class="star" src="star.svg" alt="" aria-hidden="true">';
+const lockMark = '<span class="badge" aria-label="Not in your subscriptions"><svg viewBox="0 0 24 24"><rect class="body" x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>';
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX"]);
+
+document.querySelector(".askfab").innerHTML = star;
+document.querySelector(".asheet-star").innerHTML = star;
+
+const titles = [
+  {id:"wed", title:"Wednesday", kind:"Series", length:"8 ep · ~50m", mins:50, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), still:STILL("/sNLP0dLZcVBqYa3MchCXJqgDtFb.jpg"), fallback:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), tags:["leaving","friday","friends","easy"], progress:.42, continue:true, ep:"S2 E4"},
+  {id:"thuis", title:"Thuis", kind:"Series", length:"Daily · ~25m", mins:25, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), still:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), fallback:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), tags:["easy","leaving"], progress:.58, continue:true, ep:"Daily"},
+  {id:"dune", title:"Dune: Part Two", kind:"Film", length:"2h 46", mins:166, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"), still:STILL("/eZ239CUp1d6OryZEBPnO2n87gMG.jpg"), fallback:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"), tags:["friday","acclaimed","friends"], progress:.18, continue:true, top10:true},
+  {id:"assisen", title:"Assisen", kind:"Series", length:"S2 · ~45m", mins:45, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), still:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), tags:["friday","acclaimed"]},
+  {id:"under", title:"Undercover", kind:"Series", length:"3 seasons · ~50m", mins:50, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), still:STILL("/x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), tags:["friends","easy"], progress:.12, continue:true, ep:"S3 E2"},
+  {id:"y1985", title:"1985", kind:"Series", length:"8 ep · ~50m", mins:50, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), still:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), fallback:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), tags:["acclaimed","friday"]},
+  {id:"opp", title:"Oppenheimer", kind:"Film", length:"3h 00", mins:180, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), still:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), fallback:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), tags:["acclaimed"], top10:true},
+  {id:"verraders", title:"De Verraders", kind:"Series", length:"S3 · ~50m", mins:50, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), still:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), fallback:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), tags:["friends","friday"]},
+  {id:"barb", title:"Barbie", kind:"Film", length:"1h 54", mins:114, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), still:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), fallback:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), tags:["friday","friends","easy","acclaimed","short"]},
+  {id:"chantal", title:"Chantal", kind:"Series", length:"S2 · ~45m", mins:45, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), still:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), fallback:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), tags:["easy","friends","friday"]},
+  {id:"tlou", title:"The Last of Us", kind:"Series", length:"S2 · ~55m", mins:55, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), still:STILL("/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg"), fallback:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), tags:["friday","acclaimed","leaving"], progress:.67, continue:true, ep:"S2 E3"},
+  {id:"schelde", title:"De Slag om de Schelde", kind:"Film", length:"2h 04", mins:124, provider:"Play", logo:"play-logo.png", poster:POSTER("/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg"), still:POSTER("/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg"), fallback:POSTER("/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg"), tags:["friday","acclaimed"]},
+  {id:"squid", title:"Squid Game", kind:"Series", length:"S2 · ~55m", mins:55, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg"), still:STILL("/2meX1nMdScFOoV4370rqHWKmXhY.jpg"), fallback:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg"), tags:["leaving","friends","friday"], progress:.55, continue:true, ep:"S2 E5"},
+  {id:"gladijs", title:"Glad IJs", kind:"Series", length:"8 ep · ~50m", mins:50, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg"), still:POSTER("/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg"), fallback:POSTER("/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg"), tags:["friday","friends"]},
+  {id:"bear", title:"The Bear", kind:"Series", length:"S3 · ~30m", mins:30, provider:"Disney+", logo:"disney-plus-logo.png", poster:POSTER("/6FVNnVk0SZFdzb9dkvOr13XyyM4.jpg"), still:STILL("/aZz0AOpYcDyYwfET9k6j3QQXPuS.jpg"), fallback:POSTER("/6FVNnVk0SZFdzb9dkvOr13XyyM4.jpg"), tags:["short","easy","acclaimed","friends"], progress:.31, continue:true, ep:"S3 E4", crop:true},
+  {id:"jan", title:"De Bende van Jan de Lichte", kind:"Series", length:"10 ep · ~50m", mins:50, provider:"Play", logo:"play-logo.png", poster:POSTER("/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg"), still:POSTER("/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg"), fallback:POSTER("/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg"), tags:["friday","acclaimed","friends"]},
+  {id:"ferry", title:"Ferry", kind:"Film", length:"1h 46", mins:106, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg"), still:STILL("/fejok33Ijc6SppiEU1cfwA9Mo2.jpg"), fallback:POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg"), tags:["short","easy"]},
+  {id:"zill", title:"Zillion", kind:"Film", length:"2h 03", mins:123, provider:"Streamz", logo:"streamz-logo.jpg", poster:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"), still:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"), fallback:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"), tags:["easy"]},
+  {id:"glad", title:"Gladiator II", kind:"Film", length:"2h 28", mins:148, provider:"Apple TV", logo:"apple tv logo.jpg", poster:POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg"), still:POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg"), fallback:POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg"), tags:["friday"], top10:true}
+];
+
+const recs = [
+  {id:"sev", title:"Severance", kind:"Series", provider:"Apple TV", logo:"apple tv logo.jpg", poster:POSTER("/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg"), fallback:POSTER("/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg")},
+  {id:"penguin", title:"The Penguin", kind:"Series", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg"), fallback:POSTER("/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg")},
+  {id:"arcane", title:"Arcane", kind:"Series", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/abf8tHznhSvl9BAElD2cQeRr7do.jpg"), fallback:POSTER("/abf8tHznhSvl9BAElD2cQeRr7do.jpg")},
+  {id:"chefbbq", title:"Chef's Table: BBQ", kind:"Series", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/dCOAKGHVKPgpLZNrkiqgcRxkSmZ.jpg"), fallback:POSTER("/dCOAKGHVKPgpLZNrkiqgcRxkSmZ.jpg")}
+];
+
+const moods = [
+  {id:"leaving", q:"Are things leaving soon?", cls:"ask", line:"These drop off soon."},
+  {id:"friday", q:"Got something for Friday night?", cls:"c2", line:"Bigger nights, from what you already saved."},
+  {id:"short", q:"Got anything short?", cls:"c3", line:"Under two hours, or an episode you can actually finish."},
+  {id:"friends", q:"What can we watch with friends?", cls:"ask", line:"Easy to share a sofa with — jokes, tension, talking after."},
+  {id:"acclaimed", q:"What’s critically acclaimed?", cls:"c4", line:"The ones your list is quietly proud of."},
+  {id:"easy", q:"What’s easy watching?", cls:"c2", line:"Low homework. High comfort. No lore required."}
+];
+
+const following = [
+  {day:"Tonight", items:[
+    {title:"Wednesday", kicker:"Episode", meta:"S2 E5 · 21:00", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), fallback:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg")},
+    {title:"Club Brugge vs Anderlecht", kicker:"Sport", meta:"Jupiler Pro League · 20:45", provider:"Play Sports", logo:"play sports logo.png", poster:"play sports logo.png", fallback:"play sports logo.png", brand:true}
+  ]},
+  {day:"Tomorrow", items:[
+    {title:"The Last of Us", kicker:"Episode", meta:"S2 E4 · new episode", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), fallback:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg")},
+    {title:"Thuis", kicker:"Episode", meta:"Daily · 20:20", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), fallback:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg")}
+  ]},
+  {day:"Thursday", items:[
+    {title:"Assisen", kicker:"Episode", meta:"S2 E4 · 21:30", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg")},
+    {title:"Undercover", kicker:"Season", meta:"S4 premiere", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg")}
+  ]},
+  {day:"This weekend", items:[
+    {title:"F1 Sprint · Belgium", kicker:"Sport", meta:"Sat 15:00", provider:"Play Sports", logo:"play sports logo.png", poster:"play sports logo.png", fallback:"play sports logo.png", brand:true},
+    {title:"De Verraders", kicker:"Episode", meta:"S3 E6 · Sunday", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), fallback:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg")}
+  ]}
+];
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+function inPlan(provider){ return PLAN.has(provider); }
+function imgTag(src, fallback, alt){
+  return `<img src="${src}" alt="${esc(alt)}" loading="lazy" onerror="if(this.dataset.fb)return;this.dataset.fb=1;this.src='${fallback}'">`;
+}
+function svcHTML(item){
+  const out = !inPlan(item.provider);
+  return `<span class="svc" title="${out ? "Not in your subscriptions" : `Watch on ${item.provider}`}">${imgTag(encodeURI(item.logo), encodeURI(item.logo), item.provider)}${out ? lockMark : ""}</span>`;
+}
+function top10HTML(item){
+  return item.top10 ? `<span class="top10 mesh m-c2" aria-label="Top 10"><span>TOP</span><b>10</b></span>` : "";
+}
+
+const toastEl = document.getElementById("toast");
+const phoneEl = document.getElementById("phone");
+const sceneWatch = document.getElementById("sceneWatch");
+const sceneFollow = document.getElementById("sceneFollow");
+const asheet = document.querySelector("[data-asheet]");
+let activeMood = null;
+let watchView = "catalogue";
+let moodT = 0;
+let askOnFollow = false;
+let askStreamT = null;
+let askVoiceT = 0;
+let askExcept = null;
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("on");
+  clearTimeout(toastEl._t);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1300);
+}
+function goPrototype(id, href){
+  if (window.parent && window.parent !== window) {
+    const type = document.documentElement.classList.contains("is-app") ? "app-go" : "playground-go";
+    window.parent.postMessage({type, id, href}, "*");
+    return;
+  }
+  const url = new URL(href, location.href);
+  if (document.documentElement.classList.contains("is-app")) url.searchParams.set("app", "1");
+  location.href = url.pathname + url.search + url.hash;
+}
+function continuing(){ return titles.filter(t => t.continue).sort((a,b) => (b.progress||0) - (a.progress||0)); }
+function curated(){
+  if (!activeMood) return titles.slice();
+  return titles.filter(t => t.tags.includes(activeMood)).sort((a, b) => {
+    const pa = inPlan(a.provider) === inPlan(b.provider) ? 0 : inPlan(a.provider) ? -1 : 1;
+    if (pa) return pa;
+    return (b.progress || 0) - (a.progress || 0);
+  });
+}
+function moodLine(){
+  if (!activeMood) return `${titles.length} saved`;
+  const m = moods.find(x => x.id === activeMood);
+  return `${curated().length} from your Watch List · ${m.line}`;
+}
+
+function crimeSaves(){
+  const order = ["ferry", "zill", "jan", "gladijs", "assisen", "y1985", "verraders"];
+  return order.map(id => titles.find(t => t.id === id)).filter(Boolean);
+}
+function parkedFilms(){
+  return titles.filter(t => t.kind === "Film" && (t.progress || 0) < .4);
+}
+function flemishSaves(){
+  return titles.filter(t =>
+    ["VRT MAX", "VTM GO", "Play", "Streamz"].includes(t.provider) &&
+    t.kind === "Series" &&
+    (t.progress || 0) < .4
+  );
+}
+function findTitle(id){
+  return titles.find(t => t.id === id) || recs.find(t => t.id === id);
+}
+function laneHTML(list){
+  return `<div class="lane">${list.map((item, i) => laneCard(item, i)).join("")}</div>`;
+}
+function aiLane(id, title, why, list){
+  return `
+    <div class="sec-head" data-lane="${id}">
+      <h2>${esc(title)}</h2>
+    </div>
+    <p class="ai-why">${esc(why)}</p>
+    ${laneHTML(list)}
+  `;
+}
+
+function renderWatch(){
+  if (watchView === "grid") {
+    const list = curated();
+    sceneWatch.innerHTML = `
+      <div class="sec-head">
+        <button class="back" type="button" data-back-cat>
+          <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>
+          Watch List
+        </button>
+        <span class="count">${titles.length} saved</span>
+      </div>
+      <p class="curate-line" id="moodLine">${esc(moodLine())}</p>
+      <div class="grid" id="grid">${list.map(gridCard).join("")}</div>
+    `;
+    return;
+  }
+  const rail = continuing();
+  sceneWatch.innerHTML = `
+    <div class="sec-head">
+      <h2>Continue Watching</h2>
+      <span class="count">${rail.length} in progress</span>
+    </div>
+    <div class="cont">${rail.map(contCard).join("")}</div>
+    <div class="sec-head">
+      <h2>Watch List</h2>
+      <button class="see" type="button" data-see-all>See all</button>
+    </div>
+    ${laneHTML(titles)}
+    <section class="ai-zone" aria-label="Collections">
+      <div class="ai-mark">${star} Collections</div>
+      <p class="ai-lede">From what you’re watching, and what you saved.</p>
+      ${aiLane("crime", "You have a type", "Crooks, cases, traitors — you keep saving them.", crimeSaves())}
+      ${aiLane("films", "The films you parked", "On your Watch List — you haven’t really sat down for them.", parkedFilms())}
+      ${aiLane("flanders", "Flanders, on your list", "Belgian series you saved — Assisen, 1985, Chantal.", flemishSaves())}
+      ${aiLane("more", "Because of how you watch", "Not saved yet. Close to The Last of Us, Undercover and The Bear.", recs)}
+    </section>
+  `;
+}
+
+function renderFollow(){
+  const sampleIn = {provider:"Netflix", logo:"Netflix logo.webp"};
+  const sampleOut = {provider:"Apple TV", logo:"apple tv logo.jpg"};
+  sceneFollow.innerHTML = `
+    <div class="sec-head">
+      <h2>Coming up</h2>
+      <span class="count">Followed</span>
+    </div>
+    <div class="legend">
+      <i>${svcHTML(sampleIn)} Can watch</i>
+      <i>${svcHTML(sampleOut)} Needs a plan</i>
+    </div>
+    ${following.map(group => `
+      <section class="day">
+        <h3>${esc(group.day)}</h3>
+        ${group.items.map(item => `
+          <button class="event" type="button" data-follow="${esc(item.title)}">
+            <div class="event-poster${item.brand ? " is-brand" : ""}">
+              ${imgTag(item.poster, item.fallback, item.title)}
+              ${svcHTML(item)}
+            </div>
+            <div class="event-copy">
+              <div class="event-kicker">${esc(item.kicker)}</div>
+              <div class="event-title">${esc(item.title)}</div>
+              <div class="event-meta">${esc(item.meta)} · ${esc(item.provider)}</div>
+            </div>
+          </button>
+        `).join("")}
+      </section>
+    `).join("")}
+    <p class="follow-note">Following is the Journey — time, not a library. Same Ask as Home: a question sits next to Ask. <a href="ah-gummy-following.html" data-go-following>Open Following</a>.</p>
+  `;
+}
+function contCard(item){
+  const left = item.ep || item.kind;
+  return `<button class="cont-card" type="button" data-open="${item.id}">
+    <div class="cont-still">
+      ${imgTag(item.still, item.fallback, item.title)}
+      <div class="cont-copy">
+        <div class="title">${esc(item.title)}</div>
+        <div class="meta">${esc(left)} · ${Math.round((item.progress||0)*100)}%</div>
+      </div>
+      ${svcHTML(item)}
+      <div class="progress" aria-hidden="true"><i style="width:${Math.round((item.progress||0)*100)}%"></i></div>
+    </div>
+  </button>`;
+}
+function gridCard(item, i){
+  return `<button class="gcard" type="button" data-open="${item.id}" data-id="${item.id}" style="animation-delay:${Math.min(i, 10) * 28}ms">
+    <div class="gposter${item.crop ? " is-crop" : ""}">
+      ${imgTag(item.poster, item.fallback, item.title)}
+      ${top10HTML(item)}
+      ${svcHTML(item)}
+    </div>
+  </button>`;
+}
+function laneCard(item, i){
+  return `<button class="lane-card" type="button" data-open="${item.id}" style="animation-delay:${Math.min(i, 10) * 24}ms">
+    <div class="gposter${item.crop ? " is-crop" : ""}">
+      ${imgTag(item.poster, item.fallback, item.title)}
+      ${svcHTML(item)}
+    </div>
+  </button>`;
+}
+
+function setMood(id, {toggle=false}={}){
+  activeMood = toggle && activeMood === id ? null : id;
+  if (watchView !== "grid") {
+    const lane = sceneWatch.querySelector(`[data-lane="${activeMood || ""}"]`);
+    lane?.scrollIntoView({behavior: reduceMotion ? "auto" : "smooth", block: "center"});
+    return;
+  }
+  const line = document.getElementById("moodLine");
+  const grid = document.getElementById("grid");
+  if (line){
+    line.classList.add("is-swap");
+    setTimeout(() => {
+      line.textContent = moodLine();
+      line.classList.remove("is-swap");
+    }, reduceMotion ? 0 : 160);
+  }
+  const next = curated();
+  if (!grid) return;
+  clearTimeout(moodT);
+  const paint = () => { grid.innerHTML = next.map(gridCard).join(""); };
+  if (reduceMotion){
+    paint();
+    return;
+  }
+  const keep = new Set(next.map(t => t.id));
+  [...grid.querySelectorAll(".gcard")].forEach(card => {
+    if (!keep.has(card.dataset.id)) card.classList.add("is-out");
+  });
+  moodT = setTimeout(paint, 240);
+}
+
+function bindQcard(){
+  const card = phoneEl.querySelector("[data-qcard]");
+  const track = phoneEl.querySelector("[data-qtrack]");
+  const rail = phoneEl.querySelector("[data-qdots] .qdots-rail");
+  const pill = phoneEl.querySelector("[data-qpill]");
+  if (!card || !track || !rail) return;
+  track.innerHTML = moods.map(m =>
+    `<button class="qcard-q" type="button" data-ask-start="${m.id}" data-mesh="${m.cls}">${esc(m.q)}</button>`
+  ).join("");
+  rail.querySelectorAll("i").forEach(n => n.remove());
+  rail.insertAdjacentHTML("afterbegin", moods.map(() => "<i></i>").join(""));
+  const dots = rail.querySelectorAll("i");
+  const syncDots = () => {
+    const w = Math.max(track.clientWidth, 1);
+    const p = Math.max(0, Math.min(dots.length - 1, track.scrollLeft / w));
+    const i0 = Math.floor(p);
+    const i1 = Math.min(i0 + 1, dots.length - 1);
+    const t = p - i0;
+    const i = Math.round(p);
+    const mesh = track.children[i]?.dataset.mesh;
+    if (mesh) {
+      card.classList.remove("m-ask", "m-c2", "m-c3", "m-c4");
+      card.classList.add(`m-${mesh}`);
+    }
+    if (!pill) return;
+    const base = 5;
+    const grow = 11;
+    dots.forEach((d, n) => {
+      const inf = n === i0 ? 1 - t : n === i1 ? t : 0;
+      d.style.width = `${base + grow * inf}px`;
+      d.style.background = inf > 0.5 ? "#fff" : "";
+    });
+    const wrap = rail.getBoundingClientRect();
+    const c0 = dots[i0].getBoundingClientRect();
+    const c1 = dots[i1].getBoundingClientRect();
+    const x0 = c0.left + c0.width / 2 - wrap.left;
+    const x1 = c1.left + c1.width / 2 - wrap.left;
+    const width = 16 + Math.abs(x1 - x0) * 3.2 * t * (1 - t);
+    const center = x0 + (x1 - x0) * t;
+    pill.style.width = `${width}px`;
+    pill.style.transform = `translateX(${center - width / 2}px)`;
+  };
+  track.addEventListener("scroll", syncDots, {passive:true});
+  requestAnimationFrame(syncDots);
+  let drag = null;
+  track.addEventListener("pointerdown", e => {
+    drag = {x: e.clientX, sl: track.scrollLeft, id: e.pointerId, moved: false};
+  });
+  track.addEventListener("pointermove", e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.x;
+    if (!drag.moved && Math.abs(dx) < 8) return;
+    if (!drag.moved) {
+      drag.moved = true;
+      try { track.setPointerCapture(e.pointerId); } catch (_) {}
+    }
+    track.scrollLeft = drag.sl - dx;
+  });
+  const endDrag = e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const moved = drag.moved;
+    drag = null;
+    if (moved) {
+      track._swiped = true;
+      const w = track.clientWidth || 1;
+      track.scrollTo({left: Math.round(track.scrollLeft / w) * w, behavior: reduceMotion ? "auto" : "smooth"});
+    }
+  };
+  track.addEventListener("pointerup", endDrag);
+  track.addEventListener("pointercancel", endDrag);
+  track.addEventListener("click", e => {
+    if (!track._swiped) return;
+    e.preventDefault();
+    e.stopPropagation();
+    track._swiped = false;
+  }, true);
+}
+
+function names(list){ return list.map(t => t.title).join(", "); }
+function askContext(){
+  const mood = moods.find(m => m.id === activeMood);
+  const list = curated();
+  const cont = continuing();
+  const can = list.filter(t => inPlan(t.provider));
+  const cant = list.filter(t => !inPlan(t.provider));
+  return {mood, list, cont, can, cant, onFollow: askOnFollow};
+}
+
+const askBank = [
+  {
+    id:"tonight",
+    q:"What should I watch tonight?",
+    a(){
+      const {mood, list, can} = askContext();
+      const pool = (mood?.id === "friday" ? list : titles.filter(t => t.tags.includes("friday")));
+      const pick = pool.find(t => inPlan(t.provider)) || can[0] || list[0];
+      const extra = mood ? ` You’re looking at “${mood.q}”.` : "";
+      return `${pick.title} — ${pick.kind.toLowerCase()} on ${pick.provider}, and it’s in your plan.${extra} Dune is the long Friday if you want sand; Barbie if you want it pink and done.`;
+    }
+  },
+  {
+    id:"leaving",
+    q:"Are things leaving soon?",
+    a(){
+      const leaving = titles.filter(t => t.tags.includes("leaving"));
+      return `${names(leaving)}. Wednesday and Squid Game are Netflix; The Last of Us is HBO Max — all three are in your plan, so you can finish them tonight.`;
+    }
+  },
+  {
+    id:"short",
+    q:"Got anything short?",
+    a(){
+      const shorts = titles.filter(t => t.mins <= 120);
+      const inP = shorts.filter(t => inPlan(t.provider));
+      const out = shorts.filter(t => !inPlan(t.provider));
+      return `From your Watch List: ${names(inP)} — those you can start now. ${out.length ? `${names(out)} are short too, but they’re locked behind another app.` : ""}`;
+    }
+  },
+  {
+    id:"friday",
+    q:"Got something for Friday night?",
+    a(){
+      const pool = titles.filter(t => t.tags.includes("friday"));
+      const inP = pool.filter(t => inPlan(t.provider));
+      const out = pool.filter(t => !inPlan(t.provider));
+      const pick = inP[0] || pool[0];
+      return `${pick.title} is the Friday from your Watch List${inPlan(pick.provider) ? `, and it’s on ${pick.provider} — in your plan` : ` on ${pick.provider}, so it carries a lock`}. Also in the mix: ${names(inP.slice(1,3) || [])}.${out.length ? ` ${names(out.slice(0,2))} if you add the extra app.` : ""}`;
+    }
+  },
+  {
+    id:"friends",
+    q:"What can we watch with friends?",
+    a(){
+      const pool = titles.filter(t => t.tags.includes("friends"));
+      const inP = pool.filter(t => inPlan(t.provider));
+      return `${names(inP.slice(0,4))}. Those are sofa-friendly and already in your plan. Squid Game if you want talking after; Barbie if you want it light.`;
+    }
+  },
+  {
+    id:"acclaimed",
+    q:"What’s critically acclaimed?",
+    a(){
+      const films = titles.filter(t => t.tags.includes("acclaimed"));
+      const first = films.find(t => inPlan(t.provider)) || films[0];
+      return `${first.title} is the one your list is proudest of. Oppenheimer and Dune sit next to it. ${inPlan(first.provider) ? "It’s in your plan." : `It’s on ${first.provider} — you’d need that app.`} Barbie is the short acclaimed pick if three hours is a no.`;
+    }
+  },
+  {
+    id:"easy",
+    q:"What’s easy watching?",
+    a(){
+      const pool = titles.filter(t => t.tags.includes("easy"));
+      const inP = pool.filter(t => inPlan(t.provider));
+      return `${names(inP.slice(0,4))}. Low homework, already in your plan. Thuis if you want local and short; Ferry if you want a film that’s done in under two hours.`;
+    }
+  },
+  {
+    id:"reviews",
+    q:"Which movie in my Watch List has the best reviews?",
+    a(){
+      const films = titles.filter(t => t.kind === "Film" && t.tags.includes("acclaimed"));
+      const first = films.find(t => inPlan(t.provider)) || films[0];
+      return `${first.title} is the one your list is proudest of. Oppenheimer and Dune sit next to it. ${inPlan(first.provider) ? "It’s in your plan." : `It’s on ${first.provider} — you’d need that app.`} Barbie is the short acclaimed pick if three hours is a no.`;
+    }
+  },
+  {
+    id:"finish",
+    q:"What should I finish first?",
+    a(){
+      const [top, ...rest] = continuing();
+      const locked = continuing().filter(t => !inPlan(t.provider));
+      return `${top.title} — you’re ${Math.round(top.progress*100)}% in${top.ep ? ` (${top.ep})` : ""}. Then ${rest.filter(t => inPlan(t.provider)).slice(0,2).map(t => t.title).join(" and ")}.${locked.length ? ` ${names(locked)} can wait unless you add the extra app.` : ""}`;
+    }
+  },
+  {
+    id:"can",
+    q:"Which of these can I already watch with my subscriptions?",
+    a(){
+      const {can, mood} = askContext();
+      const scope = mood ? `for “${mood.q}”` : "in your Watch List";
+      return `Netflix and HBO Max are yours. ${scope}: ${names(can)}. Service icon, no lock — those play tonight.`;
+    }
+  },
+  {
+    id:"need",
+    q:"Which ones require another subscription?",
+    a(){
+      const {cant, mood} = askContext();
+      const scope = mood ? `for “${mood.q}”` : "on your Watch List";
+      return cant.length
+        ? `${scope}: ${names(cant)}. Look for the lock on the app icon. Play, VTM GO, Disney+ and Streamz are the extras.`
+        : `${scope}: none — everything in this view is in your plan.`;
+    }
+  }
+];
+
+function askHost(){ return asheet.querySelector("[data-qconvo-ask]"); }
+
+function streamText(text, el, done){
+  clearInterval(askStreamT);
+  el.textContent = "";
+  const cur = document.createElement("span");
+  cur.className = "cursor";
+  cur.textContent = "▍";
+  el.appendChild(cur);
+  let i = 0;
+  const tickFn = () => {
+    i += reduceMotion ? text.length : Math.max(1, Math.round(text.length / 48));
+    el.textContent = text.slice(0, i);
+    if (i < text.length) el.appendChild(cur);
+    if (i >= text.length) {
+      clearInterval(askStreamT);
+      el.textContent = text;
+      done && done();
+    }
+  };
+  if (reduceMotion) { tickFn(); return; }
+  askStreamT = setInterval(tickFn, 18);
+}
+
+function seedQA(q, a){
+  const thread = askHost()?.querySelector(".ask-thread");
+  if (!thread) return;
+  const b = document.createElement("div");
+  b.className = "qbubble";
+  b.textContent = q;
+  const an = document.createElement("div");
+  an.className = "ansr";
+  thread.appendChild(b);
+  thread.appendChild(an);
+  thread.parentElement.scrollTop = thread.parentElement.scrollHeight;
+  streamText(a, an, () => {
+    thread.parentElement.scrollTop = thread.parentElement.scrollHeight;
+  });
+}
+
+function starters(){
+  const mood = activeMood;
+  const order = mood === "leaving" ? ["leaving","tonight","can","need"]
+    : mood === "short" ? ["short","tonight","can","need"]
+    : mood === "acclaimed" ? ["acclaimed","tonight","can","finish"]
+    : mood === "friday" ? ["friday","tonight","can","need"]
+    : mood === "friends" ? ["friends","tonight","can","need"]
+    : mood === "easy" ? ["easy","tonight","can","need"]
+    : ["tonight","finish","can","need"];
+  return order.map(id => askBank.find(x => x.id === id)).filter(Boolean);
+}
+
+function renderStarters(except){
+  const row = askHost()?.querySelector(".ask-starters");
+  if (!row) return;
+  askExcept = except ?? askExcept;
+  row.innerHTML = starters().map((item, i) =>
+    item.id === askExcept ? "" : `<button class="qchip" type="button" data-ask-q="${item.id}">${star}${esc(item.q)}</button>`
+  ).join("");
+}
+
+function bindAskComposer(){
+  const host = askHost();
+  const row = host?.querySelector(".askinput");
+  const inp = host?.querySelector(".ask-freeq");
+  const send = host?.querySelector("[data-ask-send]");
+  if (!inp || !send) return;
+  const sync = () => {
+    const ready = inp.value.trim().length > 0;
+    send.classList.toggle("is-idle", !ready);
+    send.classList.toggle("is-ready", ready);
+    send.disabled = !ready;
+    row?.classList.toggle("is-typed", ready && !row.classList.contains("is-rec"));
+  };
+  inp.oninput = sync;
+  inp.onkeydown = e => {
+    if (e.key === "Enter") { e.preventDefault(); askFree(); }
+  };
+  sync();
+}
+
+function matchAsk(text){
+  const q = text.toLowerCase();
+  if (/leav/.test(q)) return askBank.find(x => x.id === "leaving");
+  if (/friday|weekend/.test(q)) return askBank.find(x => x.id === "friday");
+  if (/friend|sofa/.test(q)) return askBank.find(x => x.id === "friends");
+  if (/easy|comfort/.test(q)) return askBank.find(x => x.id === "easy");
+  if (/under two|short|hour/.test(q)) return askBank.find(x => x.id === "short");
+  if (/review|best|acclaim/.test(q)) return askBank.find(x => x.id === "acclaimed");
+  if (/finish|continue|progress/.test(q)) return askBank.find(x => x.id === "finish");
+  if (/require|lock|another|not in|outside/.test(q)) return askBank.find(x => x.id === "need");
+  if (/already watch|subscription|can i/.test(q)) return askBank.find(x => x.id === "can");
+  return askBank.find(x => x.id === "tonight");
+}
+
+function askFree(){
+  const inp = askHost()?.querySelector(".ask-freeq");
+  const q = inp?.value.trim();
+  if (!q) return;
+  inp.value = "";
+  bindAskComposer();
+  const item = matchAsk(q);
+  askExcept = item.id;
+  const startersEl = askHost()?.querySelector(".ask-starters");
+  startersEl?.classList.add("hid");
+  seedQA(q, item.a());
+  setTimeout(() => {
+    startersEl?.classList.remove("hid");
+    renderStarters(askExcept);
+  }, reduceMotion ? 0 : 700);
+}
+
+function stopAskVoice(commit){
+  const host = askHost();
+  const row = host?.querySelector(".askinput");
+  const mic = host?.querySelector("[data-ask-mic]");
+  clearTimeout(askVoiceT);
+  askVoiceT = 0;
+  row?.classList.remove("is-rec");
+  mic?.classList.remove("is-rec");
+  if (mic) mic.setAttribute("aria-label", "Ask with voice");
+  if (commit) {
+    const inp = host?.querySelector(".ask-freeq");
+    if (inp) inp.value = "What should I finish first?";
+    bindAskComposer();
+    askFree();
+  } else bindAskComposer();
+}
+
+function toggleAskVoice(){
+  const host = askHost();
+  const row = host?.querySelector(".askinput");
+  const mic = host?.querySelector("[data-ask-mic]");
+  if (!row || !mic) return;
+  if (row.classList.contains("is-rec")) { stopAskVoice(true); return; }
+  host.querySelector(".ask-freeq")?.blur();
+  row.classList.add("is-rec");
+  row.classList.remove("is-typed");
+  mic.classList.add("is-rec");
+  mic.setAttribute("aria-label", "Stop recording");
+  askVoiceT = setTimeout(() => stopAskVoice(true), 2200);
+}
+
+function openAsk(startId){
+  askOnFollow = sceneFollow.classList.contains("is-on");
+  const thread = askHost()?.querySelector(".ask-thread");
+  if (thread) thread.innerHTML = "";
+  askExcept = null;
+  bindAskComposer();
+  renderStarters();
+  askHost()?.querySelector(".ask-starters")?.classList.remove("hid");
+  phoneEl.classList.add("is-ask", "is-ask-park");
+  phoneEl.classList.remove("is-open");
+  void phoneEl.offsetWidth;
+  requestAnimationFrame(() => {
+    phoneEl.classList.remove("is-ask-park");
+    phoneEl.classList.add("is-open");
+    if (startId) {
+      const item = askBank.find(x => x.id === startId);
+      if (item) {
+        askExcept = item.id;
+        const startersEl = askHost()?.querySelector(".ask-starters");
+        startersEl?.classList.add("hid");
+        seedQA(item.q, item.a());
+        setTimeout(() => {
+          startersEl?.classList.remove("hid");
+          renderStarters(askExcept);
+        }, reduceMotion ? 0 : 700);
+      }
+    }
+  });
+}
+
+function collapseAsk(immediate){
+  clearInterval(askStreamT);
+  stopAskVoice(false);
+  phoneEl.classList.remove("is-open", "is-ask-park");
+  if (immediate || reduceMotion) {
+    phoneEl.classList.remove("is-ask");
+    return;
+  }
+  setTimeout(() => phoneEl.classList.remove("is-ask"), 550);
+}
+
+renderWatch();
+renderFollow();
+bindQcard();
+
+sceneWatch.addEventListener("click", e => {
+  if (e.target.closest("[data-see-all]")){
+    watchView = "grid";
+    renderWatch();
+    sceneWatch.scrollTop = 0;
+    return;
+  }
+  if (e.target.closest("[data-back-cat]")){
+    watchView = "catalogue";
+    activeMood = null;
+    renderWatch();
+    sceneWatch.scrollTop = 0;
+    return;
+  }
+  const open = e.target.closest("[data-open]");
+  if (open){
+    const item = findTitle(open.dataset.open);
+    toast(item ? (inPlan(item.provider) ? `Open on ${item.provider}` : `Not in your plan · ${item.provider}`) : "");
+  }
+});
+sceneFollow.addEventListener("click", e => {
+  const explore = e.target.closest("[data-go-following]");
+  if (explore){
+    e.preventDefault();
+    goPrototype("gummy-following", "ah-gummy-following.html");
+    return;
+  }
+  const row = e.target.closest("[data-follow]");
+  if (row) toast(row.dataset.follow);
+});
+
+document.querySelectorAll(".tab-labels .t").forEach(tab => {
+  tab.addEventListener("click", () => {
+    if (tab.dataset.tab === "following") {
+      goPrototype("gummy-following", "ah-gummy-following.html");
+      return;
+    }
+    if (phoneEl.classList.contains("is-ask")) collapseAsk(true);
+    document.querySelectorAll(".tab-labels .t").forEach(t => t.classList.toggle("on", t.dataset.tab === tab.dataset.tab));
+    sceneWatch.classList.toggle("is-on", true);
+    sceneFollow.classList.remove("is-on");
+    sceneWatch.setAttribute("aria-hidden", "false");
+    sceneFollow.setAttribute("aria-hidden", "true");
+  });
+});
+
+phoneEl.addEventListener("click", e => {
+  const start = e.target.closest("[data-ask-start]");
+  if (start){
+    const id = start.dataset.askStart;
+    setMood(id);
+    document.querySelectorAll(".tab-labels .t").forEach(t => t.classList.toggle("on", t.dataset.tab === "bookmarks"));
+    sceneWatch.classList.add("is-on");
+    sceneFollow.classList.remove("is-on");
+    sceneWatch.setAttribute("aria-hidden", "false");
+    sceneFollow.setAttribute("aria-hidden", "true");
+    openAsk(id);
+    return;
+  }
+  if (e.target.closest("[data-open-ask]")) { openAsk(); return; }
+  if (e.target.closest("[data-collapse-ask]")) { collapseAsk(); return; }
+  if (e.target.closest("[data-ask-mic]")) { toggleAskVoice(); return; }
+  if (e.target.closest("[data-ask-send]")) { askFree(); return; }
+  const q = e.target.closest("[data-ask-q]");
+  if (q){
+    const item = askBank.find(x => x.id === q.dataset.askQ);
+    if (!item) return;
+    askExcept = item.id;
+    const startersEl = askHost()?.querySelector(".ask-starters");
+    startersEl?.classList.add("hid");
+    seedQA(item.q, item.a());
+    setTimeout(() => {
+      startersEl?.classList.remove("hid");
+      renderStarters(askExcept);
+    }, reduceMotion ? 0 : 700);
+    return;
+  }
+  if (phoneEl.classList.contains("is-ask") && !e.target.closest(".asheet, [data-open-ask], .tabbar")) {
+    collapseAsk();
+  }
+});
+
+document.querySelectorAll(".tabbar .navitem").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const label = btn.getAttribute("aria-label");
+    if (label === "Home") goPrototype("gummy-ask-smear", "ah-gummy-ask-smear.html");
+    else if (label === "My Stuff") sceneWatch.scrollTo({top:0, behavior:"smooth"});
+    else if (label === "Search") goPrototype("gummy-search", "ah-gummy-search.html");
+    else toast(`${label} · coming soon`);
+  });
+});
+</script>
+</body>
+</html>

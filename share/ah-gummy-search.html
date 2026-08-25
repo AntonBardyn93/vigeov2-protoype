@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AH · Gummy · Search · 25 Aug 2026</title>
+<script>
+(function(){
+  const html = document.documentElement;
+  const params = new URLSearchParams(location.search);
+  const mq = window.matchMedia("(max-width: 540px)");
+  const standaloneMq = window.matchMedia("(display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui)");
+  function isStandalone(){
+    return window.navigator.standalone === true || standaloneMq.matches;
+  }
+  function apply(){
+    const embed = window.parent !== window;
+    const standalone = isStandalone();
+    const app = params.has("app") || mq.matches || standalone;
+    html.classList.toggle("is-embed", embed || app);
+    html.classList.toggle("is-fill", params.has("fill") || app);
+    html.classList.toggle("is-app", app);
+    html.classList.toggle("is-standalone", standalone);
+  }
+  apply();
+  mq.addEventListener("change", apply);
+  standaloneMq.addEventListener("change", apply);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --desk:#0e1218;
+    --ink:#f6f7fb;
+    --mut:#9aa3b2;
+    --line:rgba(255,255,255,.1);
+    --mesh-ask:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,236,140,.5) 0%, transparent 34%),
+      radial-gradient(80% 70% at 40% 0%, rgba(255,140,200,.2) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 38%, rgba(255,90,70,.42) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.55) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,160,70,.22), rgba(255,70,100,.22) 55%, rgba(180,80,220,.14)),
+      linear-gradient(180deg, rgba(16,6,12,.3) 0%, rgba(16,6,12,.12) 100%);
+    --mesh-c2:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,252,170,.58) 0%, transparent 34%),
+      radial-gradient(80% 70% at 38% 0%, rgba(180,255,140,.22) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 40%, rgba(255,160,50,.42) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,80,50,.46) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,220,90,.22), rgba(255,120,50,.18) 55%, rgba(255,90,70,.16)),
+      linear-gradient(180deg, rgba(12,8,8,.28) 0%, rgba(12,8,8,.12) 100%);
+    --mesh-c3:
+      radial-gradient(100% 90% at 6% 8%, rgba(220,255,180,.5) 0%, transparent 34%),
+      radial-gradient(80% 70% at 38% 0%, rgba(180,255,220,.2) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 40%, rgba(50,210,180,.38) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(40,180,160,.42) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(140,255,160,.2), rgba(50,210,180,.16)),
+      linear-gradient(180deg, rgba(8,12,10,.28) 0%, rgba(8,12,10,.12) 100%);
+    --mesh-c4:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,200,240,.48) 0%, transparent 34%),
+      radial-gradient(80% 70% at 38% 0%, rgba(200,180,255,.2) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 40%, rgba(180,120,255,.36) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(120,90,255,.45) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,140,210,.2), rgba(150,120,255,.16)),
+      linear-gradient(180deg, rgba(12,8,16,.28) 0%, rgba(12,8,16,.12) 100%);
+    --mesh-hi: radial-gradient(90% 70% at 28% 10%, rgba(255,255,255,.24) 0%, transparent 50%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;color:var(--ink);font-family:"Outfit",system-ui,sans-serif;
+    background:
+      radial-gradient(900px 480px at 12% -8%, rgba(255,120,70,.16) 0%, transparent 50%),
+      radial-gradient(800px 420px at 88% 0%, rgba(80,220,160,.1) 0%, transparent 48%),
+      var(--desk);
+    padding:28px 18px 64px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  button,input{font:inherit;border:0;background:none;color:inherit}
+  button{cursor:pointer}
+  .intro{min-height:148px;width:min(100%,720px)}
+  .brand{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  h1{font-size:clamp(26px,3.2vw,34px);font-weight:700;letter-spacing:-.03em;margin-top:8px}
+  .lead{font-size:14.5px;line-height:1.55;color:var(--mut);margin-top:10px;max-width:520px}
+  .brief{
+    margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;
+    background:rgba(255,255,255,.03);font-size:13px;line-height:1.5;color:var(--mut);
+  }
+  .brief strong{color:#fff}
+  .note{margin-top:12px;font-size:12px;color:var(--mut)}
+  .note a{color:#d7dde8;font-weight:650;text-decoration:none;border-bottom:1px solid rgba(215,221,232,.35)}
+
+  .stage{display:flex;justify-content:center;margin-top:26px}
+  html.is-embed, html.is-embed body{height:100%;min-height:100%;overflow:hidden}
+  html.is-embed body{padding:0;justify-content:center;background:var(--desk)}
+  html.is-embed .intro{display:none}
+  html.is-embed .stage{margin:0}
+  html.is-embed .phone{width:min(393px, calc(100vw - 32px), calc((100dvh - 32px) * 393 / 852))}
+  html.is-embed.is-fill, html.is-embed.is-fill body,
+  html.is-embed.is-fill .stage{width:100%;height:100%;max-width:none}
+  html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
+  html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
+  html.is-standalone .status{display:none}
+
+  .phone{
+    width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
+    position:relative;border:5px solid #050505;
+    box-shadow:0 24px 56px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
+    background:#000;isolation:isolate;font-family:"Inter",system-ui,sans-serif;
+  }
+  .phone-bg{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(120% 70% at 8% -10%, rgba(255,90,70,.22) 0%, transparent 42%),
+      radial-gradient(90% 50% at 100% 8%, rgba(180,80,220,.16) 0%, transparent 46%),
+      radial-gradient(80% 40% at 40% 0%, rgba(255,236,140,.1) 0%, transparent 40%),
+      #050507;
+  }
+  .phone-bg::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:26%;
+    background:
+      radial-gradient(90% 80% at 14% 115%, rgba(255,236,140,.12) 0%, transparent 62%),
+      radial-gradient(80% 70% at 88% 118%, rgba(255,50,80,.14) 0%, transparent 64%);
+    -webkit-mask-image:linear-gradient(to top, #000 0%, rgba(0,0,0,.35) 40%, transparent 100%);
+    mask-image:linear-gradient(to top, #000 0%, rgba(0,0,0,.35) 40%, transparent 100%);
+  }
+  .topfade{
+    position:absolute;left:0;right:0;top:0;height:88px;z-index:30;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.28) 48%, transparent 100%);
+  }
+  .navfrost{
+    position:absolute;left:0;right:0;bottom:0;height:64px;z-index:25;
+    pointer-events:none;border-radius:0 0 37px 37px;
+  }
+  .navfrost::before,
+  .navfrost::after{content:"";position:absolute;inset:0;border-radius:inherit}
+  .navfrost::before{
+    background:rgba(0,0,0,.18);
+    backdrop-filter:blur(18px) saturate(1.35);
+    -webkit-backdrop-filter:blur(18px) saturate(1.35);
+    -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 58%);
+    mask-image:linear-gradient(180deg, transparent 0%, #000 58%);
+  }
+  .navfrost::after{
+    background:rgba(8,8,10,.42);
+    backdrop-filter:blur(36px) saturate(1.2);
+    -webkit-backdrop-filter:blur(36px) saturate(1.2);
+    -webkit-mask-image:linear-gradient(180deg, transparent 32%, #000 82%);
+    mask-image:linear-gradient(180deg, transparent 32%, #000 82%);
+  }
+  .status{
+    position:absolute;top:0;left:0;right:0;height:44px;z-index:53;
+    display:flex;align-items:flex-end;padding:0 20px 5px;
+    font-size:12px;font-weight:700;color:#fff;pointer-events:none;
+    text-shadow:0 1px 8px rgba(0,0,0,.55);
+  }
+  .tabbar{
+    position:absolute;left:0;right:0;bottom:0;height:64px;z-index:40;
+    display:flex;align-items:flex-start;justify-content:space-around;
+    padding:8px 4px 0;
+    background:rgba(8,8,10,.78);
+    backdrop-filter:blur(22px) saturate(1.25);
+    -webkit-backdrop-filter:blur(22px) saturate(1.25);
+    border-top:1px solid rgba(255,255,255,.1);
+    color:rgba(255,255,255,.4);
+  }
+  .navitem{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0;color:inherit}
+  .navitem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .navitem span{font-size:9.5px;font-weight:600}
+  .navitem.on{color:#fff}
+  .navitem.on svg{fill:currentColor;stroke-width:1.2}
+
+  .scene{
+    position:absolute;left:0;right:0;top:0;bottom:64px;z-index:18;
+    overflow-y:auto;scrollbar-width:none;overscroll-behavior-y:contain;
+    padding:52px 0 28px;
+  }
+  .scene::-webkit-scrollbar{display:none}
+
+  .headline{
+    padding:6px 20px 14px;
+    font-size:26px;font-weight:800;letter-spacing:-.04em;line-height:1.15;color:#fff;
+    text-shadow:0 2px 16px rgba(0,0,0,.45);
+    max-height:80px;
+    transition:opacity .35s ease, max-height .4s ease, padding .4s ease;
+  }
+  .scene.is-ask .headline{
+    max-height:0;opacity:0;padding-top:0;padding-bottom:0;overflow:hidden;pointer-events:none;
+  }
+
+  .search{
+    display:flex;align-items:center;gap:8px;
+    padding:0 20px 14px;
+    transition:padding .35s ease;
+  }
+  .scene.is-ask .search{
+    position:sticky;top:0;z-index:8;
+    padding:4px 20px 12px;
+    background:transparent;
+  }
+  .back-ask{
+    display:none;width:40px;height:48px;flex-shrink:0;place-items:center;
+    color:rgba(255,255,255,.8);
+  }
+  .scene.is-ask .back-ask{display:grid}
+  .back-ask svg{
+    width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .field{
+    position:relative;flex:1;min-width:0;height:48px;border-radius:16px;
+    display:flex;align-items:center;gap:8px;padding:0 8px 0 14px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .field svg.mag{
+    width:18px;height:18px;flex-shrink:0;stroke:rgba(255,255,255,.55);fill:none;
+    stroke-width:1.8;stroke-linecap:round;
+  }
+  .field input{
+    flex:1;min-width:0;height:100%;background:none;border:0;outline:none;
+    font-size:14px;font-weight:500;color:#fff;font-family:"Inter",system-ui,sans-serif;
+  }
+  .field input::placeholder{color:rgba(255,255,255,.42)}
+  .field.is-rec input{color:transparent;caret-color:transparent}
+  .field.is-rec input::placeholder{color:transparent}
+  .listen{
+    display:none;position:absolute;left:40px;right:56px;top:0;bottom:0;
+    align-items:center;gap:8px;pointer-events:none;
+  }
+  .field.is-rec .listen{display:flex}
+  .wave{display:flex;align-items:center;gap:3px;height:16px}
+  .wave i{
+    width:3px;border-radius:99px;background:rgba(255,255,255,.82);
+    animation:askWave 1s ease-in-out infinite;
+  }
+  .wave i:nth-child(2){height:12px;animation-delay:.12s}
+  .wave i:nth-child(3){height:8px;animation-delay:.24s}
+  .wave i:nth-child(4){height:14px;animation-delay:.08s}
+  .wave i:nth-child(5){height:7px;animation-delay:.2s}
+  @keyframes askWave{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+  .listen span{font-size:13px;font-weight:500;color:rgba(255,255,255,.72)}
+  .field .send{
+    width:34px;height:34px;flex-shrink:0;border-radius:12px;display:none;place-items:center;
+    background:rgba(255,255,255,.1);color:rgba(255,255,255,.35);
+  }
+  .field.is-typed .send{display:grid}
+  .field .send.is-ready{background:#fff;color:#111}
+  .field .send svg{
+    width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .field.is-rec .send{display:none}
+  .search.is-typed .mic-out{display:none}
+
+  .mic-out{
+    position:relative;width:48px;height:48px;flex-shrink:0;border-radius:16px;
+    display:grid;place-items:center;
+    background:rgba(255,255,255,.78);
+    border:1px solid rgba(255,255,255,.4);
+    backdrop-filter:blur(18px) saturate(1.35);
+    -webkit-backdrop-filter:blur(18px) saturate(1.35);
+    box-shadow:0 8px 18px rgba(0,0,0,.22);
+  }
+  .mic-out svg{
+    position:relative;z-index:1;width:20px;height:20px;stroke:#111;fill:none;
+    stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .mic-out.is-rec{background:rgba(255,255,255,.9)}
+  .mic-out.is-rec svg{stroke:#c43c3c}
+
+  .pills{
+    display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+    padding:0 0 22px;
+    scroll-snap-type:x proximity;
+    scroll-padding-inline:20px;
+  }
+  .pills::-webkit-scrollbar{display:none}
+  .pill{
+    position:relative;overflow:hidden;
+    flex:0 0 auto;height:42px;padding:0 14px;border-radius:16px;
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:13px;font-weight:550;color:#fff;white-space:nowrap;
+    background-color:rgba(28,10,14,.72);background-image:var(--mesh-ask);
+    scroll-snap-align:start;
+  }
+  .pill:first-child{margin-left:20px}
+  .pill:last-child{margin-right:20px}
+  .pill::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:var(--mesh-hi);
+  }
+  .pill > *{position:relative;z-index:1}
+  .pill.m-c2{background-image:var(--mesh-c2)}
+  .pill.m-c3{background-image:var(--mesh-c3)}
+  .pill.m-c4{background-image:var(--mesh-c4)}
+  .pill .star{width:9px;height:10px;filter:brightness(0) invert(1)}
+
+  .browse{transition:opacity .28s ease}
+  .scene.is-ask .browse{display:none}
+
+  .convo{display:none;padding:2px 0 8px}
+  .scene.is-ask .convo{display:block}
+  .thread{display:flex;flex-direction:column;gap:6px}
+  .turn{padding:0 0 8px}
+  .ansr{
+    padding:2px 20px 12px;
+    font-size:15px;line-height:1.5;font-weight:500;color:rgba(255,255,255,.9);
+  }
+  .ansr .cursor{
+    display:inline-block;margin-left:1px;color:#ffb060;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0}}
+  .ask-more{padding-top:6px}
+  .ask-more.hid{opacity:0;pointer-events:none}
+  .ask-more .label-mini{
+    padding:0 20px 10px;
+    font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,220,190,.4);
+  }
+  .ask-more .pills{padding-bottom:8px}
+
+  .sec-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    padding:6px 20px 10px;gap:12px;
+  }
+  .sec-head h2{
+    font-size:15px;font-weight:700;letter-spacing:-.03em;color:#fff;
+  }
+  .sec-head small{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.45)}
+
+  .lane{
+    display:flex;gap:8px;padding:0 0 22px;overflow-x:auto;scrollbar-width:none;
+    scroll-padding-inline:20px;
+  }
+  .lane::-webkit-scrollbar{display:none}
+  .lane-card{
+    flex:0 0 108px;width:108px;text-align:left;color:#fff;
+  }
+  .lane-card:first-child{margin-left:20px}
+  .lane-card:last-child{margin-right:20px}
+  .gposter{
+    position:relative;aspect-ratio:2/3;border-radius:12px;overflow:hidden;background:#16161a;
+    box-shadow:0 8px 18px rgba(0,0,0,.32);
+  }
+  .gposter > img{width:100%;height:100%;object-fit:cover;display:block}
+  .gposter.is-crop > img{transform:scale(1.28);transform-origin:center 40%}
+  .lane-card .title{
+    margin-top:7px;font-size:12px;font-weight:650;letter-spacing:-.02em;line-height:1.2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .svc{
+    position:absolute;right:6px;bottom:8px;z-index:4;
+    width:22px;height:22px;border-radius:7px;overflow:visible;
+  }
+  .svc > img{
+    width:22px;height:22px;object-fit:cover;display:block;border-radius:7px;
+    border:1px solid rgba(255,255,255,.28);
+    box-shadow:0 4px 10px rgba(0,0,0,.45);
+  }
+  .svc .badge{
+    position:absolute;right:-5px;top:-6px;width:16px;height:16px;border-radius:50%;
+    display:grid;place-items:center;z-index:3;
+    background:#fff;color:#111;border:2px solid #0a0a0a;
+  }
+  .svc .badge svg{
+    width:9px;height:9px;stroke:currentColor;fill:none;
+    stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .svc .badge svg .body{fill:currentColor;stroke:none}
+
+  .star{width:14px;height:16px;display:block;filter:brightness(0) invert(1)}
+
+  .toast{
+    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
+    color:#2a1208;font-size:11px;font-weight:800;
+    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
+    white-space:nowrap;
+    background:
+      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
+      linear-gradient(135deg, #ffe56a, #ff9a50);
+  }
+  .toast.on{opacity:1}
+
+  @media (prefers-reduced-motion:reduce){
+    .headline,.search,.ask-more{transition:none}
+    .ansr .cursor{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="intro">
+  <div class="brand">AH · Gummy · Search</div>
+  <h1>Search · candy smear</h1>
+  <p class="lead">
+    Isolated V1. Ask or search, then browse. A gummy pill starts a conversation — the question stays in Search, an answer types in, and a rail of titles you can tap. More pills underneath if you want to go further.
+  </p>
+  <div class="brief">
+    <strong>25 Aug 2026.</strong> Same visual system as Bookmarks. Service icon = in plan. Icon + lock = not in your plan.
+    Pills and rails share the 20px inset. Search is the Ask layer — no floating Ask.
+  </div>
+  <p class="note">source: <a href="Prototype%20%E2%80%94%20Interactive.html">Interactive prototype</a></p>
+</div>
+
+<div class="stage">
+  <div class="phone" id="phone">
+    <div class="phone-bg" aria-hidden="true"></div>
+    <div class="toast" id="toast"></div>
+    <div class="topfade"></div>
+    <div class="navfrost"></div>
+    <div class="status"><span>9:41</span></div>
+    <div class="scene" id="scene"></div>
+    <div class="tabbar">
+      <button class="navitem" type="button" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
+      <button class="navitem" type="button" aria-label="My Stuff"><svg viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1v16l-6-4-6 4v-16a1 1 0 0 1 1-1z"/></svg><span>My Stuff</span></button>
+      <button class="navitem on" type="button" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>Search</span></button>
+      <button class="navitem" type="button" aria-label="Shop"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 11.2A2 2 0 0 1 16.8 21H7.2a2 2 0 0 1-2-1.8L4 8z"/><path d="M8 8V6.5A4 4 0 0 1 12 2.5a4 4 0 0 1 4 4V8"/></svg><span>Shop</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
+const star = '<img class="star" src="star.svg" alt="" aria-hidden="true">';
+const lockMark = '<span class="badge" aria-label="Not in your subscriptions"><svg viewBox="0 0 24 24"><rect class="body" x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>';
+const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX"]);
+const micSvg = '<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6.5 11a5.5 5.5 0 0 0 11 0"/><path d="M12 16.5V21"/></svg>';
+const sendSvg = '<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
+const magSvg = '<svg class="mag" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>';
+const chevSvg = '<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>';
+
+const titles = {
+  thuis:{title:"Thuis", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg")},
+  y1985:{title:"1985", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg")},
+  chantal:{title:"Chantal", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg")},
+  assisen:{title:"Assisen", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg")},
+  verraders:{title:"De Verraders", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg")},
+  gladijs:{title:"Glad IJs", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg")},
+  jan:{title:"Jan de Lichte", provider:"Play", logo:"play-logo.png", poster:POSTER("/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg")},
+  schelde:{title:"De Slag om de Schelde", provider:"Play", logo:"play-logo.png", poster:POSTER("/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg")},
+  under:{title:"Undercover", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg")},
+  squid:{title:"Squid Game", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg")},
+  tlou:{title:"The Last of Us", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg")},
+  ferry:{title:"Ferry", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg")},
+  wed:{title:"Wednesday", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg")},
+  dune:{title:"Dune: Part Two", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg")},
+  bear:{title:"The Bear", provider:"Disney+", logo:"disney-plus-logo.png", poster:POSTER("/6FVNnVk0SZFdzb9dkvOr13XyyM4.jpg"), crop:true},
+  opp:{title:"Oppenheimer", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg")},
+  barb:{title:"Barbie", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg")},
+  zill:{title:"Zillion", provider:"Streamz", logo:"streamz-logo.jpg", poster:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg")},
+  penguin:{title:"The Penguin", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg")},
+  chefbbq:{title:"Chef's Table: BBQ", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/dCOAKGHVKPgpLZNrkiqgcRxkSmZ.jpg")},
+  abbott:{title:"Abbott Elementary", provider:"Disney+", logo:"disney-plus-logo.png", poster:POSTER("/nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg")},
+  twaalf:{title:"De Twaalf", provider:"Streamz", logo:"streamz-logo.jpg", poster:POSTER("/8BHACZE4aelQ4vnXchd00Yof9jH.jpg")},
+  glad:{title:"Gladiator II", provider:"Apple TV", logo:"apple tv logo.jpg", poster:POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg")}
+};
+
+const asks = {
+  tonight:{
+    q:"15 great movies for tonight",
+    a:"These are films you can actually start tonight — I kept the long ones for when you have the sofa to yourself, and mixed in what you already subscribe to. Ferry if you want Belgian and done; Barbie if the room wants colour; Dune if you’re saving it for a proper night.",
+    ids:["ferry","barb","dune","opp","zill","schelde"],
+    more:["short","plan","light","belgian"]
+  },
+  bear:{
+    q:"Something like The Bear",
+    a:"Kitchen heat, without copying The Bear beat for beat. Chef’s Table: BBQ is the same fire, calmer. De Twaalf if you want the intensity in Flemish. Abbott Elementary if you want the workplace without the panic.",
+    ids:["chefbbq","twaalf","abbott","under"],
+    more:["short","tonight","plan"]
+  },
+  short:{
+    q:"Under 45 minutes",
+    a:"Kept it short on purpose — episodes you can finish before the next thing. The Bear is ~30 minutes and already on your list. Abbott is lighter still. Thuis if you want Flanders in a sit-down.",
+    ids:["bear","abbott","chefbbq","thuis"],
+    more:["tonight","plan","light"]
+  },
+  flanders:{
+    q:"What’s on in Flanders?",
+    a:"What’s playing here this week — soaps, cases, and a Friday crime. Thuis and 1985 you can start on VRT MAX now. Assisen and De Verraders sit behind VTM GO, so they carry a lock.",
+    ids:["thuis","y1985","assisen","verraders","chantal"],
+    more:["belgian","tonight","plan"]
+  },
+  belgian:{
+    q:"A Belgian crime tonight",
+    a:"Crooks and courtrooms, local. Undercover and Ferry are in your Netflix plan. Jan de Lichte and Assisen need another app — lock on the icon if you want to stay inside what you already pay for.",
+    ids:["under","ferry","zill","jan","assisen"],
+    more:["plan","short","tonight"]
+  },
+  finish:{
+    q:"What can I finish tonight?",
+    a:"Picked up from where you left them. The Last of Us is furthest in, then Squid Game. The Bear if you want it done in half an hour. All of these except The Bear are already in your plan.",
+    ids:["tlou","squid","wed","bear"],
+    more:["short","plan","tonight"]
+  },
+  plan:{
+    q:"Only what I can play now",
+    a:"Stripped to Netflix, HBO Max and VRT MAX — no lock, press play. Ferry and Barbie if you want a film; 1985 if you want Flanders without adding an app.",
+    ids:["ferry","barb","opp","squid","tlou","y1985"],
+    more:["short","light","belgian"]
+  },
+  light:{
+    q:"A bit lighter",
+    a:"Same night, less homework. Barbie and Wednesday if you want colour. Abbott Elementary if you want 22 minutes and a laugh. Thuis if local and easy is the brief.",
+    ids:["barb","wed","abbott","chefbbq","thuis"],
+    more:["short","tonight","belgian"]
+  }
+};
+
+const pills = [
+  {id:"tonight", cls:"ask"},
+  {id:"bear", cls:"c2"},
+  {id:"short", cls:"c3"},
+  {id:"flanders", cls:"c4"},
+  {id:"belgian", cls:"ask"},
+  {id:"finish", cls:"c2"}
+];
+
+const lanes = [
+  {title:"Popular in Flanders", sub:"this week", ids:["thuis","y1985","assisen","verraders","chantal","jan","schelde","gladijs"]},
+  {title:"Crime & tension", sub:"from how you watch", ids:["under","squid","tlou","ferry","zill","penguin"]},
+  {title:"Kitchen & big nights", sub:"from how you watch", ids:["bear","chefbbq","dune","opp","wed","barb"]}
+];
+
+const meshCls = ["ask","c2","c3","c4"];
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+function inPlan(p){ return PLAN.has(p); }
+function svc(item){
+  const out = !inPlan(item.provider);
+  return `<span class="svc" title="${out ? "Not in your subscriptions" : `Watch on ${item.provider}`}"><img src="${encodeURI(item.logo)}" alt="${esc(item.provider)}">${out ? lockMark : ""}</span>`;
+}
+function card(id){
+  const t = titles[id];
+  if (!t) return "";
+  return `<button class="lane-card" type="button" data-title="${esc(t.title)}">
+    <div class="gposter${t.crop ? " is-crop" : ""}"><img src="${t.poster}" alt="${esc(t.title)}" loading="lazy">${svc(t)}</div>
+    <div class="title">${esc(t.title)}</div>
+  </button>`;
+}
+
+const scene = document.getElementById("scene");
+const phone = document.getElementById("phone");
+const toastEl = document.getElementById("toast");
+
+scene.innerHTML = `
+  <h2 class="headline">What can we help you with?</h2>
+  <div class="search">
+    <button class="back-ask" type="button" data-back aria-label="Back to Search">${chevSvg}</button>
+    <div class="field">
+      ${magSvg}
+      <input type="search" placeholder="Ask or search anything…" autocomplete="off" enterkeyhint="search">
+      <div class="listen" aria-hidden="true"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span><span>Listening…</span></div>
+      <button class="send" type="button" data-send aria-label="Send" disabled>${sendSvg}</button>
+    </div>
+    <button class="mic-out" type="button" data-mic aria-label="Ask with voice">${micSvg}</button>
+  </div>
+  <div class="browse">
+    <div class="pills">${pills.map(p =>
+      `<button class="pill m-${p.cls}" type="button" data-ask="${p.id}">${star}<span>${esc(asks[p.id].q)}</span></button>`
+    ).join("")}</div>
+    ${lanes.map(lane => `
+      <div class="sec-head"><h2>${esc(lane.title)}</h2><small>${esc(lane.sub)}</small></div>
+      <div class="lane">${lane.ids.map(card).join("")}</div>
+    `).join("")}
+  </div>
+  <div class="convo">
+    <div class="thread" id="thread"></div>
+    <div class="ask-more hid" id="askMore">
+      <div class="label-mini">Ask more</div>
+      <div class="pills" id="morePills"></div>
+    </div>
+  </div>
+`;
+
+const field = scene.querySelector(".field");
+const input = field.querySelector("input");
+const send = field.querySelector("[data-send]");
+const mic = scene.querySelector("[data-mic]");
+const search = scene.querySelector(".search");
+const thread = document.getElementById("thread");
+const askMore = document.getElementById("askMore");
+const morePills = document.getElementById("morePills");
+
+let currentAsk = null;
+let streamT = 0;
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("on");
+  clearTimeout(toastEl._t);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1300);
+}
+function goPrototype(id, href){
+  if (window.parent && window.parent !== window) {
+    const type = document.documentElement.classList.contains("is-app") ? "app-go" : "playground-go";
+    window.parent.postMessage({type, id, href}, "*");
+    return;
+  }
+  const url = new URL(href, location.href);
+  if (document.documentElement.classList.contains("is-app")) url.searchParams.set("app", "1");
+  location.href = url.pathname + url.search + url.hash;
+}
+function setRec(on){
+  field.classList.toggle("is-rec", on);
+  mic.classList.toggle("is-rec", on);
+  if (on) input.blur();
+}
+function setTyped(){
+  const has = input.value.trim().length > 0;
+  field.classList.toggle("is-typed", has);
+  search.classList.toggle("is-typed", has);
+  send.disabled = !has;
+  send.classList.toggle("is-ready", has);
+  if (has) setRec(false);
+}
+function scrollConvo(){
+  scene.scrollTo({top: scene.scrollHeight, behavior: reduceMotion ? "auto" : "smooth"});
+}
+function streamText(text, el, done){
+  clearInterval(streamT);
+  el.textContent = "";
+  const cur = document.createElement("span");
+  cur.className = "cursor";
+  cur.textContent = "▍";
+  el.appendChild(cur);
+  let i = 0;
+  const tick = () => {
+    i += reduceMotion ? text.length : Math.max(1, Math.round(text.length / 52));
+    el.textContent = text.slice(0, i);
+    if (i < text.length) el.appendChild(cur);
+    scrollConvo();
+    if (i >= text.length) {
+      clearInterval(streamT);
+      el.textContent = text;
+      done && done();
+    }
+  };
+  if (reduceMotion) { tick(); return; }
+  streamT = setInterval(tick, 18);
+}
+function pillRow(ids, except){
+  return ids.filter(id => id !== except).map((id, i) => {
+    const cls = meshCls[i % meshCls.length];
+    return `<button class="pill m-${cls}" type="button" data-ask="${id}">${star}<span>${esc(asks[id].q)}</span></button>`;
+  }).join("");
+}
+function matchAsk(text){
+  const q = text.toLowerCase();
+  if (/bear|kitchen/.test(q)) return "bear";
+  if (/45|short|minutes|half hour/.test(q)) return "short";
+  if (/flanders|vlaander/.test(q)) return "flanders";
+  if (/belgian|belg|crime|crook/.test(q)) return "belgian";
+  if (/finish|continue|left off/.test(q)) return "finish";
+  if (/plan|already|can i play|subscription|lock/.test(q)) return "plan";
+  if (/lighter|easy|comfort|colour|color/.test(q)) return "light";
+  if (/tonight|movie|film|15/.test(q)) return "tonight";
+  return "tonight";
+}
+function renderMore(except){
+  const item = asks[except];
+  morePills.innerHTML = item ? pillRow(item.more, except) : pillRow(pills.map(p => p.id), except);
+}
+function ask(id, spoken){
+  const item = asks[id];
+  if (!item) return;
+  const q = spoken || item.q;
+  if (currentAsk === id && scene.classList.contains("is-ask")) return;
+  const entering = !scene.classList.contains("is-ask");
+  currentAsk = id;
+  scene.classList.add("is-ask");
+  if (entering) scene.scrollTop = 0;
+  input.value = q;
+  setTyped();
+  input.blur();
+  askMore.classList.add("hid");
+  const turn = document.createElement("div");
+  turn.className = "turn";
+  const ans = document.createElement("div");
+  ans.className = "ansr";
+  turn.appendChild(ans);
+  thread.appendChild(turn);
+  streamText(item.a, ans, () => {
+    const lane = document.createElement("div");
+    lane.className = "lane";
+    lane.innerHTML = item.ids.map(card).join("");
+    turn.appendChild(lane);
+    renderMore(id);
+    askMore.classList.remove("hid");
+    scrollConvo();
+  });
+}
+function closeAsk(){
+  clearInterval(streamT);
+  currentAsk = null;
+  thread.innerHTML = "";
+  morePills.innerHTML = "";
+  askMore.classList.add("hid");
+  scene.classList.remove("is-ask");
+  input.value = "";
+  setTyped();
+  scene.scrollTo({top: 0, behavior: reduceMotion ? "auto" : "smooth"});
+}
+
+input.addEventListener("input", setTyped);
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter" && input.value.trim()) {
+    e.preventDefault();
+    ask(matchAsk(input.value), input.value.trim());
+  }
+});
+phone.addEventListener("click", e => {
+  if (e.target.closest("[data-back]")) { closeAsk(); return; }
+  if (e.target.closest("[data-mic]")) { setRec(!field.classList.contains("is-rec")); return; }
+  if (e.target.closest("[data-send]") && !send.disabled) {
+    ask(matchAsk(input.value), input.value.trim());
+    return;
+  }
+  const pill = e.target.closest("[data-ask]");
+  if (pill){
+    ask(pill.dataset.ask);
+    return;
+  }
+  const poster = e.target.closest(".lane-card");
+  if (poster) toast(poster.dataset.title || "Open title");
+});
+document.querySelectorAll(".tabbar .navitem").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const label = btn.getAttribute("aria-label");
+    if (label === "Home") goPrototype("gummy-ask-smear", "ah-gummy-ask-smear.html");
+    else if (label === "My Stuff") goPrototype("gummy-my-stuff", "ah-gummy-my-stuff.html");
+    else if (label === "Search") { if (scene.classList.contains("is-ask")) closeAsk(); }
+    else if (label === "Shop") toast("Shop · coming soon");
+  });
+});
+</script>
+</body>
+</html>
