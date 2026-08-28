@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=overlays-content">
 <title>AH · Gummy · Ask carousel · 28 Aug 2026</title>
 <meta http-equiv="Cache-Control" content="no-store">
 <script>
@@ -33,11 +33,30 @@
     html.classList.toggle("is-app", app);
     html.classList.toggle("is-standalone", standalone);
     html.classList.toggle("is-mock-status", topIsDesktop());
+    pinAppViewport();
+  }
+  function pinAppViewport(){
+    if (!html.classList.contains("is-app")) {
+      html.style.removeProperty("--app-h");
+      html.style.removeProperty("--app-shift");
+      return;
+    }
+    const vv = window.visualViewport;
+    const h = Math.max(1, Math.round((vv && vv.height) || window.innerHeight));
+    const top = Math.round((vv && vv.offsetTop) || 0);
+    html.style.setProperty("--app-h", h + "px");
+    html.style.setProperty("--app-shift", top + "px");
   }
   apply();
   mq.addEventListener("change", apply);
   standaloneMq.addEventListener("change", apply);
   try { (window.top || window).matchMedia("(min-width: 541px)").addEventListener("change", apply); } catch (_) {}
+  window.addEventListener("resize", pinAppViewport);
+  window.addEventListener("orientationchange", pinAppViewport);
+  if (window.visualViewport) {
+    visualViewport.addEventListener("resize", pinAppViewport);
+    visualViewport.addEventListener("scroll", pinAppViewport);
+  }
   window.addEventListener("message", e => {
     const d = e.data;
     if (!d || d.type !== "app-safe") return;
@@ -49,7 +68,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug29x">
 <link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
 <link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
 <style>
@@ -144,9 +163,12 @@
   }
   html.is-embed.is-fill, html.is-embed.is-fill body,
   html.is-embed.is-fill .page, html.is-embed.is-fill .stage{
-    width:100%;height:100%;max-width:none;
+    width:100%;height:var(--app-h, 100%);max-width:none;overflow:hidden;
   }
-  html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
+  html.is-embed.is-fill .phone{
+    width:100%;height:var(--app-h, 100%);max-width:none;max-height:var(--app-h, 100%);
+    aspect-ratio:auto;
+  }
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
   html.is-app{
     --safe-top: max(env(safe-area-inset-top, 0px), var(--app-safe-top, 0px));
@@ -176,10 +198,10 @@
     top: 54px;
   }
   html.is-app.is-bare .dock{
-    bottom: calc(var(--dock-lift) + var(--safe-bottom));
+    bottom: var(--dock-lift);
   }
   html.is-app.is-bare .qwrap{
-    bottom: calc(var(--safe-bottom) - var(--q-tuck));
+    bottom: calc(-1 * var(--q-tuck));
   }
   html.is-app.is-bare .head-row{
     top: max(54px, calc(10px + var(--safe-top)));
@@ -620,21 +642,22 @@
     transform:translateX(-50%);
     pointer-events:none;
     opacity:0;
+    isolation:isolate;
+    overflow:visible;
   }
   .qbeam-in{
     position:absolute;inset:0;
     opacity:0;
+    visibility:hidden;
+    pointer-events:none;
   }
   .qbeam-in[data-beamin="0"]{
-    opacity:var(--tone-0);
     background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.7) 32%, rgba(255,110,70,.95) 50%, rgba(255,50,95,.7) 68%, rgba(255,50,95,0) 100%);
   }
   .qbeam-in[data-beamin="1"]{
-    opacity:var(--tone-1);
     background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.65) 32%, rgba(50,210,180,.95) 50%, rgba(40,170,150,.65) 68%, rgba(40,170,150,0) 100%);
   }
   .qbeam-in[data-beamin="2"]{
-    opacity:var(--tone-2);
     background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.7) 32%, rgba(160,110,255,.95) 50%, rgba(120,80,255,.7) 68%, rgba(120,80,255,0) 100%);
   }
   .qbeam-in::after{
@@ -1613,6 +1636,18 @@ function bindQcard(slide){
     const i0 = Math.floor(p);
     const i1 = Math.min(i0 + 1, Math.max(qBtns.length - 1, 0));
     const t = p - i0;
+    const nearest = t > 0.5 ? i1 : i0;
+    const tones = [0, 0, 0];
+    if (reduceMotion || Math.abs(p - nearest) < 0.2) tones[nearest] = 1;
+    else {
+      tones[i0] = 1 - t;
+      if (i1 !== i0) tones[i1] = t;
+    }
+    const paintTone = (el, n) => {
+      const v = tones[n] || 0;
+      el.style.opacity = String(v);
+      el.style.visibility = v < 0.04 ? "hidden" : "visible";
+    };
     qBtns.forEach((btn, n) => {
       const dist = Math.abs(p - n);
       const op = reduceMotion ? (dist < 0.45 ? 1 : .38) : Math.max(.34, 1 - dist * .72);
@@ -1624,15 +1659,14 @@ function bindQcard(slide){
       el.style.opacity = inf;
       el.style.transform = reduceMotion ? "none" : `translateX(${((p - n) * -14).toFixed(1)}px)`;
     });
-    aSkins.forEach((el, n) => {
-      el.style.opacity = Math.max(0, 1 - Math.abs(p - n));
-    });
-    if (blob) blob.style.setProperty("--ask-glow", TONE_GLOW[t > 0.5 ? i1 : i0]);
+    aSkins.forEach((el, n) => paintTone(el, n));
+    if (blob) blob.style.setProperty("--ask-glow", TONE_GLOW[nearest]);
     if (wrap) {
-      wrap.style.setProperty("--tone-0", String(Math.max(0, 1 - Math.abs(p - 0))));
-      wrap.style.setProperty("--tone-1", String(Math.max(0, 1 - Math.abs(p - 1))));
-      wrap.style.setProperty("--tone-2", String(Math.max(0, 1 - Math.abs(p - 2))));
-      wrap.style.setProperty("--beam", TONE_BEAM[t > 0.5 ? i1 : i0]);
+      wrap.style.setProperty("--tone-0", String(tones[0]));
+      wrap.style.setProperty("--tone-1", String(tones[1]));
+      wrap.style.setProperty("--tone-2", String(tones[2]));
+      wrap.style.setProperty("--beam", TONE_BEAM[nearest]);
+      wrap.querySelectorAll("[data-beamin]").forEach((el, n) => paintTone(el, n));
     }
   };
   track.addEventListener("scroll", syncDots, { passive: true });
@@ -1889,7 +1923,11 @@ document.querySelector(".tabbar")?.addEventListener("click", e => {
   const nav = (btn.dataset.nav || "").toLowerCase();
   if (nav === "home") {
     if (isTop10) leaveTop10();
-    else feedEl.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
+    else {
+      feedEl.querySelectorAll(".slide").forEach(resetSlide);
+      feedEl.scrollTo({top:0, behavior:"auto"});
+      activate(0);
+    }
   }
   else if (nav === "stuff") goPrototype("gummy-my-stuff", "ah-gummy-my-stuff.html?from=carousel");
   else if (nav === "search") goPrototype("gummy-search", "ah-gummy-search.html");
@@ -1912,6 +1950,9 @@ document.querySelector("[data-back-top10]")?.addEventListener("click", e => {
 document.querySelectorAll(".tab-labels .t").forEach(tab => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".tab-labels .t").forEach(t => t.classList.toggle("on", t === tab));
+    feedEl.querySelectorAll(".slide").forEach(resetSlide);
+    feedEl.scrollTo({top:0, behavior:"auto"});
+    activate(0);
     toast(tab.textContent);
   });
 });
@@ -1949,6 +1990,11 @@ window.addEventListener("message", e => {
   }
   if (d.type === "app-resume") {
     activate(current);
+  }
+  if (d.type === "app-reset") {
+    feedEl.querySelectorAll(".slide").forEach(resetSlide);
+    feedEl.scrollTo({top:0, behavior:"auto"});
+    activate(0);
   }
 });
 document.addEventListener("visibilitychange", () => {

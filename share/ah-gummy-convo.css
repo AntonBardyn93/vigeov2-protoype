@@ -116,7 +116,7 @@
 .csheet .askinput input,
 .csheet .ask-freeq{
   flex:1;min-width:0;height:46px;border:0;border-radius:16px;outline:none;
-  padding:0 14px;font:inherit;font-size:14px;font-weight:500;
+  padding:0 14px;font:inherit;font-size:16px;font-weight:500;
   color:#fff;background:rgba(255,255,255,.08);
 }
 .csheet .askinput input::placeholder{color:rgba(255,255,255,.42)}

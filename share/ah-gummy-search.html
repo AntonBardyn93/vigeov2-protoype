@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=overlays-content">
 <title>AH · Gummy · Search · 28 Aug 2026</title>
 <meta http-equiv="Cache-Control" content="no-store">
 <script>
@@ -33,11 +33,30 @@
     html.classList.toggle("is-app", app);
     html.classList.toggle("is-standalone", standalone);
     html.classList.toggle("is-mock-status", topIsDesktop());
+    pinAppViewport();
+  }
+  function pinAppViewport(){
+    if (!html.classList.contains("is-app")) {
+      html.style.removeProperty("--app-h");
+      html.style.removeProperty("--app-shift");
+      return;
+    }
+    const vv = window.visualViewport;
+    const h = Math.max(1, Math.round((vv && vv.height) || window.innerHeight));
+    const top = Math.round((vv && vv.offsetTop) || 0);
+    html.style.setProperty("--app-h", h + "px");
+    html.style.setProperty("--app-shift", top + "px");
   }
   apply();
   mq.addEventListener("change", apply);
   standaloneMq.addEventListener("change", apply);
   try { (window.top || window).matchMedia("(min-width: 541px)").addEventListener("change", apply); } catch (_) {}
+  window.addEventListener("resize", pinAppViewport);
+  window.addEventListener("orientationchange", pinAppViewport);
+  if (window.visualViewport) {
+    visualViewport.addEventListener("resize", pinAppViewport);
+    visualViewport.addEventListener("scroll", pinAppViewport);
+  }
   window.addEventListener("message", e => {
     const d = e.data;
     if (!d || d.type !== "app-safe") return;
@@ -49,7 +68,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug29x">
 <link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
 <link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
 <style>
@@ -492,7 +511,7 @@
   }
   .field input{
     flex:1;min-width:0;width:100%;height:100%;background:none;border:0;outline:none;
-    font-size:14px;font-weight:500;color:#fff;font-family:"Inter",system-ui,sans-serif;
+    font-size:16px;font-weight:500;color:#fff;font-family:"Inter",system-ui,sans-serif;
   }
   .field input::placeholder{color:#8c8c94}
   .field.is-rec input{color:transparent;caret-color:transparent}
@@ -702,11 +721,14 @@
   html.is-app, html.is-app body{
     display:block !important;
     width:100% !important;
-    height:100% !important;
-    min-height:100% !important;
+    height:var(--app-h, 100%) !important;
+    min-height:0 !important;
+    max-height:var(--app-h, 100%) !important;
     padding:0 !important;
     margin:0 !important;
     overflow:hidden !important;
+    touch-action:manipulation;
+    -webkit-text-size-adjust:100%;
     align-items:stretch !important;
     justify-content:flex-start !important;
   }
@@ -715,11 +737,14 @@
   html.is-app .phone{
     display:block !important;
     position:fixed !important;
-    inset:0 !important;
+    top:var(--app-shift, 0px) !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:auto !important;
     width:100% !important;
-    height:100% !important;
+    height:var(--app-h, 100%) !important;
     max-width:none !important;
-    max-height:none !important;
+    max-height:var(--app-h, 100%) !important;
     aspect-ratio:auto !important;
     margin:0 !important;
     border:0 !important;
@@ -1729,7 +1754,7 @@ function openPack(id){
   if (!pack) return;
   closeAsk();
   scene.classList.add("is-pack");
-  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=aug29p`;
+  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=aug29x`;
 }
 
 input.addEventListener("input", setTyped);
@@ -1780,6 +1805,11 @@ document.querySelector(".tabbar")?.addEventListener("click", e => {
   else if (nav === "search") {
     if (scene.classList.contains("is-pack")) closePack();
     else if (scene.classList.contains("is-ask")) closeAsk();
+    else {
+      input.value = "";
+      setTyped();
+      scene.querySelector(".lobby")?.scrollTo({top: 0, behavior: reduceMotion ? "auto" : "smooth"});
+    }
   }
   else if (nav === "shop") goPrototype("gummy-shop", "ah-gummy-shop.html");
 });
@@ -1788,6 +1818,7 @@ window.addEventListener("message", e => {
   if (!d || typeof d !== "object") return;
   if (d.type === "pack-back") closePack();
   if (d.type === "app-pause") pausePack();
+  if (d.type === "app-reset") { closePack(); closeAsk(); }
 });
 (function bootDemo(){
   const demo = new URLSearchParams(location.search);
