@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="Alfora">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
-<title>AH · Gummy · Latest · 25 Aug 2026</title>
+<title>AH · Gummy · Latest · 28 Aug 2026</title>
 <script>
 (function(){
   const html = document.documentElement;
@@ -81,13 +81,11 @@
   }
   html.is-embed .intro,
   html.is-embed .brand,
-  html.is-embed h1,
   html.is-embed .lead,
   html.is-embed .brief,
   html.is-embed .note,
   html.is-app .intro,
   html.is-app .brand,
-  html.is-app h1,
   html.is-app .lead,
   html.is-app .brief,
   html.is-app .note{display:none}
@@ -191,22 +189,23 @@
 <div class="page">
   <div class="intro">
     <div class="brand">AH · Gummy · Latest</div>
-    <h1>Latest · 25 Aug 2026</h1>
+    <h1>Latest · 28 Aug 2026</h1>
     <p class="lead">
-      One phone. Home, Bookmarks, Following, and Search stay in this prototype — tap through the app without leaving this screen.
+      One phone. Home, My Stuff, Following, Search, and Shop stay in this prototype — tap through the app without leaving this screen.
     </p>
     <div class="brief">
-      <strong>Latest · 25 Aug 2026.</strong> For you reel, Watch List, Following, and Search.
-      Search is Ask — a pill starts a conversation with titles you can tap. Service icon = in plan. Icon + lock = not in plan.
+      <strong>Latest · 28 Aug 2026.</strong> Ask is a conversation in context: a real question, a relevant answer, then follow-ups that stay with the title. Posters open a title page — Watch and My List stay the main actions; questions sit on the page.
     </div>
-    <p class="note">On a phone, open this page in Safari or Chrome, then Add to Home Screen. The saved app opens full screen. </p>
+    <p class="note">On a phone, open this page in Safari or Chrome, then Add to Home Screen. The saved app opens full screen.</p>
   </div>
   <div class="stage">
     <div class="phone" id="phone">
-      <iframe data-app="home" class="is-on" title="Home" src="ah-gummy-ask-smear.html?app=1&v=bar3" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="stuff" title="Bookmarks" src="ah-gummy-my-stuff.html?app=1&v=bar3" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="follow" title="Following" src="ah-gummy-following.html?app=1&v=bar3" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="search" title="Search" src="ah-gummy-search.html?app=1&v=bar3" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="home" class="is-on" title="Home" src="ah-gummy-ask-carousel.html?app=1&v=aug29c" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="top10" title="Top 10" src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug29c" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="stuff" title="My Stuff" src="ah-gummy-my-stuff.html?app=1&v=aug28u" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="follow" title="Following" src="ah-gummy-following.html?app=1&v=aug28t" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="search" title="Search" src="ah-gummy-search.html?app=1&v=aug29v" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="shop" title="Shop" src="ah-gummy-shop.html?app=1&v=aug28t" allow="autoplay; encrypted-media"></iframe>
     </div>
   </div>
 </div>
@@ -214,9 +213,12 @@
 function screenFor(data){
   const id = String(data?.id || "");
   const path = String(data?.href || "").split("?")[0];
+  const href = String(data?.href || "");
+  if (id === "gummy-shop" || path.includes("shop")) return "shop";
   if (id === "gummy-search" || path.includes("search")) return "search";
   if (id === "gummy-following" || path.includes("following")) return "follow";
   if (id === "gummy-my-stuff" || path.includes("my-stuff")) return "stuff";
+  if (id === "gummy-top10" || data?.view === "top10" || href.includes("top10=1")) return "top10";
   return "home";
 }
 function ping(frame, type, extra){

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AH · Gummy · Following · Journey · 24 Aug 2026</title>
+<title>AH · Gummy · Following · Coming up · 28 Aug 2026</title>
 <meta http-equiv="Cache-Control" content="no-store">
 <script>
 (function(){
@@ -49,6 +49,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
+<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
 <style>
   :root{
     --desk:#0e1218;
@@ -88,6 +91,9 @@
     --mesh-ember-ask:
       radial-gradient(60% 50% at 80% 100%, rgba(255,50,80,.3) 0%, transparent 55%),
       linear-gradient(180deg, transparent 58%, rgba(255,50,80,.3) 100%);
+    --line-candy: linear-gradient(135deg, rgba(255,228,150,.7), rgba(255,110,70,.45) 48%, rgba(255,50,95,.55));
+    --line-green: linear-gradient(135deg, rgba(210,255,170,.75), rgba(70,210,170,.5) 48%, rgba(40,170,150,.55));
+    --line-purple: linear-gradient(135deg, rgba(255,190,230,.72), rgba(170,120,255,.5) 48%, rgba(120,80,255,.58));
     --ease-jelly: cubic-bezier(.22,.82,.28,1);
     --ease-star: cubic-bezier(.18,.72,.22,1);
   }
@@ -152,7 +158,7 @@
   html.is-app .status{display:none}
   html.is-app.is-mock-status{--status-h:54px}
   html.is-app.is-mock-status .status{display:flex;height:54px}
-  html.is-app .tabs{padding-top: calc(8px + var(--status-h))}
+  html.is-app .head-row{top: calc(10px + var(--status-h))}
   html.is-app .tabbar{
     height: calc(64px + var(--safe-bottom));
     padding-bottom: var(--safe-bottom);
@@ -163,10 +169,6 @@
   }
   html.is-app .scene{bottom: calc(64px + var(--safe-bottom))}
   html.is-app .ask-rail{bottom: calc(84px + var(--safe-bottom))}
-  html.is-app .qwrap{bottom: calc(101px + var(--safe-bottom))}
-  html.is-app .qdots{bottom: calc(87px + var(--safe-bottom))}
-  html.is-app .asheet{bottom: calc(102px + var(--safe-bottom))}
-  html.is-app .phone.is-ask.is-open .asheet{bottom: calc(78px + var(--safe-bottom))}
 
   .phone{
     width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
@@ -238,18 +240,15 @@
   .status-sig{width:17px;height:11px;fill:currentColor}
   .status-wifi{width:15px;height:12px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round}
   .status-bat{width:24px;height:12px;fill:currentColor}
-  .tabs{
-    position:absolute;top:0;left:0;right:0;z-index:52;
-    padding:58px 16px 16px;
+  .head-frost{
+    position:absolute;top:0;left:0;right:0;height:128px;z-index:51;
     pointer-events:none;
-    isolation:isolate;
   }
-  .tabs::before,
-  .tabs::after{
-    content:"";position:absolute;left:0;right:0;top:0;height:128px;
-    pointer-events:none;z-index:0;opacity:1;
+  .head-frost::before,
+  .head-frost::after{
+    content:"";position:absolute;inset:0;
   }
-  .tabs::before{
+  .head-frost::before{
     background:linear-gradient(180deg,
       rgba(0,0,0,.88) 0%,
       rgba(0,0,0,.58) 32%,
@@ -257,26 +256,31 @@
       rgba(0,0,0,.08) 80%,
       transparent 100%);
   }
-  .tabs::after{
+  .head-frost::after{
     backdrop-filter:blur(18px) saturate(1.15);
     -webkit-backdrop-filter:blur(18px) saturate(1.15);
     -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 28%, transparent 100%);
     mask-image:linear-gradient(180deg, #000 0%, #000 28%, transparent 100%);
   }
-  .tab-labels{
-    position:relative;z-index:1;pointer-events:auto;
-    display:flex;align-items:center;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none;
+  .head-row{
+    display:flex;position:absolute;top:58px;left:14px;right:14px;z-index:52;
+    align-items:center;gap:9px;
   }
-  .tab-labels::-webkit-scrollbar{display:none}
-  .tab-labels .t{
-    flex-shrink:0;font-size:16px;font-weight:500;letter-spacing:-.02em;
-    color:rgba(255,255,255,.92);padding:7px 8px;border-radius:16px;
-    text-shadow:0 1px 8px rgba(0,0,0,.45);
-  }
-  .tab-labels .t.on{
-    color:#fff;font-weight:600;
+  .back{
+    width:36px;height:36px;border-radius:16px;flex-shrink:0;display:grid;place-items:center;color:#fff;
     background:rgba(255,255,255,.16);
-    padding:7px 14px;
+  }
+  .back svg{
+    width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .head-copy{min-width:0}
+  .head-copy .eyebrow{
+    font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.55);
+  }
+  .head-copy h2{
+    margin-top:2px;font-size:15px;font-weight:600;letter-spacing:-.02em;line-height:1.15;
+    text-shadow:0 2px 12px rgba(0,0,0,.55);
   }
   .tabbar{
     position:absolute;left:0;right:0;bottom:0;height:64px;z-index:40;
@@ -298,7 +302,7 @@
     position:absolute;left:0;right:0;top:0;bottom:64px;z-index:18;
     overflow-y:auto;overflow-x:hidden;
     scrollbar-width:none;overscroll-behavior-y:contain;
-    padding:100px 0 168px;
+    padding:96px 0 88px;
   }
   .scene::-webkit-scrollbar{display:none}
   .phone.is-ask .scene{filter:brightness(.72);pointer-events:none}
@@ -842,224 +846,80 @@
     filter:brightness(0) invert(1);opacity:1;
   }
   .ask-rail{
-    position:absolute;right:12px;bottom:84px;z-index:36;
+    position:absolute;right:12px;bottom:84px;z-index:45;
     display:flex;flex-direction:column;align-items:center;gap:5px;width:54px;
     transition:opacity .2s ease, transform .45s var(--ease-star);
   }
   .askfab{
     position:relative;width:48px;height:48px;border-radius:16px;
-    display:grid;place-items:center;
+    display:grid;place-items:center;overflow:hidden;
     background:var(--mesh-ask);
-    backdrop-filter:blur(18px) saturate(1.55);
-    -webkit-backdrop-filter:blur(18px) saturate(1.55);
-    transition:box-shadow .45s ease;
+    box-shadow:0 4px 14px rgba(0,0,0,.35);
   }
   .askfab::before{
-    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-    background:var(--mesh-hi);
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:1;
+    background:var(--mesh-hi);opacity:.35;
   }
   .askfab::after{
-    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-    background:var(--mesh-ember-ask);
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:2;
+    padding:1px;opacity:.58;
+    background:var(--line-candy);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite:exclude;
   }
-  .askfab .star{position:relative;z-index:1;transform-origin:center;transition:transform .78s var(--ease-star)}
+  .askfab .star{position:relative;z-index:3;transform-origin:center;transition:transform .78s var(--ease-star)}
   .phone.is-ask .askfab .star{transform:rotate(-180deg)}
-  .askfab.is-glow{
-    box-shadow:0 0 0 3px rgba(255,140,60,.14), 0 0 16px rgba(255,80,70,.4);
-  }
   .ask-lbl{font-size:11px;font-weight:600;color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.5)}
   .phone.is-ask .ask-rail{opacity:0;pointer-events:none}
 
-  .qwrap{
-    position:absolute;left:16px;right:76px;bottom:101px;height:48px;z-index:35;
-    pointer-events:auto;
-  }
-  .qcard{
-    position:absolute;inset:0;z-index:1;
-    border-radius:16px;overflow:hidden;
-    backdrop-filter:blur(18px) saturate(1.55);
-    -webkit-backdrop-filter:blur(18px) saturate(1.55);
-  }
-  .qcard::before{
-    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
-    background:var(--mesh-hi);
-  }
-  .qcard.m-ask{background:var(--mesh-ask)}
-  .qcard.m-c2{background:var(--mesh-c2)}
-  .qcard.m-c3{background:var(--mesh-c3)}
-  .qcard.m-c4{background:var(--mesh-c4)}
-  .qcard-track{
-    position:absolute;inset:0;z-index:1;
-    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-    scrollbar-width:none;touch-action:pan-x;
-  }
-  .qcard-track::-webkit-scrollbar{display:none}
-  .qcard-q{
-    flex:0 0 100%;height:100%;
-    display:flex;align-items:center;justify-content:center;
-    padding:0 16px;
-    font-size:13.5px;font-weight:500;line-height:1.2;text-align:center;
-    color:rgba(255,255,255,.9);
-    scroll-snap-align:start;scroll-snap-stop:always;
-  }
-  .qdots{
-    position:absolute;left:16px;right:76px;bottom:87px;z-index:35;
-    display:flex;justify-content:center;align-items:center;
-    pointer-events:none;
-  }
-  .qdots-rail{position:relative;display:flex;align-items:center;gap:6px}
-  .qdots i{
-    width:5px;height:5px;border-radius:99px;flex-shrink:0;
-    background:rgba(255,255,255,.28);
-  }
-  .qdots-pill{
-    position:absolute;left:0;top:50%;
-    width:16px;height:6px;margin-top:-3px;
-    border-radius:99px;background:#fff;pointer-events:none;z-index:2;
-  }
-  .phone.is-ask .qwrap,
-  .phone.is-ask .qdots{
-    opacity:0;pointer-events:none;visibility:hidden;
-  }
-
-  .asheet{
-    position:absolute;left:calc(100% - 63px);right:15px;bottom:102px;height:48px;z-index:37;
-    border-radius:16px;overflow:hidden;opacity:0;pointer-events:none;
-    background:var(--mesh-ask);
-    backdrop-filter:blur(18px) saturate(1.55);
-    -webkit-backdrop-filter:blur(18px) saturate(1.55);
-    transition:height .55s var(--ease-jelly), bottom .55s var(--ease-jelly), left .55s var(--ease-jelly), right .55s var(--ease-jelly), border-radius .55s var(--ease-jelly), opacity .2s ease;
-  }
-  .asheet::before{
-    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
-    background:var(--mesh-hi);
-  }
-  .asheet::after{
-    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;
-    background:linear-gradient(180deg, rgba(8,8,10,.18) 0%, rgba(8,8,10,.42) 28%, rgba(8,8,10,.62) 100%);
-    opacity:0;transition:opacity .4s ease;
-  }
-  .phone.is-ask .asheet{opacity:1;pointer-events:auto}
-  .phone.is-ask-park .asheet{transition:none}
-  .phone.is-ask.is-open .asheet{
-    left:8px;right:8px;bottom:78px;height:404px;border-radius:20px;
-  }
-  .phone.is-ask.is-open .asheet::after{opacity:1}
-  .asheet-star{
-    display:none;position:absolute;inset:0;z-index:4;
-    place-items:center;pointer-events:none;
-  }
-  .phone.is-ask:not(.is-open) .asheet-star,
-  .phone.is-ask-park .asheet-star{display:grid}
-  .qcard-chev{
-    display:none;position:absolute;left:50%;top:6px;z-index:5;
-    width:36px;height:22px;margin-left:-18px;
-    place-items:center;opacity:.8;
-  }
-  .qcard-chev svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .phone.is-ask.is-open .qcard-chev{display:grid}
-  .qconvo{
-    display:flex;position:absolute;inset:0;z-index:3;
-    flex-direction:column;padding:28px 14px 12px;
-    opacity:0;pointer-events:none;
-    transition:opacity .18s ease;
-  }
-  .phone.is-ask.is-open .qconvo{
-    opacity:1;pointer-events:auto;
-    transition:opacity .22s ease .34s;
-  }
-  .qconvo-scroll{
-    flex:1;min-height:0;overflow-y:auto;padding-bottom:8px;
-    overscroll-behavior:contain;
-    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;
-  }
-  .ask-thread{display:flex;flex-direction:column;gap:12px}
-  .qbubble{
-    align-self:flex-end;max-width:92%;margin:0;padding:10px 12px;
-    font-size:14px;font-weight:600;line-height:1.35;
-    color:#fff;background:rgba(255,255,255,.1);border-radius:16px 16px 5px 16px;
-  }
-  .ansr{
-    margin-top:0;padding:12px 13px;font-size:14px;line-height:1.5;font-weight:500;
-    color:rgba(255,255,255,.94);background:rgba(0,0,0,.28);border-radius:16px;
-    min-height:4.6em;
-  }
-  .ansr .cursor{display:inline-block;margin-left:1px;color:#ffb060;animation:blink 1s steps(1) infinite}
-  @keyframes blink{50%{opacity:0}}
-  .ask-continue{margin-top:16px}
-  .label-mini{
-    font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-    color:rgba(255,255,255,.5);margin-bottom:8px;
-  }
-  .ask-starters{display:flex;gap:8px;flex-wrap:wrap}
-  .ask-starters.hid{opacity:0;pointer-events:none}
-  .qchip{
-    display:inline-flex;align-items:center;gap:6px;
-    background:rgba(255,255,255,.1);font-size:12.5px;padding:8px 11px;border-radius:16px;
-    color:rgba(255,255,255,.92);
-  }
-  .qchip .star{width:8px;height:9px}
-  .qconvo-foot{flex-shrink:0;padding-top:8px}
-  .askinput{display:flex;gap:8px;align-items:center;position:relative}
-  .askinput input{
-    flex:1;min-width:0;height:46px;background:rgba(0,0,0,.38);border:0;border-radius:16px;
-    font-size:14px;padding:0 14px;color:#fff;outline:none;font-family:"Inter",system-ui,sans-serif;
-  }
-  .askinput input::placeholder{color:rgba(255,255,255,.38)}
-  .askinput input:focus{background:rgba(0,0,0,.5)}
-  .askinput.is-rec input{color:transparent;caret-color:transparent}
-  .askinput.is-rec input::placeholder{color:transparent}
-  .ask-listen{
-    display:none;position:absolute;left:14px;right:62px;top:0;bottom:0;
-    align-items:center;gap:8px;pointer-events:none;
-  }
-  .askinput.is-rec .ask-listen{display:flex}
-  .ask-listen .wave{display:flex;align-items:center;gap:3px;height:16px}
-  .ask-listen .wave i{
-    width:3px;border-radius:99px;background:rgba(255,255,255,.82);
-    animation:askWave 1s ease-in-out infinite;
-  }
-  .ask-listen .wave i:nth-child(2){height:12px;animation-delay:.12s}
-  .ask-listen .wave i:nth-child(3){height:8px;animation-delay:.24s}
-  .ask-listen .wave i:nth-child(4){height:14px;animation-delay:.08s}
-  .ask-listen .wave i:nth-child(5){height:7px;animation-delay:.2s}
-  @keyframes askWave{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
-  .ask-listen span{font-size:13px;font-weight:500;color:rgba(255,255,255,.72)}
-  .askinput button{
-    width:46px;height:46px;flex-shrink:0;border-radius:16px;display:grid;place-items:center;
-  }
-  .askinput button svg{
-    width:20px;height:20px;stroke:currentColor;fill:none;
-    stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-  }
-  .ask-mic{background:#fff;color:#111}
-  .ask-mic svg{stroke:#111}
-  .ask-mic.is-rec{animation:askMicPulse 1.15s ease-in-out infinite;color:#c43b2a}
-  .ask-mic.is-rec svg{stroke:#c43b2a}
-  @keyframes askMicPulse{
-    0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
-    50%{box-shadow:0 0 0 6px rgba(255,255,255,.16)}
-  }
-  .askinput.is-typed .ask-mic,
-  .askinput:not(.is-typed) [data-ask-send]{display:none}
-  .askinput.is-rec .ask-mic{display:grid}
-  .askinput.is-rec [data-ask-send]{display:none}
-  .askinput button.is-idle{background:rgba(255,255,255,.08);color:rgba(255,255,255,.35)}
-  .askinput button.is-ready{background:#fff;color:#111}
-
   .toast{
-    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
-    color:#2a1208;font-size:11px;font-weight:800;
-    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
-    transition:opacity .2s;white-space:nowrap;
+    position:absolute;left:50%;top:96px;z-index:90;
+    padding:10px 18px;border-radius:999px;
+    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
+    line-height:1.2;white-space:nowrap;text-align:center;
+    text-shadow:0 1px 10px rgba(0,0,0,.5);
+    pointer-events:none;overflow:visible;
+    opacity:0;
+    transform:translateX(-50%) translateY(-8px) scale(.96);
     background:
-      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
-      linear-gradient(135deg, #ffe56a, #ff9a50);
+      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
+      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
+      rgba(10,8,12,.62);
+    backdrop-filter:blur(22px) saturate(1.35);
+    -webkit-backdrop-filter:blur(22px) saturate(1.35);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.18),
+      0 0 0 1px rgba(255,255,255,.08),
+      0 10px 28px rgba(0,0,0,.45),
+      0 0 20px rgba(255,110,70,.48),
+      0 0 40px rgba(40,200,170,.34);
+    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
   }
-  .toast.on{opacity:1}
+  .toast::after{
+    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
+    border-radius:2px;pointer-events:none;
+    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
+    box-shadow:0 0 14px rgba(70,210,170,.55);
+    opacity:0;
+    transition:opacity .32s ease;
+  }
+  .toast.on{
+    opacity:1;
+    transform:translateX(-50%) translateY(0) scale(1);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.2),
+      0 0 0 1px rgba(255,255,255,.1),
+      0 12px 30px rgba(0,0,0,.48),
+      0 0 26px rgba(255,110,70,.55),
+      0 0 52px rgba(40,200,170,.4);
+  }
+  .toast.on::after{opacity:1}
 
   @media (prefers-reduced-motion:reduce){
-    .tcard,.jcard,.jhero,.j-poster,.ai-card,.tl-line,.j-spine,.asheet,.askfab .star,.qconvo,.pill,.mood,.plan-week,.rcard,.qcard,.qwrap,.qdots{transition:none;animation:none}
+    .tcard,.jcard,.jhero,.j-poster,.ai-card,.tl-line,.j-spine,.asheet,.askfab .star,.qconvo,.pill,.mood,.plan-week,.rcard{transition:none;animation:none}
     .phone.is-ask.is-open .qconvo{transition:none}
     .tl-node.is-now,.j-cal.is-now{animation:none}
   }
@@ -1099,20 +959,20 @@
     <div class="brand">AH · Gummy · Following</div>
     <h1>What’s coming next for me?</h1>
     <p class="lead">
-      Bookmarks is a library. Following is time. Vertical journey with posters, same Ask as Home: a question sits next to Ask, swipe for the next one. Bookmarks / Following stay put at the top. The questions are already there — this isn’t a timed demo.
+      Coming up is a subpage of My Stuff. Back returns to My Stuff. Ask sits on its own — no question ribbon on this page.
     </p>
     <div class="brief">
-      <strong>24 Aug 2026.</strong> Journey. Tap a question or Ask — both already know this page.
+      <strong>28 Aug 2026.</strong> Back instead of Bookmarks / Following tabs. Tap Ask — or a prompt in the week — for the same conversation sheet as Home.
       Service icon = you can watch. Icon + lock = not in your plan.
     </div>
-    <p class="note"><a href="ah-gummy-my-stuff.html">Bookmarks</a> · source: candy smear</p>
+    <p class="note"><a href="playground.html">Playground</a> · <a href="ah-gummy-my-stuff.html">My Stuff</a> · source: candy smear</p>
   </div>
 
   <div class="pair">
     <div class="col">
       <span class="tag t1">Following · Journey</span>
       <h2>Coming Up Journey</h2>
-      <p class="label">Vertical spine, compact posters. Sticky tabs up top. Swipeable questions next to Ask.</p>
+      <p class="label">Vertical spine, compact posters. Back to My Stuff. Ask button only.</p>
       <div class="phone" id="phoneA" data-dir="journey"></div>
     </div>
   </div>
@@ -1124,50 +984,22 @@
   <div class="topfade"></div>
   <div class="navfrost"></div>
   <div class="status" aria-hidden="true"><span class="status-time">9:41</span><span class="status-island"></span><span class="status-end"><svg class="status-sig" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".6"/><rect x="5" y="5" width="3" height="7" rx=".6"/><rect x="10" y="2.5" width="3" height="9.5" rx=".6"/><rect x="15" y="0" width="3" height="12" rx=".6"/></svg><svg class="status-wifi" viewBox="0 0 16 12"><path d="M1 4.2c4-4 10-4 14 0"/><path d="M3.4 6.6c2.6-2.5 6.6-2.5 9.2 0"/><path d="M6 9c1.1-1.1 2.9-1.1 4 0"/><circle cx="8" cy="11.2" r="1.15" fill="currentColor" stroke="none"/></svg><svg class="status-bat" viewBox="0 0 27 13"><rect x=".6" y=".6" width="23" height="11.8" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.25"/><rect x="2.2" y="2.3" width="17.6" height="8.4" rx="1.7"/><path d="M24.6 4v5c1.3-.5 1.8-1.3 1.8-2.5S25.9 4.5 24.6 4z"/></svg></span></div>
-  <div class="tabs">
-    <div class="tab-labels">
-      <button class="t" type="button" data-go-bookmarks>Bookmarks</button>
-      <button class="t on" type="button">Following</button>
+  <div class="head-frost" aria-hidden="true"></div>
+  <div class="head-row">
+    <button class="back" type="button" data-back-follow aria-label="Back to My Stuff">
+      <svg viewBox="0 0 24 24"><path d="M15 5.5 8.5 12 15 18.5"/></svg>
+    </button>
+    <div class="head-copy">
+      <div class="eyebrow">My Stuff</div>
+      <h2>Coming up</h2>
     </div>
   </div>
   <div class="scene" data-scene></div>
-  <div class="qwrap" data-qwrap>
-    <div class="qcard mesh m-ask" data-qcard>
-      <div class="qcard-track" data-qtrack></div>
-    </div>
-  </div>
-  <div class="qdots" data-qdots><span class="qdots-rail"><b class="qdots-pill" data-qpill></b></span></div>
   <div class="ask-rail">
-    <button class="askfab is-glow" type="button" data-open-ask aria-label="Ask"></button>
+    <button class="askfab" type="button" data-open-ask aria-label="Ask"></button>
     <span class="ask-lbl">Ask</span>
   </div>
-  <div class="asheet" data-asheet>
-    <div class="asheet-star" aria-hidden="true"></div>
-    <button class="qcard-chev" type="button" data-collapse-ask aria-label="Collapse question">
-      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
-    <div class="qconvo" data-qconvo-ask>
-      <div class="qconvo-scroll">
-        <div class="ask-thread"></div>
-        <div class="ask-continue">
-          <div class="label-mini">Ask more</div>
-          <div class="ask-starters"></div>
-        </div>
-      </div>
-      <div class="qconvo-foot">
-        <div class="askinput">
-          <input class="ask-freeq" type="text" placeholder="Ask about what’s coming…" autocomplete="off">
-          <div class="ask-listen" aria-hidden="true"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span><span>Listening…</span></div>
-          <button class="ask-mic" type="button" data-ask-mic aria-label="Ask with voice">
-            <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6.5 11a5.5 5.5 0 0 0 11 0"/><path d="M12 16.5V21"/></svg>
-          </button>
-          <button type="button" class="is-idle" data-ask-send aria-label="Send" disabled>
-            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div data-csheet-mount></div>
   <div class="tabbar">
     <button class="navitem" type="button" data-nav="home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
     <button class="navitem on" type="button" data-nav="stuff" aria-label="My Stuff"><svg viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1v16l-6-4-6 4v-16a1 1 0 0 1 1-1z"/></svg><span>My Stuff</span></button>
@@ -1176,6 +1008,9 @@
   </div>
 </template>
 
+<script src="ah-gummy-convo.js?v=aug28h"></script>
+<script src="ah-gummy-title.js?v=aug29a"></script>
+<script src="ah-gummy-bundle.js?v=aug28n"></script>
 <script>
 const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
 const STILL = p => `https://image.tmdb.org/t/p/w780${p}`;
@@ -1229,16 +1064,63 @@ const canWatch = events.filter(e => inPlan(e.provider));
 const locked = events.filter(e => !inPlan(e.provider));
 
 const askBank = [
-  {id:"week", q:"What’s coming this week?", a:() => "Tonight: Wednesday at 21:00 on Netflix, and Thuis on VRT MAX — that’s in your plan. Tomorrow Last of Us drops on HBO Max, plus Assisen on VTM GO — Assisen is locked. Thursday is Undercover’s S4 premiere and 1985. I’d keep Friday free for Dune from your Watch List."},
-  {id:"can", q:"What can I watch now?", a:() => `Netflix, HBO Max and VRT MAX are yours. ${canWatch.map(e => e.title).filter((t,i,a)=>a.indexOf(t)===i).join(", ")}. Assisen, De Verraders, Glad IJs, Jan de Lichte and De Slag om de Schelde carry a lock.`},
-  {id:"weekend", q:"Plan my weekend", a:() => "Saturday: Squid Game on Netflix, and De Bende van Jan de Lichte on Play — that’s locked. Sunday: De Verraders and Glad IJs on VTM GO, also locked. If you stay in-plan: Squid Game Saturday, and leave Sunday for Dune from your Watch List."},
-  {id:"catchup", q:"What should I catch up on first?", a:() => "The Last of Us — you’re deep into S2 E3 and E4 lands tomorrow. Finish tonight so Tuesday is clean. Wednesday’s new episode is tonight at 21:00; you’re mid-season, so a catch-up before 21:00 is the other urgent one. Squid Game can wait until Saturday."},
-  {id:"plan", q:"Plan my week", a:() => "Tonight: Wednesday at 21:00, then Thuis. Tomorrow: Last of Us on HBO Max — that’s in your plan — and Assisen on VTM GO if you add it. Thursday: Undercover premiere and 1985. Friday’s empty from follows, so that’s Dune. Weekend: Squid Game Saturday; the Flemish three on VTM GO and Play are locked."},
-  {id:"next", q:"What’s next?", a:() => "Next on the clock: Wednesday at 21:00 on Netflix, and Thuis at 20:20 on VRT MAX. Tomorrow is Last of Us. The first thing you can actually press play on tonight is Wednesday — already in your plan."},
-  {id:"prio", q:"What should I prioritise?", a:() => "Thursday is busy: Undercover S4 premiere (yours) and 1985 on VRT MAX (also yours). I’d watch the premiere and keep 1985 for later in the evening. Before that: finish Last of Us tonight so tomorrow’s episode isn’t a pile-up."},
-  {id:"big", q:"Anything big coming up?", a:() => "Three flags. Thursday: Undercover’s S4 premiere, in your plan. Weekend: Squid Game on Netflix. Next week Gladiator II opens on Apple TV — that’s locked. The Flemish ones to watch for: Assisen, De Verraders, and De Bende van Jan de Lichte, all locked unless you add VTM GO or Play."},
-  {id:"love", q:"What am I most likely to love?", a:() => "Three. Wednesday tonight — you’re already in it, Netflix, 21:00. Last of Us tomorrow, because you’re mid-season and it’s in your plan. Undercover Thursday is the premiere you actually follow. Assisen and De Verraders are loud locally, but they’re locked; they can wait."},
-  {id:"friday", q:"Keep Friday for my Watch List?", a:() => "Nothing new from your follows on Friday. Dune: Part Two is on HBO Max, already in your plan, and you’ve barely started it. That’s the Friday. Barbie if you want it short and pink instead."}
+  {id:"week", q:"What’s coming this week from my follows?", keys:"week coming tonight thursday",
+    a:"Tonight: Wednesday at 21:00 on Netflix, and Thuis on VRT MAX — both in your plan. Tomorrow Last of Us drops on HBO Max, plus Assisen on VTM GO — Assisen is locked. Thursday is Undercover’s S4 premiere and 1985. Friday is empty from follows, so that’s Dune from your Watch List.",
+    follow:[
+      {id:"week-tonight", q:"If I can only watch one thing tonight, what is it?", a:"Wednesday at 21:00. You’re already in it, Netflix, in your plan. Thuis at 20:20 if you want 25 minutes first. Last of Us can wait until tomorrow’s episode."},
+      {id:"week-lock", q:"What on this week would need another app?", a:"Assisen tomorrow, De Verraders and Glad IJs at the weekend, Jan de Lichte on Saturday — VTM GO and Play. Wednesday, Last of Us, Undercover, 1985 and Thuis play on what you already have."},
+      {id:"week-friday", q:"Is Friday really empty?", a:"Nothing new from your follows. Dune is already in your Watch List and your plan, and you’ve barely started it. That’s the Friday, unless you want Barbie short and pink instead."}
+    ]},
+  {id:"can", q:"Watch this week without another app?", keys:"subscription plan lock play now",
+    a:"Netflix, HBO Max and VRT MAX are yours. Wednesday, Thuis, Last of Us, Undercover, 1985, Squid Game. Assisen, De Verraders, Glad IJs, Jan de Lichte and De Slag om de Schelde carry a lock.",
+    follow:[
+      {id:"can-tonight", q:"Of those, what’s on tonight?", a:"Wednesday at 21:00 and Thuis at 20:20. Both in-plan. Club Brugge vs Anderlecht is on Play Sports — that’s locked if you only wanted the follows you can already play."},
+      {id:"can-skip", q:"What should I skip so I don’t pile up locked stuff?", a:"Let Assisen, De Verraders and Jan de Lichte wait. They shout locally; they also need VTM GO or Play. Keep Thursday for Undercover’s premiere — that’s yours."}
+    ]},
+  {id:"weekend", q:"How should I spend this weekend?", keys:"weekend saturday sunday plan",
+    a:"Saturday: Squid Game on Netflix, and De Bende van Jan de Lichte on Play — that’s locked. Sunday: De Verraders and Glad IJs on VTM GO, also locked. If you stay in-plan: Squid Game Saturday, and leave Sunday for Dune from your Watch List.",
+    follow:[
+      {id:"weekend-inplan", q:"If I don’t want another app this weekend?", a:"Squid Game Saturday. Sunday is empty from in-plan follows — Dune from the Watch List, or Barbie if 2h 46 is a no."},
+      {id:"weekend-sport", q:"Where does the F1 sprint sit?", a:"Saturday 15:00 on Play Sports. That’s locked unless you have it. It doesn’t collide with Squid Game in the evening if you wanted both worlds."}
+    ]},
+  {id:"catchup", q:"Catch up before the next episode?", keys:"catch finish first last of us wednesday",
+    a:"The Last of Us — you’re deep into S2 E3 and E4 lands tomorrow. Finish tonight so Tuesday is clean. Wednesday’s new episode is tonight at 21:00; you’re mid-season, so a catch-up before 21:00 is the other urgent one. Squid Game can wait until Saturday.",
+    follow:[
+      {id:"catchup-tlou", q:"How far into Last of Us am I really?", a:"S2 E3, most of the way through. Tomorrow is E4 on HBO Max. One episode tonight and you’re not behind when it drops.", who:"The Last of Us"},
+      {id:"catchup-wed", q:"Do I need to catch Wednesday before 21:00?", a:"You’re on S2 E4, new one at 21:00. One episode if you can; you’ll follow it either way. Netflix, already in your plan.", who:"Wednesday"}
+    ]},
+  {id:"plan", q:"Plan my week around what I follow?", keys:"plan my week viewing",
+    a:"Tonight: Wednesday at 21:00, then Thuis. Tomorrow: Last of Us on HBO Max — in your plan — and Assisen on VTM GO if you add it. Thursday: Undercover premiere and 1985. Friday’s empty from follows, so that’s Dune. Weekend: Squid Game Saturday; the Flemish three on VTM GO and Play are locked.",
+    follow:[
+      {id:"plan-change", q:"What if Thursday is too much?", a:"Watch the Undercover premiere — that’s the one you follow. Keep 1985 for later in the evening or slide it to Sunday if Dune doesn’t win Friday."},
+      {id:"plan-love", q:"What on this plan am I most likely to love?", a:"Wednesday tonight — you’re already in it. Last of Us tomorrow, because you’re mid-season. Undercover Thursday is the premiere you actually follow. Assisen is loud locally, but it’s locked."}
+    ]},
+  {id:"next", q:"What’s next I can press play on?", keys:"what’s next tonight clock",
+    a:"Next on the clock: Thuis at 20:20 on VRT MAX, then Wednesday at 21:00 on Netflix. Tomorrow is Last of Us. The first thing you can actually press play on tonight is Wednesday — already in your plan — or Thuis if you want 25 minutes first.",
+    follow:[
+      {id:"next-sport", q:"What about the match tonight?", a:"Club Brugge vs Anderlecht, 20:45, Play Sports. Locked if you don’t have it. It overlaps Thuis; it sits just before Wednesday."}
+    ]},
+  {id:"prio", q:"What should I prioritise this week?", keys:"prioritise busy thursday",
+    a:"Thursday is busy: Undercover S4 premiere (yours) and 1985 on VRT MAX (also yours). I’d watch the premiere and keep 1985 for later in the evening. Before that: finish Last of Us tonight so tomorrow’s episode isn’t a pile-up.",
+    follow:[
+      {id:"prio-thu", q:"Is the Undercover premiere more important than 1985?", a:"For you, yes — you follow it, S4 starts, Netflix. 1985 will still be there. Don’t start both and finish neither."}
+    ]},
+  {id:"big", q:"Anything big I should protect a night?", keys:"big premiere gladiator squid",
+    a:"Three flags. Thursday: Undercover’s S4 premiere, in your plan. Weekend: Squid Game on Netflix. Next week Gladiator II opens on Apple TV — that’s locked. The Flemish ones to watch for: Assisen, De Verraders, and De Bende van Jan de Lichte, all locked unless you add VTM GO or Play.",
+    follow:[
+      {id:"big-glad", q:"Should I care about Gladiator II yet?", a:"Not this week. Watch window opens Wednesday 2 Sep on Apple TV, and that’s not in your plan. Protect Thursday for Undercover instead."}
+    ]},
+  {id:"love", q:"What am I most likely to love this week?", keys:"love likely",
+    a:"Three. Wednesday tonight — you’re already in it, Netflix, 21:00. Last of Us tomorrow, because you’re mid-season and it’s in your plan. Undercover Thursday is the premiere you actually follow. Assisen and De Verraders are loud locally, but they’re locked; they can wait.",
+    follow:[
+      {id:"love-not", q:"Not really — I wanted the Flemish ones.", a:"Then Assisen tomorrow and De Verraders Sunday, knowing they need VTM GO. 1985 is the Flemish one you can already play, Thursday, on VRT MAX."}
+    ]},
+  {id:"friday", q:"Keep Friday for my Watch List?", keys:"friday dune watch list",
+    a:"Nothing new from your follows on Friday. Dune: Part Two is on HBO Max, already in your plan, and you’ve barely started it. That’s the Friday. Barbie if you want it short and pink instead.",
+    follow:[
+      {id:"friday-dune", q:"Is Dune really the one for Friday?", a:"2h 46, you’ve only dipped in, HBO Max. Yes if you wanted a proper night. Barbie if Friday still has people in the room.", who:"Dune"},
+      {id:"friday-else", q:"What if I don’t want a long film?", a:"Barbie, 1h 54, same plan. Or steal Friday to finish something short from My Stuff — Ferry is 1h 46 on Netflix."}
+    ]}
 ];
 
 function labelHTML(item){
@@ -1410,7 +1292,7 @@ function renderCalendar(){
     <h2 class="page-title">Your week</h2>
     <button class="plan-week" type="button" data-ask-start="plan">
       <div class="ai-kicker">${star} Candy</div>
-      <b>Plan my viewing week</b>
+      <b>Plan my week</b>
     </button>
     <div class="cal-scroll">
       <div class="cal-row">
@@ -1489,10 +1371,10 @@ function renderRadar(mode = "default"){
   return `
     <h2 class="page-title">Coming up for you</h2>
     <div class="pills">
-      <button class="pill c3${mode==="can"?" on":""}" type="button" data-radar="can">${star}<span>Only my subscriptions</span></button>
-      <button class="pill ask${mode==="big"?" on":""}" type="button" data-radar="big">${star}<span>Biggest upcoming releases</span></button>
-      <button class="pill c4${mode==="love"?" on":""}" type="button" data-radar="love">${star}<span>What am I most likely to love?</span></button>
-      <button class="pill c2${mode==="friday"?" on":""}" type="button" data-radar="friday">${star}<span>Find me something for Friday</span></button>
+      <button class="pill c3${mode==="can"?" on":""}" type="button" data-radar="can">${star}<span>In my plan</span></button>
+      <button class="pill ask${mode==="big"?" on":""}" type="button" data-radar="big">${star}<span>Biggest upcoming</span></button>
+      <button class="pill c4${mode==="love"?" on":""}" type="button" data-radar="love">${star}<span>Most likely to love</span></button>
+      <button class="pill c2${mode==="friday"?" on":""}" type="button" data-radar="friday">${star}<span>Something for Friday</span></button>
     </div>
     ${why ? `<button class="ai-card" type="button" data-ask-start="${why.ask}" style="margin:0 16px 12px;width:calc(100% - 32px)">
       <div class="ai-kicker">${star} Candy</div>
@@ -1533,105 +1415,14 @@ function bindJourneyNav(phone, scene){
   }
 }
 
-const Q_PROMPTS = [
-  {id:"week", mesh:"ask"},
-  {id:"can", mesh:"c3"},
-  {id:"weekend", mesh:"c2"},
-  {id:"catchup", mesh:"c4"}
-];
-
-function bindQcard(phone){
-  const card = phone.querySelector("[data-qcard]");
-  const track = phone.querySelector("[data-qtrack]");
-  const rail = phone.querySelector("[data-qdots] .qdots-rail");
-  const pill = phone.querySelector("[data-qpill]");
-  if (!card || !track || !rail) return;
-  track.innerHTML = Q_PROMPTS.map(p => {
-    const item = askBank.find(x => x.id === p.id);
-    return `<button class="qcard-q" type="button" data-ask-start="${p.id}" data-mesh="${p.mesh}">${esc(item.q)}</button>`;
-  }).join("");
-  rail.insertAdjacentHTML("afterbegin", Q_PROMPTS.map(() => "<i></i>").join(""));
-  const dots = rail.querySelectorAll("i");
-  const syncDots = () => {
-    const w = Math.max(track.clientWidth, 1);
-    const p = Math.max(0, Math.min(dots.length - 1, track.scrollLeft / w));
-    const i0 = Math.floor(p);
-    const i1 = Math.min(i0 + 1, dots.length - 1);
-    const t = p - i0;
-    const i = Math.round(p);
-    const mesh = track.children[i]?.dataset.mesh;
-    if (mesh) {
-      card.classList.remove("m-ask", "m-c2", "m-c3", "m-c4");
-      card.classList.add(`m-${mesh}`);
-    }
-    if (!pill) return;
-    const base = 5;
-    const grow = 11;
-    dots.forEach((d, n) => {
-      const inf = n === i0 ? 1 - t : n === i1 ? t : 0;
-      d.style.width = `${base + grow * inf}px`;
-      d.style.background = inf > 0.5 ? "#fff" : "";
-    });
-    const wrap = rail.getBoundingClientRect();
-    const c0 = dots[i0].getBoundingClientRect();
-    const c1 = dots[i1].getBoundingClientRect();
-    const x0 = c0.left + c0.width / 2 - wrap.left;
-    const x1 = c1.left + c1.width / 2 - wrap.left;
-    const width = 16 + Math.abs(x1 - x0) * 3.2 * t * (1 - t);
-    const center = x0 + (x1 - x0) * t;
-    pill.style.width = `${width}px`;
-    pill.style.transform = `translateX(${center - width / 2}px)`;
-  };
-  track.addEventListener("scroll", syncDots, {passive:true});
-  requestAnimationFrame(syncDots);
-  let drag = null;
-  track.addEventListener("pointerdown", e => {
-    drag = {x: e.clientX, sl: track.scrollLeft, id: e.pointerId, moved: false};
-  });
-  track.addEventListener("pointermove", e => {
-    if (!drag || e.pointerId !== drag.id) return;
-    const dx = e.clientX - drag.x;
-    if (!drag.moved && Math.abs(dx) < 8) return;
-    if (!drag.moved) {
-      drag.moved = true;
-      try { track.setPointerCapture(e.pointerId); } catch (_) {}
-    }
-    track.scrollLeft = drag.sl - dx;
-  });
-  const endDrag = e => {
-    if (!drag || e.pointerId !== drag.id) return;
-    const moved = drag.moved;
-    drag = null;
-    if (moved) {
-      track._swiped = true;
-      const w = track.clientWidth || 1;
-      track.scrollTo({left: Math.round(track.scrollLeft / w) * w, behavior: reduceMotion ? "auto" : "smooth"});
-    }
-  };
-  track.addEventListener("pointerup", endDrag);
-  track.addEventListener("pointercancel", endDrag);
-  track.addEventListener("click", e => {
-    if (!track._swiped) return;
-    e.preventDefault();
-    e.stopPropagation();
-    track._swiped = false;
-  }, true);
-}
-
-function bindTabFrost(phone, scene){
-  const tabs = phone.querySelector(":scope > .tabs");
-  if (!tabs) return;
-  const sync = () => tabs.classList.toggle("is-stuck", scene.scrollTop > 8);
-  scene.addEventListener("scroll", sync, {passive:true});
-  sync();
-}
-
 function toast(phone, msg){
   const el = phone.querySelector("[data-toast]");
   el.textContent = msg;
+  el.classList.remove("on");
+  void el.offsetWidth;
   el.classList.add("on");
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove("on"), 1300);
+  el._t = setTimeout(() => el.classList.remove("on"), 1800);
 }
 
 function mountPhone(host){
@@ -1639,174 +1430,29 @@ function mountPhone(host){
   host.appendChild(document.getElementById("phoneTpl").content.cloneNode(true));
   const phone = host;
   const scene = phone.querySelector("[data-scene]");
-  const asheet = phone.querySelector("[data-asheet]");
+  const mount = phone.querySelector("[data-csheet-mount]");
   phone.querySelector(".askfab").innerHTML = star;
-  phone.querySelector(".asheet-star").innerHTML = star;
+  if (mount) mount.outerHTML = GummyConvo.markup("Ask about what’s coming…");
   scene.innerHTML = renderJourney();
-  bindQcard(phone);
 
-  const state = {streamT:null, voiceT:0, except:null};
-
-  function askHost(){ return asheet.querySelector("[data-qconvo-ask]"); }
-  function starters(){
-    return ["week","can","weekend","catchup"].map(id => askBank.find(x => x.id === id));
-  }
-  function renderStarters(except){
-    const row = askHost()?.querySelector(".ask-starters");
-    if (!row) return;
-    state.except = except ?? state.except;
-    row.innerHTML = starters().map(item =>
-      item.id === state.except ? "" : `<button class="qchip" type="button" data-ask-q="${item.id}">${star}${esc(item.q)}</button>`
-    ).join("");
-  }
-  function bindComposer(){
-    const host = askHost();
-    const row = host?.querySelector(".askinput");
-    const inp = host?.querySelector(".ask-freeq");
-    const send = host?.querySelector("[data-ask-send]");
-    if (!inp || !send) return;
-    const sync = () => {
-      const ready = inp.value.trim().length > 0;
-      send.classList.toggle("is-idle", !ready);
-      send.classList.toggle("is-ready", ready);
-      send.disabled = !ready;
-      row?.classList.toggle("is-typed", ready && !row.classList.contains("is-rec"));
-    };
-    inp.oninput = sync;
-    inp.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); askFree(); } };
-    sync();
-  }
-  function streamText(text, el, done){
-    clearInterval(state.streamT);
-    el.textContent = "";
-    const cur = document.createElement("span");
-    cur.className = "cursor";
-    cur.textContent = "▍";
-    el.appendChild(cur);
-    let i = 0;
-    const tickFn = () => {
-      i += reduceMotion ? text.length : Math.max(1, Math.round(text.length / 48));
-      el.textContent = text.slice(0, i);
-      if (i < text.length) el.appendChild(cur);
-      if (i >= text.length) {
-        clearInterval(state.streamT);
-        el.textContent = text;
-        done && done();
-      }
-    };
-    if (reduceMotion) { tickFn(); return; }
-    state.streamT = setInterval(tickFn, 18);
-  }
-  function seedQA(q, a){
-    const thread = askHost()?.querySelector(".ask-thread");
-    if (!thread) return;
-    const b = document.createElement("div");
-    b.className = "qbubble";
-    b.textContent = q;
-    const an = document.createElement("div");
-    an.className = "ansr";
-    thread.appendChild(b);
-    thread.appendChild(an);
-    thread.parentElement.scrollTop = thread.parentElement.scrollHeight;
-    streamText(a, an, () => { thread.parentElement.scrollTop = thread.parentElement.scrollHeight; });
-  }
-  function matchAsk(text){
-    const q = text.toLowerCase();
-    if (/love|likely/.test(q)) return askBank.find(x => x.id === "love");
-    if (/weekend/.test(q)) return askBank.find(x => x.id === "weekend");
-    if (/catch|finish|first/.test(q)) return askBank.find(x => x.id === "catchup");
-    if (/only|subscription|can watch|lock/.test(q)) return askBank.find(x => x.id === "can");
-    if (/priorit/.test(q)) return askBank.find(x => x.id === "prio");
-    if (/big|anything/.test(q)) return askBank.find(x => x.id === "big");
-    if (/friday|watch list|dune/.test(q)) return askBank.find(x => x.id === "friday");
-    if (/plan my week|viewing week/.test(q)) return askBank.find(x => x.id === "plan");
-    if (/what.?s next|tonight/.test(q)) return askBank.find(x => x.id === "next");
-    return askBank.find(x => x.id === "week");
-  }
-  function runAsk(item){
-    state.except = item.id;
-    const startersEl = askHost()?.querySelector(".ask-starters");
-    startersEl?.classList.add("hid");
-    seedQA(item.q, item.a());
-    setTimeout(() => {
-      startersEl?.classList.remove("hid");
-      renderStarters(state.except);
-    }, reduceMotion ? 0 : 700);
-  }
-  function askFree(){
-    const inp = askHost()?.querySelector(".ask-freeq");
-    const q = inp?.value.trim();
-    if (!q) return;
-    inp.value = "";
-    bindComposer();
-    const item = matchAsk(q);
-    state.except = item.id;
-    const startersEl = askHost()?.querySelector(".ask-starters");
-    startersEl?.classList.add("hid");
-    seedQA(q, item.a());
-    setTimeout(() => {
-      startersEl?.classList.remove("hid");
-      renderStarters(state.except);
-    }, reduceMotion ? 0 : 700);
-  }
-  function stopVoice(commit){
-    const host = askHost();
-    const row = host?.querySelector(".askinput");
-    const mic = host?.querySelector("[data-ask-mic]");
-    clearTimeout(state.voiceT);
-    state.voiceT = 0;
-    row?.classList.remove("is-rec");
-    mic?.classList.remove("is-rec");
-    if (mic) mic.setAttribute("aria-label", "Ask with voice");
-    if (commit) {
-      const inp = host?.querySelector(".ask-freeq");
-      if (inp) inp.value = "What’s coming this week?";
-      bindComposer();
-      askFree();
-    } else bindComposer();
-  }
-  function toggleVoice(){
-    const host = askHost();
-    const row = host?.querySelector(".askinput");
-    const mic = host?.querySelector("[data-ask-mic]");
-    if (!row || !mic) return;
-    if (row.classList.contains("is-rec")) { stopVoice(true); return; }
-    host.querySelector(".ask-freeq")?.blur();
-    row.classList.add("is-rec");
-    row.classList.remove("is-typed");
-    mic.classList.add("is-rec");
-    mic.setAttribute("aria-label", "Stop recording");
-    state.voiceT = setTimeout(() => stopVoice(true), 2200);
-  }
-  function openAsk(startId){
-    const thread = askHost()?.querySelector(".ask-thread");
-    if (thread) thread.innerHTML = "";
-    state.except = null;
-    bindComposer();
-    renderStarters();
-    askHost()?.querySelector(".ask-starters")?.classList.remove("hid");
-    phone.classList.add("is-ask", "is-ask-park");
-    phone.classList.remove("is-open");
-    void phone.offsetWidth;
-    requestAnimationFrame(() => {
-      phone.classList.remove("is-ask-park");
-      phone.classList.add("is-open");
-      if (startId) {
-        const item = askBank.find(x => x.id === startId);
-        if (item) runAsk(item);
-      }
-    });
-  }
-  function collapseAsk(immediate){
-    clearInterval(state.streamT);
-    stopVoice(false);
-    phone.classList.remove("is-open", "is-ask-park");
-    if (immediate || reduceMotion) {
-      phone.classList.remove("is-ask");
-      return;
-    }
-    setTimeout(() => phone.classList.remove("is-ask"), 550);
-  }
+  const convo = GummyConvo.create({
+    phone,
+    sheet: phone.querySelector("[data-csheet]"),
+    bank: askBank,
+    placeholder: "Ask about what’s coming…",
+    hello: "Ask about this week — or go somewhere else entirely.",
+    starters: () => ["week","catchup","friday","can"].map(id => askBank.find(x => x.id === id)).filter(Boolean),
+    reduceMotion
+  });
+  function openAsk(startId){ convo.open(startId); }
+  function collapseAsk(){ convo.close(); }
+  const titlePage = GummyTitle.create({
+    phone,
+    toast: msg => toast(phone, msg),
+    plan: PLAN,
+    reduceMotion,
+    onOpen(){ collapseAsk(); }
+  });
 
   const tl = scene.querySelector("[data-tl]");
   if (tl && !reduceMotion){
@@ -1818,15 +1464,15 @@ function mountPhone(host){
   }
 
   phone.addEventListener("click", e => {
-    const bm = e.target.closest("[data-go-bookmarks]");
-    if (bm){ goPrototype("gummy-my-stuff", "ah-gummy-my-stuff.html"); return; }
+    const back = e.target.closest("[data-back-follow]");
+    if (back){ goPrototype("gummy-my-stuff", "ah-gummy-my-stuff.html"); return; }
     const nav = e.target.closest("[data-nav]");
     if (nav){
       const label = (nav.dataset.nav || "").toLowerCase();
-      if (label === "home") goPrototype("gummy-ask-smear", "ah-gummy-ask-smear.html");
-      else if (label === "stuff" || label === "my stuff") scene.scrollTo({top:0, behavior:"smooth"});
+      if (label === "home") goPrototype("gummy-ask-carousel", "ah-gummy-ask-carousel.html");
+      else if (label === "stuff" || label === "my stuff") goPrototype("gummy-my-stuff", "ah-gummy-my-stuff.html");
       else if (label === "search") goPrototype("gummy-search", "ah-gummy-search.html");
-      else toast(phone, `${nav.getAttribute("aria-label") || "Shop"} · coming soon`);
+      else if (label === "shop") goPrototype("gummy-shop", "ah-gummy-shop.html");
       return;
     }
     const radarBtn = e.target.closest("[data-radar]");
@@ -1837,25 +1483,13 @@ function mountPhone(host){
       return;
     }
     if (e.target.closest("[data-open-ask]")) { openAsk(); return; }
-    if (e.target.closest("[data-collapse-ask]")) { collapseAsk(); return; }
-    if (e.target.closest("[data-ask-mic]")) { toggleVoice(); return; }
-    if (e.target.closest("[data-ask-send]")) { askFree(); return; }
     const start = e.target.closest("[data-ask-start]");
     if (start){ openAsk(start.dataset.askStart); return; }
-    const q = e.target.closest("[data-ask-q]");
-    if (q){
-      const item = askBank.find(x => x.id === q.dataset.askQ);
-      if (item) runAsk(item);
-      return;
-    }
     const open = e.target.closest("[data-open]");
     if (open){
       const item = events.find(t => t.id === open.dataset.open) || (open.dataset.open === "dune" ? duneWL : null);
-      if (item) toast(phone, inPlan(item.provider) ? `Open on ${item.provider}` : `Not in your plan · ${item.provider}`);
+      if (item) titlePage.open(item);
       return;
-    }
-    if (phone.classList.contains("is-ask") && !e.target.closest(".asheet, [data-open-ask], .qwrap, .tabbar")) {
-      collapseAsk();
     }
   });
 }

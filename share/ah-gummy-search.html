@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AH · Gummy · Search · 25 Aug 2026</title>
+<title>AH · Gummy · Search · 28 Aug 2026</title>
 <meta http-equiv="Cache-Control" content="no-store">
 <script>
 (function(){
@@ -49,6 +49,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
+<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
 <style>
   :root{
     --desk:#0e1218;
@@ -84,6 +87,30 @@
       linear-gradient(125deg, rgba(255,140,210,.2), rgba(150,120,255,.16)),
       linear-gradient(180deg, rgba(12,8,16,.28) 0%, rgba(12,8,16,.12) 100%);
     --mesh-hi: radial-gradient(90% 70% at 28% 10%, rgba(255,255,255,.24) 0%, transparent 50%);
+    --line-candy: linear-gradient(135deg, rgba(255,228,150,.85), rgba(255,110,70,.55) 48%, rgba(255,50,95,.7));
+    --star-candy: linear-gradient(180deg, #FFE9A3 0%, #FF8A3D 46%, #FF2E5A 100%);
+    --star-mint: linear-gradient(180deg, #D6FFA8 0%, #3ED4B4 46%, #1E9A88 100%);
+    --star-violet: linear-gradient(180deg, #FFC4F0 0%, #B878FF 46%, #7850FF 100%);
+    --mesh-dim:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,236,140,.18) 0%, transparent 34%),
+      radial-gradient(90% 80% at 70% 38%, rgba(255,90,70,.16) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.20) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,160,70,.08), rgba(255,70,100,.08) 55%, rgba(180,80,220,.06));
+    --mesh-dim-c4:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,200,240,.16) 0%, transparent 34%),
+      radial-gradient(90% 80% at 70% 40%, rgba(180,120,255,.18) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(120,90,255,.20) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,140,210,.08), rgba(150,120,255,.08));
+    --mesh-dim-c3:
+      radial-gradient(100% 90% at 6% 8%, rgba(220,255,180,.16) 0%, transparent 34%),
+      radial-gradient(90% 80% at 70% 40%, rgba(50,210,180,.16) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(40,180,160,.18) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(140,255,160,.08), rgba(50,210,180,.08));
+    --mesh-dim-c2:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,252,170,.18) 0%, transparent 34%),
+      radial-gradient(90% 80% at 70% 40%, rgba(255,160,50,.16) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,80,50,.18) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,220,90,.08), rgba(255,120,50,.08));
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{
@@ -136,23 +163,13 @@
     border-radius: 0;
   }
   html.is-app .scene{
+    --scene-top: calc(10px + var(--status-h));
     bottom: calc(64px + var(--safe-bottom));
-    padding-top: calc(10px + var(--status-h));
+    padding-top: var(--scene-top);
   }
-  html.is-app .scene.is-ask{
-    padding-top: 0;
-  }
-  html.is-app .scene.is-ask .search{
-    position:fixed;
-    left:0;
-    right:0;
-    top: var(--status-h);
-    z-index:50;
-    padding: 8px 20px 12px;
-    background:none;
-  }
-  html.is-app .scene.is-ask .convo{
-    padding-top: calc(68px + var(--status-h));
+  html.is-app .scene.is-ask .search.askdock,
+  html.is-app .scene.is-pack .search.askdock{
+    position:relative;top:auto;left:auto;right:auto;
   }
 
   .phone{
@@ -250,60 +267,238 @@
   .navitem.on svg{fill:currentColor;stroke-width:1.2}
 
   .scene{
+    --scene-top: 54px;
     position:absolute;left:0;right:0;top:0;bottom:64px;z-index:18;
-    overflow-y:auto;scrollbar-width:none;overscroll-behavior-y:contain;
-    padding:64px 0 28px;
+    display:flex;flex-direction:column;
+    overflow:hidden;
+    padding: var(--scene-top) 0 0;
   }
-  .scene::-webkit-scrollbar{display:none}
+  .lobby,.convo,.pack-feed{
+    flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;overscroll-behavior-y:contain;
+  }
+  .lobby::-webkit-scrollbar,.convo::-webkit-scrollbar,.pack-feed::-webkit-scrollbar{display:none}
+  .scene.is-ask .lobby,.scene.is-pack .lobby{display:none}
+  .scene.is-pack .convo,.scene.is-pack .askdock{display:none}
 
-  .headline{
-    padding:6px 20px 14px;
-    font-size:26px;font-weight:800;letter-spacing:-.04em;line-height:1.15;color:#fff;
-    text-shadow:0 2px 16px rgba(0,0,0,.45);
-    max-height:80px;
-    transition:opacity .35s ease, max-height .4s ease, padding .4s ease;
+  .hello{padding:14px 24px 6px;text-align:center}
+  .hello h2{
+    font-size:26px;font-weight:700;letter-spacing:-.04em;line-height:34px;color:#fff;
   }
-  .scene.is-ask .headline{
-    max-height:0;opacity:0;padding-top:0;padding-bottom:0;overflow:hidden;pointer-events:none;
+  .hello p{margin-top:11px;font-size:14.5px;line-height:20px;font-weight:500;color:#99a1ad}
+
+  .moods{
+    overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+    padding:12px 0 0;
+  }
+  .moods::-webkit-scrollbar{display:none}
+  .mood-track{
+    display:flex;flex-direction:column;gap:8px;width:max-content;
+    padding:12px 40px 36px 32px;
+  }
+  .mood-row{display:flex;gap:6px;align-items:center}
+  .mood{
+    position:relative;overflow:hidden;
+    flex:0 0 auto;padding:11px 16px;border-radius:16px;
+    background:
+      radial-gradient(110% 90% at 50% 118%, rgba(255,120,70,.95) 0%, rgba(255,70,95,.42) 42%, transparent 70%),
+      linear-gradient(180deg, rgba(255,170,130,.34) 0%, rgba(255,80,90,.20) 100%);
+    border:1px solid rgba(255,200,160,.48);
+    box-shadow:0 10px 22px rgba(255,70,80,.32);
+    font-size:13.5px;font-weight:500;color:#fff;line-height:18px;white-space:nowrap;
+  }
+  .mood::before{
+    content:"";position:absolute;left:12%;right:12%;bottom:0;height:2px;z-index:1;
+    pointer-events:none;
+    background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,200,130,.85) 36%, rgba(255,110,70,1) 50%, rgba(255,50,95,.5) 68%, transparent 100%);
+  }
+  .mood.mint{
+    background:
+      radial-gradient(110% 90% at 50% 118%, rgba(50,230,190,.92) 0%, rgba(40,180,150,.38) 42%, transparent 70%),
+      linear-gradient(180deg, rgba(160,255,220,.32) 0%, rgba(40,180,150,.18) 100%);
+    border-color:rgba(160,255,220,.5);
+    box-shadow:0 10px 22px rgba(40,200,170,.3);
+  }
+  .mood.mint::before{
+    background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(160,255,200,.8) 36%, rgba(50,220,180,1) 50%, rgba(40,170,150,.45) 68%, transparent 100%);
+  }
+  .mood.violet{
+    background:
+      radial-gradient(110% 90% at 50% 118%, rgba(180,120,255,.95) 0%, rgba(130,90,255,.4) 42%, transparent 70%),
+      linear-gradient(180deg, rgba(230,180,255,.32) 0%, rgba(140,100,255,.2) 100%);
+    border-color:rgba(210,180,255,.52);
+    box-shadow:0 10px 22px rgba(150,100,255,.32);
+  }
+  .mood.violet::before{
+    background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(210,170,255,.82) 36%, rgba(170,120,255,1) 50%, rgba(120,80,255,.45) 68%, transparent 100%);
+  }
+  .mood.gold{
+    background:
+      radial-gradient(110% 90% at 50% 118%, rgba(255,200,60,.95) 0%, rgba(255,150,40,.4) 42%, transparent 70%),
+      linear-gradient(180deg, rgba(255,230,140,.36) 0%, rgba(255,170,50,.2) 100%);
+    border-color:rgba(255,220,140,.55);
+    box-shadow:0 10px 22px rgba(255,180,40,.32);
+  }
+  .mood.gold::before{
+    background:linear-gradient(90deg, rgba(255,250,180,0) 0%, rgba(255,230,140,.85) 36%, rgba(255,190,50,1) 50%, rgba(255,140,40,.5) 68%, transparent 100%);
+  }
+  .mood.blue{
+    background:
+      radial-gradient(110% 90% at 50% 118%, rgba(60,160,255,.95) 0%, rgba(50,110,255,.4) 42%, transparent 70%),
+      linear-gradient(180deg, rgba(140,200,255,.34) 0%, rgba(60,120,255,.2) 100%);
+    border-color:rgba(150,210,255,.52);
+    box-shadow:0 10px 22px rgba(50,140,255,.32);
+  }
+  .mood.blue::before{
+    background:linear-gradient(90deg, rgba(180,230,255,0) 0%, rgba(140,200,255,.85) 36%, rgba(60,160,255,1) 50%, rgba(50,100,255,.5) 68%, transparent 100%);
+  }
+  .mood.rose{
+    background:
+      radial-gradient(110% 90% at 50% 118%, rgba(255,90,160,.95) 0%, rgba(255,60,120,.4) 42%, transparent 70%),
+      linear-gradient(180deg, rgba(255,170,210,.34) 0%, rgba(255,80,140,.2) 100%);
+    border-color:rgba(255,170,210,.52);
+    box-shadow:0 10px 22px rgba(255,70,140,.32);
+  }
+  .mood.rose::before{
+    background:linear-gradient(90deg, rgba(255,210,230,0) 0%, rgba(255,170,210,.85) 36%, rgba(255,90,160,1) 50%, rgba(255,50,120,.5) 68%, transparent 100%);
   }
 
-  .search{
-    display:flex;align-items:center;gap:8px;
-    padding:0 20px 14px;
-    transition:padding .35s ease;
+  .genre-block{padding:10px 0 4px}
+  .genre-kicker{
+    padding:0 24px 8px;
+    font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.38);
   }
-  .scene.is-ask .search{
-    position:sticky;top:0;z-index:24;
-    padding:4px 20px 12px;
-    background:none;
+  .genres{
+    overflow-x:auto;scrollbar-width:none;padding:0 0 4px;
+    -webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+    mask-image:linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
   }
-  .back-ask{
-    display:none;width:40px;height:48px;flex-shrink:0;place-items:center;
-    color:rgba(255,255,255,.8);
+  .genres::-webkit-scrollbar{display:none}
+  .genre-track{
+    display:flex;flex-direction:row;flex-wrap:nowrap;gap:6px;align-items:center;
+    width:max-content;padding:0 24px 2px;
   }
-  .scene.is-ask .back-ask{display:grid}
-  .back-ask svg{
-    width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  .genre{
+    flex:0 0 auto;padding:6px 12px;border-radius:999px;
+    background:rgba(255,255,255,.10);color:#fff;
+    font-size:12px;font-weight:600;line-height:16px;letter-spacing:-.01em;
+    white-space:nowrap;border:0;box-shadow:none;
   }
+
+  .hints.follow{
+    display:flex;flex-direction:row;flex-wrap:wrap;align-items:flex-start;
+    padding:0 20px 18px;gap:8px;
+  }
+
+  .collect{padding:30px 0 20px}
+  .collect h3{
+    padding:0 24px 11px;max-width:280px;
+    font-size:18px;font-weight:600;letter-spacing:-.025em;line-height:1.2;color:#fff;
+  }
+  .packs{
+    display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+    padding:0 0 8px 24px;scroll-snap-type:x proximity;
+    scroll-padding-inline:24px;
+  }
+  .packs::-webkit-scrollbar{display:none}
+  .pack-card{
+    position:relative;overflow:hidden;flex:0 0 211px;width:211px;
+    padding:16px 16px 14px;border-radius:20px;text-align:left;color:#fff;
+    background-color:rgba(12,8,10,.82);background-image:var(--mesh-dim);
+    scroll-snap-align:start;cursor:pointer;border:0;
+  }
+  .pack-card:last-child{margin-right:24px}
+  .pack-card.violet{background-color:rgba(12,8,22,.82);background-image:var(--mesh-dim-c4)}
+  .pack-card.mint{background-color:rgba(8,16,14,.82);background-image:var(--mesh-dim-c3)}
+  .pack-card.gold{background-color:rgba(16,12,6,.82);background-image:var(--mesh-dim-c2)}
+  .pack-card::before{content:"";position:absolute;inset:0;pointer-events:none;background:rgba(0,0,0,.16)}
+  .pack-top{position:relative;z-index:1;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .pack-kicker{display:flex;align-items:center;gap:6px;min-width:0;flex:1}
+  .pack-kicker span{
+    font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(230,230,230,.72);
+  }
+  .reel{
+    display:flex;align-items:center;flex-shrink:0;height:27px;
+  }
+  .reel i{width:5px;height:21px;background:rgba(255,255,255,.1);border-radius:0 1.3px 1.3px 0}
+  .reel b{
+    width:21px;height:27px;border-radius:1.3px;display:grid;place-items:center;
+    background:rgba(255,255,255,.2);
+  }
+  .reel b svg{width:10px;height:10px;fill:#fff}
+  .pack-card h4{
+    position:relative;z-index:1;
+    font-size:17px;font-weight:500;letter-spacing:-.02em;line-height:22px;
+    margin-bottom:8px;
+  }
+  .pack-lane{
+    position:relative;z-index:1;
+    display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+    margin:0 -16px;padding:0 16px;
+  }
+  .pack-lane::-webkit-scrollbar{display:none}
+  .pack-lane button{
+    padding:0;border:0;background:none;line-height:0;flex-shrink:0;border-radius:8px;
+  }
+  .pack-lane img{
+    width:54px;height:80px;object-fit:cover;border-radius:8px;display:block;
+    box-shadow:0 6px 14px rgba(0,0,0,.35);
+  }
+
+  .search.askdock{
+    display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:8px;
+    flex-shrink:0;padding:8px 16px 10px;width:100%;
+  }
+  .scene.is-ask .search.askdock{position:relative;top:auto;z-index:24;background:none}
+
+  .ask-head{
+    display:none;flex-shrink:0;position:relative;z-index:28;
+    padding:2px 14px 8px;pointer-events:none;
+  }
+  .scene.is-ask .ask-head{display:block}
+  .scene.is-pack .ask-head{display:none}
+  .ask-head .back{
+    position:relative;z-index:1;
+    pointer-events:auto;width:36px;height:36px;border-radius:16px;
+    display:grid;place-items:center;color:#fff;
+    background:rgba(255,255,255,.16);
+  }
+  .ask-head .back svg{
+    width:18px;height:18px;stroke:currentColor;fill:none;
+    stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .ask-head-fade{
+    position:absolute;left:0;right:0;
+    top: calc(-1 * var(--scene-top));
+    height: calc(var(--scene-top) + 100% + 36px);
+    pointer-events:none;
+    background:linear-gradient(
+      180deg,
+      rgba(5,5,7,.9) 0%,
+      rgba(5,5,7,.78) calc(var(--scene-top) + 4px),
+      rgba(5,5,7,.4) calc(var(--scene-top) + 32px),
+      transparent 100%
+    );
+  }
+
   .field{
-    position:relative;flex:1;min-width:0;height:48px;border-radius:16px;
-    display:flex;align-items:center;gap:8px;padding:0 8px 0 14px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.08);
-  }
-  .field svg.mag{
-    width:18px;height:18px;flex-shrink:0;stroke:rgba(255,255,255,.55);fill:none;
-    stroke-width:1.8;stroke-linecap:round;
+    position:relative;flex:1 1 0;width:0;min-width:0;height:50px;border-radius:18px;
+    display:flex;align-items:center;gap:10px;padding:0 16px;
+    background:
+      linear-gradient(#0d080a,#0d080a) padding-box,
+      var(--line-candy) border-box;
+    border:1.5px solid transparent;
   }
   .field input{
-    flex:1;min-width:0;height:100%;background:none;border:0;outline:none;
+    flex:1;min-width:0;width:100%;height:100%;background:none;border:0;outline:none;
     font-size:14px;font-weight:500;color:#fff;font-family:"Inter",system-ui,sans-serif;
   }
-  .field input::placeholder{color:rgba(255,255,255,.42)}
+  .field input::placeholder{color:#8c8c94}
   .field.is-rec input{color:transparent;caret-color:transparent}
   .field.is-rec input::placeholder{color:transparent}
   .listen{
-    display:none;position:absolute;left:40px;right:56px;top:0;bottom:0;
+    display:none;position:absolute;left:16px;right:16px;top:0;bottom:0;
     align-items:center;gap:8px;pointer-events:none;
   }
   .field.is-rec .listen{display:flex}
@@ -318,33 +513,25 @@
   .wave i:nth-child(5){height:7px;animation-delay:.2s}
   @keyframes askWave{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
   .listen span{font-size:13px;font-weight:500;color:rgba(255,255,255,.72)}
-  .field .send{
-    width:34px;height:34px;flex-shrink:0;border-radius:12px;display:none;place-items:center;
-    background:rgba(255,255,255,.1);color:rgba(255,255,255,.35);
-  }
-  .field.is-typed .send{display:grid}
-  .field .send.is-ready{background:#fff;color:#111}
-  .field .send svg{
-    width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-  }
-  .field.is-rec .send{display:none}
-  .search.is-typed .mic-out{display:none}
 
-  .mic-out{
-    position:relative;width:48px;height:48px;flex-shrink:0;border-radius:16px;
-    display:grid;place-items:center;
-    background:rgba(255,255,255,.78);
-    border:1px solid rgba(255,255,255,.4);
-    backdrop-filter:blur(18px) saturate(1.35);
-    -webkit-backdrop-filter:blur(18px) saturate(1.35);
-    box-shadow:0 8px 18px rgba(0,0,0,.22);
+  .search.askdock button{
+    width:46px;height:46px;flex:0 0 46px;min-width:46px;border-radius:16px;
+    display:grid;place-items:center;padding:0;
+    background:#fff;color:#111;
   }
-  .mic-out svg{
-    position:relative;z-index:1;width:20px;height:20px;stroke:#111;fill:none;
-    stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  .search.askdock button svg{
+    width:20px;height:20px;stroke:currentColor;fill:none;
+    stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block;
   }
-  .mic-out.is-rec{background:rgba(255,255,255,.9)}
-  .mic-out.is-rec svg{stroke:#c43c3c}
+  .search.askdock .ask-mic svg{stroke:#111}
+  .search.askdock button.ask-mic.is-rec{color:#c43b2a}
+  .search.askdock button.ask-mic.is-rec svg{stroke:#c43b2a}
+  .search.askdock button.ask-send.is-idle{background:rgba(255,255,255,.08);color:rgba(255,255,255,.35)}
+  .search.askdock button.ask-send.is-ready{background:#fff;color:#111}
+  .search.is-typed .ask-mic,
+  .search:not(.is-typed) [data-ask-send]{display:none}
+  .search.is-rec .ask-mic{display:grid}
+  .search.is-rec [data-ask-send]{display:none}
 
   .pills{
     display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
@@ -372,13 +559,19 @@
   .pill.m-c4{background-image:var(--mesh-c4)}
   .pill .star{width:9px;height:10px;filter:brightness(0) invert(1)}
 
-  .browse{transition:opacity .28s ease}
-  .scene.is-ask .browse{display:none}
+  .browse{display:none}
 
-  .convo{display:none;padding:2px 0 8px}
-  .scene.is-ask .convo{display:block}
-  .thread{display:flex;flex-direction:column;gap:6px}
-  .turn{padding:0 0 8px}
+  .convo{display:none;padding:8px 0 12px}
+  .scene.is-ask .convo{display:flex;flex-direction:column;padding-top:6px}
+  .thread{display:flex;flex-direction:column;gap:4px}
+  .turn{display:flex;flex-direction:column;padding:0 0 8px}
+  .you{
+    align-self:flex-end;max-width:82%;
+    margin:4px 20px 10px;
+    padding:10px 14px;border-radius:16px 16px 5px 16px;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.06);
+    font-size:14px;font-weight:550;line-height:1.35;color:#fff;
+  }
   .ansr{
     padding:2px 20px 12px;
     font-size:15px;line-height:1.5;font-weight:500;color:rgba(255,255,255,.9);
@@ -448,16 +641,58 @@
 
   .star{width:14px;height:16px;display:block;filter:brightness(0) invert(1)}
 
-  .toast{
-    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
-    color:#2a1208;font-size:11px;font-weight:800;
-    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
-    white-space:nowrap;
-    background:
-      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
-      linear-gradient(135deg, #ffe56a, #ff9a50);
+  .pack{
+    display:none;position:absolute;inset:0;z-index:22;
+    background:#050507;height:100%;
   }
-  .toast.on{opacity:1}
+  .scene.is-pack .pack{display:block}
+  .pack iframe{
+    position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;
+  }
+
+  .toast{
+    position:absolute;left:50%;top:96px;z-index:90;
+    padding:10px 18px;border-radius:999px;
+    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
+    line-height:1.2;white-space:nowrap;text-align:center;
+    text-shadow:0 1px 10px rgba(0,0,0,.5);
+    pointer-events:none;overflow:visible;
+    opacity:0;
+    transform:translateX(-50%) translateY(-8px) scale(.96);
+    background:
+      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
+      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
+      rgba(10,8,12,.62);
+    backdrop-filter:blur(22px) saturate(1.35);
+    -webkit-backdrop-filter:blur(22px) saturate(1.35);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.18),
+      0 0 0 1px rgba(255,255,255,.08),
+      0 10px 28px rgba(0,0,0,.45),
+      0 0 20px rgba(255,110,70,.48),
+      0 0 40px rgba(40,200,170,.34);
+    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
+  }
+  .toast::after{
+    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
+    border-radius:2px;pointer-events:none;
+    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
+    box-shadow:0 0 14px rgba(70,210,170,.55);
+    opacity:0;
+    transition:opacity .32s ease;
+  }
+  .toast.on{
+    opacity:1;
+    transform:translateX(-50%) translateY(0) scale(1);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.2),
+      0 0 0 1px rgba(255,255,255,.1),
+      0 12px 30px rgba(0,0,0,.48),
+      0 0 26px rgba(255,110,70,.55),
+      0 0 52px rgba(40,200,170,.4);
+  }
+  .toast.on::after{opacity:1}
 
   @media (prefers-reduced-motion:reduce){
     .headline,.search,.ask-more{transition:none}
@@ -498,13 +733,12 @@
   <div class="brand">AH · Gummy · Search</div>
   <h1>Search · candy smear</h1>
   <p class="lead">
-    Isolated V1. Ask or search, then browse. A gummy pill starts a conversation — the question stays in Search, an answer types in, and a rail of titles you can tap. More pills underneath if you want to go further.
+    Isolated V1. Search opens on a brief — three hints start a conversation, collection cards open a video feed. Tap a poster in a card to peek a title; tap the card to jump into the feed. Back always returns here.
   </p>
   <div class="brief">
-    <strong>25 Aug 2026.</strong> Same visual system as Bookmarks. Service icon = in plan. Icon + lock = not in your plan.
-    Pills and rails share the 20px inset. Search is the Ask layer — no floating Ask.
+    <strong>28 Aug 2026.</strong> Hints start a conversation: answer, titles, then follow-ups that stay with the brief. Collection cards are AI bundles — not chat. Service icon = in plan. Icon + lock = not in your plan.
   </div>
-  <p class="note">source: <a href="Prototype%20%E2%80%94%20Interactive.html">Interactive prototype</a></p>
+  <p class="note"><a href="playground.html">Playground</a> · source: <a href="Prototype%20%E2%80%94%20Interactive.html">Interactive prototype</a></p>
 </div>
 
 <div class="stage">
@@ -524,14 +758,14 @@
   </div>
 </div>
 
+<script src="ah-gummy-convo.js?v=aug28h"></script>
+<script src="ah-gummy-title.js?v=aug29a"></script>
+<script src="ah-gummy-bundle.js?v=aug28n"></script>
 <script>
 const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
 const star = '<img class="star" src="star.svg" alt="" aria-hidden="true">';
 const lockMark = '<span class="badge" aria-label="Not in your subscriptions"><svg viewBox="0 0 24 24"><rect class="body" x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>';
 const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX"]);
-const micSvg = '<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6.5 11a5.5 5.5 0 0 0 11 0"/><path d="M12 16.5V21"/></svg>';
-const sendSvg = '<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
-const magSvg = '<svg class="mag" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>';
 const chevSvg = '<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>';
 
 const titles = {
@@ -543,16 +777,16 @@ const titles = {
   gladijs:{title:"Glad IJs", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg")},
   jan:{title:"Jan de Lichte", provider:"Play", logo:"play-logo.png", poster:POSTER("/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg")},
   schelde:{title:"De Slag om de Schelde", provider:"Play", logo:"play-logo.png", poster:POSTER("/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg")},
-  under:{title:"Undercover", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg")},
-  squid:{title:"Squid Game", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg")},
-  tlou:{title:"The Last of Us", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg")},
-  ferry:{title:"Ferry", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg")},
-  wed:{title:"Wednesday", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg")},
-  dune:{title:"Dune: Part Two", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg")},
-  bear:{title:"The Bear", provider:"Disney+", logo:"disney-plus-logo.png", poster:POSTER("/6FVNnVk0SZFdzb9dkvOr13XyyM4.jpg"), crop:true},
-  opp:{title:"Oppenheimer", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg")},
-  barb:{title:"Barbie", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg")},
-  zill:{title:"Zillion", provider:"Streamz", logo:"streamz-logo.jpg", poster:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg")},
+  under:{title:"Undercover", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), youtube:"Vt4qQiM2Ahk", syn:"Camping. XTC. Double lives.", kind:"Series"},
+  squid:{title:"Squid Game", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg"), syn:"Game. Debt. Survival.", kind:"Series"},
+  tlou:{title:"The Last of Us", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), syn:"Fungus. Road. Care.", kind:"Series"},
+  ferry:{title:"Ferry", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg"), youtube:"MG6U7gduIwA", syn:"Origin. Underworld. Glow-up.", kind:"Film"},
+  wed:{title:"Wednesday", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), youtube:"rFo6M8KeghE", syn:"Goth. Murder. Dance.", kind:"Series"},
+  dune:{title:"Dune: Part Two", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"), youtube:"U2Qp5pL3ovA", syn:"Sand. Prophecy. War.", kind:"Film"},
+  bear:{title:"The Bear", provider:"Disney+", logo:"disney-plus-logo.png", poster:POSTER("/6FVNnVk0SZFdzb9dkvOr13XyyM4.jpg"), crop:true, syn:"Kitchen. Panic. Family.", kind:"Series"},
+  opp:{title:"Oppenheimer", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), youtube:"uYPbbksJxIg", syn:"Bomb. Guilt. Fallout.", kind:"Film"},
+  barb:{title:"Barbie", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), youtube:"pBk4NYhWNMM", syn:"Pink. Funny. Gut punch.", kind:"Film"},
+  zill:{title:"Zillion", provider:"Streamz", logo:"streamz-logo.jpg", poster:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"), youtube:"LT6ASOBIdjQ", syn:"Rise. Glow. Crash.", kind:"Film"},
   penguin:{title:"The Penguin", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg")},
   chefbbq:{title:"Chef's Table: BBQ", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/dCOAKGHVKPgpLZNrkiqgcRxkSmZ.jpg")},
   abbott:{title:"Abbott Elementary", provider:"Disney+", logo:"disney-plus-logo.png", poster:POSTER("/nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg")},
@@ -561,72 +795,576 @@ const titles = {
 };
 
 const asks = {
+  unwind:{
+    q:"Something I can unwind with?",
+    a:"Nothing that asks you to sit up. Crime you can leave on in the background, then a couple of easy landings if the room goes quiet. Most of this is already in a plan you pay for.",
+    lanes:[
+      {title:"Soft crime you can leave on", sub:"from how you watch", ids:["under","ferry","squid","tlou"]},
+      {title:"Then something easier", sub:"if the night softens", ids:["barb","wed","thuis","abbott"]}
+    ],
+    more:["belgian","short","light"],
+    follow:[
+      {id:"unwind-bg", q:"Can the crime stay in the background?", a:"Undercover can. Last of Us can’t — that one wants you quiet. Ferry if you wanted Belgian and done."},
+      {id:"unwind-light", q:"Even lighter than that?", a:"Barbie and Wednesday if you want colour. Abbott if you want 22 minutes. That’s the night softening."},
+      {id:"unwind-no", q:"Not really what I meant", a:"Then say what landed — the crime, the length, or that it needed to be Flemish. I’ll switch."}
+    ]
+  },
   tonight:{
-    q:"15 great movies for tonight",
+    q:"A film I can start tonight?",
     a:"These are films you can actually start tonight — I kept the long ones for when you have the sofa to yourself, and mixed in what you already subscribe to. Ferry if you want Belgian and done; Barbie if the room wants colour; Dune if you’re saving it for a proper night.",
-    ids:["ferry","barb","dune","opp","zill","schelde"],
-    more:["short","plan","light","belgian"]
+    lanes:[
+      {title:"Films you can start tonight", sub:"in and around the plan", ids:["ferry","barb","dune","opp","zill","schelde"]}
+    ],
+    more:["short","plan","light","belgian"],
+    follow:[
+      {id:"tonight-darker", q:"Something darker than Barbie", a:"Ferry if you want Belgian and done. Dune if the sofa is yours. Squid Game if you meant series, not a film."},
+      {id:"tonight-why", q:"Why Ferry first?", a:"1h 46, Netflix, already in your plan, and it ends. Dune is the proper night you’ve barely started. Barbie if the room wants colour."},
+      {id:"tonight-no", q:"Not really what I meant", a:"Film or series? In-plan only, or Flemish? Tell me the constraint and I’ll drop the rest."}
+    ]
   },
   bear:{
-    q:"Something like The Bear",
+    q:"More kitchen heat like The Bear?",
     a:"Kitchen heat, without copying The Bear beat for beat. Chef’s Table: BBQ is the same fire, calmer. De Twaalf if you want the intensity in Flemish. Abbott Elementary if you want the workplace without the panic.",
-    ids:["chefbbq","twaalf","abbott","under"],
-    more:["short","tonight","plan"]
+    lanes:[{title:"If you liked The Bear", sub:"same heat, different rooms", ids:["chefbbq","twaalf","abbott","under"]}],
+    more:["short","tonight","plan"],
+    follow:[
+      {id:"bear-heat", q:"Which one actually has that kitchen panic?", a:"Chef’s Table: BBQ is the fire without the shouting. De Twaalf if you wanted the intensity in Flemish — Streamz, so it carries a lock. Abbott if you meant workplace, not kitchen."},
+      {id:"bear-play", q:"What can I press play on without Disney+?", a:"Undercover is in-plan and has that heat. Chef’s Table: BBQ is Netflix. The Bear waits unless you add the app."}
+    ]
   },
   short:{
-    q:"Under 45 minutes",
+    q:"Only time for a little something?",
     a:"Kept it short on purpose — episodes you can finish before the next thing. The Bear is ~30 minutes and already on your list. Abbott is lighter still. Thuis if you want Flanders in a sit-down.",
-    ids:["bear","abbott","chefbbq","thuis"],
-    more:["tonight","plan","light"]
+    lanes:[{title:"Done in under 45", sub:"episodes, not homework", ids:["bear","abbott","chefbbq","thuis"]}],
+    more:["tonight","plan","light"],
+    follow:[
+      {id:"short-bear", q:"Is The Bear actually short enough?", a:"~30 minutes. Disney+, so it carries a lock. Thuis is 25 minutes and already in your plan. Abbott is 22 if you add Disney+ for the lighter one."},
+      {id:"short-plan", q:"What if I don’t want another app?", a:"Thuis. That’s the short sit on VRT MAX. An Undercover episode is ~50 if you can stretch. The Bear waits."}
+    ]
   },
   flanders:{
-    q:"What’s on in Flanders?",
+    q:"What’s close to home this week?",
     a:"What’s playing here this week — soaps, cases, and a Friday crime. Thuis and 1985 you can start on VRT MAX now. Assisen and De Verraders sit behind VTM GO, so they carry a lock.",
-    ids:["thuis","y1985","assisen","verraders","chantal"],
-    more:["belgian","tonight","plan"]
+    lanes:[
+      {title:"On VRT MAX now", sub:"in your plan", ids:["thuis","y1985","chantal"]},
+      {title:"Flanders on other apps", sub:"lock if you don’t have them", ids:["assisen","verraders","jan","gladijs"]}
+    ],
+    more:["plan","unwind","tonight"],
+    follow:[
+      {id:"fl-play", q:"What can I start on VRT MAX right now?", a:"Thuis and 1985. Chantal too. Assisen and De Verraders wait unless you add VTM GO."},
+      {id:"fl-lock", q:"What’s the local one everyone talks about?", a:"Assisen — courtroom, Flemish, locked on VTM GO. 1985 is the in-plan one that occupies the room the same way."}
+    ]
   },
   belgian:{
-    q:"A Belgian crime tonight",
+    q:"Belgian crooks I can play?",
     a:"Crooks and courtrooms, local. Undercover and Ferry are in your Netflix plan. Jan de Lichte and Assisen need another app — lock on the icon if you want to stay inside what you already pay for.",
-    ids:["under","ferry","zill","jan","assisen"],
-    more:["plan","short","tonight"]
+    lanes:[
+      {title:"Belgian crime in plan", sub:"Netflix now", ids:["under","ferry"]},
+      {title:"Local, other apps", sub:"locked if you don’t have them", ids:["zill","jan","assisen"]}
+    ],
+    more:["plan","short","tonight"],
+    follow:[
+      {id:"belgian-ferry", q:"Should I watch Ferry before Undercover?", a:"After is cleaner if you’re already in Undercover. Ferry is the origin glow-up — 1h 46, Netflix, done."},
+      {id:"belgian-lock", q:"What if I don’t want another app?", a:"Undercover and Ferry. That’s the Netflix pair. Jan de Lichte and Assisen wait on Play and VTM GO."},
+      {id:"belgian-darker", q:"Something darker", a:"Stay on Undercover, or Last of Us if fungus-and-care is darker than crooks. Assisen if you add VTM GO."}
+    ]
   },
   finish:{
-    q:"What can I finish tonight?",
+    q:"Pick up where I left off?",
     a:"Picked up from where you left them. The Last of Us is furthest in, then Squid Game. The Bear if you want it done in half an hour. All of these except The Bear are already in your plan.",
-    ids:["tlou","squid","wed","bear"],
-    more:["short","plan","tonight"]
+    lanes:[{title:"Pick up where you left off", sub:"tonight-sized", ids:["tlou","squid","wed","bear"]}],
+    more:["short","plan","tonight"],
+    follow:[
+      {id:"finish-tlou", q:"Should I finish The Last of Us first?", a:"Yes. You’re furthest in, and E4 lands tomorrow. Squid Game can wait until Saturday."},
+      {id:"finish-short", q:"What if I only have half an hour?", a:"The Bear if you add Disney+. Thuis is 25 minutes and in-plan. An Undercover episode is ~50 if you can stretch."},
+      {id:"finish-no", q:"Not really what I meant", a:"Then I won’t keep handing you continues. Say if you wanted a new film, or something Flemish, or just shorter."}
+    ]
   },
   plan:{
-    q:"Only what I can play now",
+    q:"After a long day — press play?",
     a:"Stripped to Netflix, HBO Max and VRT MAX — no lock, press play. Ferry and Barbie if you want a film; 1985 if you want Flanders without adding an app.",
-    ids:["ferry","barb","opp","squid","tlou","y1985"],
-    more:["short","light","belgian"]
+    lanes:[
+      {title:"Play now · films", sub:"Netflix & HBO Max", ids:["ferry","barb","opp","dune"]},
+      {title:"Play now · series", sub:"already in the plan", ids:["squid","tlou","under","y1985"]}
+    ],
+    more:["short","light","unwind"],
+    follow:[
+      {id:"plan-film", q:"A film I can actually finish?", a:"Ferry, 1h 46, Netflix. Barbie if the room wants colour. Dune is 2h 46 — that’s a Friday, and you’ve barely started it."},
+      {id:"plan-fl", q:"Something Flemish I can press play on?", a:"1985 on VRT MAX. Thuis if you wanted 25 minutes. Undercover isn’t Flemish, but it’s the in-plan crime if that’s closer."}
+    ]
   },
   light:{
-    q:"A bit lighter",
+    q:"Can we keep this a bit lighter?",
     a:"Same night, less homework. Barbie and Wednesday if you want colour. Abbott Elementary if you want 22 minutes and a laugh. Thuis if local and easy is the brief.",
-    ids:["barb","wed","abbott","chefbbq","thuis"],
-    more:["short","tonight","belgian"]
+    lanes:[{title:"Lighter than the brief", sub:"colour, then a sit-down", ids:["barb","wed","abbott","chefbbq","thuis"]}],
+    more:["short","tonight","belgian"],
+    follow:[
+      {id:"light-room", q:"The house isn’t empty — still ok?", a:"Barbie and Abbott if the room is mixed. Thuis if local and easy. Skip Squid Game if anyone still wants to talk."},
+      {id:"light-crime", q:"Lighter than crime, not lighter than everything?", a:"Wednesday. Colour, a case, not camping-and-XTC. Barbie if you wanted no case at all."}
+    ]
+  },
+  laugh:{
+    q:"I actually want to laugh tonight",
+    a:"Colour first, then something you can talk over. Barbie if the room wants pink. Abbott if you want 22 minutes. Thuis if local and easy is the joke.",
+    lanes:[{title:"Play it for a laugh", sub:"light, then lighter", ids:["barb","abbott","wed","thuis"]}],
+    more:["light","short","comfort"],
+    follow:[
+      {id:"laugh-plan", q:"Which of these can I play without another app?", a:"Barbie and Wednesday. Netflix and HBO Max. Abbott waits on Disney+. Thuis is the Flemish laugh if the room is local."},
+      {id:"laugh-short", q:"I only have twenty minutes.", a:"Abbott if you add Disney+. Thuis if you stay in-plan. Barbie is 1h 54 — that’s a film, not a burst."}
+    ]
+  },
+  loud:{
+    q:"Something loud — I don’t want quiet",
+    a:"These don’t sit quietly. Squid Game if you want the game. Dune if you want sand and volume. Gladiator II if the night can take a fight.",
+    lanes:[{title:"Turn it up", sub:"films and survival", ids:["squid","dune","glad","opp"]}],
+    more:["stakes","tonight","wired"],
+    follow:[
+      {id:"loud-plan", q:"What if I don’t want another app for this?", a:"Squid Game and Dune. Both in-plan. Gladiator II is Apple TV — that’s a lock. Oppenheimer is HBO Max if you wanted loud and still."},
+      {id:"loud-late", q:"Too late to start Dune?", a:"Yes if you meant finish tonight. Squid Game is an episode. Gladiator II is 2h 28 and locked anyway."}
+    ]
+  },
+  pretty:{
+    q:"Slow and pretty I can look at?",
+    a:"Look at it more than you chase it. Dune is the desert. Ferry if you want Belgian glow. Chef’s Table: BBQ if food is the scenery.",
+    lanes:[{title:"Easy on the eyes", sub:"pace, then picture", ids:["dune","ferry","chefbbq","y1985"]}],
+    more:["date","light","rain"],
+    follow:[
+      {id:"pretty-dune", q:"Is Dune actually slow, or is it war?", a:"Both. Desert first, then it turns. Ferry if you wanted Belgian glow without the prophecy. Chef’s Table if food is the scenery."},
+      {id:"pretty-plan", q:"Something pretty I can already play?", a:"Dune and Ferry. 1985 if Flanders is the picture. Chef’s Table: BBQ is Netflix."}
+    ]
+  },
+  date:{
+    q:"What works for a date night?",
+    a:"One film you can actually start, then a series if it runs long. Barbie if you want colour. Oppenheimer if the room can sit still. Wednesday if you want to talk through it.",
+    lanes:[{title:"For two on the sofa", sub:"films, then a series", ids:["barb","opp","dune","wed"]}],
+    more:["pretty","tonight","think"],
+    follow:[
+      {id:"date-talk", q:"We want to talk after, not sit in silence.", a:"Barbie. Wednesday if you wanted a plot to pick apart. Oppenheimer if sitting still is the date."},
+      {id:"date-length", q:"We don’t have three hours.", a:"Barbie, 1h 54. Skip Oppenheimer. Dune is 2h 46 — that’s a proper night, not a dip."}
+    ]
+  },
+  rain:{
+    q:"Rainy window — what belongs on?",
+    a:"Weather for staying in. The Last of Us if you want care in the grey. Undercover if crime can stay in the background. 1985 if Flanders is the rain.",
+    lanes:[{title:"Grey outside, this on", sub:"slow, then local", ids:["tlou","under","y1985","penguin"]}],
+    more:["unwind","pretty","noise"],
+    follow:[
+      {id:"rain-care", q:"I wanted care, not crime.", a:"The Last of Us. You’re already in it. 1985 if you wanted that feeling closer to home. Undercover can wait."},
+      {id:"rain-bg", q:"Can it stay in the background?", a:"Undercover can. Last of Us can’t. 1985 wants you to sit still."}
+    ]
+  },
+  surprise:{
+    q:"Surprise me — not the obvious pick",
+    a:"Not the brief you typed. Zillion if you want Belgian excess. Wednesday if you want weird. Dune if you want the opposite of a sitcom.",
+    lanes:[{title:"Not what you asked", sub:"a left turn", ids:["zill","wed","dune","chefbbq"]}],
+    more:["weird","decide","loud"],
+    follow:[
+      {id:"surprise-lock", q:"Zillion looks locked — what’s the in-plan left turn?", a:"Wednesday. Weird without Streamz. Dune if you wanted the opposite of a sitcom and you already pay for HBO Max."},
+      {id:"surprise-no", q:"Not really what I meant", a:"Then say the constraint — Flemish, short, or already in the plan — and I’ll drop the rest."}
+    ]
+  },
+  wired:{
+    q:"Late and wired — what still works?",
+    a:"Too late for gentle. Squid Game and The Penguin if you still have attention. Undercover if you want crime with the lights down.",
+    lanes:[{title:"Still awake", sub:"sharp, not soft", ids:["squid","penguin","under","glad"]}],
+    more:["loud","stakes","horror"],
+    follow:[
+      {id:"wired-short", q:"I don’t have two hours.", a:"Squid Game or The Penguin — episode-shaped. Undercover is ~50. Gladiator II is a film and locked."},
+      {id:"wired-plan", q:"Stay inside what I already pay for?", a:"Squid Game, The Penguin, Undercover. Gladiator II is Apple TV."}
+    ]
+  },
+  horror:{
+    q:"A soft scare, not a scream-through",
+    a:"Uneasy, not a scream-through. The Last of Us is fungus and care. The Penguin is Gotham without the cowl. Wednesday if you want it camp.",
+    lanes:[{title:"A shiver, not a jump", sub:"mood before gore", ids:["tlou","penguin","wed","squid"]}],
+    more:["wired","weird","rain"],
+    follow:[
+      {id:"horror-kids", q:"The house isn’t asleep — still ok?", a:"Wednesday if camp is the scare. Skip Last of Us and Squid Game if anyone’s still in the room. The Penguin wants volume."},
+      {id:"horror-fun", q:"I wanted fun-scared, not sad-scared.", a:"Wednesday. Last of Us is care in a ruined road — that’s not a giggle. Squid Game is the game, not a shiver."}
+    ]
+  },
+  think:{
+    q:"Don’t make me think — put something on",
+    a:"Press play and leave it. Abbott is 22 minutes. Thuis is Flanders without homework. Barbie if you want colour and no plot quiz.",
+    lanes:[{title:"Brain off", sub:"easy rooms", ids:["abbott","thuis","barb","chefbbq"]}],
+    more:["short","light","noise"],
+    follow:[
+      {id:"think-plan", q:"Without adding an app?", a:"Thuis and Barbie. Abbott waits on Disney+. Chef’s Table: BBQ is Netflix if food can be the brain-off."},
+      {id:"think-crime", q:"Brain off but not pink?", a:"Chef’s Table, or Undercover if crime can run while you look at your phone. Skip Last of Us — that one wants you."}
+    ]
+  },
+  weird:{
+    q:"A little weird is fine tonight",
+    a:"Off-centre on purpose. Wednesday is the dance. Zillion is Belgian glow gone wrong. The Penguin if you want crime that limps.",
+    lanes:[{title:"Tilted on purpose", sub:"not the obvious pick", ids:["wed","zill","penguin","squid"]}],
+    more:["surprise","horror","laugh"],
+    follow:[
+      {id:"weird-plan", q:"What weird can I already play?", a:"Wednesday on Netflix. The Penguin on HBO Max. Zillion is Streamz — lock unless Ghent nightlife is the brief."},
+      {id:"weird-crime", q:"Weird crime, not goth teen?", a:"The Penguin. Zillion if Belgian glow gone wrong and you add Streamz. Undercover is crooks, not weird."}
+    ]
+  },
+  true:{
+    q:"Based on something true, not a lecture",
+    a:"Real enough to sit with. Oppenheimer is the bomb. 1985 is Flanders in the archive. Zillion if the club is the true story.",
+    lanes:[{title:"It happened, sort of", sub:"then a local one", ids:["opp","y1985","zill","jan"]}],
+    more:["stakes","flanders","date"],
+    follow:[
+      {id:"true-length", q:"I don’t have three hours for Oppenheimer.", a:"1985 is ~50 minutes, VRT MAX, in your plan. Zillion is 2h 03 and locked. Jan de Lichte is episodic and locked on Play."},
+      {id:"true-here", q:"Closer to home than the bomb?", a:"1985. Flanders in the archive. Zillion if the club is the true story and you add Streamz."}
+    ]
+  },
+  stakes:{
+    q:"I want high stakes, not background",
+    a:"Nobody is fine and that’s the point. Dune is war in the sand. Squid Game is debt. Gladiator II if you want the arena.",
+    lanes:[{title:"Nobody walks out even", sub:"scale, then survival", ids:["dune","squid","glad","opp"]}],
+    more:["loud","tonight","wired"],
+    follow:[
+      {id:"stakes-plan", q:"High stakes I can already play?", a:"Dune and Squid Game. Gladiator II is Apple TV. Oppenheimer is HBO Max if you wanted it quiet and huge."},
+      {id:"stakes-ep", q:"A series, not a 2h 46 film?", a:"Squid Game. You’re already in it. Dune can wait for a Friday."}
+    ]
+  },
+  house:{
+    q:"House isn’t asleep — what’s safe?",
+    a:"Nothing that needs the volume down. Abbott and Barbie if the room is mixed. Thuis if local and easy. Wednesday if someone still wants a plot.",
+    lanes:[{title:"Play it with the lights on", sub:"safe for the room", ids:["abbott","barb","thuis","wed"]}],
+    more:["light","laugh","think"],
+    follow:[
+      {id:"house-plot", q:"Someone still wants a plot.", a:"Wednesday. Abbott if they wanted 22 minutes. Skip Last of Us — that one needs the volume down and the room quiet."},
+      {id:"house-local", q:"Make it Flemish?", a:"Thuis. 25 minutes, VRT MAX, already in the plan. Chantal if they wanted to start something that isn’t the daily."}
+    ]
+  },
+  fresh:{
+    q:"Start something new, not continue",
+    a:"Not a continue. The Penguin if you haven’t opened Gotham. Gladiator II if you want a film. Chantal if Flanders is the new tab.",
+    lanes:[{title:"A first episode", sub:"or a first night", ids:["penguin","glad","chantal","twaalf"]}],
+    more:["surprise","tonight","finish"],
+    follow:[
+      {id:"fresh-plan", q:"New, but already in my plan?", a:"The Penguin on HBO Max. Chantal on VRT MAX. Gladiator II is Apple TV — that’s a lock. De Twaalf is Streamz."},
+      {id:"fresh-film", q:"A film, not another series?", a:"Gladiator II if you add Apple TV. Ferry if you wanted new-to-you and in-plan — origin glow-up, 1h 46, Netflix."}
+    ]
+  },
+  comfort:{
+    q:"Comfort food — kitchen or sofa",
+    a:"Kitchen and sofas. Chef’s Table: BBQ is fire without the panic. The Bear if you still want heat. Thuis if the comfort is Flemish.",
+    lanes:[{title:"Warm and familiar", sub:"food, then a sit-down", ids:["chefbbq","bear","thuis","abbott"]}],
+    more:["bear","unwind","think"],
+    follow:[
+      {id:"comfort-heat", q:"I still want a bit of kitchen heat.", a:"The Bear if you add Disney+. Chef’s Table: BBQ is Netflix — fire without the panic. Thuis if the comfort is Flemish and you wanted no kitchen at all."},
+      {id:"comfort-plan", q:"Stay inside what I already pay for?", a:"Chef’s Table and Thuis. The Bear and Abbott wait on Disney+."}
+    ]
+  },
+  noise:{
+    q:"Background I can look away from?",
+    a:"You can look away. Undercover and Chef’s Table if the plot can wait. Thuis and 1985 if Flanders can run while you do something else.",
+    lanes:[{title:"Leave it on", sub:"plot optional", ids:["under","chefbbq","thuis","y1985"]}],
+    more:["unwind","think","rain"],
+    follow:[
+      {id:"noise-crime", q:"Crime I can look away from?", a:"Undercover. Last of Us can’t — that one wants you quiet. Chef’s Table if food can be the noise."},
+      {id:"noise-fl", q:"Flanders in the background?", a:"Thuis. 1985 wants you to sit still. Undercover if crime can run while you do something else."}
+    ]
+  },
+  feel:{
+    q:"Feel something, not background",
+    a:"Not background. The Last of Us is care in a ruined road. Oppenheimer is guilt. 1985 if you want it closer to home.",
+    lanes:[{title:"It should land", sub:"then a local one", ids:["tlou","opp","dune","y1985"]}],
+    more:["pretty","true","date"],
+    follow:[
+      {id:"feel-plan", q:"Something that lands and I can already play?", a:"The Last of Us — you’re already in it. Oppenheimer and Dune on HBO Max. 1985 if you wanted it closer to home."},
+      {id:"feel-short", q:"I don’t have three hours.", a:"Last of Us is an episode. 1985 is ~50 minutes. Skip Oppenheimer tonight."}
+    ]
+  },
+  decide:{
+    q:"I can’t decide — pick for me",
+    a:"Then don’t. Ferry if Belgian and done. Barbie if the room wants colour. Undercover if crime can choose for you.",
+    lanes:[{title:"Pick for me", sub:"a film, a series, local", ids:["ferry","barb","under","wed"]}],
+    more:["surprise","light","tonight"],
+    follow:[
+      {id:"decide-why", q:"Why Ferry first?", a:"1h 46, Netflix, in your plan, and it ends. Barbie if the room wants colour. Undercover if crime should choose for you."},
+      {id:"decide-no", q:"Not really — I wanted Flemish.", a:"Then Thuis or 1985 on VRT MAX. Ferry is Dutch-Belgian border, not Flanders sitting-down. Assisen if you add VTM GO."}
+    ]
+  },
+  epic:{
+    q:"Big-screen energy on the sofa?",
+    a:"These want the sofa facing forward. Dune and Gladiator II if you want scale. Oppenheimer if you want it quiet and huge. De Slag om de Schelde if the war is closer.",
+    lanes:[{title:"Fill the wall", sub:"films first", ids:["dune","glad","opp","schelde"]}],
+    more:["stakes","date","loud"],
+    follow:[
+      {id:"epic-plan", q:"Fill the wall without another app?", a:"Dune and Oppenheimer, both HBO Max. Gladiator II and De Slag om de Schelde sit behind Apple TV and Play."},
+      {id:"epic-split", q:"Can I split Dune if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."}
+    ]
+  },
+  guilty:{
+    q:"Guilty pleasure I don’t have to defend?",
+    a:"You already know. Barbie. Zillion if Belgian excess is the pleasure. De Verraders if you want a format you can mock and still watch.",
+    lanes:[{title:"No notes, just this", sub:"pink, glow, a format", ids:["barb","zill","wed","verraders"]}],
+    more:["laugh","weird","light"],
+    follow:[
+      {id:"guilty-plan", q:"The in-plan guilty one?", a:"Barbie. Wednesday if you wanted weird without defending it. Zillion and De Verraders wait on Streamz and VTM GO."},
+      {id:"guilty-fl", q:"A Belgian one I don’t have to explain?", a:"Zillion if you add Streamz — Ghent nightlife, the crash. De Verraders if you wanted a format you can mock. Barbie if the room isn’t local."}
+    ]
+  },
+  episode:{
+    q:"Just one more episode, then bed",
+    a:"Kept to things that end before you regret it. The Bear is half an hour. Abbott is shorter. Thuis if you want Flanders in a sit-down.",
+    lanes:[{title:"Then go to bed", sub:"episode-shaped", ids:["bear","abbott","chefbbq","thuis"]}],
+    more:["short","finish","think"],
+    follow:[
+      {id:"episode-plan", q:"Without adding Disney+?", a:"Thuis, 25 minutes, VRT MAX. Chef’s Table: BBQ is Netflix if food can be the last sit. The Bear and Abbott wait."},
+      {id:"episode-continue", q:"Should I use this on something I already started?", a:"If you’re picking up Last of Us, that’s not a ‘then bed’ — it wants you. Thuis or an Undercover episode if ~50 minutes still counts as one more."}
+    ]
+  },
+  "g-action":{
+    kind:"genre",
+    label:"Action",
+    q:"Action",
+    a:"You opened action. Films that actually hit, then the series if you wanted it to last. Dune and Gladiator II if the sofa is facing forward; Squid Game if you meant an episode. Ferry if Belgian and done is the brief.",
+    lanes:[
+      {title:"Action movies", sub:"fill the wall", ids:["dune","glad","ferry","schelde"]},
+      {title:"Popular action movies", sub:"the ones people still start", ids:["dune","glad","ferry"]},
+      {title:"Popular action series", sub:"episode-shaped", ids:["squid","tlou","under"]},
+      {title:"Action series with a dark twist", sub:"nobody walks out even", ids:["squid","tlou","penguin"]},
+      {title:"Belgian heat", sub:"local, then a lock", ids:["ferry","schelde","jan"]},
+      {title:"Already in your plan", sub:"no new app", ids:["dune","squid","ferry","under"]}
+    ],
+    more:["g-thriller","g-adventure","loud"],
+    follow:[
+      {id:"g-action-darker", q:"Darker than Dune", a:"Squid Game if you meant the game. The Last of Us if fungus-and-care is darker than sand. Ferry if Belgian and done, and you wanted it over in 1h 46.", lanes:[{title:"Darker than the sand", sub:"series first", ids:["squid","tlou","penguin","ferry"]}]},
+      {id:"g-action-series", q:"Series, not a film", a:"Squid Game and The Last of Us — both in-plan. Undercover if crime is the action. Gladiator II can wait.", lanes:[{title:"Action series", sub:"episode-shaped", ids:["squid","tlou","under","penguin"]}]},
+      {id:"g-action-plan", q:"Stay in my plan", a:"Dune, Squid Game, Ferry, Undercover. Gladiator II is Apple TV. De Slag om de Schelde sits on Play.", lanes:[{title:"Action you can press play on", sub:"Netflix & HBO Max", ids:["dune","squid","ferry","under"]}]}
+    ]
+  },
+  "g-comedy":{
+    kind:"genre",
+    label:"Comedy",
+    q:"Comedy",
+    a:"You opened comedy. Barbie if the room wants pink. Abbott if you wanted 22 minutes. Wednesday if the laugh has a case. Thuis if Flanders is the joke and you don’t want another app.",
+    lanes:[
+      {title:"Comedy you can start tonight", sub:"a film, then a sit-down", ids:["barb","wed","abbott","thuis"]},
+      {title:"Popular comedy series", sub:"episode-shaped", ids:["abbott","wed","thuis","bear"]},
+      {title:"Short and funny", sub:"before the next thing", ids:["abbott","thuis","bear"]},
+      {title:"Already in your plan", sub:"no new app", ids:["barb","wed","thuis"]},
+      {title:"Locked unless you add the app", sub:"Disney+", ids:["abbott","bear"]}
+    ],
+    more:["g-family","laugh","light"],
+    follow:[
+      {id:"g-comedy-series", q:"Series, not a film", a:"Abbott if you add Disney+. Wednesday if you wanted a case with the laugh. Thuis if Flanders is the sit-down and you stay in-plan.", lanes:[{title:"Comedy series", sub:"then a local one", ids:["abbott","wed","thuis","bear"]}]},
+      {id:"g-comedy-plan", q:"Stay in my plan", a:"Barbie and Wednesday. Thuis if you wanted Flanders. Abbott and The Bear wait on Disney+.", lanes:[{title:"Comedy in the plan", sub:"HBO Max, Netflix, VRT MAX", ids:["barb","wed","thuis"]}]},
+      {id:"g-comedy-short", q:"Shorter than Barbie", a:"Abbott is 22 minutes if you add Disney+. Thuis is 25 and already in the plan. Barbie is 1h 54 — that’s a film, not a burst.", lanes:[{title:"A short laugh", sub:"then bed", ids:["abbott","thuis","bear"]}]}
+    ]
+  },
+  "g-drama":{
+    kind:"genre",
+    label:"Drama",
+    q:"Drama",
+    a:"You opened drama. The Last of Us if you wanted care in a ruined road. Oppenheimer if the room can sit still. 1985 if Flanders is the weight. De Twaalf if you wanted that intensity in Flemish — Streamz, so it carries a lock.",
+    lanes:[
+      {title:"Drama movies", sub:"sit still for these", ids:["opp","zill","schelde"]},
+      {title:"Popular drama series", sub:"the ones that occupy a room", ids:["tlou","bear","penguin","chantal"]},
+      {title:"Flemish drama", sub:"close to home", ids:["y1985","chantal","twaalf","gladijs"]},
+      {title:"Heavy, not background", sub:"it should land", ids:["tlou","opp","y1985"]},
+      {title:"Already in your plan", sub:"no new app", ids:["tlou","opp","y1985","chantal"]}
+    ],
+    more:["g-crime","feel","true"],
+    follow:[
+      {id:"g-drama-fl", q:"Flemish drama", a:"1985 and Chantal on VRT MAX. De Twaalf and Glad IJs wait on Streamz and VTM GO. Oppenheimer if the room wasn’t local.", lanes:[{title:"Drama from here", sub:"in-plan, then a lock", ids:["y1985","chantal","twaalf","gladijs"]}]},
+      {id:"g-drama-plan", q:"Stay in my plan", a:"The Last of Us, Oppenheimer, 1985, Chantal. The Bear is Disney+. De Twaalf is Streamz.", lanes:[{title:"Drama you can press play on", sub:"HBO Max & VRT MAX", ids:["tlou","opp","y1985","chantal"]}]},
+      {id:"g-drama-film", q:"A film, not a series", a:"Oppenheimer if you wanted it quiet and huge. Zillion if Belgian glow gone wrong and you add Streamz. De Slag om de Schelde if the war is closer — Play, so it locks.", lanes:[{title:"Drama films", sub:"then a local one", ids:["opp","zill","schelde"]}]}
+    ]
+  },
+  "g-thriller":{
+    kind:"genre",
+    label:"Thriller",
+    q:"Thriller",
+    a:"You opened thriller. Squid Game if you wanted the game. Undercover if crime can run with the lights down. The Penguin if Gotham without the cowl. Assisen if the courtroom is Flemish — VTM GO, so it locks.",
+    lanes:[
+      {title:"Thriller movies", sub:"done in one night", ids:["ferry","zill"]},
+      {title:"Popular thriller series", sub:"the ones people still open", ids:["squid","under","penguin","twaalf"]},
+      {title:"Belgian thrillers", sub:"local heat", ids:["under","ferry","assisen","twaalf"]},
+      {title:"Thriller with a dark twist", sub:"nobody is fine", ids:["squid","penguin","tlou"]},
+      {title:"Already in your plan", sub:"no new app", ids:["squid","under","penguin","ferry"]}
+    ],
+    more:["g-crime","g-mystery","wired"],
+    follow:[
+      {id:"g-thriller-series", q:"Series, not a film", a:"Squid Game, Undercover, The Penguin. De Twaalf if you wanted it Flemish and you add Streamz.", lanes:[{title:"Thriller series", sub:"episode-shaped", ids:["squid","under","penguin","twaalf"]}]},
+      {id:"g-thriller-plan", q:"Stay in my plan", a:"Squid Game, Undercover, The Penguin, Ferry. Assisen and De Twaalf wait on VTM GO and Streamz.", lanes:[{title:"Thriller in the plan", sub:"Netflix & HBO Max", ids:["squid","under","penguin","ferry"]}]},
+      {id:"g-thriller-darker", q:"Darker than Undercover", a:"Squid Game if you meant the game. The Last of Us if fungus-and-care is darker than crooks. The Penguin if Gotham is the twist.", lanes:[{title:"Sharper than camping", sub:"still in-plan", ids:["squid","tlou","penguin"]}]}
+    ]
+  },
+  "g-horror":{
+    kind:"genre",
+    label:"Horror",
+    q:"Horror",
+    a:"You opened horror. This isn’t a scream-through wall — The Last of Us is fungus and care. Squid Game if the scare is the game. Wednesday if you wanted it camp. Say if you meant jumps, and I’ll tell you we don’t have that shelf.",
+    lanes:[
+      {title:"Horror-adjacent series", sub:"uneasy, not a jump-scare pile", ids:["tlou","squid","wed"]},
+      {title:"A shiver, not a jump", sub:"mood before gore", ids:["tlou","wed","penguin"]},
+      {title:"Already in your plan", sub:"no new app", ids:["tlou","squid","wed","penguin"]}
+    ],
+    more:["g-thriller","horror","weird"],
+    follow:[
+      {id:"g-horror-fun", q:"Fun-scared, not sad-scared", a:"Wednesday. Last of Us is care in a ruined road — that’s not a giggle. Squid Game is the game, not a shiver.", lanes:[{title:"Camp, not grief", sub:"the lighter scare", ids:["wed","penguin"]}]},
+      {id:"g-horror-plan", q:"Stay in my plan", a:"The Last of Us, Squid Game, Wednesday, The Penguin. That’s the honest in-plan shiver. We don’t have a locked horror pile waiting either.", lanes:[{title:"A scare you can play", sub:"already in the plan", ids:["tlou","squid","wed","penguin"]}]},
+      {id:"g-horror-house", q:"The house isn’t asleep", a:"Wednesday if camp is the scare. Skip Last of Us and Squid Game if anyone’s still in the room. The Penguin wants volume.", lanes:[{title:"Lights still on", sub:"safer than fungus", ids:["wed"]}]}
+    ]
+  },
+  "g-romance":{
+    kind:"genre",
+    label:"Romance",
+    q:"Romance",
+    a:"You opened romance. This isn’t a rom-com wall — Barbie if you wanted pink and a gut punch. Then the sofas that don’t pick a fight. Glad IJs if Flemish and tender is closer, locked on VTM GO.",
+    lanes:[
+      {title:"Closest to a rom-com", sub:"the honest one", ids:["barb"]},
+      {title:"Softer nights", sub:"not a fight", ids:["barb","abbott","thuis","wed"]},
+      {title:"Belgian and tender", sub:"local, then a lock", ids:["gladijs","chantal","thuis"]},
+      {title:"Already in your plan", sub:"no new app", ids:["barb","thuis","wed"]}
+    ],
+    more:["g-comedy","g-family","date"],
+    follow:[
+      {id:"g-romance-plan", q:"Stay in my plan", a:"Barbie and Wednesday. Thuis if local and easy. Glad IJs waits on VTM GO. Abbott is Disney+.", lanes:[{title:"Soft and in-plan", sub:"HBO Max, Netflix, VRT MAX", ids:["barb","wed","thuis"]}]},
+      {id:"g-romance-fl", q:"Flemish, not pink", a:"Glad IJs if you add VTM GO. Chantal and Thuis on VRT MAX if tender and local is the brief, not a kiss-first shelf.", lanes:[{title:"Closer to home", sub:"tender, not a rom-com", ids:["gladijs","chantal","thuis"]}]},
+      {id:"g-romance-date", q:"For two on the sofa", a:"Barbie if you wanted colour. Skip Last of Us — that one needs the volume down. Wednesday if you wanted to talk through a plot.", lanes:[{title:"For two", sub:"colour, then a case", ids:["barb","wed","opp"]}]}
+    ]
+  },
+  "g-scifi":{
+    kind:"genre",
+    label:"Sci-Fi",
+    q:"Sci-Fi",
+    a:"You opened sci-fi. Dune if you wanted sand and prophecy. The Last of Us if the science is fungus and care. That’s the honest shelf — we don’t have a Star Wars wall.",
+    lanes:[
+      {title:"Sci-fi movies", sub:"the desert one", ids:["dune"]},
+      {title:"Sci-fi series", sub:"fungus, not warp drive", ids:["tlou"]},
+      {title:"Big and strange", sub:"speculative enough", ids:["dune","tlou","squid"]},
+      {title:"Already in your plan", sub:"no new app", ids:["dune","tlou","squid"]}
+    ],
+    more:["g-fantasy","g-adventure","epic"],
+    follow:[
+      {id:"g-scifi-film", q:"A film, not a series", a:"Dune. 2h 46, HBO Max, already in the plan. Don’t start at 22:30 unless finishing at 1am is the point.", lanes:[{title:"Sci-fi films", sub:"one honest title", ids:["dune"]}]},
+      {id:"g-scifi-series", q:"Series, not a film", a:"The Last of Us. You’re already in it. Squid Game if the science was a stretch and you meant the game.", lanes:[{title:"Sci-fi series", sub:"episode-shaped", ids:["tlou","squid"]}]},
+      {id:"g-scifi-plan", q:"Stay in my plan", a:"Dune, The Last of Us, Squid Game. All three. There isn’t a locked sci-fi pile behind them.", lanes:[{title:"Sci-fi you can play", sub:"HBO Max & Netflix", ids:["dune","tlou","squid"]}]}
+    ]
+  },
+  "g-crime":{
+    kind:"genre",
+    label:"Crime",
+    q:"Crime",
+    a:"You opened crime. Undercover and Ferry if you wanted Belgian and already in Netflix. The Penguin if Gotham is the limp. Assisen if the courtroom is Flemish — VTM GO, so it locks.",
+    lanes:[
+      {title:"Crime movies", sub:"done in one night", ids:["ferry","zill"]},
+      {title:"Popular crime series", sub:"the ones people still open", ids:["under","penguin","squid","assisen"]},
+      {title:"Belgian crime", sub:"local crooks", ids:["under","ferry","jan","assisen"]},
+      {title:"Crime with a dark twist", sub:"not background", ids:["penguin","squid","twaalf"]},
+      {title:"Already in your plan", sub:"no new app", ids:["under","ferry","penguin","squid"]},
+      {title:"Locked unless you add the app", sub:"Play, Streamz, VTM GO", ids:["zill","jan","assisen","twaalf"]}
+    ],
+    more:["g-thriller","belgian","unwind"],
+    follow:[
+      {id:"g-crime-fl", q:"Belgian crime", a:"Undercover and Ferry on Netflix. Jan de Lichte and Assisen wait on Play and VTM GO. Zillion if the club is the crime and you add Streamz.", lanes:[{title:"Crooks from here", sub:"in-plan, then a lock", ids:["under","ferry","jan","assisen"]}]},
+      {id:"g-crime-plan", q:"Stay in my plan", a:"Undercover, Ferry, The Penguin, Squid Game. That’s the Netflix and HBO Max pile. Assisen waits.", lanes:[{title:"Crime you can press play on", sub:"no new app", ids:["under","ferry","penguin","squid"]}]},
+      {id:"g-crime-bg", q:"Can it stay in the background?", a:"Undercover can. Last of Us can’t — that one wants you quiet. Ferry if you wanted Belgian and done.", lanes:[{title:"Soft crime you can leave on", sub:"from how you watch", ids:["under","ferry","squid"]}]}
+    ]
+  },
+  "g-doc":{
+    kind:"genre",
+    label:"Documentary",
+    q:"Documentary",
+    a:"You opened documentary. The shelf isn’t a doc house — Chef’s Table: BBQ is the real one. Oppenheimer and 1985 if ‘based on’ is close enough. Zillion if the club is the true story and you add Streamz.",
+    lanes:[
+      {title:"Actual documentary", sub:"the kitchen one", ids:["chefbbq"]},
+      {title:"Based on something true", sub:"then a local one", ids:["opp","y1985","zill"]},
+      {title:"Already in your plan", sub:"no new app", ids:["chefbbq","opp","y1985"]}
+    ],
+    more:["true","g-drama","comfort"],
+    follow:[
+      {id:"g-doc-true", q:"Based on, not a lecture", a:"Oppenheimer is the bomb. 1985 is Flanders in the archive. Zillion if the club is the true story — Streamz, so it locks.", lanes:[{title:"It happened, sort of", sub:"then a local one", ids:["opp","y1985","zill"]}]},
+      {id:"g-doc-plan", q:"Stay in my plan", a:"Chef’s Table: BBQ, Oppenheimer, 1985. Zillion waits on Streamz.", lanes:[{title:"True enough, in-plan", sub:"Netflix, HBO Max, VRT MAX", ids:["chefbbq","opp","y1985"]}]},
+      {id:"g-doc-short", q:"I don’t have three hours", a:"Chef’s Table is an episode. 1985 is ~50 minutes, VRT MAX. Skip Oppenheimer tonight.", lanes:[{title:"Shorter than the bomb", sub:"episode-shaped", ids:["chefbbq","y1985"]}]}
+    ]
+  },
+  "g-fantasy":{
+    kind:"genre",
+    label:"Fantasy",
+    q:"Fantasy",
+    a:"You opened fantasy. Not a dragon wall. Dune if prophecy is the fantasy. Wednesday if goth counts. The Last of Us if the ruined road is close enough.",
+    lanes:[
+      {title:"Fantasy-adjacent movies", sub:"prophecy in the sand", ids:["dune"]},
+      {title:"Off-world and gothic", sub:"the honest stretch", ids:["dune","wed","tlou"]},
+      {title:"Already in your plan", sub:"no new app", ids:["dune","wed","tlou"]}
+    ],
+    more:["g-scifi","g-mystery","weird"],
+    follow:[
+      {id:"g-fantasy-goth", q:"Goth, not prophecy", a:"Wednesday. Dune is sand and war — that’s not a dance. The Penguin if crime that limps is closer than magic.", lanes:[{title:"Goth over sand", sub:"weird, then crime", ids:["wed","penguin"]}]},
+      {id:"g-fantasy-plan", q:"Stay in my plan", a:"Dune, Wednesday, The Last of Us. That’s the in-plan stretch. There isn’t a locked fantasy pile behind it.", lanes:[{title:"Fantasy you can play", sub:"HBO Max & Netflix", ids:["dune","wed","tlou"]}]},
+      {id:"g-fantasy-film", q:"A film, not a series", a:"Dune. HBO Max, 2h 46. Wednesday and Last of Us can wait.", lanes:[{title:"Fantasy films", sub:"one honest title", ids:["dune"]}]}
+    ]
+  },
+  "g-mystery":{
+    kind:"genre",
+    label:"Mystery",
+    q:"Mystery",
+    a:"You opened mystery. Wednesday if you wanted a case with a dance. Assisen if the courtroom is Flemish. De Twaalf if the jury is the puzzle — Streamz, so it locks. The Penguin if Gotham is the limp.",
+    lanes:[
+      {title:"Mystery series", sub:"a case, then a courtroom", ids:["wed","assisen","twaalf","penguin"]},
+      {title:"Courtrooms and cases", sub:"Flemish first", ids:["assisen","twaalf","y1985"]},
+      {title:"Weird mystery", sub:"not a procedural", ids:["wed","penguin"]},
+      {title:"Already in your plan", sub:"no new app", ids:["wed","penguin","y1985"]}
+    ],
+    more:["g-crime","g-thriller","weird"],
+    follow:[
+      {id:"g-mystery-fl", q:"Flemish mystery", a:"Assisen — courtroom, locked on VTM GO. De Twaalf if the jury is the puzzle and you add Streamz. 1985 if Flanders in the archive is closer than a case.", lanes:[{title:"Cases from here", sub:"lock if you don’t have them", ids:["assisen","twaalf","y1985"]}]},
+      {id:"g-mystery-plan", q:"Stay in my plan", a:"Wednesday and The Penguin. 1985 if Flanders is the puzzle. Assisen and De Twaalf wait.", lanes:[{title:"Mystery you can play", sub:"Netflix, HBO Max, VRT MAX", ids:["wed","penguin","y1985"]}]},
+      {id:"g-mystery-weird", q:"Weird, not a courtroom", a:"Wednesday. The Penguin if crime that limps is the mystery. Skip Assisen if you wanted a dance, not a verdict.", lanes:[{title:"Tilted on purpose", sub:"not the docket", ids:["wed","penguin","squid"]}]}
+    ]
+  },
+  "g-family":{
+    kind:"genre",
+    label:"Family",
+    q:"Family",
+    a:"You opened family. Nothing that needs the volume down. Barbie and Abbott if the room is mixed. Thuis if local and easy. Wednesday if someone still wants a plot.",
+    lanes:[
+      {title:"Fine with the lights on", sub:"safe for the room", ids:["barb","abbott","thuis","wed"]},
+      {title:"Flemish and easy", sub:"already in the plan", ids:["thuis","chantal"]},
+      {title:"Short enough for the room", sub:"before bedtime", ids:["abbott","thuis"]},
+      {title:"Already in your plan", sub:"no new app", ids:["barb","thuis","wed"]},
+      {title:"Locked unless you add the app", sub:"Disney+", ids:["abbott"]}
+    ],
+    more:["g-comedy","house","light"],
+    follow:[
+      {id:"g-family-plan", q:"Stay in my plan", a:"Barbie, Thuis, Wednesday. Abbott waits on Disney+. Skip Last of Us — that one needs the volume down.", lanes:[{title:"Family in the plan", sub:"HBO Max, Netflix, VRT MAX", ids:["barb","thuis","wed"]}]},
+      {id:"g-family-fl", q:"Make it Flemish", a:"Thuis. 25 minutes, VRT MAX, already in the plan. Chantal if they wanted to start something that isn’t the daily.", lanes:[{title:"Flanders in the room", sub:"easy, local", ids:["thuis","chantal"]}]},
+      {id:"g-family-plot", q:"Someone still wants a plot", a:"Wednesday. Abbott if they wanted 22 minutes. Skip Last of Us and Squid Game if the room is mixed.", lanes:[{title:"A plot, still safe", sub:"not fungus, not the game", ids:["wed","abbott","thuis"]}]}
+    ]
+  },
+  "g-adventure":{
+    kind:"genre",
+    label:"Adventure",
+    q:"Adventure",
+    a:"You opened adventure. Dune if you wanted sand and a road that turns into war. Gladiator II if the arena is the trip — Apple TV, so it locks. The Last of Us if the road is care. De Slag om de Schelde if the war is closer.",
+    lanes:[
+      {title:"Adventure movies", sub:"fill the wall", ids:["dune","glad","schelde"]},
+      {title:"Adventure series", sub:"a road, not a quest log", ids:["tlou","jan"]},
+      {title:"War and road", sub:"scale, then closer to home", ids:["dune","schelde","tlou"]},
+      {title:"Belgian adventure", sub:"local, then a lock", ids:["jan","schelde","ferry"]},
+      {title:"Already in your plan", sub:"no new app", ids:["dune","tlou"]}
+    ],
+    more:["g-action","g-scifi","epic"],
+    follow:[
+      {id:"g-adventure-film", q:"A film, not a series", a:"Dune if you already pay for HBO Max. Gladiator II if you add Apple TV. De Slag om de Schelde if the war is Flemish — Play, so it locks.", lanes:[{title:"Adventure films", sub:"then a local war", ids:["dune","glad","schelde"]}]},
+      {id:"g-adventure-plan", q:"Stay in my plan", a:"Dune and The Last of Us. Gladiator II and De Slag om de Schelde sit behind Apple TV and Play. Jan de Lichte too.", lanes:[{title:"Adventure you can play", sub:"HBO Max", ids:["dune","tlou"]}]},
+      {id:"g-adventure-fl", q:"Closer to home than Arrakis", a:"De Slag om de Schelde if you add Play. Jan de Lichte if the road is a Flemish outlaw. Ferry if Belgian and done is closer than a quest.", lanes:[{title:"Adventure from here", sub:"lock if you don’t have them", ids:["schelde","jan","ferry"]}]}
+    ]
   }
 };
 
-const pills = [
-  {id:"tonight", cls:"ask"},
-  {id:"bear", cls:"c2"},
-  {id:"short", cls:"c3"},
-  {id:"flanders", cls:"c4"},
-  {id:"belgian", cls:"ask"},
-  {id:"finish", cls:"c2"}
+const packs = [
+  {id:"crime", kicker:"YOUR STREAK", title:"Crime that doesn’t shout", tone:"", ids:["under","squid","tlou","dune"]},
+  {id:"inplan", kicker:"PRESS PLAY", title:"No new apps tonight", tone:"violet", ids:["barb","opp","wed"]},
+  {id:"here", kicker:"CLOSE TO HOME", title:"Flanders after dark", tone:"mint", ids:["ferry","zill","thuis","y1985"]},
+  {id:"easy", kicker:"SHORT NIGHTS", title:"Done before midnight", tone:"gold", ids:["chefbbq","abbott","bear","penguin"]}
 ];
 
-const lanes = [
-  {title:"Popular in Flanders", sub:"this week", ids:["thuis","y1985","assisen","verraders","chantal","jan","schelde","gladijs"]},
-  {title:"Crime & tension", sub:"from how you watch", ids:["under","squid","tlou","ferry","zill","penguin"]},
-  {title:"Kitchen & big nights", sub:"from how you watch", ids:["bear","chefbbq","dune","opp","wed","barb"]}
-];
+const playSvg = '<svg viewBox="0 0 24 24"><path d="M8 5.2v13.6L19.2 12z" fill="#fff" stroke="none"/></svg>';
+const reel = `<span class="reel" aria-hidden="true"><i></i><b>${playSvg}</b><i></i></span>`;
 
-const meshCls = ["ask","c2","c3","c4"];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function esc(s){
@@ -640,10 +1378,53 @@ function svc(item){
 function card(id){
   const t = titles[id];
   if (!t) return "";
-  return `<button class="lane-card" type="button" data-title="${esc(t.title)}">
+  return `<button class="lane-card" type="button" data-open="${id}" data-title="${esc(t.title)}">
     <div class="gposter${t.crop ? " is-crop" : ""}"><img src="${t.poster}" alt="${esc(t.title)}" loading="lazy">${svc(t)}</div>
     <div class="title">${esc(t.title)}</div>
   </button>`;
+}
+function peek(id){
+  const t = titles[id];
+  if (!t) return "";
+  return `<button type="button" data-open="${id}" data-title="${esc(t.title)}"><img src="${t.poster}" alt="${esc(t.title)}" loading="lazy"></button>`;
+}
+function packCard(p){
+  return `<article class="pack-card${p.tone ? ` ${p.tone}` : ""}" data-pack="${p.id}">
+    <div class="pack-top">
+      <div class="pack-kicker"><span>${esc(p.kicker)}</span></div>
+      ${reel}
+    </div>
+    <h4>${esc(p.title)}</h4>
+    <div class="pack-lane">${p.ids.map(peek).join("")}</div>
+  </article>`;
+}
+function moodChip(id, tone){
+  const item = findAsk(id);
+  if (!item) return "";
+  if (item.kind === "genre") return genreChip(id);
+  return `<button class="mood${tone ? ` ${tone}` : ""}" type="button" data-ask="${id}">${esc(item.q)}</button>`;
+}
+function genreChip(id){
+  const item = findAsk(id);
+  if (!item) return "";
+  return `<button class="genre" type="button" data-ask="${id}">${esc(item.label || item.q)}</button>`;
+}
+function moodAskIds(){
+  return Object.keys(asks).filter(id => asks[id].kind !== "genre");
+}
+function moodTrackHtml(){
+  const tones = ["", "gold", "violet", "mint", "blue", "rose"];
+  const rows = [[],[],[]];
+  moodAskIds().forEach((id, i) => rows[i % 3].push(moodChip(id, tones[i % tones.length])));
+  return rows.map(r => `<div class="mood-row">${r.join("")}</div>`).join("");
+}
+function genreTrackHtml(){
+  return Object.keys(asks).filter(id => asks[id].kind === "genre").map(genreChip).join("");
+}
+function lanesFor(item){
+  if (item.lanes) return item.lanes;
+  if (item.ids) return [{title:"Titles for this", sub:"from the brief", ids:item.ids}];
+  return [];
 }
 
 const scene = document.getElementById("scene");
@@ -651,52 +1432,87 @@ const phone = document.getElementById("phone");
 const toastEl = document.getElementById("toast");
 
 scene.innerHTML = `
-  <h2 class="headline">What can we help you with?</h2>
-  <div class="search">
-    <button class="back-ask" type="button" data-back aria-label="Back to Search">${chevSvg}</button>
-    <div class="field">
-      ${magSvg}
-      <input type="search" placeholder="Ask or search anything…" autocomplete="off" enterkeyhint="search">
-      <div class="listen" aria-hidden="true"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span><span>Listening…</span></div>
-      <button class="send" type="button" data-send aria-label="Send" disabled>${sendSvg}</button>
-    </div>
-    <button class="mic-out" type="button" data-mic aria-label="Ask with voice">${micSvg}</button>
+  <div class="ask-head">
+    <button class="back" type="button" data-back aria-label="Back to Search">${chevSvg}</button>
+    <div class="ask-head-fade" aria-hidden="true"></div>
   </div>
-  <div class="browse">
-    <div class="pills">${pills.map(p =>
-      `<button class="pill m-${p.cls}" type="button" data-ask="${p.id}">${star}<span>${esc(asks[p.id].q)}</span></button>`
-    ).join("")}</div>
-    ${lanes.map(lane => `
-      <div class="sec-head"><h2>${esc(lane.title)}</h2><small>${esc(lane.sub)}</small></div>
-      <div class="lane">${lane.ids.map(card).join("")}</div>
-    `).join("")}
+  <div class="lobby">
+    <div class="hello">
+      <h2>What are we watching?</h2>
+      <p>Tap a mood to start</p>
+    </div>
+    <div class="moods">
+      <div class="mood-track">
+        ${moodTrackHtml()}
+      </div>
+    </div>
+    <div class="genre-block">
+      <p class="genre-kicker">Or a genre</p>
+      <div class="genres">
+        <div class="genre-track">${genreTrackHtml()}</div>
+      </div>
+    </div>
+    <div class="collect">
+      <h3>Nights we already mixed</h3>
+      <div class="packs">${packs.map(packCard).join("")}</div>
+    </div>
   </div>
   <div class="convo">
     <div class="thread" id="thread"></div>
     <div class="ask-more hid" id="askMore">
-      <div class="label-mini">Ask more</div>
-      <div class="pills" id="morePills"></div>
+      <div class="label-mini">Add to this, or start over</div>
+      <div class="hints follow" id="morePills"></div>
     </div>
+  </div>
+  <div class="search askdock">
+    <div class="field">
+      <input type="search" placeholder="Or type your own…" autocomplete="off" enterkeyhint="search">
+      <div class="listen" aria-hidden="true"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span><span>Listening…</span></div>
+    </div>
+    <button class="ask-mic" type="button" data-ask-mic aria-label="Ask with voice">
+      <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6.5 11a5.5 5.5 0 0 0 11 0"/><path d="M12 16.5V21"/></svg>
+    </button>
+    <button class="ask-send is-idle" type="button" data-ask-send aria-label="Send" disabled>
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+  <div class="pack" id="pack">
+    <iframe id="packFrame" title="Collection" src="about:blank" allow="autoplay; encrypted-media"></iframe>
   </div>
 `;
 
 const field = scene.querySelector(".field");
 const input = field.querySelector("input");
-const send = field.querySelector("[data-send]");
-const mic = scene.querySelector("[data-mic]");
+const micBtn = scene.querySelector("[data-ask-mic]");
+const sendBtn = scene.querySelector("[data-ask-send]");
 const search = scene.querySelector(".search");
 const thread = document.getElementById("thread");
 const askMore = document.getElementById("askMore");
 const morePills = document.getElementById("morePills");
+const packEl = document.getElementById("pack");
+const packFrame = document.getElementById("packFrame");
 
 let currentAsk = null;
 let streamT = 0;
 
 function toast(msg){
   toastEl.textContent = msg;
+  toastEl.classList.remove("on");
+  void toastEl.offsetWidth;
   toastEl.classList.add("on");
   clearTimeout(toastEl._t);
-  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1300);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1800);
+}
+const titlePage = GummyTitle.create({
+  phone,
+  toast,
+  plan: PLAN,
+  reduceMotion
+});
+function openTitleFrom(el){
+  const id = el.dataset.open;
+  const item = (id && titles[id]) || Object.values(titles).find(t => t.title === el.dataset.title);
+  if (item) titlePage.open({ id: id || item.id, ...item });
 }
 function goPrototype(id, href){
   if (window.parent && window.parent !== window) {
@@ -710,19 +1526,35 @@ function goPrototype(id, href){
 }
 function setRec(on){
   field.classList.toggle("is-rec", on);
-  mic.classList.toggle("is-rec", on);
+  search.classList.toggle("is-rec", on);
+  micBtn.classList.toggle("is-rec", on);
+  micBtn.setAttribute("aria-label", on ? "Stop recording" : "Ask with voice");
   if (on) input.blur();
 }
 function setTyped(){
   const has = input.value.trim().length > 0;
   field.classList.toggle("is-typed", has);
   search.classList.toggle("is-typed", has);
-  send.disabled = !has;
-  send.classList.toggle("is-ready", has);
+  sendBtn.disabled = !has;
+  sendBtn.classList.toggle("is-idle", !has);
+  sendBtn.classList.toggle("is-ready", has);
   if (has) setRec(false);
 }
+function setPlaceholder(){
+  input.placeholder = scene.classList.contains("is-ask")
+    ? "Type it, or just say it…"
+    : "Or type your own…";
+}
 function scrollConvo(){
-  scene.scrollTo({top: scene.scrollHeight, behavior: reduceMotion ? "auto" : "smooth"});
+  const el = scene.querySelector(".convo");
+  if (!el) return;
+  const turn = thread.querySelector(".turn:last-child");
+  if (!turn) return;
+  const pin = turn.querySelector(".you") || turn;
+  const top = pin.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop;
+  const next = Math.max(0, Math.round(top));
+  if (Math.abs(el.scrollTop - next) < 2) return;
+  el.scrollTo({top: next, behavior: "auto"});
 }
 function streamText(text, el, done){
   clearInterval(streamT);
@@ -746,52 +1578,126 @@ function streamText(text, el, done){
   if (reduceMotion) { tick(); return; }
   streamT = setInterval(tick, 18);
 }
-function pillRow(ids, except){
-  return ids.filter(id => id !== except).map((id, i) => {
-    const cls = meshCls[i % meshCls.length];
-    return `<button class="pill m-${cls}" type="button" data-ask="${id}">${star}<span>${esc(asks[id].q)}</span></button>`;
-  }).join("");
+function findAsk(id){
+  if (asks[id]) return asks[id];
+  for (const key of Object.keys(asks)) {
+    const hit = (asks[key].follow || []).find(f => f.id === id);
+    if (hit) return { ...hit, more: asks[key].more, follow: asks[key].follow, parent: key };
+  }
+  return null;
+}
+function hintRow(ids, except){
+  const tones = ["", "gold", "violet", "mint", "blue", "rose"];
+  return ids.filter(id => id !== except && findAsk(id)).map((id, i) => moodChip(id, tones[i % tones.length])).join("");
 }
 function matchAsk(text){
   const q = text.toLowerCase();
+  for (const key of Object.keys(asks)) {
+    for (const f of (asks[key].follow || [])) {
+      const hay = f.q.toLowerCase();
+      if (q.length > 8 && hay.includes(q.slice(0, 18))) return f.id;
+      if (/not really|meant/.test(q) && /meant/.test(hay)) return f.id;
+      if (/darker/.test(q) && /darker/.test(hay)) return f.id;
+      if (/why/.test(q) && /why/.test(hay)) return f.id;
+    }
+  }
+  if (/after a long/.test(q)) return "plan";
+  if (/^action\b/.test(q)) return "g-action";
+  if (/^comedy\b/.test(q)) return "g-comedy";
+  if (/^drama\b/.test(q)) return "g-drama";
+  if (/^thriller\b/.test(q)) return "g-thriller";
+  if (/^horror\b/.test(q)) return "g-horror";
+  if (/^romance\b/.test(q)) return "g-romance";
+  if (/^sci-?fi\b|^science fiction\b/.test(q)) return "g-scifi";
+  if (/^crime\b/.test(q)) return "g-crime";
+  if (/^documentary\b|^documentaries\b/.test(q)) return "g-doc";
+  if (/^fantasy\b/.test(q)) return "g-fantasy";
+  if (/^mystery\b/.test(q)) return "g-mystery";
+  if (/^family\b/.test(q)) return "g-family";
+  if (/^adventure\b/.test(q)) return "g-adventure";
+  if (/can'?t decide|cannot decide|pick for me/.test(q)) return "decide";
+  if (/surprise/.test(q)) return "surprise";
+  if (/one more episode|another episode/.test(q)) return "episode";
+  if (/guilty/.test(q)) return "guilty";
+  if (/big screen|epic|fill the wall/.test(q)) return "epic";
+  if (/feel something|make me feel/.test(q)) return "feel";
+  if (/background|leave it on/.test(q)) return "noise";
+  if (/comfort food|comfort/.test(q)) return "comfort";
+  if (/start something new|something new/.test(q)) return "fresh";
+  if (/house isn'?t|lights on|family in the room/.test(q)) return "house";
+  if (/high stakes|stakes/.test(q)) return "stakes";
+  if (/based on|true story|true/.test(q)) return "true";
+  if (/weird|off.?centre|off.?center/.test(q)) return "weird";
+  if (/don'?t make me think|brain off/.test(q)) return "think";
+  if (/soft scare|horror|shiver/.test(q)) return "horror";
+  if (/late and wired|still awake|wired/.test(q)) return "wired";
+  if (/rainy|rain/.test(q)) return "rain";
+  if (/date night|date/.test(q)) return "date";
+  if (/slow and pretty|pretty/.test(q)) return "pretty";
+  if (/something loud|turn it up|loud/.test(q)) return "loud";
+  if (/laugh|funny|comedy/.test(q)) return "laugh";
+  if (/unwind|wind down|relax|calm/.test(q)) return "unwind";
   if (/bear|kitchen/.test(q)) return "bear";
-  if (/45|short|minutes|half hour/.test(q)) return "short";
-  if (/flanders|vlaander/.test(q)) return "flanders";
-  if (/belgian|belg|crime|crook/.test(q)) return "belgian";
-  if (/finish|continue|left off/.test(q)) return "finish";
-  if (/plan|already|can i play|subscription|lock/.test(q)) return "plan";
-  if (/lighter|easy|comfort|colour|color/.test(q)) return "light";
-  if (/tonight|movie|film|15/.test(q)) return "tonight";
-  return "tonight";
+  if (/40|forty|45|short|minutes|half hour|little something/.test(q)) return "short";
+  if (/flanders|vlaander|close to home/.test(q)) return "flanders";
+  if (/belgian|belg|flemish|crime|crook|danger/.test(q)) return "belgian";
+  if (/finish|continue|left off|company/.test(q)) return "finish";
+  if (/plan|already|start now|can i play|subscription|lock/.test(q)) return "plan";
+  if (/softer|lighter|easy|colour|color|tender/.test(q)) return "light";
+  if (/tonight|movie|film|15|thrill/.test(q)) return "tonight";
+  return "unwind";
 }
 function renderMore(except){
-  const item = asks[except];
-  morePills.innerHTML = item ? pillRow(item.more, except) : pillRow(pills.map(p => p.id), except);
+  const item = findAsk(except);
+  const followIds = (item?.follow || []).map(f => f.id).filter(id => id !== except);
+  const more = (item?.more || ["unwind","flanders","plan","light"]).filter(id => id !== except && id !== item?.parent);
+  const ids = [];
+  const seen = new Set();
+  [...followIds, ...more, ...moodAskIds()].forEach(id => {
+    if (ids.length >= 3) return;
+    if (!id || seen.has(id) || id === except) return;
+    if (!findAsk(id)) return;
+    seen.add(id);
+    ids.push(id);
+  });
+  morePills.innerHTML = hintRow(ids, except);
 }
 function ask(id, spoken){
-  const item = asks[id];
+  const item = findAsk(id);
   if (!item) return;
   const q = spoken || item.q;
   if (currentAsk === id && scene.classList.contains("is-ask")) return;
   const entering = !scene.classList.contains("is-ask");
   currentAsk = id;
   scene.classList.add("is-ask");
-  if (entering) scene.scrollTop = 0;
-  input.value = q;
+  setPlaceholder();
+  if (entering) scene.querySelector(".convo").scrollTop = 0;
+  input.value = "";
   setTyped();
   input.blur();
   askMore.classList.add("hid");
   const turn = document.createElement("div");
   turn.className = "turn";
+  const you = document.createElement("div");
+  you.className = "you";
+  you.textContent = q;
   const ans = document.createElement("div");
   ans.className = "ansr";
+  turn.appendChild(you);
   turn.appendChild(ans);
   thread.appendChild(turn);
+  scrollConvo();
   streamText(item.a, ans, () => {
-    const lane = document.createElement("div");
-    lane.className = "lane";
-    lane.innerHTML = item.ids.map(card).join("");
-    turn.appendChild(lane);
+    lanesFor(item).forEach(lane => {
+      const head = document.createElement("div");
+      head.className = "sec-head";
+      head.innerHTML = `<h2>${esc(lane.title)}</h2><small>${esc(lane.sub || "")}</small>`;
+      const row = document.createElement("div");
+      row.className = "lane";
+      row.innerHTML = lane.ids.map(card).join("");
+      turn.appendChild(head);
+      turn.appendChild(row);
+    });
     renderMore(id);
     askMore.classList.remove("hid");
     scrollConvo();
@@ -806,7 +1712,24 @@ function closeAsk(){
   scene.classList.remove("is-ask");
   input.value = "";
   setTyped();
-  scene.scrollTo({top: 0, behavior: reduceMotion ? "auto" : "smooth"});
+  setPlaceholder();
+  scene.querySelector(".lobby")?.scrollTo({top: 0, behavior: reduceMotion ? "auto" : "smooth"});
+}
+function pausePack(){
+  try { packFrame.contentWindow?.postMessage({type:"app-pause"}, "*"); } catch (_) {}
+}
+function closePack(){
+  pausePack();
+  packFrame.src = "about:blank";
+  scene.classList.remove("is-pack");
+  scene.querySelector(".lobby")?.scrollTo({top: 0, behavior: reduceMotion ? "auto" : "smooth"});
+}
+function openPack(id){
+  const pack = packs.find(p => p.id === id);
+  if (!pack) return;
+  closeAsk();
+  scene.classList.add("is-pack");
+  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=aug29p`;
 }
 
 input.addEventListener("input", setTyped);
@@ -817,29 +1740,62 @@ input.addEventListener("keydown", e => {
   }
 });
 phone.addEventListener("click", e => {
+  if (e.target.closest("[data-pack-back]")) { closePack(); return; }
   if (e.target.closest("[data-back]")) { closeAsk(); return; }
-  if (e.target.closest("[data-mic]")) { setRec(!field.classList.contains("is-rec")); return; }
-  if (e.target.closest("[data-send]") && !send.disabled) {
-    ask(matchAsk(input.value), input.value.trim());
+  if (e.target.closest("[data-ask-send]")) {
+    const typed = input.value.trim();
+    if (typed) ask(matchAsk(typed), typed);
+    return;
+  }
+  if (e.target.closest("[data-ask-mic]")) {
+    setRec(!field.classList.contains("is-rec"));
+    return;
+  }
+  const peekPoster = e.target.closest(".pack-lane [data-open], .pack-lane [data-title]");
+  if (peekPoster){
+    e.stopPropagation();
+    openTitleFrom(peekPoster);
+    return;
+  }
+  const packBtn = e.target.closest("[data-pack]");
+  if (packBtn){
+    openPack(packBtn.dataset.pack);
     return;
   }
   const pill = e.target.closest("[data-ask]");
   if (pill){
+    pill.blur();
     ask(pill.dataset.ask);
     return;
   }
   const poster = e.target.closest(".lane-card");
-  if (poster) toast(poster.dataset.title || "Open title");
+  if (poster) { openTitleFrom(poster); return; }
 });
 document.querySelector(".tabbar")?.addEventListener("click", e => {
   const btn = e.target.closest(".navitem");
   if (!btn) return;
   const nav = (btn.dataset.nav || btn.getAttribute("aria-label") || "").toLowerCase();
-  if (nav === "home") goPrototype("gummy-ask-smear", "ah-gummy-ask-smear.html");
+  if (nav === "home") goPrototype("gummy-ask-carousel", "ah-gummy-ask-carousel.html");
   else if (nav === "stuff" || nav === "my stuff") goPrototype("gummy-my-stuff", "ah-gummy-my-stuff.html");
-  else if (nav === "search") { if (scene.classList.contains("is-ask")) closeAsk(); }
-  else toast(`${btn.getAttribute("aria-label") || "Shop"} · coming soon`);
+  else if (nav === "search") {
+    if (scene.classList.contains("is-pack")) closePack();
+    else if (scene.classList.contains("is-ask")) closeAsk();
+  }
+  else if (nav === "shop") goPrototype("gummy-shop", "ah-gummy-shop.html");
 });
+window.addEventListener("message", e => {
+  const d = e.data;
+  if (!d || typeof d !== "object") return;
+  if (d.type === "pack-back") closePack();
+  if (d.type === "app-pause") pausePack();
+});
+(function bootDemo(){
+  const demo = new URLSearchParams(location.search);
+  const askId = demo.get("ask");
+  const packId = demo.get("pack");
+  if (askId && findAsk(askId)) setTimeout(() => ask(askId), 40);
+  else if (packId) setTimeout(() => openPack(packId), 40);
+})();
 (function tickClock(){
   const t = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
   document.querySelectorAll(".status-time").forEach(el => { el.textContent = t; });

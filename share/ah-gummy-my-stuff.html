@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AH · Gummy · My Stuff · Bookmarks · 24 Aug 2026</title>
+<title>AH · Gummy · My Stuff · Bookmarks · 28 Aug 2026</title>
 <meta http-equiv="Cache-Control" content="no-store">
 <script>
 (function(){
@@ -49,6 +49,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
+<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
 <style>
   :root{
     --desk:#0e1218;
@@ -90,6 +93,11 @@
       linear-gradient(180deg, transparent 58%, rgba(255,50,80,.3) 100%);
     --ease-jelly: cubic-bezier(.22,.82,.28,1);
     --ease-star: cubic-bezier(.18,.72,.22,1);
+    --line-candy: linear-gradient(135deg, rgba(255,228,150,.95), rgba(255,110,70,.9) 48%, rgba(255,50,95,.95));
+    --beam-ask: linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.55) 38%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.2) 68%, rgba(255,50,95,0) 100%);
+    --beam-c2: linear-gradient(90deg, rgba(255,236,150,0) 0%, rgba(255,200,90,.52) 38%, rgba(255,140,50,.7) 50%, rgba(255,90,50,.2) 68%, rgba(255,90,50,0) 100%);
+    --beam-c3: linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.5) 38%, rgba(50,210,180,.7) 50%, rgba(40,170,150,.2) 68%, rgba(40,170,150,0) 100%);
+    --beam-c4: linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.52) 38%, rgba(160,110,255,.7) 50%, rgba(120,80,255,.22) 68%, rgba(120,80,255,0) 100%);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{
@@ -120,7 +128,6 @@
   html.is-embed .page{width:auto;max-width:none;height:100%;display:flex;align-items:center;justify-content:center}
   html.is-embed .intro,
   html.is-embed .brand,
-  html.is-embed h1,
   html.is-embed .lead,
   html.is-embed .brief,
   html.is-embed .note{display:none}
@@ -138,7 +145,8 @@
   html.is-app .status{display:none}
   html.is-app.is-mock-status{--status-h:54px}
   html.is-app.is-mock-status .status{display:flex;height:54px}
-  html.is-app .tabs{padding-top: calc(8px + var(--status-h))}
+  html.is-app .scene{padding-top: calc(32px + var(--status-h))}
+  html.is-app.is-mock-status .scene{padding-top: 86px}
   html.is-app .tabbar{
     height: calc(64px + var(--safe-bottom));
     padding-bottom: var(--safe-bottom);
@@ -149,10 +157,6 @@
   }
   html.is-app .scene{bottom: calc(64px + var(--safe-bottom))}
   html.is-app .ask-rail{bottom: calc(84px + var(--safe-bottom))}
-  html.is-app .qwrap{bottom: calc(101px + var(--safe-bottom))}
-  html.is-app .qdots{bottom: calc(87px + var(--safe-bottom))}
-  html.is-app .asheet{bottom: calc(102px + var(--safe-bottom))}
-  html.is-app .phone.is-ask.is-open .asheet{bottom: calc(78px + var(--safe-bottom))}
 
   .phone{
     width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
@@ -295,13 +299,36 @@
     opacity:0;pointer-events:none;visibility:hidden;
     overflow-y:auto;
     scrollbar-width:none;overscroll-behavior-y:contain;
-    padding:100px 0 168px;
+    padding:86px 0 108px;
     transition:opacity .48s cubic-bezier(.22,.7,.28,1), filter .35s ease;
   }
   .scene::-webkit-scrollbar{display:none}
   .scene.is-on{opacity:1;pointer-events:auto;z-index:19;visibility:visible}
   .phone.is-ask .scene{filter:brightness(.72);pointer-events:none}
 
+  .page-lede{
+    margin:0 20px 28px;max-width:300px;
+    padding-top:4px;
+    font-size:24px;font-weight:600;letter-spacing:-.03em;line-height:1.18;color:#fff;
+    text-shadow:0 2px 12px rgba(0,0,0,.55);
+  }
+  .coll-lede{
+    margin:8px 20px 24px;max-width:348px;
+    font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.25;color:#fff;
+    text-shadow:0 2px 12px rgba(0,0,0,.55);
+  }
+  .coll-word{
+    color:transparent;
+    background:linear-gradient(172deg, #fff6c4 0%, #ffe08a 16%, #ffc889 32%, #ffaa72 52%, #ff8b6a 78%, #ff7a86 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .block{padding:0 0 44px}
+  .block .sec-head{padding:0 20px 12px}
+  .block .lane,
+  .block .up,
+  .block .cont{padding-bottom:12px}
+  .block .lane-q{margin:0}
   .sec-head{
     display:flex;align-items:center;justify-content:space-between;
     padding:0 20px 10px;gap:12px;
@@ -315,7 +342,7 @@
   }
 
   .cont{
-    display:flex;gap:10px;padding:0 0 26px;overflow-x:auto;scrollbar-width:none;
+    display:flex;gap:10px;padding:0 0 32px;overflow-x:auto;scrollbar-width:none;
     scroll-snap-type:x mandatory;
     scroll-padding-inline:20px;
   }
@@ -360,7 +387,8 @@
     display:block;height:100%;border-radius:inherit;
     background:#fff;
   }
-  .cont-still .svc{top:8px;right:8px;bottom:auto}
+  .cont-still .svc,
+  .up-still .svc{top:8px;right:8px;bottom:auto}
 
   .svc{
     position:absolute;right:8px;bottom:12px;z-index:4;
@@ -387,13 +415,26 @@
     position:absolute;top:6px;right:6px;z-index:3;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     min-width:36px;padding:5px 6px 4px;border-radius:10px;overflow:hidden;
-    line-height:1;color:#fff;
-    backdrop-filter:blur(14px) saturate(1.5);
-    -webkit-backdrop-filter:blur(14px) saturate(1.5);
+    line-height:1;color:#fff;cursor:pointer;
+    background:
+      radial-gradient(110% 90% at 10% 12%, rgba(255,236,140,.16) 0%, transparent 38%),
+      radial-gradient(90% 80% at 70% 40%, rgba(255,90,70,.14) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.26) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(18,10,14,.82) 0%, rgba(10,8,12,.94) 100%);
+    box-shadow:0 4px 14px rgba(0,0,0,.35);
   }
   .top10::before{
     content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
-    background:var(--mesh-hi);
+    background:var(--mesh-hi);opacity:.35;
+  }
+  .top10::after{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:2;
+    padding:1px;opacity:.58;
+    background:linear-gradient(135deg, rgba(255,228,150,.7), rgba(255,110,70,.45) 48%, rgba(255,50,95,.55));
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite:exclude;
   }
   .top10 > *{position:relative;z-index:1}
   .top10 span{
@@ -465,6 +506,7 @@
     scroll-snap-type:x proximity;
     scroll-padding-inline:20px;
   }
+  .lane:has(+ .lane-q){padding-bottom:12px}
   .lane::-webkit-scrollbar{display:none}
   .lane-card:first-child{margin-left:20px}
   .lane-card:last-child{margin-right:20px}
@@ -476,10 +518,70 @@
   .lane-card:active{transform:scale(.97)}
   .lane-card .gposter{width:108px}
 
+  .up{
+    display:flex;gap:10px;padding:0 0 22px;overflow-x:auto;scrollbar-width:none;
+    scroll-snap-type:x proximity;
+    scroll-padding-inline:20px;
+  }
+  .up::-webkit-scrollbar{display:none}
+  .up-card:first-child{margin-left:20px}
+  .up-card:last-child{margin-right:20px}
+  .up-card{
+    flex:0 0 160px;width:160px;scroll-snap-align:start;
+    text-align:left;color:#fff;
+  }
+  .up-card:active{transform:scale(.97)}
+  .up-still{
+    position:relative;width:160px;height:90px;border-radius:14px;overflow:hidden;
+    background:#111;box-shadow:0 10px 24px rgba(0,0,0,.35);
+  }
+  .up-still img{width:100%;height:100%;object-fit:cover;object-position:center 28%;display:block}
+  .up-foot{
+    display:flex;align-items:center;gap:7px;margin-top:8px;min-width:0;
+  }
+  .up-copy{min-width:0}
+  .up-title{
+    font-size:12.5px;font-weight:700;letter-spacing:-.03em;line-height:1.15;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .up-when{
+    margin-top:2px;font-size:10.5px;font-weight:500;color:rgba(255,255,255,.58);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .up-cal{
+    position:relative;width:26px;flex-shrink:0;
+    border-radius:7px;overflow:visible;
+    background:rgba(255,255,255,.08);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);
+    text-align:center;
+  }
+  .up-cal-rings{
+    position:absolute;left:0;right:0;top:-3px;
+    display:flex;justify-content:center;gap:7px;pointer-events:none;
+  }
+  .up-cal-rings i{
+    width:3px;height:5px;border-radius:99px;background:rgba(255,255,255,.42);
+  }
+  .up-cal-top{
+    display:block;padding:5px 0 0;
+    font-size:6.5px;font-weight:800;letter-spacing:.08em;line-height:1;
+    color:rgba(255,255,255,.55);
+  }
+  .up-cal-num{
+    display:block;padding:1px 0 4px;
+    font-size:12px;font-weight:800;letter-spacing:-.05em;line-height:1;
+    font-variant-numeric:tabular-nums;color:#fff;
+  }
+  .up-cal.is-now{
+    background:rgba(255,255,255,.12);
+    box-shadow:inset 0 0 0 1px rgba(255,180,90,.32);
+  }
+  .up-cal.is-now .up-cal-top{color:#ffb46a}
   .ai-zone{
     position:relative;
-    margin:0;padding:18px 0 0;
+    margin:0;padding:8px 0 0;
   }
+  .ai-zone .block:last-child{padding-bottom:12px}
   .ai-mark{
     display:inline-flex;align-items:center;gap:6px;
     margin:0 20px 6px;padding:0;
@@ -491,11 +593,6 @@
     margin:0 20px 18px;
     font-size:13px;font-weight:500;line-height:1.4;color:rgba(255,255,255,.58);
   }
-  .ai-why{
-    padding:0 20px 10px;margin-top:-4px;
-    font-size:12px;font-weight:500;line-height:1.35;color:rgba(255,255,255,.42);
-  }
-
   .legend{
     display:flex;align-items:center;gap:14px;padding:4px 20px 16px;
     font-size:11.5px;font-weight:600;color:rgba(255,255,255,.58);
@@ -552,232 +649,154 @@
     filter:brightness(0) invert(1);opacity:1;
   }
   .ask-rail{
-    position:absolute;right:12px;bottom:84px;z-index:36;
+    position:absolute;right:12px;bottom:84px;z-index:45;
     display:flex;flex-direction:column;align-items:center;gap:5px;width:54px;
     transition:opacity .2s ease, transform .45s var(--ease-star);
   }
   .askfab{
     position:relative;width:48px;height:48px;border-radius:16px;
-    display:grid;place-items:center;
-    background:var(--mesh-ask);
-    backdrop-filter:blur(18px) saturate(1.55);
-    -webkit-backdrop-filter:blur(18px) saturate(1.55);
-    transition:box-shadow .45s ease;
+    display:grid;place-items:center;overflow:hidden;
+    background:
+      radial-gradient(110% 90% at 10% 12%, rgba(255,236,140,.16) 0%, transparent 38%),
+      radial-gradient(90% 80% at 70% 40%, rgba(255,90,70,.14) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.26) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(18,10,14,.78) 0%, rgba(10,8,12,.92) 100%);
+    box-shadow:0 4px 14px rgba(0,0,0,.35);
   }
   .askfab::before{
-    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-    background:var(--mesh-hi);
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:1;
+    background:var(--mesh-hi);opacity:.35;
   }
   .askfab::after{
-    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
-    background:var(--mesh-ember-ask);
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:2;
+    padding:1px;opacity:.58;
+    background:linear-gradient(135deg, rgba(255,228,150,.7), rgba(255,110,70,.45) 48%, rgba(255,50,95,.55));
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite:exclude;
   }
-  .askfab .star{position:relative;z-index:1;transform-origin:center;transition:transform .78s var(--ease-star)}
+  .askfab .star{position:relative;z-index:3;transform-origin:center;transition:transform .78s var(--ease-star)}
   .phone.is-ask .askfab .star{transform:rotate(-180deg)}
-  .askfab.is-glow{
-    box-shadow:0 0 0 3px rgba(255,140,60,.14), 0 0 16px rgba(255,80,70,.4);
-  }
   .ask-lbl{font-size:11px;font-weight:600;color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.5)}
   .phone.is-ask .ask-rail{opacity:0;pointer-events:none}
 
-  .qwrap{
-    position:absolute;left:16px;right:76px;bottom:101px;height:48px;z-index:35;
-    pointer-events:auto;
+  .lane-q{
+    position:relative;height:44px;margin:0;
+    background:none;border:0;box-shadow:none;
+    overflow:visible;
+    --tone-0:0;
+    --tone-1:1;
+    --tone-2:0;
   }
-  .qcard{
-    position:absolute;top:0;left:0;width:100%;height:48px;z-index:1;
-    border-radius:16px;overflow:hidden;
-    background-color:rgba(28,10,14,.72);
-    background-image:var(--mesh-ask);
-    backdrop-filter:blur(18px) saturate(1.55);
-    -webkit-backdrop-filter:blur(18px) saturate(1.55);
+  .lane-q .qcard{
+    position:absolute;inset:0;z-index:2;
   }
-  .qcard::before{
-    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
-    background:var(--mesh-hi);
-  }
-  .qcard.m-ask{background-image:var(--mesh-ask)}
-  .qcard.m-c2{background-image:var(--mesh-c2)}
-  .qcard.m-c3{background-image:var(--mesh-c3)}
-  .qcard.m-c4{background-image:var(--mesh-c4)}
-  .qcard-track{
-    position:absolute;top:0;left:0;width:100%;height:48px;z-index:1;
-    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+  .lane-q .qcard-track{
+    position:absolute;inset:0;z-index:1;
+    display:flex;align-items:stretch;gap:36px;
+    overflow-x:auto;scroll-snap-type:x mandatory;
     scrollbar-width:none;touch-action:pan-x;
+    overscroll-behavior-x:contain;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+    mask-image:linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
   }
-  .qcard-track::-webkit-scrollbar{display:none}
-  .qcard-q{
-    flex:0 0 100%;height:48px;
+  .lane-q .qcard-track::-webkit-scrollbar{display:none}
+  .lane-q .qcard-q{
+    position:relative;
+    flex:0 0 auto;height:100%;
     display:flex;align-items:center;justify-content:center;
-    padding:0 16px;
-    font-size:13.5px;font-weight:500;line-height:1.2;text-align:center;
-    color:#fff;
-    scroll-snap-align:start;scroll-snap-stop:always;
-    position:relative;z-index:2;
-  }
-  .qdots{
-    position:absolute;left:16px;right:76px;bottom:87px;z-index:35;
-    display:flex;justify-content:center;align-items:center;
-    pointer-events:none;
-  }
-  .qdots-rail{position:relative;display:flex;align-items:center;gap:6px}
-  .qdots i{
-    width:5px;height:5px;border-radius:99px;flex-shrink:0;
-    background:rgba(255,255,255,.28);
-  }
-  .qdots-pill{
-    position:absolute;left:0;top:50%;
-    width:16px;height:6px;margin-top:-3px;
-    border-radius:99px;background:#fff;pointer-events:none;z-index:2;
-  }
-  .phone.is-ask .qwrap,
-  .phone.is-ask .qdots,
-  .phone.is-q-off .qwrap,
-  .phone.is-q-off .qdots{
-    opacity:0;pointer-events:none;visibility:hidden;
-  }
-
-  .asheet{
-    position:absolute;left:calc(100% - 63px);right:15px;bottom:102px;height:48px;z-index:37;
-    border-radius:16px;overflow:hidden;opacity:0;pointer-events:none;
-    background:var(--mesh-ask);
-    backdrop-filter:blur(18px) saturate(1.55);
-    -webkit-backdrop-filter:blur(18px) saturate(1.55);
-    transition:height .55s var(--ease-jelly), bottom .55s var(--ease-jelly), left .55s var(--ease-jelly), right .55s var(--ease-jelly), border-radius .55s var(--ease-jelly), opacity .2s ease;
-  }
-  .asheet::before{
-    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
-    background:var(--mesh-hi);
-  }
-  .asheet::after{
-    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;
-    background:linear-gradient(180deg, rgba(8,8,10,.18) 0%, rgba(8,8,10,.42) 28%, rgba(8,8,10,.62) 100%);
-    opacity:0;transition:opacity .4s ease;
-  }
-  .phone.is-ask .asheet{opacity:1;pointer-events:auto}
-  .phone.is-ask-park .asheet{transition:none}
-  .phone.is-ask.is-open .asheet{
-    left:8px;right:8px;bottom:78px;height:404px;border-radius:20px;
-  }
-  .phone.is-ask.is-open .asheet::after{opacity:1}
-  .asheet-star{
-    display:none;position:absolute;inset:0;z-index:4;
-    place-items:center;pointer-events:none;
-  }
-  .phone.is-ask:not(.is-open) .asheet-star,
-  .phone.is-ask-park .asheet-star{display:grid}
-  .qcard-chev{
-    display:none;position:absolute;left:50%;top:6px;z-index:5;
-    width:36px;height:22px;margin-left:-18px;
-    place-items:center;opacity:.8;
-  }
-  .qcard-chev svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .phone.is-ask.is-open .qcard-chev{display:grid}
-  .qconvo{
-    display:flex;position:absolute;inset:0;z-index:3;
-    flex-direction:column;padding:28px 14px 12px;
-    opacity:0;pointer-events:none;
-    transition:opacity .18s ease;
-  }
-  .phone.is-ask.is-open .qconvo{
-    opacity:1;pointer-events:auto;
-    transition:opacity .22s ease .34s;
-  }
-  .qconvo-scroll{
-    flex:1;min-height:0;overflow-y:auto;padding-bottom:8px;
-    overscroll-behavior:contain;
-    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;
-  }
-  .ask-thread{display:flex;flex-direction:column;gap:12px}
-  .qbubble{
-    align-self:flex-end;max-width:92%;margin:0;padding:10px 12px;
-    font-size:14px;font-weight:600;line-height:1.35;
-    color:#fff;background:rgba(255,255,255,.1);border-radius:16px 16px 5px 16px;
-  }
-  .ansr{
-    margin-top:0;padding:12px 13px;font-size:14px;line-height:1.5;font-weight:500;
-    color:rgba(255,255,255,.94);background:rgba(0,0,0,.28);border-radius:16px;
-    min-height:4.6em;
-  }
-  .ansr .cursor{display:inline-block;margin-left:1px;color:#ffb060;animation:blink 1s steps(1) infinite}
-  @keyframes blink{50%{opacity:0}}
-  .ask-continue{margin-top:16px}
-  .label-mini{
-    font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-    color:rgba(255,255,255,.5);margin-bottom:8px;
-  }
-  .ask-starters{display:flex;gap:8px;flex-wrap:wrap}
-  .ask-starters.hid{opacity:0;pointer-events:none}
-  .qchip{
-    display:inline-flex;align-items:center;gap:6px;
-    background:rgba(255,255,255,.1);font-size:12.5px;padding:8px 11px;border-radius:16px;
+    padding:0 4px 8px;
+    font-size:12.5px;font-weight:500;line-height:1;text-align:center;
     color:rgba(255,255,255,.92);
+    white-space:nowrap;
+    scroll-snap-align:center;scroll-snap-stop:normal;
+    opacity:.42;
+    outline:none;
   }
-  .qchip .star{width:8px;height:9px}
-  .qconvo-foot{flex-shrink:0;padding-top:8px}
-  .askinput{display:flex;gap:8px;align-items:center;position:relative}
-  .askinput input{
-    flex:1;min-width:0;height:46px;background:rgba(0,0,0,.38);border:0;border-radius:16px;
-    font-size:14px;padding:0 14px;color:#fff;outline:none;font-family:"Inter",system-ui,sans-serif;
+  .lane-q .q-copy{font-weight:500}
+  .lane-q .qcard-q.is-on{opacity:1}
+  .lane-q .qbeam{
+    position:absolute;left:50%;bottom:5px;z-index:4;
+    width:min(220px,58%);height:2px;
+    transform:translateX(-50%);
+    pointer-events:none;
+    opacity:.86;
+    animation:laneBeamPulse 2.4s ease-in-out infinite;
   }
-  .askinput input::placeholder{color:rgba(255,255,255,.38)}
-  .askinput input:focus{background:rgba(0,0,0,.5)}
-  .askinput.is-rec input{color:transparent;caret-color:transparent}
-  .askinput.is-rec input::placeholder{color:transparent}
-  .ask-listen{
-    display:none;position:absolute;left:14px;right:62px;top:0;bottom:0;
-    align-items:center;gap:8px;pointer-events:none;
+  .lane-q .qbeam-in{
+    position:absolute;inset:0;
+    opacity:0;
   }
-  .askinput.is-rec .ask-listen{display:flex}
-  .ask-listen .wave{display:flex;align-items:center;gap:3px;height:16px}
-  .ask-listen .wave i{
-    width:3px;border-radius:99px;background:rgba(255,255,255,.82);
-    animation:askWave 1s ease-in-out infinite;
+  .lane-q .qbeam-in[data-beamin="0"]{
+    opacity:var(--tone-0);
+    background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.48) 32%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.48) 68%, rgba(255,50,95,0) 100%);
   }
-  .ask-listen .wave i:nth-child(2){height:12px;animation-delay:.12s}
-  .ask-listen .wave i:nth-child(3){height:8px;animation-delay:.24s}
-  .ask-listen .wave i:nth-child(4){height:14px;animation-delay:.08s}
-  .ask-listen .wave i:nth-child(5){height:7px;animation-delay:.2s}
-  @keyframes askWave{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
-  .ask-listen span{font-size:13px;font-weight:500;color:rgba(255,255,255,.72)}
-  .askinput button{
-    width:46px;height:46px;flex-shrink:0;border-radius:16px;display:grid;place-items:center;
+  .lane-q .qbeam-in[data-beamin="1"]{
+    opacity:var(--tone-1);
+    background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.44) 32%, rgba(50,210,180,.7) 50%, rgba(40,170,150,.44) 68%, rgba(40,170,150,0) 100%);
   }
-  .askinput button svg{
-    width:20px;height:20px;stroke:currentColor;fill:none;
-    stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  .lane-q .qbeam-in[data-beamin="2"]{
+    opacity:var(--tone-2);
+    background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.45) 32%, rgba(160,110,255,.7) 50%, rgba(120,80,255,.45) 68%, rgba(120,80,255,0) 100%);
   }
-  .ask-mic{background:#fff;color:#111}
-  .ask-mic svg{stroke:#111}
-  .ask-mic.is-rec{animation:askMicPulse 1.15s ease-in-out infinite;color:#c43b2a}
-  .ask-mic.is-rec svg{stroke:#c43b2a}
-  @keyframes askMicPulse{
-    0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
-    50%{box-shadow:0 0 0 6px rgba(255,255,255,.16)}
+  .lane-q .qbeam-in::after{
+    content:"";position:absolute;left:8%;right:8%;bottom:-4px;height:10px;
+    background:inherit;filter:blur(7px);opacity:.55;
   }
-  .askinput.is-typed .ask-mic,
-  .askinput:not(.is-typed) [data-ask-send]{display:none}
-  .askinput.is-rec .ask-mic{display:grid}
-  .askinput.is-rec [data-ask-send]{display:none}
-  .askinput button.is-idle{background:rgba(255,255,255,.08);color:rgba(255,255,255,.35)}
-  .askinput button.is-ready{background:#fff;color:#111}
+  @keyframes laneBeamPulse{
+    0%,100%{opacity:.72;filter:saturate(1) brightness(1)}
+    50%{opacity:1;filter:saturate(1.3) brightness(1.2)}
+  }
 
-  .top10.mesh{position:relative;overflow:hidden;color:#fff}
-  .top10.mesh.m-c2{background:var(--mesh-c2)}
+  .top10.mesh{overflow:hidden;color:#fff}
 
   .toast{
-    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
-    color:#2a1208;font-size:11px;font-weight:800;
-    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
-    transition:opacity .2s;white-space:nowrap;
+    position:absolute;left:50%;top:96px;z-index:90;
+    padding:10px 18px;border-radius:999px;
+    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
+    line-height:1.2;white-space:nowrap;text-align:center;
+    text-shadow:0 1px 10px rgba(0,0,0,.5);
+    pointer-events:none;overflow:visible;
+    opacity:0;
+    transform:translateX(-50%) translateY(-8px) scale(.96);
     background:
-      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
-      linear-gradient(135deg, #ffe56a, #ff9a50);
+      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
+      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
+      rgba(10,8,12,.62);
+    backdrop-filter:blur(22px) saturate(1.35);
+    -webkit-backdrop-filter:blur(22px) saturate(1.35);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.18),
+      0 0 0 1px rgba(255,255,255,.08),
+      0 10px 28px rgba(0,0,0,.45),
+      0 0 20px rgba(255,110,70,.48),
+      0 0 40px rgba(40,200,170,.34);
+    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
   }
-  .toast.on{opacity:1}
+  .toast::after{
+    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
+    border-radius:2px;pointer-events:none;
+    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
+    box-shadow:0 0 14px rgba(70,210,170,.55);
+    opacity:0;
+    transition:opacity .32s ease;
+  }
+  .toast.on{
+    opacity:1;
+    transform:translateX(-50%) translateY(0) scale(1);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.2),
+      0 0 0 1px rgba(255,255,255,.1),
+      0 12px 30px rgba(0,0,0,.48),
+      0 0 26px rgba(255,110,70,.55),
+      0 0 52px rgba(40,200,170,.4);
+  }
+  .toast.on::after{opacity:1}
 
   @media (prefers-reduced-motion:reduce){
-    .scene,.gcard,.lane-card,.cont-card,.event,.curate-line,.asheet,.askfab .star,.qconvo,.qcard,.qwrap,.qdots,.ai-zone{transition:none;animation:none}
+    .scene,.gcard,.lane-card,.cont-card,.up-card,.event,.curate-line,.asheet,.askfab .star,.qconvo,.lane-q,.lane-q .qbeam,.ai-zone,.j-cal{transition:none;animation:none}
     .gcard.is-out{opacity:.2;transform:none;filter:none}
     .phone.is-ask.is-open .qconvo{transition:none}
   }
@@ -815,16 +834,15 @@
 <div class="page">
   <div class="intro">
     <div class="brand">AH · Gummy · My Stuff</div>
-    <h1>Bookmarks · candy smear</h1>
+    <h1>Bookmarks · questions under the lanes</h1>
     <p class="lead">
-      Watch List as a rail, then collections from what you’re watching and what you saved. See all opens the full grid.
+      Watch List as a rail, then coming-up with calendar dates. See all opens the vertical Following calendar.
+      Collections sit further down. No Bookmarks / Following tabs — you scroll the page.
     </p>
     <div class="brief">
-      <strong>24 Aug 2026.</strong> Same visual system as Ask conversation · candy smear · 16 Aug.
-      Service icon = you can watch. Service icon + lock = not in your plan.
-      Watch List mixes local (VRT MAX, VTM GO, Play, Streamz) with Netflix and HBO Max. VRT MAX is in-plan.
+      <strong>28 Aug 2026.</strong> Lane questions open the same Ask sheet as Home. Each prompt maps to its own answer and follow-ups — not a generic chat.
     </div>
-    <p class="note">source: <a href="ah-gummy-ask-smear.html">Ask conversation · candy smear</a></p>
+    <p class="note"><a href="playground.html">Playground</a> · source: <a href="ah-gummy-ask-smear.html">Ask conversation · candy smear</a></p>
   </div>
 
   <div class="stage">
@@ -834,53 +852,14 @@
       <div class="topfade"></div>
       <div class="navfrost"></div>
       <div class="status" aria-hidden="true"><span class="status-time">9:41</span><span class="status-island"></span><span class="status-end"><svg class="status-sig" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".6"/><rect x="5" y="5" width="3" height="7" rx=".6"/><rect x="10" y="2.5" width="3" height="9.5" rx=".6"/><rect x="15" y="0" width="3" height="12" rx=".6"/></svg><svg class="status-wifi" viewBox="0 0 16 12"><path d="M1 4.2c4-4 10-4 14 0"/><path d="M3.4 6.6c2.6-2.5 6.6-2.5 9.2 0"/><path d="M6 9c1.1-1.1 2.9-1.1 4 0"/><circle cx="8" cy="11.2" r="1.15" fill="currentColor" stroke="none"/></svg><svg class="status-bat" viewBox="0 0 27 13"><rect x=".6" y=".6" width="23" height="11.8" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.25"/><rect x="2.2" y="2.3" width="17.6" height="8.4" rx="1.7"/><path d="M24.6 4v5c1.3-.5 1.8-1.3 1.8-2.5S25.9 4.5 24.6 4z"/></svg></span></div>
-      <div class="tabs">
-        <div class="tab-labels">
-          <button class="t on" type="button" data-tab="bookmarks">Bookmarks</button>
-          <button class="t" type="button" data-tab="following">Following</button>
-        </div>
-      </div>
 
-      <div class="scene is-on" id="sceneWatch" aria-label="Bookmarks"></div>
-      <div class="scene" id="sceneFollow" aria-label="Following" aria-hidden="true"></div>
+      <div class="scene is-on" id="sceneWatch" aria-label="My Stuff"></div>
 
-      <div class="qwrap" data-qwrap>
-        <div class="qcard m-ask" data-qcard>
-          <div class="qcard-track" data-qtrack></div>
-        </div>
-      </div>
-      <div class="qdots" data-qdots><span class="qdots-rail"><b class="qdots-pill" data-qpill></b></span></div>
       <div class="ask-rail">
-        <button class="askfab is-glow" type="button" data-open-ask data-ask-fab aria-label="Ask"></button>
+        <button class="askfab" type="button" data-open-ask data-ask-fab aria-label="Ask"></button>
         <span class="ask-lbl">Ask</span>
       </div>
-      <div class="asheet" data-asheet>
-        <div class="asheet-star" aria-hidden="true"></div>
-        <button class="qcard-chev" type="button" data-collapse-ask aria-label="Collapse question">
-          <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="qconvo" data-qconvo-ask>
-          <div class="qconvo-scroll">
-            <div class="ask-thread"></div>
-            <div class="ask-continue">
-              <div class="label-mini">Ask more</div>
-              <div class="ask-starters"></div>
-            </div>
-          </div>
-          <div class="qconvo-foot">
-            <div class="askinput">
-              <input class="ask-freeq" type="text" placeholder="Ask about your Bookmarks…" autocomplete="off">
-              <div class="ask-listen" aria-hidden="true"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span><span>Listening…</span></div>
-              <button class="ask-mic" type="button" data-ask-mic aria-label="Ask with voice">
-                <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6.5 11a5.5 5.5 0 0 0 11 0"/><path d="M12 16.5V21"/></svg>
-              </button>
-              <button type="button" class="is-idle" data-ask-send aria-label="Send" disabled>
-                <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div data-csheet-mount></div>
 
       <div class="tabbar">
         <button class="navitem" type="button" data-nav="home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
@@ -892,6 +871,9 @@
   </div>
 </div>
 
+<script src="ah-gummy-convo.js?v=aug28h"></script>
+<script src="ah-gummy-title.js?v=aug29a"></script>
+<script src="ah-gummy-bundle.js?v=aug28n"></script>
 <script>
 const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
 const STILL = p => `https://image.tmdb.org/t/p/w780${p}`;
@@ -902,17 +884,18 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX"]);
 
 document.querySelector(".askfab").innerHTML = star;
-document.querySelector(".asheet-star").innerHTML = star;
+const sheetMount = document.querySelector("[data-csheet-mount]");
+if (sheetMount) sheetMount.outerHTML = GummyConvo.markup("Ask about your Watch List…");
 
 const titles = [
   {id:"wed", title:"Wednesday", kind:"Series", length:"8 ep · ~50m", mins:50, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), still:STILL("/sNLP0dLZcVBqYa3MchCXJqgDtFb.jpg"), fallback:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), tags:["leaving","friday","friends","easy"], progress:.42, continue:true, ep:"S2 E4"},
   {id:"thuis", title:"Thuis", kind:"Series", length:"Daily · ~25m", mins:25, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), still:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), fallback:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), tags:["easy","leaving"], progress:.58, continue:true, ep:"Daily"},
   {id:"dune", title:"Dune: Part Two", kind:"Film", length:"2h 46", mins:166, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"), still:STILL("/eZ239CUp1d6OryZEBPnO2n87gMG.jpg"), fallback:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"), tags:["friday","acclaimed","friends"], progress:.18, continue:true, top10:true},
-  {id:"assisen", title:"Assisen", kind:"Series", length:"S2 · ~45m", mins:45, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), still:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), tags:["friday","acclaimed"]},
+  {id:"assisen", title:"Assisen", kind:"Series", length:"S2 · ~45m", mins:45, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), still:STILL("/erZh4tQsSDp83Nr4MP2LhvKAmbF.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), tags:["friday","acclaimed"]},
   {id:"under", title:"Undercover", kind:"Series", length:"3 seasons · ~50m", mins:50, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), still:STILL("/x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), tags:["friends","easy"], progress:.12, continue:true, ep:"S3 E2"},
   {id:"y1985", title:"1985", kind:"Series", length:"8 ep · ~50m", mins:50, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), still:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), fallback:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), tags:["acclaimed","friday"]},
   {id:"opp", title:"Oppenheimer", kind:"Film", length:"3h 00", mins:180, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), still:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), fallback:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), tags:["acclaimed"], top10:true},
-  {id:"verraders", title:"De Verraders", kind:"Series", length:"S3 · ~50m", mins:50, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), still:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), fallback:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), tags:["friends","friday"]},
+  {id:"verraders", title:"De Verraders", kind:"Series", length:"S3 · ~50m", mins:50, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), still:STILL("/niS3AVdPp4pQpL46XxqTn4EG7AL.jpg"), fallback:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), tags:["friends","friday"]},
   {id:"barb", title:"Barbie", kind:"Film", length:"1h 54", mins:114, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), still:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), fallback:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), tags:["friday","friends","easy","acclaimed","short"]},
   {id:"chantal", title:"Chantal", kind:"Series", length:"S2 · ~45m", mins:45, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), still:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), fallback:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), tags:["easy","friends","friday"]},
   {id:"tlou", title:"The Last of Us", kind:"Series", length:"S2 · ~55m", mins:55, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), still:STILL("/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg"), fallback:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), tags:["friday","acclaimed","leaving"], progress:.67, continue:true, ep:"S2 E3"},
@@ -934,30 +917,167 @@ const recs = [
 ];
 
 const moods = [
-  {id:"leaving", q:"Are things leaving soon?", cls:"ask", line:"These drop off soon."},
-  {id:"friday", q:"Got something for Friday night?", cls:"c2", line:"Bigger nights, from what you already saved."},
-  {id:"short", q:"Got anything short?", cls:"c3", line:"Under two hours, or an episode you can actually finish."},
-  {id:"friends", q:"What can we watch with friends?", cls:"ask", line:"Easy to share a sofa with — jokes, tension, talking after."},
-  {id:"acclaimed", q:"What’s critically acclaimed?", cls:"c4", line:"The ones your list is quietly proud of."},
-  {id:"easy", q:"What’s easy watching?", cls:"c2", line:"Low homework. High comfort. No lore required."}
+  {id:"wl-tonight", q:"What’s waiting for a proper night?", cls:"c2", tag:"friday", line:"Bigger nights, from what you already saved.",
+    a:"Dune is the one you’ve barely started — 2h 46, HBO Max, already in your plan. Barbie if you want it pink and done in under two hours. Gladiator II is saved too, but that’s Apple TV, so it carries a lock.",
+    follow:[
+      {id:"wl-tonight-dune", q:"Is Dune too long for a weeknight?", a:"Yes. 2h 46 is a Friday film. You’ve only dipped in, so starting tonight means finishing after midnight unless you split it at the time jump."},
+      {id:"wl-tonight-barb", q:"Would Barbie work if the room wants something lighter?", a:"That’s the one. 1h 54, HBO Max, in your plan. Pink on the outside, a gut punch if the room can take it — but nobody has to sit up for sandworms."},
+      {id:"wl-tonight-leave", q:"What’s leaving before I get to these?", a:"Wednesday, Squid Game, The Last of Us, and Thuis. Dune isn’t going anywhere. I’d steal a night for Last of Us first — you’re already 67% in."}
+    ]},
+  {id:"wl-leave", q:"Will I lose anything if I wait a week?", cls:"ask", tag:"leaving", line:"These drop off soon.",
+    a:"Wednesday, Squid Game, The Last of Us, and Thuis are marked leaving. You’re mid-Wednesday and deep into Last of Us — those two first. Both already in your plan.",
+    follow:[
+      {id:"wl-leave-far", q:"Which of those am I furthest into?", a:"The Last of Us — S2 E3, 67% in. Then Squid Game at 55%, Wednesday at 42%, Thuis a little over halfway. Last of Us is the one you’ll feel if it goes."},
+      {id:"wl-leave-wed", q:"Can I finish Wednesday tonight?", a:"You’re on S2 E4. Episodes are ~50 minutes. One tonight, maybe two if the house is quiet. Netflix, already in your plan — Play is sitting right there."},
+      {id:"wl-leave-thuis", q:"And Thuis — is that actually leaving?", a:"Yes. Daily, ~25 minutes, VRT MAX. You’re already in it. Easy to chip away this week without making it the night."}
+    ]},
+  {id:"wl-finish", q:"What can I finish before bed?", cls:"c3", tag:"short", line:"Under two hours, or an episode you can actually finish.",
+    a:"Ferry is 1h 46 on Netflix. Barbie is 1h 54 on HBO Max. Thuis is 25 minutes on VRT MAX. The Bear is ~30 minutes if you add Disney+ — that’s locked.",
+    follow:[
+      {id:"wl-finish-ferry", q:"Is Ferry the crime one with the origin story?", a:"That’s it — Undercover’s Ferry, before the camping. 1h 46, Netflix, in your plan. Watch this after Undercover if you want the long game; tonight it also works as a closed film."},
+      {id:"wl-finish-40", q:"What if I only have about forty minutes?", a:"Thuis, 25 minutes, already in your plan. An Undercover episode is ~50 — tight. The Bear would fit, but Disney+ isn’t in your subscriptions."},
+      {id:"wl-finish-plan", q:"Which of these can I press play on now?", a:"Ferry, Barbie, Thuis — Netflix, HBO Max, VRT MAX. The Bear waits unless you add Disney+."}
+    ]},
+  {id:"wl-share", q:"What can we put on with people here?", cls:"c4", tag:"friends", line:"Easy to share a sofa with — jokes, tension, talking after.",
+    a:"Squid Game if you want talking after. Barbie if you want it light. Undercover if crime can stay in the room. De Verraders is the Belgian sofa one — but that’s VTM GO, so it carries a lock.",
+    follow:[
+      {id:"wl-share-talk", q:"Something we can talk over without pausing?", a:"Barbie, or Thuis if the room is local. Squid Game will keep pulling people back to the screen. Undercover can run if crime is background for this crowd."},
+      {id:"wl-share-dark", q:"Too dark for this room?", a:"Skip Last of Us and Squid Game then. Barbie, Chantal, or Wednesday if someone still wants a plot. All three are in your plan."},
+      {id:"wl-share-belgian", q:"What’s the Belgian option we can share?", a:"Thuis and Chantal on VRT MAX, no lock. De Verraders if you add VTM GO — that’s the one people talk over. Assisen is together-but-quiet, also locked."}
+    ]},
+  {id:"cr-night", q:"Is it another crime night?", cls:"ask", tag:"friends", line:"Crooks, cases, traitors — you keep saving them.",
+    a:"You’re stacking them — Undercover, Ferry, Assisen, Jan de Lichte, De Verraders. Undercover and Ferry play now on Netflix. Assisen and Jan de Lichte need another app.",
+    follow:[
+      {id:"cr-night-fl", q:"Which of these is actually Flemish?", a:"Ferry is Dutch-Belgian border — Limburg, same world as Undercover. Jan de Lichte and Assisen are the local ones. Zillion is Ghent nightlife, not quite crooks."},
+      {id:"cr-night-netflix", q:"Can I stay inside Netflix tonight?", a:"Undercover if you want to continue — you’re on S3 E2. Ferry if you want a film that’s done. That’s the crime night without adding an app."},
+      {id:"cr-night-twist", q:"Something twisty rather than violent?", a:"Assisen and 1985 turn the room. De Verraders is format-twist, not story-twist. Last of Us if you want it to land rather than puzzle — not crime, but it’s the heavy one you already like."}
+    ]},
+  {id:"cr-case", q:"Got a case I can finish before bed?", cls:"c3", tag:"short", line:"A case you can crack before bed.",
+    a:"Assisen is ~45 minutes, but it’s locked on VTM GO. Undercover episodes are ~50 minutes and already in your plan — that’s the case you can start now. Thuis isn’t a case, but it’s 25 minutes if the night is done.",
+    follow:[
+      {id:"cr-case-under", q:"Is Undercover too violent for tonight?", a:"Crime-show tense, not torture. Camping, XTC, double lives. Fine if you like Narcos energy without the homework. Skip if the room wants pink."},
+      {id:"cr-case-assisen", q:"What about Assisen if I added VTM GO?", a:"Courtroom, Flemish, ~45 minutes. It’s the short case on your list. The lock is the only reason it isn’t the answer tonight."},
+      {id:"cr-case-belgian", q:"Something Belgian and shorter than a film?", a:"Thuis is 25 minutes and in-plan. Assisen is the case, locked. Chantal is ~45 on VRT MAX if you want Flanders without the file."}
+    ]},
+  {id:"cr-belgian", q:"Belgian crooks I haven’t started?", cls:"c2", tag:"friday", line:"Ferry, Jan de Lichte, Assisen.",
+    a:"Ferry on Netflix — 1h 46, that’s the one you can press play on tonight. Jan de Lichte and Assisen are the local ones with a lock. Zillion is Ghent nightlife, Streamz — also locked, not quite crooks.",
+    follow:[
+      {id:"cr-belgian-order", q:"Should I watch Ferry before I go back to Undercover?", a:"After is cleaner — Ferry is the origin glow-up. You’re already in Undercover S3, so finish that streak, then Ferry as the closed film. Either order works if tonight is just the film."},
+      {id:"cr-belgian-jan", q:"What’s Jan de Lichte actually like?", a:"18th-century Flemish gang, Play, ~50 minute episodes. Grittier folklore than Undercover’s camping. Lock unless you add Play.", who:"Jan de Lichte"},
+      {id:"cr-belgian-inplan", q:"Anything Belgian without another app?", a:"Ferry, and Undercover. That’s the Netflix pair. 1985 is Flanders and in-plan on VRT MAX, but it’s archive-heavy, not crooks."}
+    ]},
+  {id:"cr-twist", q:"Which of these turns on you halfway?", cls:"c4", tag:"acclaimed", line:"The ones that turn on you.",
+    a:"1985 and Assisen are the ones that rewrite the room. The Last of Us if you want it to land rather than puzzle. De Verraders is format-twist — fun to shout at, not a story that folds.",
+    follow:[
+      {id:"cr-twist-1985", q:"Is 1985 too heavy for tonight?", a:"It’s Flanders in the archive, ~50 minutes, VRT MAX, in your plan. Heavy in the right way if you can sit still. Not a weeknight if you wanted easy crime.", who:"1985"},
+      {id:"cr-twist-play", q:"Something twisty I can already play?", a:"1985 and Last of Us — both in-plan. Assisen is the twisty case, locked on VTM GO. I’d start 1985 if you want local; Last of Us if you want to continue."},
+      {id:"cr-twist-like", q:"More like Assisen or more like Last of Us?", a:"Assisen is courtroom and turns. Last of Us is care in a ruined road — you already know that one, you’re 67% in. If you meant plot-turns, 1985 sits closer to Assisen and you can play it tonight."}
+    ]},
+  {id:"fi-night", q:"Have I saved a film for tonight?", cls:"c2", tag:"friday", line:"The films you parked — still waiting.",
+    a:"Dune is waiting — you’ve barely started it, HBO Max. Barbie if the night wants colour. Ferry if you want Belgian and done. Gladiator II is saved but locked on Apple TV.",
+    follow:[
+      {id:"fi-night-week", q:"Is Dune a weeknight film?", a:"2h 46. Friday, or a split at the time jump. You’ve only had 18% — starting now is a late night unless that’s the point."},
+      {id:"fi-night-short", q:"What’s the shortest film on here?", a:"Ferry, 1h 46, Netflix. Then Barbie at 1h 54. Both in your plan. Zillion is 2h 03 and locked on Streamz."},
+      {id:"fi-night-glad", q:"Do I need another app for Gladiator II?", a:"Yes — Apple TV. It’s 2h 28, arena-brutal, and not in your subscriptions. Dune covers spectacle tonight without the lock."}
+    ]},
+  {id:"fi-two", q:"A film I can finish under two hours?", cls:"c3", tag:"short", line:"A film you can actually finish.",
+    a:"Ferry, 1h 46, Netflix. Barbie, 1h 54, HBO Max. Both in your plan. Zillion is 2h 03 on Streamz — just over, and locked.",
+    follow:[
+      {id:"fi-two-which", q:"Ferry or Barbie if I have to pick one?", a:"Ferry if you want crime and done. Barbie if the room wants colour. Same length-ish; different morning after."},
+      {id:"fi-two-people", q:"Which one works with people in the room?", a:"Barbie. Ferry is fine if this crowd likes crooks. Skip Dune and Oppenheimer if anyone still wants to talk."},
+      {id:"fi-two-longer", q:"What if I have a bit longer than two hours?", a:"Zillion is 2h 03, locked. Dune is 2h 46 and you’ve started it. De Slag om de Schelde is 2h 04 on Play — also locked."}
+    ]},
+  {id:"fi-big", q:"Which long ones have I been putting off?", cls:"c4", tag:"acclaimed", line:"The long ones you keep putting off.",
+    a:"Oppenheimer is three hours. Dune is 2h 46 and you’ve started it. Gladiator II is 2h 28 on Apple TV — locked. These are Friday films, not Tuesday after work.",
+    follow:[
+      {id:"fi-big-dune", q:"Should I just finish Dune first?", a:"That’s the honest one. You’re 18% in, HBO Max, already in the plan. Oppenheimer can wait; Gladiator II needs another app.", who:"Dune"},
+      {id:"fi-big-opp", q:"Is Oppenheimer too much for tonight?", a:"Three hours. A weekend film. Not a Tuesday after work unless you like finishing at 1am. The physics is flavour; the film is guilt.", who:"Oppenheimer"},
+      {id:"fi-big-plan", q:"Anything big that’s already in my plan?", a:"Dune and Oppenheimer, both HBO Max. Gladiator II and De Slag om de Schelde sit behind Apple TV and Play."}
+    ]},
+  {id:"fi-easy", q:"An easy movie if I don’t want homework?", cls:"ask", tag:"easy", line:"Low homework. High comfort.",
+    a:"Barbie. Ferry if easy still means crime but done. Zillion is Belgian glow — locked on Streamz. Skip Oppenheimer and Dune if easy is the brief.",
+    follow:[
+      {id:"fi-easy-barb", q:"Would Barbie still work with someone else here?", a:"Yes — that’s the sofa version of easy. Pink, funny, a gut punch if they can take it. 1h 54, HBO Max.", who:"Barbie"},
+      {id:"fi-easy-ferry", q:"Is Ferry actually easy, or is it still crime homework?", a:"Crime-hard, not torture. 1h 46 and it ends. You don’t need Undercover first, though you’ll smirk more if you’ve met him.", who:"Ferry"},
+      {id:"fi-easy-fl", q:"What’s the Flemish easy one?", a:"There isn’t a sit-back Flemish film on this list. Thuis if you meant easy Flanders in 25 minutes. Zillion if glow is easy and you add Streamz."}
+    ]},
+  {id:"fl-easy", q:"Easy Flemish I can just sit with?", cls:"c3", tag:"easy", line:"Belgian series you can just sit with.",
+    a:"Thuis — 25 minutes, VRT MAX, you’re already in it. Chantal if you want a series without the case files. 1985 is Flanders but not easy.",
+    follow:[
+      {id:"fl-easy-leave", q:"Is Thuis still leaving?", a:"Yes. Daily, and you’re more than halfway. Easy to chip at this week so it doesn’t vanish mid-habit.", who:"Thuis"},
+      {id:"fl-easy-which", q:"Chantal or Thuis if tonight is just sitting?", a:"Thuis if you want 25 minutes and you’re already in. Chantal if you want to start something that isn’t the daily. Both VRT MAX, both in-plan."},
+      {id:"fl-easy-film", q:"Anything Flemish that’s a film?", a:"Ferry on Netflix — Dutch-Belgian border, 1h 46. Zillion is Ghent, Streamz, locked. De Slag om de Schelde is war, Play, locked."}
+    ]},
+  {id:"fl-sofa", q:"Flemish we could watch together?", cls:"ask", tag:"friends", line:"Flanders, easy to share a sofa with.",
+    a:"Chantal and Thuis are the sofa ones on VRT MAX. De Verraders if you add VTM GO — that’s the one people talk over. Assisen is together-but-quiet.",
+    follow:[
+      {id:"fl-sofa-plan", q:"Without adding another app?", a:"Thuis or Chantal. 1985 if the room can sit still. That’s VRT MAX. Undercover isn’t Flemish, but it’s the in-plan crime if the room wants that instead."},
+      {id:"fl-sofa-talk", q:"Something we can talk through?", a:"De Verraders — locked on VTM GO. Thuis if talking is allowed to win. Skip Assisen and 1985 if pausing for comments will annoy someone."},
+      {id:"fl-sofa-soap", q:"Too soapy for this room?", a:"Skip Thuis then. Chantal is still Flanders without the daily. 1985 if they can do archive. Ferry if the room actually wanted crooks."}
+    ]},
+  {id:"fl-new", q:"What’s new from Flanders on my list?", cls:"c2", tag:"friday", line:"Assisen, 1985, Chantal — on your list.",
+    a:"Assisen, 1985, and Chantal. 1985 and Chantal are on VRT MAX now. Assisen sits behind VTM GO.",
+    follow:[
+      {id:"fl-new-play", q:"Which of those can I play tonight?", a:"1985 and Chantal. Assisen waits unless you add VTM GO. 1985 if you want the one that turns; Chantal if you want to sit."},
+      {id:"fl-new-1985", q:"Is 1985 a crime thing?", a:"Archive Flanders — it sits next to crime in how it occupies the room, not camping-and-XTC crime. ~50 minutes, in your plan.", who:"1985"},
+      {id:"fl-new-chantal", q:"What’s Chantal actually like?", a:"Flemish, ~45 minutes, VRT MAX. Easier than Assisen, less daily than Thuis. The one you saved for sitting, not for a case.", who:"Chantal"}
+    ]},
+  {id:"fl-leave", q:"Any Flemish leaving on VRT or VTM?", cls:"c4", tag:"leaving", line:"Flemish titles that won’t sit forever.",
+    a:"Thuis is the Flemish one marked leaving — VRT MAX, and you’re more than halfway. Wednesday and Squid Game are leaving too, but they’re not Flanders.",
+    follow:[
+      {id:"fl-leave-thuis", q:"Can I finish Thuis this week?", a:"Daily, ~25 minutes, you’re at 58%. Yes, if you let it be the short sit this week instead of hunting a film.", who:"Thuis"},
+      {id:"fl-leave-else", q:"What else is leaving that isn’t Flemish?", a:"Wednesday and Squid Game on Netflix, Last of Us on HBO Max. Last of Us is the one you’re furthest into."},
+      {id:"fl-leave-ignore", q:"Should I just ignore Thuis?", a:"Only if you won’t miss the daily. It’s the easy Flemish habit, and it’s the one on VRT actually marked leaving. Wednesday will shout louder when it goes."}
+    ]},
+  {id:"mo-tlou", q:"Liked Last of Us — what else is here?", cls:"c4", tag:"acclaimed", line:"Close to how you watch the heavy ones.",
+    a:"You’re 67% into S2. Squid Game if you want stakes without the fungus. 1985 if you want it closer to home. The Penguin isn’t saved yet — that’s the next-door pick on HBO Max.",
+    who:"The Last of Us",
+    follow:[
+      {id:"mo-tlou-finish", q:"Should I just finish The Last of Us first?", a:"That’s the one. E4 lands tomorrow on HBO Max. Finish E3 tonight so Tuesday is clean — you’re already most of the way there.", who:"The Last of Us"},
+      {id:"mo-tlou-squid", q:"Is Squid Game the same kind of heavy?", a:"Stakes, yes. Care, no. Squid Game wants talking and wincing. Last of Us wants you quiet. Both in your plan; different mornings.", who:"Squid Game"},
+      {id:"mo-tlou-penguin", q:"What’s The Penguin like compared to this?", a:"Gotham crime that limps — HBO Max, in your plan, not on this list yet. Closer to Undercover’s double lives than to fungus and the road.", who:"The Penguin"}
+    ]},
+  {id:"mo-under", q:"More like Undercover I haven’t saved?", cls:"ask", tag:"friends", line:"Crime-adjacent, not quite saved yet.",
+    a:"Ferry is the origin — already on your list, Netflix. The Penguin if you want crime that limps instead of camps. Jan de Lichte if you want Belgian crooks with a lock.",
+    who:"Undercover",
+    follow:[
+      {id:"mo-under-ferry", q:"Should I watch Ferry next?", a:"Yes if you want more Bouman. It’s the origin glow-up, 1h 46, already saved. You’re in Undercover S3 — Ferry still works as a closed night.", who:"Ferry"},
+      {id:"mo-under-penguin", q:"Is The Penguin in my plan?", a:"HBO Max, so yes. Not saved yet. Crime with a limp, not a camping. Play if you want the next-door pick without adding an app.", who:"The Penguin"},
+      {id:"mo-under-now", q:"Something Belgian I can play now?", a:"Ferry. That’s the Netflix one. Jan de Lichte and Assisen wait on Play and VTM GO."}
+    ]},
+  {id:"mo-bear", q:"As short as The Bear that I can finish?", cls:"c3", tag:"short", line:"Tight episodes, same energy.",
+    a:"The Bear is ~30 minutes but Disney+ is locked. Thuis is 25 minutes and already in your plan. Chef’s Table: BBQ is Netflix if kitchen is the brief — not saved yet. Abbott Elementary is 22 minutes, also Disney+.",
+    who:"The Bear",
+    follow:[
+      {id:"mo-bear-no", q:"I don’t have Disney+ — then what?", a:"Thuis, 25 minutes, VRT MAX. An Undercover episode is ~50 if you can stretch. Chef’s Table: BBQ on Netflix if you wanted to keep the kitchen without the panic."},
+      {id:"mo-bear-kitchen", q:"Keep the kitchen energy?", a:"Chef’s Table: BBQ is the same fire, calmer, Netflix. The Bear stays locked. Don’t copy it beat for beat — BBQ is the sit-down version."},
+      {id:"mo-bear-thuis", q:"Is Thuis actually that short?", a:"~25 minutes, daily, and you’re already in it. Not a kitchen. It is the in-plan episode you can finish before the next thing.", who:"Thuis"}
+    ]},
+  {id:"mo-close", q:"Close to what I like, not saved yet?", cls:"c2", tag:"acclaimed", line:"Not saved yet. Close to what you already like.",
+    a:"Severance if you liked the unease of Last of Us without the fungus — that’s Apple TV, locked. The Penguin if Undercover is the crime streak — HBO Max, in-plan. Arcane if the craft is what you keep coming back for — Netflix.",
+    follow:[
+      {id:"mo-close-why", q:"Why Severance?", a:"Same ‘something is wrong in the room’ feeling you already sit with in Last of Us. Office instead of fungus. Not on your list, and Apple TV isn’t in your plan.", who:"Severance"},
+      {id:"mo-close-play", q:"Which of those can I play now?", a:"The Penguin and Arcane. Severance waits on Apple TV. Penguin if crime; Arcane if you wanted the craft."},
+      {id:"mo-close-no", q:"Not really what I meant", a:"Then say what landed — the crime, the length, or that it was Flemish. I can stay on this list or go looking. What should I use?"}
+    ]}
 ];
 
 const following = [
   {day:"Tonight", items:[
-    {title:"Wednesday", kicker:"Episode", meta:"S2 E5 · 21:00", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), fallback:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg")},
-    {title:"Club Brugge vs Anderlecht", kicker:"Sport", meta:"Jupiler Pro League · 20:45", provider:"Play Sports", logo:"play sports logo.png", poster:"play sports logo.png", fallback:"play sports logo.png", brand:true}
+    {title:"Wednesday", kicker:"Episode", meta:"S2 E5 · 21:00", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), still:STILL("/iHSwvRVsRyxpX7FE7GbviaDvgGZ.jpg"), fallback:STILL("/sNLP0dLZcVBqYa3MchCXJqgDtFb.jpg")},
+    {title:"Club Brugge vs Anderlecht", kicker:"Sport", meta:"Jupiler Pro League · 20:45", provider:"Play Sports", logo:"play sports logo.png", poster:STILL("/nE94ejEbzNCU48bW1oju0dqBONz.jpg"), still:STILL("/nE94ejEbzNCU48bW1oju0dqBONz.jpg"), fallback:STILL("/nE94ejEbzNCU48bW1oju0dqBONz.jpg")}
   ]},
   {day:"Tomorrow", items:[
-    {title:"The Last of Us", kicker:"Episode", meta:"S2 E4 · new episode", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), fallback:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg")},
-    {title:"Thuis", kicker:"Episode", meta:"Daily · 20:20", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), fallback:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg")}
+    {title:"The Last of Us", kicker:"Episode", meta:"S2 E4 · new episode", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), still:STILL("/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg"), fallback:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg")},
+    {title:"Thuis", kicker:"Episode", meta:"Daily · 20:20", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), still:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), fallback:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg")}
   ]},
   {day:"Thursday", items:[
-    {title:"Assisen", kicker:"Episode", meta:"S2 E4 · 21:30", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg")},
-    {title:"Undercover", kicker:"Season", meta:"S4 premiere", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg")}
+    {title:"Assisen", kicker:"Episode", meta:"S2 E4 · 21:30", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), still:STILL("/erZh4tQsSDp83Nr4MP2LhvKAmbF.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg")},
+    {title:"Undercover", kicker:"Season", meta:"S4 premiere", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), still:STILL("/x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg")}
   ]},
   {day:"This weekend", items:[
-    {title:"F1 Sprint · Belgium", kicker:"Sport", meta:"Sat 15:00", provider:"Play Sports", logo:"play sports logo.png", poster:"play sports logo.png", fallback:"play sports logo.png", brand:true},
-    {title:"De Verraders", kicker:"Episode", meta:"S3 E6 · Sunday", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), fallback:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg")}
+    {title:"F1 Sprint · Belgium", kicker:"Sport", meta:"Sat 15:00", provider:"Play Sports", logo:"play sports logo.png", poster:STILL("/xefmNmSGCApfRPaqhIRTaAjFlpo.jpg"), still:STILL("/xefmNmSGCApfRPaqhIRTaAjFlpo.jpg"), fallback:STILL("/xefmNmSGCApfRPaqhIRTaAjFlpo.jpg")},
+    {title:"De Verraders", kicker:"Episode", meta:"S3 E6 · Sunday", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), still:STILL("/niS3AVdPp4pQpL46XxqTn4EG7AL.jpg"), fallback:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg")}
   ]}
 ];
 
@@ -973,27 +1093,23 @@ function svcHTML(item){
   return `<span class="svc" title="${out ? "Not in your subscriptions" : `Watch on ${item.provider}`}">${imgTag(encodeURI(item.logo), encodeURI(item.logo), item.provider)}${out ? lockMark : ""}</span>`;
 }
 function top10HTML(item){
-  return item.top10 ? `<span class="top10 mesh m-c2" aria-label="Top 10"><span>TOP</span><b>10</b></span>` : "";
+  return item.top10 ? `<span class="top10 mesh" data-top10 role="button" aria-label="Open Top 10"><span>TOP</span><b>10</b></span>` : "";
 }
 
 const toastEl = document.getElementById("toast");
 const phoneEl = document.getElementById("phone");
 const sceneWatch = document.getElementById("sceneWatch");
-const sceneFollow = document.getElementById("sceneFollow");
-const asheet = document.querySelector("[data-asheet]");
 let activeMood = null;
 let watchView = "catalogue";
 let moodT = 0;
-let askOnFollow = false;
-let askStreamT = null;
-let askVoiceT = 0;
-let askExcept = null;
 
 function toast(msg){
   toastEl.textContent = msg;
+  toastEl.classList.remove("on");
+  void toastEl.offsetWidth;
   toastEl.classList.add("on");
   clearTimeout(toastEl._t);
-  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1300);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1800);
 }
 function goPrototype(id, href){
   if (window.parent && window.parent !== window) {
@@ -1008,7 +1124,9 @@ function goPrototype(id, href){
 function continuing(){ return titles.filter(t => t.continue).sort((a,b) => (b.progress||0) - (a.progress||0)); }
 function curated(){
   if (!activeMood) return titles.slice();
-  return titles.filter(t => t.tags.includes(activeMood)).sort((a, b) => {
+  const mood = moods.find(x => x.id === activeMood);
+  const tag = mood?.tag || activeMood;
+  return titles.filter(t => t.tags.includes(tag)).sort((a, b) => {
     const pa = inPlan(a.provider) === inPlan(b.provider) ? 0 : inPlan(a.provider) ? -1 : 1;
     if (pa) return pa;
     return (b.progress || 0) - (a.progress || 0);
@@ -1017,7 +1135,7 @@ function curated(){
 function moodLine(){
   if (!activeMood) return `${titles.length} saved`;
   const m = moods.find(x => x.id === activeMood);
-  return `${curated().length} from your Watch List · ${m.line}`;
+  return `${curated().length} from your Watch List · ${m?.line || ""}`;
 }
 
 function crimeSaves(){
@@ -1037,16 +1155,80 @@ function flemishSaves(){
 function findTitle(id){
   return titles.find(t => t.id === id) || recs.find(t => t.id === id);
 }
+function meshTone(cls){
+  if (cls === "c3") return 1;
+  if (cls === "c4") return 2;
+  return 0;
+}
+function laneQHTML(ids){
+  const items = ids.map(id => moods.find(m => m.id === id)).filter(Boolean);
+  if (!items.length) return "";
+  return `<div class="lane-q" data-lane-q data-mesh="${(items[1] || items[0]).cls}">
+    <div class="qcard">
+      <div class="qcard-track" data-qtrack>
+        ${items.map((m, i) => `<button class="qcard-q${i === 1 ? " is-on" : ""}" type="button" data-ask-start="${m.id}" data-mesh="${m.cls}" data-q="${esc(m.q)}"><span class="q-copy">${esc(m.q)}</span></button>`).join("")}
+      </div>
+    </div>
+    <div class="qbeam">
+      <span class="qbeam-in" data-beamin="0"></span>
+      <span class="qbeam-in" data-beamin="1"></span>
+      <span class="qbeam-in" data-beamin="2"></span>
+    </div>
+  </div>`;
+}
 function laneHTML(list){
   return `<div class="lane">${list.map((item, i) => laneCard(item, i)).join("")}</div>`;
 }
-function aiLane(id, title, why, list){
-  return `
-    <div class="sec-head" data-lane="${id}">
-      <h2>${esc(title)}</h2>
+const UP_CAL = {
+  Tonight: {top:"MON", num:"24", now:true, label:"Tonight · Monday 24"},
+  Tomorrow: {top:"TUE", num:"25", label:"Tomorrow · Tuesday 25"},
+  Thursday: {top:"THU", num:"27", label:"Thursday 27"},
+  "This weekend": {top:"SAT", num:"29", label:"This weekend · Saturday 29"}
+};
+function upcoming(){
+  return following.flatMap(g => g.items.map(item => {
+    const t = titles.find(x => x.title === item.title);
+    return {
+      ...item,
+      day: g.day,
+      cal: UP_CAL[g.day],
+      still: item.still || (t && t.still) || item.poster,
+      fallback: item.fallback || (t && t.fallback) || item.poster
+    };
+  }));
+}
+function jCal(cal){
+  if (!cal) return "";
+  return `<div class="up-cal${cal.now ? " is-now" : ""}" aria-label="${esc(cal.label)}">
+    <span class="up-cal-rings" aria-hidden="true"><i></i><i></i></span>
+    <span class="up-cal-top">${esc(cal.top)}</span>
+    <span class="up-cal-num">${esc(cal.num)}</span>
+  </div>`;
+}
+function upCard(item){
+  return `<button class="up-card" type="button" data-follow="${esc(item.title)}">
+    <div class="up-still">
+      ${imgTag(item.still, item.fallback, item.title)}
+      ${svcHTML(item)}
     </div>
-    <p class="ai-why">${esc(why)}</p>
-    ${laneHTML(list)}
+    <div class="up-foot">
+      ${jCal(item.cal)}
+      <div class="up-copy">
+        <div class="up-title">${esc(item.title)}</div>
+        <div class="up-when">${esc(item.day)} · ${esc(item.meta)}</div>
+      </div>
+    </div>
+  </button>`;
+}
+function aiLane(id, title, list, qs){
+  return `
+    <section class="block" data-lane="${id}">
+      <div class="sec-head">
+        <h2>${esc(title)}</h2>
+      </div>
+      ${laneHTML(list)}
+      ${qs && qs.length ? laneQHTML(qs) : ""}
+    </section>
   `;
 }
 
@@ -1067,61 +1249,41 @@ function renderWatch(){
     return;
   }
   const rail = continuing();
+  const coming = upcoming();
   sceneWatch.innerHTML = `
-    <div class="sec-head">
-      <h2>Continue Watching</h2>
-      <span class="count">${rail.length} in progress</span>
-    </div>
-    <div class="cont">${rail.map(contCard).join("")}</div>
-    <div class="sec-head">
-      <h2>Watch List</h2>
-      <button class="see" type="button" data-see-all>See all</button>
-    </div>
-    ${laneHTML(titles)}
+    <p class="page-lede">Where you are and what you saved</p>
+    <section class="block">
+      <div class="sec-head">
+        <h2>Continue</h2>
+      </div>
+      <div class="cont">${rail.map(contCard).join("")}</div>
+    </section>
+    <section class="block">
+      <div class="sec-head">
+        <h2>Watch List</h2>
+        <button class="see" type="button" data-see-all>See all</button>
+      </div>
+      ${laneHTML(titles)}
+      ${laneQHTML(["wl-tonight","wl-leave","wl-finish","wl-share"])}
+    </section>
+    <section class="block">
+      <div class="sec-head">
+        <h2>Coming up</h2>
+        <button class="see" type="button" data-see-up>See all</button>
+      </div>
+      <div class="up">${coming.map(upCard).join("")}</div>
+    </section>
     <section class="ai-zone" aria-label="Collections">
-      <div class="ai-mark">${star} Collections</div>
-      <p class="ai-lede">From what you’re watching, and what you saved.</p>
-      ${aiLane("crime", "You have a type", "Crooks, cases, traitors — you keep saving them.", crimeSaves())}
-      ${aiLane("films", "The films you parked", "On your Watch List — you haven’t really sat down for them.", parkedFilms())}
-      ${aiLane("flanders", "Flanders, on your list", "Belgian series you saved — Assisen, 1985, Chantal.", flemishSaves())}
-      ${aiLane("more", "Because of how you watch", "Not saved yet. Close to The Last of Us, Undercover and The Bear.", recs)}
+      <h2 class="coll-lede"><span class="coll-word">Collections</span> from what you’re watching and what you saved</h2>
+      ${aiLane("crime", "Crooks are your type", crimeSaves(), ["cr-night","cr-case","cr-belgian","cr-twist"])}
+      ${aiLane("films", "Films you parked", parkedFilms(), ["fi-night","fi-two","fi-big","fi-easy"])}
+      ${aiLane("flanders", "Flanders on your list", flemishSaves(), ["fl-easy","fl-sofa","fl-new","fl-leave"])}
+      ${aiLane("more", "Close to how you watch", recs, ["mo-tlou","mo-under","mo-bear","mo-close"])}
     </section>
   `;
+  bindLaneQs();
 }
 
-function renderFollow(){
-  const sampleIn = {provider:"Netflix", logo:"Netflix logo.webp"};
-  const sampleOut = {provider:"Apple TV", logo:"apple tv logo.jpg"};
-  sceneFollow.innerHTML = `
-    <div class="sec-head">
-      <h2>Coming up</h2>
-      <span class="count">Followed</span>
-    </div>
-    <div class="legend">
-      <i>${svcHTML(sampleIn)} Can watch</i>
-      <i>${svcHTML(sampleOut)} Needs a plan</i>
-    </div>
-    ${following.map(group => `
-      <section class="day">
-        <h3>${esc(group.day)}</h3>
-        ${group.items.map(item => `
-          <button class="event" type="button" data-follow="${esc(item.title)}">
-            <div class="event-poster${item.brand ? " is-brand" : ""}">
-              ${imgTag(item.poster, item.fallback, item.title)}
-              ${svcHTML(item)}
-            </div>
-            <div class="event-copy">
-              <div class="event-kicker">${esc(item.kicker)}</div>
-              <div class="event-title">${esc(item.title)}</div>
-              <div class="event-meta">${esc(item.meta)} · ${esc(item.provider)}</div>
-            </div>
-          </button>
-        `).join("")}
-      </section>
-    `).join("")}
-    <p class="follow-note">Following is the Journey — time, not a library. Same Ask as Home: a question sits next to Ask. <a href="ah-gummy-following.html" data-go-following>Open Following</a>.</p>
-  `;
-}
 function contCard(item){
   const left = item.ep || item.kind;
   return `<button class="cont-card" type="button" data-open="${item.id}">
@@ -1149,6 +1311,7 @@ function laneCard(item, i){
   return `<button class="lane-card" type="button" data-open="${item.id}" style="animation-delay:${Math.min(i, 10) * 24}ms">
     <div class="gposter${item.crop ? " is-crop" : ""}">
       ${imgTag(item.poster, item.fallback, item.title)}
+      ${top10HTML(item)}
       ${svcHTML(item)}
     </div>
   </button>`;
@@ -1185,82 +1348,113 @@ function setMood(id, {toggle=false}={}){
   moodT = setTimeout(paint, 240);
 }
 
-function bindQcard(){
-  const card = phoneEl.querySelector("[data-qcard]");
-  const track = phoneEl.querySelector("[data-qtrack]");
-  const rail = phoneEl.querySelector("[data-qdots] .qdots-rail");
-  const pill = phoneEl.querySelector("[data-qpill]");
-  if (!card || !track || !rail) return;
-  track.innerHTML = moods.map(m =>
-    `<button class="qcard-q" type="button" data-ask-start="${m.id}" data-mesh="${m.cls}">${esc(m.q)}</button>`
-  ).join("");
-  rail.querySelectorAll("i").forEach(n => n.remove());
-  rail.insertAdjacentHTML("afterbegin", moods.map(() => "<i></i>").join(""));
-  const dots = rail.querySelectorAll("i");
-  const syncDots = () => {
-    const w = Math.max(track.clientWidth, 1);
-    const p = Math.max(0, Math.min(dots.length - 1, track.scrollLeft / w));
-    const i0 = Math.floor(p);
-    const i1 = Math.min(i0 + 1, dots.length - 1);
-    const t = p - i0;
-    const i = Math.round(p);
-    const mesh = track.children[i]?.dataset.mesh;
-    if (mesh) {
-      card.classList.remove("m-ask", "m-c2", "m-c3", "m-c4");
-      card.classList.add(`m-${mesh}`);
-    }
-    if (!pill) return;
-    const base = 5;
-    const grow = 11;
-    dots.forEach((d, n) => {
-      const inf = n === i0 ? 1 - t : n === i1 ? t : 0;
-      d.style.width = `${base + grow * inf}px`;
-      d.style.background = inf > 0.5 ? "#fff" : "";
+function bindLaneQs(){
+  sceneWatch.querySelectorAll("[data-lane-q]").forEach(wrap => {
+    const track = wrap.querySelector("[data-qtrack]");
+    const qBtns = [...(track?.querySelectorAll(".qcard-q") || [])];
+    if (!track || !qBtns.length) return;
+    const startI = qBtns.length >= 3 ? 1 : 0;
+    wrap._qOn = startI;
+    const padKey = () => `${track.clientWidth}:${qBtns.map(b => b.offsetWidth).join(",")}`;
+    const centerQ = (i, smooth) => {
+      const btn = qBtns[i];
+      if (!btn || !track.clientWidth) return;
+      const wrapMid = wrap.getBoundingClientRect().left + wrap.clientWidth / 2;
+      const btnMid = btn.getBoundingClientRect().left + btn.offsetWidth / 2;
+      track.scrollTo({left: track.scrollLeft + (btnMid - wrapMid), behavior: smooth ? "smooth" : "auto"});
+    };
+    const sizeBeam = (btn) => {
+      const beam = wrap.querySelector(".qbeam");
+      const copy = btn?.querySelector(".q-copy");
+      if (!beam || !copy) return;
+      beam.style.width = `${Math.max(72, Math.round(copy.getBoundingClientRect().width))}px`;
+    };
+    const padTrack = () => {
+      const w = track.clientWidth;
+      if (!w || !qBtns[0]) return;
+      const key = padKey();
+      if (wrap._qPadKey === key) return;
+      const first = !wrap._qPadKey;
+      track.style.paddingLeft = `${Math.max(12, (w - qBtns[0].offsetWidth) / 2)}px`;
+      track.style.paddingRight = `${Math.max(12, (w - qBtns[qBtns.length - 1].offsetWidth) / 2)}px`;
+      wrap._qPadKey = key;
+      if (first) centerQ(wrap._qOn ?? startI, false);
+    };
+    const sync = () => {
+      padTrack();
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      const centers = qBtns.map(btn => btn.offsetLeft + btn.offsetWidth / 2);
+      let p = 0;
+      if (centers.length > 1) {
+        p = centers.length - 1;
+        for (let i = 0; i < centers.length - 1; i++) {
+          if (mid <= centers[i + 1]) {
+            const span = centers[i + 1] - centers[i] || 1;
+            p = i + Math.max(0, Math.min(1, (mid - centers[i]) / span));
+            break;
+          }
+        }
+      }
+      qBtns.forEach((btn, n) => {
+        const dist = Math.abs(p - n);
+        const op = reduceMotion ? (dist < 0.45 ? 1 : .42) : Math.max(.38, 1 - dist * .68);
+        btn.style.opacity = op;
+        btn.classList.toggle("is-on", dist < 0.45);
+      });
+      const tones = [0, 0, 0];
+      qBtns.forEach((btn, n) => {
+        tones[meshTone(btn.dataset.mesh)] += Math.max(0, 1 - Math.abs(p - n));
+      });
+      wrap.style.setProperty("--tone-0", String(Math.min(1, tones[0])));
+      wrap.style.setProperty("--tone-1", String(Math.min(1, tones[1])));
+      wrap.style.setProperty("--tone-2", String(Math.min(1, tones[2])));
+      const on = qBtns.find(btn => btn.classList.contains("is-on")) || qBtns[Math.round(p)];
+      if (on?.dataset.mesh) wrap.dataset.mesh = on.dataset.mesh;
+      sizeBeam(on);
+    };
+    track.addEventListener("scroll", sync, {passive:true});
+    requestAnimationFrame(sync);
+    let drag = null;
+    track.addEventListener("pointerdown", e => {
+      drag = {x: e.clientX, sl: track.scrollLeft, id: e.pointerId, moved: false};
     });
-    const wrap = rail.getBoundingClientRect();
-    const c0 = dots[i0].getBoundingClientRect();
-    const c1 = dots[i1].getBoundingClientRect();
-    const x0 = c0.left + c0.width / 2 - wrap.left;
-    const x1 = c1.left + c1.width / 2 - wrap.left;
-    const width = 16 + Math.abs(x1 - x0) * 3.2 * t * (1 - t);
-    const center = x0 + (x1 - x0) * t;
-    pill.style.width = `${width}px`;
-    pill.style.transform = `translateX(${center - width / 2}px)`;
-  };
-  track.addEventListener("scroll", syncDots, {passive:true});
-  requestAnimationFrame(syncDots);
-  let drag = null;
-  track.addEventListener("pointerdown", e => {
-    drag = {x: e.clientX, sl: track.scrollLeft, id: e.pointerId, moved: false};
+    track.addEventListener("pointermove", e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x;
+      if (!drag.moved && Math.abs(dx) < 8) return;
+      if (!drag.moved) {
+        drag.moved = true;
+        track.style.scrollSnapType = "none";
+        try { track.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      track.scrollLeft = drag.sl - dx;
+    });
+    const endDrag = e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const moved = drag.moved;
+      drag = null;
+      track.style.scrollSnapType = "";
+      if (moved) {
+        track._swiped = true;
+        const mid = track.scrollLeft + track.clientWidth / 2;
+        let best = 0, bestD = Infinity;
+        qBtns.forEach((btn, i) => {
+          const d = Math.abs(btn.offsetLeft + btn.offsetWidth / 2 - mid);
+          if (d < bestD) { bestD = d; best = i; }
+        });
+        wrap._qOn = best;
+        centerQ(best, !reduceMotion);
+      }
+    };
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
+    track.addEventListener("click", e => {
+      if (!track._swiped) return;
+      e.preventDefault();
+      e.stopPropagation();
+      track._swiped = false;
+    }, true);
   });
-  track.addEventListener("pointermove", e => {
-    if (!drag || e.pointerId !== drag.id) return;
-    const dx = e.clientX - drag.x;
-    if (!drag.moved && Math.abs(dx) < 8) return;
-    if (!drag.moved) {
-      drag.moved = true;
-      try { track.setPointerCapture(e.pointerId); } catch (_) {}
-    }
-    track.scrollLeft = drag.sl - dx;
-  });
-  const endDrag = e => {
-    if (!drag || e.pointerId !== drag.id) return;
-    const moved = drag.moved;
-    drag = null;
-    if (moved) {
-      track._swiped = true;
-      const w = track.clientWidth || 1;
-      track.scrollTo({left: Math.round(track.scrollLeft / w) * w, behavior: reduceMotion ? "auto" : "smooth"});
-    }
-  };
-  track.addEventListener("pointerup", endDrag);
-  track.addEventListener("pointercancel", endDrag);
-  track.addEventListener("click", e => {
-    if (!track._swiped) return;
-    e.preventDefault();
-    e.stopPropagation();
-    track._swiped = false;
-  }, true);
 }
 
 function names(list){ return list.map(t => t.title).join(", "); }
@@ -1270,306 +1464,134 @@ function askContext(){
   const cont = continuing();
   const can = list.filter(t => inPlan(t.provider));
   const cant = list.filter(t => !inPlan(t.provider));
-  return {mood, list, cont, can, cant, onFollow: askOnFollow};
+  return {mood, list, cont, can, cant};
+}
+
+function asAsk(m){
+  return {id:m.id, q:m.q, a:m.a, follow:m.follow, who:m.who, keys:m.keys || m.q, titles:m.titles};
 }
 
 const askBank = [
+  ...moods.map(asAsk),
   {
     id:"tonight",
-    q:"What should I watch tonight?",
+    q:"What should I watch from this list tonight?",
+    keys:"tonight watch sofa night",
     a(){
-      const {mood, list, can} = askContext();
-      const pool = (mood?.id === "friday" ? list : titles.filter(t => t.tags.includes("friday")));
-      const pick = pool.find(t => inPlan(t.provider)) || can[0] || list[0];
+      const {mood, can} = askContext();
+      const cont = continuing().find(t => inPlan(t.provider));
+      const pick = cont || can[0];
       const extra = mood ? ` You’re looking at “${mood.q}”.` : "";
-      return `${pick.title} — ${pick.kind.toLowerCase()} on ${pick.provider}, and it’s in your plan.${extra} Dune is the long Friday if you want sand; Barbie if you want it pink and done.`;
-    }
-  },
-  {
-    id:"leaving",
-    q:"Are things leaving soon?",
-    a(){
-      const leaving = titles.filter(t => t.tags.includes("leaving"));
-      return `${names(leaving)}. Wednesday and Squid Game are Netflix; The Last of Us is HBO Max — all three are in your plan, so you can finish them tonight.`;
-    }
-  },
-  {
-    id:"short",
-    q:"Got anything short?",
-    a(){
-      const shorts = titles.filter(t => t.mins <= 120);
-      const inP = shorts.filter(t => inPlan(t.provider));
-      const out = shorts.filter(t => !inPlan(t.provider));
-      return `From your Watch List: ${names(inP)} — those you can start now. ${out.length ? `${names(out)} are short too, but they’re locked behind another app.` : ""}`;
-    }
-  },
-  {
-    id:"friday",
-    q:"Got something for Friday night?",
-    a(){
-      const pool = titles.filter(t => t.tags.includes("friday"));
-      const inP = pool.filter(t => inPlan(t.provider));
-      const out = pool.filter(t => !inPlan(t.provider));
-      const pick = inP[0] || pool[0];
-      return `${pick.title} is the Friday from your Watch List${inPlan(pick.provider) ? `, and it’s on ${pick.provider} — in your plan` : ` on ${pick.provider}, so it carries a lock`}. Also in the mix: ${names(inP.slice(1,3) || [])}.${out.length ? ` ${names(out.slice(0,2))} if you add the extra app.` : ""}`;
-    }
-  },
-  {
-    id:"friends",
-    q:"What can we watch with friends?",
-    a(){
-      const pool = titles.filter(t => t.tags.includes("friends"));
-      const inP = pool.filter(t => inPlan(t.provider));
-      return `${names(inP.slice(0,4))}. Those are sofa-friendly and already in your plan. Squid Game if you want talking after; Barbie if you want it light.`;
-    }
-  },
-  {
-    id:"acclaimed",
-    q:"What’s critically acclaimed?",
-    a(){
-      const films = titles.filter(t => t.tags.includes("acclaimed"));
-      const first = films.find(t => inPlan(t.provider)) || films[0];
-      return `${first.title} is the one your list is proudest of. Oppenheimer and Dune sit next to it. ${inPlan(first.provider) ? "It’s in your plan." : `It’s on ${first.provider} — you’d need that app.`} Barbie is the short acclaimed pick if three hours is a no.`;
-    }
-  },
-  {
-    id:"easy",
-    q:"What’s easy watching?",
-    a(){
-      const pool = titles.filter(t => t.tags.includes("easy"));
-      const inP = pool.filter(t => inPlan(t.provider));
-      return `${names(inP.slice(0,4))}. Low homework, already in your plan. Thuis if you want local and short; Ferry if you want a film that’s done in under two hours.`;
-    }
-  },
-  {
-    id:"reviews",
-    q:"Which movie in my Watch List has the best reviews?",
-    a(){
-      const films = titles.filter(t => t.kind === "Film" && t.tags.includes("acclaimed"));
-      const first = films.find(t => inPlan(t.provider)) || films[0];
-      return `${first.title} is the one your list is proudest of. Oppenheimer and Dune sit next to it. ${inPlan(first.provider) ? "It’s in your plan." : `It’s on ${first.provider} — you’d need that app.`} Barbie is the short acclaimed pick if three hours is a no.`;
-    }
+      if (!pick) return "Nothing in this view is in your plan. Say if you want to look outside it.";
+      const mid = pick.progress ? ` You’re ${Math.round(pick.progress*100)}% in.` : "";
+      return `${pick.title} on ${pick.provider} — already in your plan.${mid}${extra} Barbie if you want a film that’s done; Last of Us if you want to continue the heavy one.`;
+    },
+    follow:[
+      {id:"tonight-started", q:"What if I just finished something I’ve already started?", a(){
+        const [top, ...rest] = continuing().filter(t => inPlan(t.provider));
+        if (!top) return "You’re not mid-anything in-plan. Ferry or Barbie if you want a closed film tonight.";
+        const more = rest.slice(0,2).map(t => t.title).join(" and ");
+        return `${top.title} — ${top.ep || "in progress"}, ${Math.round(top.progress*100)}% in.${more ? ` Then ${more}.` : ""} That’s the honest order.`;
+      }},
+      {id:"tonight-people", q:"What if someone else is on the sofa?", a:"Barbie if you want colour. Squid Game if talking after is allowed. Skip Last of Us and Oppenheimer if the room still wants to chat."},
+      {id:"tonight-lock", q:"Which of these would need another app?", a(){
+        const {cant, mood} = askContext();
+        const scope = mood ? `for “${mood.q}”` : "on this list";
+        return cant.length ? `${scope}: ${names(cant)}. Look for the lock on the app icon.` : `${scope}: none — everything here is in your plan.`;
+      }}
+    ]
   },
   {
     id:"finish",
-    q:"What should I finish first?",
+    q:"What should I finish first from what I started?",
+    keys:"finish continue progress furthest",
     a(){
       const [top, ...rest] = continuing();
+      if (!top) return "You’re not mid-anything on this list. Ferry or Barbie if you want a night that actually ends.";
+      const next = rest.filter(t => inPlan(t.provider)).slice(0,2).map(t => t.title).join(" and ");
       const locked = continuing().filter(t => !inPlan(t.provider));
-      return `${top.title} — you’re ${Math.round(top.progress*100)}% in${top.ep ? ` (${top.ep})` : ""}. Then ${rest.filter(t => inPlan(t.provider)).slice(0,2).map(t => t.title).join(" and ")}.${locked.length ? ` ${names(locked)} can wait unless you add the extra app.` : ""}`;
-    }
+      return `${top.title} — you’re ${Math.round(top.progress*100)}% in${top.ep ? ` (${top.ep})` : ""}.${next ? ` Then ${next}.` : ""}${locked.length ? ` ${names(locked)} can wait unless you add the extra app.` : ""}`;
+    },
+    follow:[
+      {id:"finish-tlou", q:"Is The Last of Us the one I should protect?", a:"Yes. 67% in, E4 tomorrow on HBO Max. Finish E3 tonight so Tuesday isn’t a pile-up. Squid Game can wait until Saturday.", who:"The Last of Us"},
+      {id:"finish-short", q:"What if I only have one episode in me?", a:"Thuis is 25 minutes. The Bear is ~30 but locked on Disney+. An Undercover episode is ~50 if you can stretch."},
+      {id:"finish-film", q:"I’d rather finish a film than a series.", a:"Dune is the film you started — 18% in, 2h 46 left-ish. Ferry if you’d rather a closed 1h 46 you haven’t really begun."}
+    ]
   },
   {
     id:"can",
-    q:"Which of these can I already watch with my subscriptions?",
+    q:"Which of these can I already play?",
+    keys:"subscription plan lock play now netflix hbo",
     a(){
       const {can, mood} = askContext();
       const scope = mood ? `for “${mood.q}”` : "in your Watch List";
-      return `Netflix and HBO Max are yours. ${scope}: ${names(can)}. Service icon, no lock — those play tonight.`;
-    }
-  },
-  {
-    id:"need",
-    q:"Which ones require another subscription?",
-    a(){
-      const {cant, mood} = askContext();
-      const scope = mood ? `for “${mood.q}”` : "on your Watch List";
-      return cant.length
-        ? `${scope}: ${names(cant)}. Look for the lock on the app icon. Play, VTM GO, Disney+ and Streamz are the extras.`
-        : `${scope}: none — everything in this view is in your plan.`;
-    }
+      return `Netflix, HBO Max and VRT MAX are yours. ${scope}: ${names(can)}. Service icon, no lock — those play tonight.`;
+    },
+    follow:[
+      {id:"need", q:"Which ones would need another subscription?", a(){
+        const {cant, mood} = askContext();
+        const scope = mood ? `for “${mood.q}”` : "on your Watch List";
+        return cant.length
+          ? `${scope}: ${names(cant)}. Play, VTM GO, Disney+ and Streamz are the extras.`
+          : `${scope}: none — everything in this view is in your plan.`;
+      }},
+      {id:"can-tonight", q:"Of those, what’s actually a tonight?", a(){
+        const can = curated().filter(t => inPlan(t.provider));
+        const short = can.filter(t => t.mins <= 120);
+        const pick = short[0] || can[0];
+        return pick ? `${pick.title} — ${pick.kind.toLowerCase()} on ${pick.provider}. ${short.length ? "That’s the in-plan one you can actually finish." : "It’s in-plan; length is another question."}` : "Nothing in-plan in this view.";
+      }}
+    ]
   }
 ];
 
-function askHost(){ return asheet.querySelector("[data-qconvo-ask]"); }
-
-function streamText(text, el, done){
-  clearInterval(askStreamT);
-  el.textContent = "";
-  const cur = document.createElement("span");
-  cur.className = "cursor";
-  cur.textContent = "▍";
-  el.appendChild(cur);
-  let i = 0;
-  const tickFn = () => {
-    i += reduceMotion ? text.length : Math.max(1, Math.round(text.length / 48));
-    el.textContent = text.slice(0, i);
-    if (i < text.length) el.appendChild(cur);
-    if (i >= text.length) {
-      clearInterval(askStreamT);
-      el.textContent = text;
-      done && done();
-    }
-  };
-  if (reduceMotion) { tickFn(); return; }
-  askStreamT = setInterval(tickFn, 18);
-}
-
-function seedQA(q, a){
-  const thread = askHost()?.querySelector(".ask-thread");
-  if (!thread) return;
-  const b = document.createElement("div");
-  b.className = "qbubble";
-  b.textContent = q;
-  const an = document.createElement("div");
-  an.className = "ansr";
-  thread.appendChild(b);
-  thread.appendChild(an);
-  thread.parentElement.scrollTop = thread.parentElement.scrollHeight;
-  streamText(a, an, () => {
-    thread.parentElement.scrollTop = thread.parentElement.scrollHeight;
-  });
-}
-
-function starters(){
-  const mood = activeMood;
-  const order = mood === "leaving" ? ["leaving","tonight","can","need"]
-    : mood === "short" ? ["short","tonight","can","need"]
-    : mood === "acclaimed" ? ["acclaimed","tonight","can","finish"]
-    : mood === "friday" ? ["friday","tonight","can","need"]
-    : mood === "friends" ? ["friends","tonight","can","need"]
-    : mood === "easy" ? ["easy","tonight","can","need"]
-    : ["tonight","finish","can","need"];
-  return order.map(id => askBank.find(x => x.id === id)).filter(Boolean);
-}
-
-function renderStarters(except){
-  const row = askHost()?.querySelector(".ask-starters");
-  if (!row) return;
-  askExcept = except ?? askExcept;
-  row.innerHTML = starters().map((item, i) =>
-    item.id === askExcept ? "" : `<button class="qchip" type="button" data-ask-q="${item.id}">${star}${esc(item.q)}</button>`
-  ).join("");
-}
-
-function bindAskComposer(){
-  const host = askHost();
-  const row = host?.querySelector(".askinput");
-  const inp = host?.querySelector(".ask-freeq");
-  const send = host?.querySelector("[data-ask-send]");
-  if (!inp || !send) return;
-  const sync = () => {
-    const ready = inp.value.trim().length > 0;
-    send.classList.toggle("is-idle", !ready);
-    send.classList.toggle("is-ready", ready);
-    send.disabled = !ready;
-    row?.classList.toggle("is-typed", ready && !row.classList.contains("is-rec"));
-  };
-  inp.oninput = sync;
-  inp.onkeydown = e => {
-    if (e.key === "Enter") { e.preventDefault(); askFree(); }
-  };
-  sync();
-}
-
-function matchAsk(text){
-  const q = text.toLowerCase();
-  if (/leav/.test(q)) return askBank.find(x => x.id === "leaving");
-  if (/friday|weekend/.test(q)) return askBank.find(x => x.id === "friday");
-  if (/friend|sofa/.test(q)) return askBank.find(x => x.id === "friends");
-  if (/easy|comfort/.test(q)) return askBank.find(x => x.id === "easy");
-  if (/under two|short|hour/.test(q)) return askBank.find(x => x.id === "short");
-  if (/review|best|acclaim/.test(q)) return askBank.find(x => x.id === "acclaimed");
-  if (/finish|continue|progress/.test(q)) return askBank.find(x => x.id === "finish");
-  if (/require|lock|another|not in|outside/.test(q)) return askBank.find(x => x.id === "need");
-  if (/already watch|subscription|can i/.test(q)) return askBank.find(x => x.id === "can");
-  return askBank.find(x => x.id === "tonight");
-}
-
-function askFree(){
-  const inp = askHost()?.querySelector(".ask-freeq");
-  const q = inp?.value.trim();
-  if (!q) return;
-  inp.value = "";
-  bindAskComposer();
-  const item = matchAsk(q);
-  askExcept = item.id;
-  const startersEl = askHost()?.querySelector(".ask-starters");
-  startersEl?.classList.add("hid");
-  seedQA(q, item.a());
-  setTimeout(() => {
-    startersEl?.classList.remove("hid");
-    renderStarters(askExcept);
-  }, reduceMotion ? 0 : 700);
-}
-
-function stopAskVoice(commit){
-  const host = askHost();
-  const row = host?.querySelector(".askinput");
-  const mic = host?.querySelector("[data-ask-mic]");
-  clearTimeout(askVoiceT);
-  askVoiceT = 0;
-  row?.classList.remove("is-rec");
-  mic?.classList.remove("is-rec");
-  if (mic) mic.setAttribute("aria-label", "Ask with voice");
-  if (commit) {
-    const inp = host?.querySelector(".ask-freeq");
-    if (inp) inp.value = "What should I finish first?";
-    bindAskComposer();
-    askFree();
-  } else bindAskComposer();
-}
-
-function toggleAskVoice(){
-  const host = askHost();
-  const row = host?.querySelector(".askinput");
-  const mic = host?.querySelector("[data-ask-mic]");
-  if (!row || !mic) return;
-  if (row.classList.contains("is-rec")) { stopAskVoice(true); return; }
-  host.querySelector(".ask-freeq")?.blur();
-  row.classList.add("is-rec");
-  row.classList.remove("is-typed");
-  mic.classList.add("is-rec");
-  mic.setAttribute("aria-label", "Stop recording");
-  askVoiceT = setTimeout(() => stopAskVoice(true), 2200);
-}
+const convo = GummyConvo.create({
+  phone: phoneEl,
+  sheet: document.querySelector("[data-csheet]"),
+  bank: askBank,
+  placeholder: "Ask about your Watch List…",
+  hello(){
+    const mood = moods.find(m => m.id === activeMood);
+    return mood
+      ? `You’re looking at “${mood.q}”. Ask into that, or go somewhere else.`
+      : "Ask about what’s saved — or go somewhere else entirely.";
+  },
+  starters(){
+    const ids = activeMood
+      ? [activeMood, "tonight", "finish", "wl-leave"].filter((id, i, a) => a.indexOf(id) === i)
+      : ["tonight", "finish", "wl-leave"];
+    return ids.map(id => askBank.find(x => x.id === id)).filter(Boolean);
+  },
+  reduceMotion
+});
 
 function openAsk(startId){
-  askOnFollow = sceneFollow.classList.contains("is-on");
-  const thread = askHost()?.querySelector(".ask-thread");
-  if (thread) thread.innerHTML = "";
-  askExcept = null;
-  bindAskComposer();
-  renderStarters();
-  askHost()?.querySelector(".ask-starters")?.classList.remove("hid");
-  phoneEl.classList.add("is-ask", "is-ask-park");
-  phoneEl.classList.remove("is-open");
-  void phoneEl.offsetWidth;
-  requestAnimationFrame(() => {
-    phoneEl.classList.remove("is-ask-park");
-    phoneEl.classList.add("is-open");
-    if (startId) {
-      const item = askBank.find(x => x.id === startId);
-      if (item) {
-        askExcept = item.id;
-        const startersEl = askHost()?.querySelector(".ask-starters");
-        startersEl?.classList.add("hid");
-        seedQA(item.q, item.a());
-        setTimeout(() => {
-          startersEl?.classList.remove("hid");
-          renderStarters(askExcept);
-        }, reduceMotion ? 0 : 700);
-      }
-    }
-  });
+  convo.setBank(askBank);
+  convo.open(startId);
 }
+function collapseAsk(){ convo.close(); }
 
-function collapseAsk(immediate){
-  clearInterval(askStreamT);
-  stopAskVoice(false);
-  phoneEl.classList.remove("is-open", "is-ask-park");
-  if (immediate || reduceMotion) {
-    phoneEl.classList.remove("is-ask");
-    return;
-  }
-  setTimeout(() => phoneEl.classList.remove("is-ask"), 550);
-}
+const titlePage = GummyTitle.create({
+  phone: phoneEl,
+  toast,
+  plan: PLAN,
+  reduceMotion,
+  onOpen(){ collapseAsk(); }
+});
 
 renderWatch();
-renderFollow();
-bindQcard();
 
 sceneWatch.addEventListener("click", e => {
+  if (e.target.closest("[data-top10]")){
+    e.preventDefault();
+    e.stopPropagation();
+    goPrototype("gummy-top10", "ah-gummy-ask-carousel.html?top10=1");
+    return;
+  }
+  if (e.target.closest("[data-see-up]")){
+    goPrototype("gummy-following", "ah-gummy-following.html");
+    return;
+  }
   if (e.target.closest("[data-see-all]")){
     watchView = "grid";
     renderWatch();
@@ -1583,36 +1605,17 @@ sceneWatch.addEventListener("click", e => {
     sceneWatch.scrollTop = 0;
     return;
   }
-  const open = e.target.closest("[data-open]");
-  if (open){
-    const item = findTitle(open.dataset.open);
-    toast(item ? (inPlan(item.provider) ? `Open on ${item.provider}` : `Not in your plan · ${item.provider}`) : "");
-  }
-});
-sceneFollow.addEventListener("click", e => {
-  const explore = e.target.closest("[data-go-following]");
-  if (explore){
-    e.preventDefault();
+  const follow = e.target.closest("[data-follow]");
+  if (follow){
     goPrototype("gummy-following", "ah-gummy-following.html");
     return;
   }
-  const row = e.target.closest("[data-follow]");
-  if (row) toast(row.dataset.follow);
-});
-
-document.querySelectorAll(".tab-labels .t").forEach(tab => {
-  tab.addEventListener("click", () => {
-    if (tab.dataset.tab === "following") {
-      goPrototype("gummy-following", "ah-gummy-following.html");
-      return;
-    }
-    if (phoneEl.classList.contains("is-ask")) collapseAsk(true);
-    document.querySelectorAll(".tab-labels .t").forEach(t => t.classList.toggle("on", t.dataset.tab === tab.dataset.tab));
-    sceneWatch.classList.toggle("is-on", true);
-    sceneFollow.classList.remove("is-on");
-    sceneWatch.setAttribute("aria-hidden", "false");
-    sceneFollow.setAttribute("aria-hidden", "true");
-  });
+  const open = e.target.closest("[data-open]");
+  if (open){
+    const item = findTitle(open.dataset.open);
+    if (item) titlePage.open(item);
+    return;
+  }
 });
 
 phoneEl.addEventListener("click", e => {
@@ -1620,45 +1623,20 @@ phoneEl.addEventListener("click", e => {
   if (start){
     const id = start.dataset.askStart;
     setMood(id);
-    document.querySelectorAll(".tab-labels .t").forEach(t => t.classList.toggle("on", t.dataset.tab === "bookmarks"));
-    sceneWatch.classList.add("is-on");
-    sceneFollow.classList.remove("is-on");
-    sceneWatch.setAttribute("aria-hidden", "false");
-    sceneFollow.setAttribute("aria-hidden", "true");
     openAsk(id);
     return;
   }
   if (e.target.closest("[data-open-ask]")) { openAsk(); return; }
-  if (e.target.closest("[data-collapse-ask]")) { collapseAsk(); return; }
-  if (e.target.closest("[data-ask-mic]")) { toggleAskVoice(); return; }
-  if (e.target.closest("[data-ask-send]")) { askFree(); return; }
-  const q = e.target.closest("[data-ask-q]");
-  if (q){
-    const item = askBank.find(x => x.id === q.dataset.askQ);
-    if (!item) return;
-    askExcept = item.id;
-    const startersEl = askHost()?.querySelector(".ask-starters");
-    startersEl?.classList.add("hid");
-    seedQA(item.q, item.a());
-    setTimeout(() => {
-      startersEl?.classList.remove("hid");
-      renderStarters(askExcept);
-    }, reduceMotion ? 0 : 700);
-    return;
-  }
-  if (phoneEl.classList.contains("is-ask") && !e.target.closest(".asheet, [data-open-ask], .tabbar")) {
-    collapseAsk();
-  }
 });
 
 document.querySelector(".tabbar")?.addEventListener("click", e => {
   const btn = e.target.closest(".navitem");
   if (!btn) return;
   const nav = (btn.dataset.nav || btn.getAttribute("aria-label") || "").toLowerCase();
-  if (nav === "home") goPrototype("gummy-ask-smear", "ah-gummy-ask-smear.html");
+  if (nav === "home") goPrototype("gummy-ask-carousel", "ah-gummy-ask-carousel.html");
   else if (nav === "stuff" || nav === "my stuff") sceneWatch.scrollTo({top:0, behavior:"smooth"});
   else if (nav === "search") goPrototype("gummy-search", "ah-gummy-search.html");
-  else toast(`${btn.getAttribute("aria-label") || "Shop"} · coming soon`);
+  else if (nav === "shop") goPrototype("gummy-shop", "ah-gummy-shop.html");
 });
 (function tickClock(){
   const t = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});

@@ -1,0 +1,176 @@
+/* Shared Ask bottom sheet — conversation first, glow third. */
+.csheet{
+  position:absolute;inset:0;z-index:72;
+  pointer-events:none;
+  overflow:hidden;
+}
+.csheet.is-on{pointer-events:auto}
+.csheet-scrim{
+  position:absolute;inset:0;
+  background:rgba(4,2,6,.42);
+  opacity:0;
+  transition:opacity .38s ease;
+}
+.csheet.is-on .csheet-scrim{opacity:1}
+.csheet-panel{
+  position:absolute;left:0;right:0;bottom:0;
+  height:min(76%, 620px);
+  display:flex;flex-direction:column;
+  border-radius:22px 22px 0 0;
+  overflow:hidden;
+  background:
+    linear-gradient(180deg, rgba(22,14,18,.55) 0%, rgba(10,8,12,.82) 28%, rgba(8,6,10,.9) 100%);
+  backdrop-filter:blur(28px) saturate(1.22);
+  -webkit-backdrop-filter:blur(28px) saturate(1.22);
+  box-shadow:0 -18px 40px rgba(0,0,0,.35);
+  transform:translateY(calc(100% + 80px));
+  visibility:hidden;
+  opacity:0;
+  transition:transform .52s cubic-bezier(.22,.82,.28,1), height .4s cubic-bezier(.22,.82,.28,1), visibility 0s linear .4s, opacity .2s linear .3s;
+}
+.csheet-panel::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
+  background:
+    radial-gradient(90% 50% at 18% -10%, rgba(255,236,140,.1) 0%, transparent 46%),
+    radial-gradient(80% 40% at 92% 0%, rgba(255,70,100,.08) 0%, transparent 50%);
+  opacity:.9;
+}
+.csheet-panel::after{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:1;
+  padding:1px;
+  background:linear-gradient(180deg, rgba(255,210,160,.28), rgba(255,80,90,.08) 22%, transparent 48%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  opacity:.7;
+}
+.csheet.is-on .csheet-panel{
+  transform:none;
+  visibility:visible;
+  opacity:1;
+  transition:transform .52s cubic-bezier(.22,.82,.28,1), height .4s cubic-bezier(.22,.82,.28,1), visibility 0s, opacity .18s ease;
+}
+.csheet.is-drag .csheet-panel{transition:none}
+.csheet-handle{
+  position:relative;z-index:4;flex-shrink:0;
+  display:grid;place-items:center;
+  height:28px;width:100%;
+  background:none;border:0;color:inherit;cursor:pointer;
+}
+.csheet-handle i{
+  display:block;width:36px;height:4px;border-radius:99px;
+  background:rgba(255,255,255,.32);
+}
+.csheet .qconvo{
+  position:relative;z-index:3;
+  display:flex;flex-direction:column;flex:1;min-height:0;
+  padding:4px 16px 12px;
+  opacity:1;pointer-events:auto;
+}
+.csheet .qconvo-scroll{
+  flex:1;min-height:0;overflow-y:auto;padding-bottom:10px;
+  overscroll-behavior:contain;touch-action:pan-y;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;
+}
+.csheet .ask-thread{display:flex;flex-direction:column;gap:12px;min-height:8px}
+.csheet .qbubble{
+  align-self:flex-end;max-width:92%;margin:0;padding:10px 12px;
+  font-size:14px;font-weight:600;line-height:1.35;
+  color:#fff;background:rgba(255,255,255,.1);border-radius:16px 16px 5px 16px;
+}
+.csheet .ansr{
+  align-self:stretch;margin:0;padding:12px 2px 4px;
+  font-size:15px;line-height:1.5;font-weight:500;
+  color:rgba(255,255,255,.94);background:none;border-radius:0;
+  min-height:0;
+}
+.csheet .ansr .cursor{display:inline-block;margin-left:1px;color:#ffb060;animation:csheetBlink 1s steps(1) infinite}
+@keyframes csheetBlink{50%{opacity:0}}
+.csheet-hello{
+  margin:4px 2px 12px;padding:0;
+  font-size:16px;line-height:1.45;font-weight:500;
+  color:rgba(255,255,255,.78);
+}
+.csheet.is-talking .csheet-hello{display:none}
+.csheet .ask-continue{margin-top:14px}
+.csheet .label-mini{
+  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:8px;
+}
+.csheet .ask-starters{display:flex;gap:8px;flex-wrap:wrap;transition:opacity .35s ease}
+.csheet .ask-starters.hid{opacity:0;pointer-events:none}
+.csheet .ask-starters:not(.hid):empty{min-height:0}
+.csheet .qchip{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 11px;border-radius:16px;font-size:12.5px;font-weight:400;
+  color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);
+  max-width:100%;white-space:normal;text-align:left;line-height:1.35;
+}
+.csheet .qchip .star, .csheet .qchip img{width:8px;height:9px;filter:brightness(0) invert(1);opacity:.9}
+.csheet .qconvo-foot{
+  flex-shrink:0;padding-top:8px;
+  padding-bottom:calc(8px + var(--csheet-kb, 0px));
+}
+.csheet .askinput{display:flex;gap:8px;align-items:center;position:relative}
+.csheet .askinput input,
+.csheet .ask-freeq{
+  flex:1;min-width:0;height:46px;border:0;border-radius:16px;outline:none;
+  padding:0 14px;font:inherit;font-size:14px;font-weight:500;
+  color:#fff;background:rgba(255,255,255,.08);
+}
+.csheet .askinput input::placeholder{color:rgba(255,255,255,.42)}
+.csheet .ask-listen{display:none;align-items:center;gap:8px;position:absolute;left:14px;right:54px;height:46px;pointer-events:none}
+.csheet .askinput.is-rec .ask-freeq{color:transparent}
+.csheet .askinput.is-rec .ask-listen{display:flex}
+.csheet .ask-listen .wave{display:flex;align-items:center;gap:3px;height:16px}
+.csheet .ask-listen .wave i{
+  width:3px;border-radius:99px;background:rgba(255,255,255,.82);
+  animation:csheetWave 1s ease-in-out infinite;
+}
+.csheet .ask-listen .wave i:nth-child(2){height:12px;animation-delay:.12s}
+.csheet .ask-listen .wave i:nth-child(3){height:8px;animation-delay:.24s}
+.csheet .ask-listen .wave i:nth-child(4){height:14px;animation-delay:.08s}
+.csheet .ask-listen .wave i:nth-child(5){height:7px;animation-delay:.2s}
+@keyframes csheetWave{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+.csheet .ask-listen span{font-size:13px;font-weight:500;color:rgba(255,255,255,.72)}
+.csheet .askinput button{
+  width:46px;height:46px;flex-shrink:0;border-radius:16px;display:grid;place-items:center;
+  border:0;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;
+}
+.csheet .askinput button svg{
+  width:20px;height:20px;stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+.csheet .askinput .ask-mic{background:#fff;color:#111}
+.csheet .askinput .ask-mic svg{stroke:#111}
+.csheet .askinput .ask-mic.is-rec{color:#c43b2a}
+.csheet .askinput .ask-mic.is-rec svg{stroke:#c43b2a}
+.csheet .askinput.is-typed .ask-mic,
+.csheet .askinput:not(.is-typed) [data-ask-send]{display:none}
+.csheet .askinput.is-rec .ask-mic{display:grid}
+.csheet .askinput.is-rec [data-ask-send]{display:none}
+.csheet .askinput button.is-idle{background:rgba(255,255,255,.08);color:rgba(255,255,255,.35)}
+.csheet .askinput button.is-ready{background:#fff;color:#111}
+.phone.is-ask .scene,
+.phone.is-ask .feed{filter:brightness(.72)}
+.phone.is-ask .ask-rail{opacity:0;pointer-events:none}
+html.is-app .csheet{
+  bottom: calc(64px + var(--safe-bottom, 0px));
+}
+html.is-app .csheet-panel{
+  bottom: 0;
+  height: min(72%, 620px, calc(100% - 54px));
+}
+html.is-app.is-bare .csheet,
+.phone.is-bare .csheet{
+  bottom: 0;
+}
+html.is-app.is-bare .csheet-panel,
+.phone.is-bare .csheet-panel{
+  bottom: var(--safe-bottom, 0px);
+  height: min(78%, calc(100% - 54px));
+}
+@media (prefers-reduced-motion:reduce){
+  .csheet-scrim, .csheet-panel{transition:none}
+}

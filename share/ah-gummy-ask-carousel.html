@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AH · Gummy · Ask carousel · 28 Aug 2026</title>
+<meta http-equiv="Cache-Control" content="no-store">
+<script>
+(function(){
+  const html = document.documentElement;
+  const params = new URLSearchParams(location.search);
+  const mq = window.matchMedia("(max-width: 540px)");
+  const standaloneMq = window.matchMedia("(display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui)");
+  function isStandalone(){
+    return window.navigator.standalone === true || standaloneMq.matches;
+  }
+  function topIsDesktop(){
+    try {
+      const topWin = window.top || window;
+      const topStandalone = topWin.navigator.standalone === true
+        || topWin.matchMedia("(display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui)").matches;
+      return !topStandalone && topWin.matchMedia("(min-width: 541px)").matches;
+    } catch (_) {
+      return false;
+    }
+  }
+  function apply(){
+    const embed = window.parent !== window;
+    const standalone = isStandalone();
+    const app = params.has("app") || mq.matches || standalone;
+    html.classList.toggle("is-embed", embed || app);
+    html.classList.toggle("is-fill", params.has("fill") || app);
+    html.classList.toggle("is-app", app);
+    html.classList.toggle("is-standalone", standalone);
+    html.classList.toggle("is-mock-status", topIsDesktop());
+  }
+  apply();
+  mq.addEventListener("change", apply);
+  standaloneMq.addEventListener("change", apply);
+  try { (window.top || window).matchMedia("(min-width: 541px)").addEventListener("change", apply); } catch (_) {}
+  window.addEventListener("message", e => {
+    const d = e.data;
+    if (!d || d.type !== "app-safe") return;
+    if (d.top) html.style.setProperty("--app-safe-top", d.top);
+    if (d.bottom) html.style.setProperty("--app-safe-bottom", d.bottom);
+  });
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
+<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
+<style>
+  :root{
+    --desk:#0e1218;
+    --ink:#f6f7fb;
+    --mut:#9aa3b2;
+    --line:rgba(255,255,255,.1);
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --dur:620ms;
+    --safe-bottom:0px;
+    --convo-h:47.4cqh;
+    --mesh-ask:
+      radial-gradient(110% 90% at 10% 12%, rgba(255,236,140,.16) 0%, transparent 38%),
+      radial-gradient(90% 80% at 70% 40%, rgba(255,90,70,.14) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.26) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(18,10,14,.78) 0%, rgba(10,8,12,.92) 100%);
+    --mesh-ask-focus:
+      radial-gradient(110% 90% at 10% 12%, rgba(255,236,140,.28) 0%, transparent 38%),
+      radial-gradient(90% 80% at 70% 40%, rgba(255,90,70,.22) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.36) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(22,12,16,.7) 0%, rgba(12,8,12,.88) 100%);
+    --mesh-sheet: var(--mesh-candy);
+    --mesh-hi: radial-gradient(90% 70% at 28% 10%, rgba(255,255,255,.18) 0%, transparent 50%);
+    --gummy-line: var(--line-candy);
+    --line-candy: linear-gradient(135deg, rgba(255,228,150,.7), rgba(255,110,70,.45) 48%, rgba(255,50,95,.55));
+    --line-green: linear-gradient(135deg, rgba(210,255,170,.75), rgba(70,210,170,.5) 48%, rgba(40,170,150,.55));
+    --line-purple: linear-gradient(135deg, rgba(255,190,230,.72), rgba(170,120,255,.5) 48%, rgba(120,80,255,.58));
+    --mesh-candy:
+      radial-gradient(100% 90% at 6% 8%, rgba(255,236,140,.5) 0%, transparent 34%),
+      radial-gradient(80% 70% at 40% 0%, rgba(255,140,200,.2) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 38%, rgba(255,90,70,.42) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.55) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,160,70,.22), rgba(255,70,100,.22) 55%, rgba(180,80,220,.14)),
+      linear-gradient(180deg, rgba(16,6,12,.3) 0%, rgba(16,6,12,.12) 100%);
+    --mesh-green:
+      radial-gradient(100% 90% at 8% 10%, rgba(220,255,180,.5) 0%, transparent 34%),
+      radial-gradient(80% 70% at 42% 0%, rgba(180,255,220,.22) 0%, transparent 40%),
+      radial-gradient(90% 80% at 72% 40%, rgba(50,210,180,.4) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(40,180,160,.42) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(140,255,160,.2), rgba(50,210,180,.16)),
+      linear-gradient(180deg, rgba(8,12,10,.3) 0%, rgba(8,12,10,.12) 100%);
+    --mesh-purple:
+      radial-gradient(100% 90% at 8% 10%, rgba(255,200,240,.48) 0%, transparent 34%),
+      radial-gradient(80% 70% at 40% 0%, rgba(200,180,255,.22) 0%, transparent 40%),
+      radial-gradient(90% 80% at 70% 40%, rgba(180,120,255,.38) 0%, transparent 46%),
+      radial-gradient(100% 90% at 100% 100%, rgba(120,90,255,.45) 0%, transparent 48%),
+      linear-gradient(125deg, rgba(255,140,210,.2), rgba(150,120,255,.16)),
+      linear-gradient(180deg, rgba(12,8,16,.3) 0%, rgba(12,8,16,.12) 100%);
+    --mesh-ask-green:
+      radial-gradient(110% 90% at 10% 12%, rgba(210,255,180,.16) 0%, transparent 38%),
+      radial-gradient(90% 80% at 70% 40%, rgba(50,210,180,.16) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(40,170,140,.26) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(12,16,14,.78) 0%, rgba(8,12,10,.92) 100%);
+    --mesh-ask-purple:
+      radial-gradient(110% 90% at 10% 12%, rgba(255,200,240,.16) 0%, transparent 38%),
+      radial-gradient(90% 80% at 70% 40%, rgba(170,120,255,.16) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(120,80,255,.28) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(16,12,20,.78) 0%, rgba(10,8,14,.92) 100%);
+    --ask-glow: rgba(255,70,100,.32);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;color:var(--ink);font-family:"Outfit",system-ui,sans-serif;
+    background:
+      radial-gradient(900px 480px at 12% -8%, rgba(255,120,70,.16) 0%, transparent 50%),
+      radial-gradient(800px 420px at 88% 0%, rgba(80,220,160,.1) 0%, transparent 48%),
+      var(--desk);
+    padding:28px 18px 64px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+  .page{max-width:720px;width:100%}
+  .brand{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  h1{font-size:clamp(26px,3.2vw,34px);font-weight:700;letter-spacing:-.03em;margin-top:8px}
+  .lead{font-size:14.5px;line-height:1.55;color:var(--mut);margin-top:10px;max-width:540px}
+  .brief{
+    margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;
+    background:rgba(255,255,255,.03);font-size:13px;line-height:1.5;color:var(--mut);
+  }
+  .brief strong{color:#fff}
+  .note{margin-top:12px;font-size:12px;color:var(--mut)}
+  .note a{color:#d7dde8;font-weight:650;text-decoration:none;border-bottom:1px solid rgba(215,221,232,.35)}
+  .stage{display:flex;justify-content:center;margin-top:26px}
+
+  html.is-embed, html.is-embed body{height:100%;min-height:100%;overflow:hidden}
+  html.is-embed body{padding:0;justify-content:center;background:var(--desk)}
+  html.is-embed .intro{display:none}
+  html.is-embed .stage{margin:0}
+  html.is-embed .phone{
+    width:min(393px, calc(100vw - 32px), calc((100dvh - 32px) * 393 / 852));
+  }
+  html.is-embed.is-fill, html.is-embed.is-fill body,
+  html.is-embed.is-fill .page, html.is-embed.is-fill .stage{
+    width:100%;height:100%;max-width:none;
+  }
+  html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
+  html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
+  html.is-app{
+    --safe-top: max(env(safe-area-inset-top, 0px), var(--app-safe-top, 0px));
+    --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--app-safe-bottom, 0px));
+    --status-h: var(--safe-top);
+  }
+  html.is-app .status{display:none}
+  html.is-app.is-mock-status{--status-h:54px}
+  html.is-app.is-mock-status .status{display:flex;height:54px}
+  html.is-app .tabs,
+  html.is-app .head-row{top: calc(10px + var(--status-h))}
+  html.is-app .tabbar{
+    height: calc(64px + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
+  }
+  html.is-app .qwrap{
+    bottom: calc(64px + var(--safe-bottom) - var(--q-tuck));
+  }
+  html.is-app .dock{
+    bottom: calc(64px + var(--dock-lift) + var(--safe-bottom));
+  }
+  html.is-bare .tabbar,
+  html.is-bare .status,
+  html.is-bare .navfrost{display:none !important}
+  html.is-bare .tabs{display:none}
+  html.is-bare .head-row{
+    top: 54px;
+  }
+  html.is-app.is-bare .dock{
+    bottom: calc(var(--dock-lift) + var(--safe-bottom));
+  }
+  html.is-app.is-bare .qwrap{
+    bottom: calc(var(--safe-bottom) - var(--q-tuck));
+  }
+  html.is-app.is-bare .head-row{
+    top: max(54px, calc(10px + var(--safe-top)));
+  }
+
+  .phone{
+    width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
+    position:relative;border:5px solid #050505;
+    box-shadow:0 24px 56px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
+    background:#000;font-family:"Inter",system-ui,sans-serif;color:#fff;
+    container-type:size;
+    container-name:phone;
+  }
+  .feed{
+    position:absolute;inset:0;z-index:1;
+    display:flex;flex-direction:column;
+    overflow-y:auto;overflow-x:hidden;
+    scroll-snap-type:y mandatory;
+    scrollbar-width:none;
+    overscroll-behavior-y:contain;
+  }
+  .feed::-webkit-scrollbar{display:none}
+  .slide{
+    position:relative;flex:0 0 100%;height:100%;
+    scroll-snap-align:start;scroll-snap-stop:always;
+    --dock-lift: 10px;
+    --q-tuck: 12px;
+    --q-pad-top: 8px;
+  }
+  .slide.is-sheet,
+  .slide.is-assembling{
+    --dock-lift: 58px;
+  }
+
+  .videowrap{
+    position:absolute;inset:0;z-index:1;
+    overflow:hidden;background:#000;isolation:isolate;
+  }
+  .videowrap .video-poster,
+  .videowrap video{
+    position:absolute;left:50%;top:50%;
+    width:100%;height:100%;
+    min-width:100%;min-height:100%;
+    object-fit:cover;object-position:center center;
+    transform:translate(-50%,-50%) scale(1.34);
+    transform-origin:center center;
+  }
+  .videowrap .video-poster{
+    background:#000 center 32%/cover no-repeat;
+  }
+  .videowrap video{opacity:0;transition:opacity .6s ease}
+  .videowrap.is-playing video{opacity:1}
+  .video-edgefade{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.58) 0%, transparent 24%, transparent 52%, rgba(0,0,0,.22) 78%, rgba(0,0,0,.38) 100%);
+  }
+  .topfade{
+    position:absolute;left:0;right:0;top:0;height:148px;z-index:30;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.38) 42%, transparent 100%);
+  }
+  .status{
+    position:absolute;top:0;left:0;right:0;height:54px;z-index:60;
+    display:flex;align-items:flex-start;justify-content:space-between;
+    padding:16px 26px 0 28px;pointer-events:none;color:#fff;
+    font-size:15px;font-weight:600;letter-spacing:-.03em;
+    font-variant-numeric:tabular-nums;
+  }
+  .status-time{position:relative;z-index:1;min-width:52px}
+  .status-island{
+    position:absolute;left:50%;top:11px;width:126px;height:36px;margin-left:-63px;
+    border-radius:22px;background:#000;
+    box-shadow:0 0 0 1px rgba(255,255,255,.18);
+  }
+  .status-island::before,
+  .status-island::after{
+    content:"";position:absolute;top:50%;transform:translateY(-50%);border-radius:50%;
+  }
+  .status-island::before{
+    right:11px;width:12px;height:12px;
+    background:radial-gradient(circle at 38% 32%, #4a6080 0 18%, #1a2838 38%, #070b12 72%, #000 100%);
+    box-shadow:0 0 0 1.5px #0a0a0c, inset 0 0 0 1px rgba(80,120,160,.25);
+  }
+  .status-island::after{
+    right:28px;width:8px;height:8px;background:#0c0c10;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+  }
+  .status-end{position:relative;z-index:1;display:flex;align-items:center;gap:6px;padding-top:2px}
+  .status-end svg{display:block}
+  .status-sig{width:17px;height:11px;fill:currentColor}
+  .status-wifi{width:15px;height:12px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round}
+  .status-bat{width:24px;height:12px;fill:currentColor}
+  .tabs{
+    position:absolute;top:58px;left:14px;right:0;z-index:52;
+    display:flex;align-items:center;gap:9px;
+    pointer-events:auto;
+  }
+  .filter{
+    width:36px;height:36px;border-radius:16px;flex-shrink:0;display:grid;place-items:center;color:#fff;
+    background:rgba(255,255,255,.16);
+  }
+  .filter svg{
+    width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .tab-labels{
+    display:flex;align-items:center;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 calc(100% - 22px),transparent);
+    mask-image:linear-gradient(90deg,#000 0%,#000 calc(100% - 22px),transparent);
+  }
+  .tab-labels::-webkit-scrollbar{display:none}
+  .tab-labels .t{
+    flex-shrink:0;font-size:16px;font-weight:500;letter-spacing:-.02em;
+    color:rgba(255,255,255,.92);padding:7px 8px;border-radius:16px;
+    text-shadow:0 1px 8px rgba(0,0,0,.45);
+  }
+  .tab-labels .t.on{
+    color:#fff;font-weight:600;
+    background:rgba(255,255,255,.16);
+    padding:7px 14px;
+  }
+  .head-row{
+    display:none;position:absolute;top:58px;left:14px;right:14px;z-index:52;
+    align-items:center;gap:9px;
+  }
+  .phone.is-top10 .tabs,
+  .phone.is-pack .tabs{display:none}
+  .phone.is-top10 .head-row,
+  .phone.is-pack .head-row{display:flex}
+  .back{
+    width:36px;height:36px;border-radius:16px;flex-shrink:0;display:grid;place-items:center;color:#fff;
+    background:rgba(255,255,255,.16);
+  }
+  .back svg{
+    width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .head-copy{min-width:0}
+  .head-copy .eyebrow{
+    font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.55);
+  }
+  .head-copy h2{
+    margin-top:2px;font-size:15px;font-weight:600;letter-spacing:-.02em;line-height:1.15;
+    text-shadow:0 2px 12px rgba(0,0,0,.55);
+  }
+  .rank-glow{
+    display:none;position:absolute;inset:0;z-index:35;
+    pointer-events:none;overflow:visible;
+  }
+  .phone.is-top10 .rank-glow{display:block}
+  .phone.is-pack .rank-glow{display:none}
+  .phone.is-convo .rank-glow{opacity:.28}
+  .rank-glow-wash{
+    position:absolute;left:52%;right:-8%;top:8%;height:46%;
+    background:
+      radial-gradient(70% 80% at 88% 42%, rgba(255,200,110,.7) 0%, transparent 58%),
+      radial-gradient(90% 100% at 92% 48%, rgba(255,70,100,.4) 0%, transparent 64%),
+      linear-gradient(270deg, rgba(255,120,70,.34) 0%, transparent 78%);
+    filter:blur(22px);
+    opacity:.95;
+    animation:rankGlowPulse 3.2s ease-in-out infinite;
+  }
+  .rank-n{
+    position:absolute;left:auto;right:0;top:16%;
+    transform:translateX(22%);
+    font-family:"Inter",system-ui,sans-serif;font-weight:900;
+    font-size:26.12cqw;line-height:1.21;letter-spacing:-.04em;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+    background:
+      radial-gradient(70% 55% at 28% 16%, rgba(255,255,255,1) 0%, transparent 40%),
+      radial-gradient(80% 60% at 78% 92%, rgba(255,210,140,.55) 0%, transparent 50%),
+      linear-gradient(165deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.52) 38%, rgba(255,230,190,.62) 68%, rgba(255,255,255,.88) 100%);
+    -webkit-background-clip:text;background-clip:text;
+    filter:drop-shadow(-8px 0 18px rgba(255,140,70,.5)) drop-shadow(-14px 0 36px rgba(255,70,100,.3));
+  }
+  .rank-glow.is-ten .rank-n{font-size:20.4cqw;letter-spacing:-.06em}
+  @keyframes rankGlowPulse{
+    0%,100%{opacity:.78;filter:blur(22px) saturate(1)}
+    50%{opacity:1;filter:blur(18px) saturate(1.25)}
+  }
+
+  .tabbar{
+    position:absolute;left:0;right:0;bottom:0;height:64px;z-index:50;
+    display:flex;align-items:flex-start;justify-content:space-around;
+    padding:8px 4px 0;
+    background:rgba(8,8,10,.78);
+    backdrop-filter:blur(22px) saturate(1.25);
+    -webkit-backdrop-filter:blur(22px) saturate(1.25);
+    border-top:1px solid rgba(255,255,255,.1);
+    color:rgba(255,255,255,.4);
+  }
+  .navitem{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:inherit}
+  .navitem svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .navitem span{font-size:9.5px;font-weight:600}
+  .navitem.on{color:#fff}
+  .navitem.on svg{fill:currentColor;stroke-width:1.2}
+
+  .dock{
+    position:absolute;left:4.33cqw;right:3.3cqw;
+    bottom:calc(7.51cqh + var(--dock-lift) + var(--safe-bottom));
+    z-index:36;
+    display:flex;align-items:flex-end;gap:12px;
+    pointer-events:none;
+    transition:bottom var(--dur) var(--ease), opacity .28s ease;
+  }
+  .slide.is-convo .dock{opacity:.34;pointer-events:none}
+  .cluster{
+    position:relative;flex:1;min-width:0;
+    display:flex;flex-direction:column;justify-content:flex-end;gap:10px;
+    pointer-events:none;
+    margin-bottom:0;
+    transition:margin-bottom var(--dur) var(--ease);
+  }
+  .slide.is-sheet .cluster,
+  .slide.is-assembling .cluster{
+    margin-bottom:10px;
+  }
+  .hero{display:flex;align-items:flex-start;gap:12px;width:100%}
+  .poster{
+    width:14.25cqw;height:9.86cqh;border-radius:8px;overflow:hidden;flex-shrink:0;
+    background:#111;box-shadow:0 8px 18px rgba(0,0,0,.4);
+    pointer-events:auto;
+    cursor:pointer;
+  }
+  .poster img{width:100%;height:100%;object-fit:cover;display:block}
+  .copy{
+    min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+    pointer-events:auto;
+  }
+  .title{
+    font-size:18px;font-weight:700;letter-spacing:-.03em;line-height:1.15;
+    text-shadow:0 2px 16px rgba(0,0,0,.55);
+    text-align:left;
+  }
+  .syn{
+    font-size:14px;font-weight:500;color:rgba(255,255,255,.84);
+  }
+  .watchlist{
+    display:inline-flex;align-items:center;gap:4px;
+    padding:7px 11px 7px 7px;border-radius:8px;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.04);
+    font-size:12px;font-weight:600;
+  }
+  .watchlist svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+  .facts{
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+    font-size:12px;font-weight:600;color:rgba(255,255,255,.6);
+    pointer-events:none;
+  }
+  .facts svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .facts span{opacity:.7}
+
+  .cta-rail{
+    flex-shrink:0;width:13.7cqw;
+    display:flex;flex-direction:column;align-items:center;gap:16px;
+    pointer-events:auto;
+  }
+  .watch-rail{
+    position:relative;width:100%;
+    display:flex;flex-direction:column;align-items:center;gap:5px;
+  }
+  .slide.is-convo .watch-rail{opacity:.2;pointer-events:none}
+  .btn-watch{
+    width:12.21cqw;height:12.21cqw;border-radius:16px;overflow:hidden;
+    background:rgba(255,255,255,.1);
+  }
+  .btn-watch img{width:100%;height:100%;object-fit:cover;display:block;border-radius:15px}
+  .badge{
+    position:absolute;right:2px;top:-5px;width:18px;height:18px;border-radius:50%;
+    display:grid;place-items:center;font-size:10px;font-weight:800;
+    background:#fff;color:#111;border:2px solid #0a0a0a;line-height:1;
+  }
+  .lbl{font-size:11px;font-weight:600;color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+
+  .ask-rail{
+    position:relative;width:100%;z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:5px;
+  }
+  .slide.is-convo .ask-rail{opacity:0;pointer-events:none}
+
+  .ask-blob{
+    position:relative;width:12.21cqw;height:12.21cqw;border-radius:16px;
+    overflow:hidden;
+    background:rgba(10,8,12,.5);
+    box-shadow:0 4px 14px rgba(0,0,0,.35);
+    transition:
+      box-shadow var(--dur) var(--ease),
+      transform .4s var(--ease);
+  }
+  .askin{
+    position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+    opacity:0;
+  }
+  .askin[data-askin="0"]{opacity:1;background:var(--mesh-ask)}
+  .askin[data-askin="1"]{background:var(--mesh-ask-green)}
+  .askin[data-askin="2"]{background:var(--mesh-ask-purple)}
+  .askin::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    padding:1px;opacity:.58;
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite:exclude;
+  }
+  .askin[data-askin="0"]::after{background:var(--line-candy)}
+  .askin[data-askin="1"]::after{background:var(--line-green)}
+  .askin[data-askin="2"]::after{background:var(--line-purple)}
+  .ask-blob::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:var(--mesh-hi);opacity:.35;
+  }
+  .slide.is-sheet .ask-blob{
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--ask-glow) 45%, transparent),
+      0 0 18px var(--ask-glow),
+      0 8px 18px rgba(0,0,0,.35);
+  }
+  .slide.is-sheet .askin::after{opacity:.88}
+  .ask-blob.is-glow{
+    animation:askGlow 1.4s ease-in-out 2;
+  }
+  .slide.is-sheet:not(.is-convo):not(.is-assembling) .ask-blob{
+    animation:linkPulseAsk 2.4s ease-in-out infinite;
+  }
+  @keyframes askGlow{
+    0%,100%{box-shadow:0 0 0 3px rgba(255,180,90,.1), 0 0 12px rgba(255,70,100,.22)}
+    50%{box-shadow:0 0 0 5px rgba(255,180,90,.22), 0 0 24px rgba(255,70,100,.42)}
+  }
+  @keyframes linkPulseAsk{
+    0%,100%{
+      box-shadow:
+        0 0 0 3px color-mix(in srgb, var(--ask-glow) 36%, transparent),
+        0 0 14px var(--ask-glow),
+        0 8px 18px rgba(0,0,0,.35);
+    }
+    50%{
+      box-shadow:
+        0 0 0 5px color-mix(in srgb, var(--ask-glow) 58%, transparent),
+        0 0 26px var(--ask-glow),
+        0 8px 18px rgba(0,0,0,.35);
+    }
+  }
+
+  .ask-star{
+    position:absolute;left:50%;top:50%;width:14px;height:16px;
+    margin:-8px 0 0 -7px;z-index:2;
+    filter:brightness(0) invert(1);
+    pointer-events:none;
+    transform-origin:center;
+    transition:transform .78s cubic-bezier(.18,.72,.22,1);
+  }
+  .slide.is-sheet .ask-star,
+  .slide.is-assembling .ask-star{
+    transform:rotate(-180deg);
+  }
+  .ask-lbl{
+    font-size:11px;font-weight:600;color:rgba(255,255,255,.9);
+    text-shadow:0 1px 8px rgba(0,0,0,.5);
+    transition:opacity .28s ease, color var(--dur) var(--ease);
+  }
+  .slide.is-sheet .ask-lbl{color:#fff}
+
+  .qwrap{
+    position:absolute;left:0;right:0;
+    bottom:calc(7.51cqh + var(--safe-bottom) - var(--q-tuck));
+    height:calc(48px + var(--q-pad-top));z-index:49;
+    overflow:visible;
+    background:rgba(10,8,12,.45);
+    backdrop-filter:blur(28px) saturate(1.25);
+    -webkit-backdrop-filter:blur(28px) saturate(1.25);
+    border:0;
+    box-shadow:none;
+    transform:translateY(calc(100% + 72px));
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    --tone-0:0;
+    --tone-1:1;
+    --tone-2:0;
+    --beam: linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.55) 38%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.2) 68%, rgba(255,50,95,0) 100%);
+  }
+  .qskin{display:none}
+  .slide.is-assembling .qwrap{
+    pointer-events:auto;
+    visibility:visible;
+    animation:qFromAsk .72s cubic-bezier(.22,.82,.28,1) both;
+  }
+  .slide.is-sheet:not(.is-assembling) .qwrap{
+    transform:none;
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .slide.is-convo .qwrap,
+  .slide.is-convo.is-sheet .qwrap{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    animation:none;
+  }
+  @keyframes qFromAsk{
+    0%{opacity:0;transform:translateY(calc(100% + 72px))}
+    100%{opacity:1;transform:none}
+  }
+  @keyframes qCopyIn{
+    from{opacity:0}
+    to{opacity:1}
+  }
+  .qcard{
+    position:absolute;inset:0;z-index:2;
+  }
+  .qcard-track{
+    position:absolute;inset:0;z-index:1;
+    display:flex;align-items:stretch;gap:36px;
+    padding:0;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    scrollbar-width:none;touch-action:pan-x;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+    mask-image:linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  }
+  .qcard-track::-webkit-scrollbar{display:none}
+  .qcard-q{
+    position:relative;
+    flex:0 0 auto;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    padding:var(--q-pad-top) 4px calc(var(--q-tuck) + 6px);
+    font-size:14px;font-weight:500;letter-spacing:-.02em;line-height:1;
+    color:rgba(255,255,255,.92);text-align:center;
+    text-shadow:0 1px 10px rgba(0,0,0,.4);
+    white-space:nowrap;
+    scroll-snap-align:center;scroll-snap-stop:always;
+    opacity:.38;
+    outline:none;
+  }
+  .qcard-q.is-on{opacity:1}
+  .qbeam{
+    position:absolute;left:50%;bottom:var(--q-tuck);z-index:4;
+    width:min(220px, 58%);height:2px;
+    transform:translateX(-50%);
+    pointer-events:none;
+    opacity:0;
+  }
+  .qbeam-in{
+    position:absolute;inset:0;
+    opacity:0;
+  }
+  .qbeam-in[data-beamin="0"]{
+    opacity:var(--tone-0);
+    background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.7) 32%, rgba(255,110,70,.95) 50%, rgba(255,50,95,.7) 68%, rgba(255,50,95,0) 100%);
+  }
+  .qbeam-in[data-beamin="1"]{
+    opacity:var(--tone-1);
+    background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.65) 32%, rgba(50,210,180,.95) 50%, rgba(40,170,150,.65) 68%, rgba(40,170,150,0) 100%);
+  }
+  .qbeam-in[data-beamin="2"]{
+    opacity:var(--tone-2);
+    background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.7) 32%, rgba(160,110,255,.95) 50%, rgba(120,80,255,.7) 68%, rgba(120,80,255,0) 100%);
+  }
+  .qbeam-in::after{
+    content:"";position:absolute;left:10%;right:10%;top:50%;
+    height:18px;margin-top:-9px;
+    background:inherit;filter:blur(9px);opacity:.85;
+  }
+  .slide.is-sheet .qbeam{opacity:1}
+  .slide.is-sheet:not(.is-convo):not(.is-assembling) .qbeam{
+    animation:linkPulseBeam 2.4s ease-in-out infinite;
+  }
+  @keyframes linkPulseBeam{
+    0%,100%{opacity:.9;filter:saturate(1.15) brightness(1.08)}
+    50%{opacity:1;filter:saturate(1.45) brightness(1.22)}
+  }
+  .qdots{display:none}
+  .slide.is-assembling .qcard-track{
+    animation:qCopyIn .28s ease .2s both;
+  }
+
+  .convo{
+    position:absolute;left:4.07cqw;right:4.07cqw;
+    bottom:calc(8.45cqh + var(--safe-bottom));
+    height:var(--convo-h);z-index:44;
+    border-radius:20px;overflow:hidden;
+    display:flex;flex-direction:column;
+    background:rgba(10,8,12,.5);
+    backdrop-filter:blur(18px) saturate(1.28);
+    -webkit-backdrop-filter:blur(18px) saturate(1.28);
+    box-shadow:0 10px 32px rgba(255,40,80,.07), inset 0 1px 0 rgba(255,255,255,.07);
+    opacity:0;pointer-events:none;
+    transform:translateY(18px);
+    transition:
+      transform var(--dur) var(--ease),
+      opacity .28s ease,
+      height var(--dur) var(--ease),
+      left var(--dur) var(--ease),
+      right var(--dur) var(--ease),
+      border-radius var(--dur) var(--ease);
+  }
+  .convo::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:var(--mesh-sheet);opacity:.18;
+  }
+  .convo::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    padding:1px;background:var(--gummy-line);opacity:.62;
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite:exclude;
+  }
+  .slide.is-convo .convo{
+    opacity:1;pointer-events:auto;transform:none;
+  }
+  .qconvo{
+    position:relative;z-index:3;
+    display:flex;flex-direction:column;flex:1;min-height:0;
+    padding:28px 14px 12px;
+  }
+  .qconvo-scroll{
+    flex:1;min-height:0;overflow-y:auto;padding-bottom:8px;
+    overscroll-behavior:contain;touch-action:pan-y;
+    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;
+  }
+  .ask-thread{display:flex;flex-direction:column;gap:12px;min-height:8px}
+  .qbubble{
+    align-self:flex-end;max-width:92%;margin:0;padding:10px 12px;
+    font-size:14px;font-weight:600;line-height:1.35;
+    color:#fff;background:rgba(255,255,255,.1);border-radius:16px 16px 5px 16px;
+  }
+  .ansr{
+    align-self:stretch;margin-top:0;padding:12px 13px;
+    font-size:14px;line-height:1.5;font-weight:500;
+    color:rgba(255,255,255,.94);background:rgba(0,0,0,.28);border-radius:16px;
+    min-height:4.6em;
+  }
+  .ansr .cursor{display:inline-block;margin-left:1px;color:#ffb060;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .ask-continue{margin-top:16px}
+  .label-mini{
+    font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.5);margin-bottom:8px;
+  }
+  .ask-starters{
+    display:flex;gap:8px;flex-wrap:wrap;
+    transition:opacity .45s ease, transform .45s ease;
+  }
+  .ask-starters.hid{opacity:0;transform:translateY(8px);pointer-events:none}
+  .qchip{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:8px 11px;border-radius:16px;font-size:12.5px;font-weight:400;
+    color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);
+  }
+  .qchip img{width:8px;height:9px;filter:brightness(0) invert(1);opacity:.9}
+  .qconvo-foot{flex-shrink:0;padding-top:8px}
+  .askinput{display:flex;gap:8px;align-items:center;position:relative}
+  .askinput input{
+    flex:1;min-width:0;height:46px;border:0;border-radius:16px;outline:none;
+    padding:0 14px;color:#fff;font-size:14px;font-weight:500;
+    font-family:"Inter",system-ui,sans-serif;background:rgba(0,0,0,.38);
+  }
+  .askinput input::placeholder{color:rgba(255,255,255,.38)}
+  .askinput input:focus{background:rgba(0,0,0,.5)}
+  .askinput button{
+    width:46px;height:46px;flex-shrink:0;border-radius:16px;display:grid;place-items:center;
+    transition:background .2s,color .2s;
+  }
+  .askinput button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .askinput button.is-idle{background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);cursor:default}
+  .askinput button.is-ready{background:#fff;color:#111}
+  .askinput:not(.is-typed) [data-ask-send]{display:none}
+  .askinput.is-typed .ask-mic{display:none}
+  .convo-chev{
+    position:absolute;top:6px;left:50%;z-index:5;
+    width:36px;height:22px;margin-left:-18px;
+    display:grid;place-items:center;opacity:.8;color:#fff;
+  }
+  .convo-chev svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  .toast{
+    position:absolute;left:50%;top:96px;z-index:90;
+    padding:10px 18px;border-radius:999px;
+    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
+    line-height:1.2;white-space:nowrap;text-align:center;
+    text-shadow:0 1px 10px rgba(0,0,0,.5);
+    pointer-events:none;overflow:visible;
+    opacity:0;
+    transform:translateX(-50%) translateY(-8px) scale(.96);
+    background:
+      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
+      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
+      rgba(10,8,12,.62);
+    backdrop-filter:blur(22px) saturate(1.35);
+    -webkit-backdrop-filter:blur(22px) saturate(1.35);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.18),
+      0 0 0 1px rgba(255,255,255,.08),
+      0 10px 28px rgba(0,0,0,.45),
+      0 0 20px rgba(255,110,70,.48),
+      0 0 40px rgba(40,200,170,.34);
+    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
+  }
+  .toast::after{
+    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
+    border-radius:2px;pointer-events:none;
+    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
+    box-shadow:0 0 14px rgba(70,210,170,.55);
+    opacity:0;
+    transition:opacity .32s ease;
+  }
+  .toast.on{
+    opacity:1;
+    transform:translateX(-50%) translateY(0) scale(1);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.2),
+      0 0 0 1px rgba(255,255,255,.1),
+      0 12px 30px rgba(0,0,0,.48),
+      0 0 26px rgba(255,110,70,.55),
+      0 0 52px rgba(40,200,170,.4);
+  }
+  .toast.on::after{opacity:1}
+
+  .gummy-patch{
+    position:absolute;right:0;top:31%;z-index:34;
+    width:62px;height:148px;
+    padding:0;display:block;cursor:pointer;
+    background:transparent;overflow:visible;
+    pointer-events:auto;
+  }
+  .slide.is-convo .gummy-patch{opacity:0;pointer-events:none}
+  .gummy-patch:active.is-settled .gp-face{transform:translate(2px, -50%) scale(.98)}
+  .gp-face{
+    position:absolute;right:0;top:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+    width:36px;height:36px;padding:0;
+    text-align:center;
+    border-radius:18px;
+    opacity:0;
+    transform:translate(22px, -50%);
+    transform-origin:right center;
+    overflow:hidden;
+    background:
+      radial-gradient(110% 90% at 10% 12%, rgba(255,236,140,.16) 0%, transparent 38%),
+      radial-gradient(90% 80% at 70% 40%, rgba(255,90,70,.14) 0%, transparent 48%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.26) 0%, transparent 52%),
+      linear-gradient(180deg, rgba(18,10,14,.82) 0%, rgba(10,8,12,.94) 100%);
+    box-shadow:0 4px 14px rgba(0,0,0,.35);
+  }
+  .gp-face::before{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:0;
+    background:var(--mesh-hi);opacity:.35;
+  }
+  .gp-face > *{position:relative;z-index:2;opacity:0}
+  .gummy-patch.is-assembling .gp-face{animation:gpFromSide .4s linear both}
+  .gummy-patch.is-assembling .gp-face > *{animation:gpCopyIn .2s ease .16s both}
+  .gummy-patch.is-settled .gp-face{
+    top:50%;transform:translate(0, -50%);opacity:1;
+    width:62px;height:148px;padding:12px 2px;
+    border-radius:16px 0 0 16px;
+    justify-content:flex-start;
+  }
+  .gummy-patch.is-settled .gp-face > *{opacity:1;animation:none}
+  .sp-brand{display:flex;flex-direction:column;align-items:center;line-height:1}
+  .sp-top{
+    font-size:12px;font-weight:900;letter-spacing:.1em;line-height:1;text-transform:uppercase;
+    color:transparent;
+    background:
+      radial-gradient(90% 70% at 30% 12%, rgba(255,255,255,.98) 0%, transparent 46%),
+      linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.58) 55%, rgba(255,255,255,.8) 100%);
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .sp-ten{
+    margin-top:1px;font-size:26px;font-weight:800;letter-spacing:-.04em;line-height:.86;
+    color:transparent;
+    background:
+      radial-gradient(70% 55% at 28% 16%, rgba(255,255,255,1) 0%, transparent 40%),
+      radial-gradient(80% 60% at 78% 92%, rgba(255,210,140,.55) 0%, transparent 50%),
+      linear-gradient(165deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.52) 38%, rgba(255,230,190,.62) 68%, rgba(255,255,255,.88) 100%);
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .sp-rank{
+    font-size:26px;font-weight:700;letter-spacing:-.08em;line-height:1;margin-top:4px;
+    display:inline-flex;align-items:baseline;justify-content:center;
+  }
+  .sp-rule{
+    width:22px;height:1.5px;margin:6px auto 2px;border-radius:99px;
+    background:linear-gradient(90deg, rgba(255,236,120,.35), rgba(255,255,255,.8), rgba(255,140,80,.4));
+  }
+  .sp-hash{font-size:.78em;font-weight:700;margin-right:.04em}
+  .sp-scope{margin-top:4px;font-size:10px;font-weight:500;line-height:1.2;color:rgba(255,255,255,.78)}
+  .sp-scope-line{display:block;white-space:nowrap}
+  .sp-arrow{margin-top:6px;font-size:14px;font-weight:700;line-height:1}
+  @keyframes gpFromSide{
+    0%{opacity:1;padding:0;width:32px;height:32px;border-radius:16px;transform:translate(16px, -50%) scale(.72)}
+    34%{width:52px;height:80px;padding:6px 2px;border-radius:26px 24px 24px 26px / 36px;transform:translate(2px, -50%)}
+    100%{opacity:1;padding:12px 2px;width:62px;height:148px;border-radius:16px 0 0 16px;transform:translate(0, -50%)}
+  }
+  @keyframes gpCopyIn{
+    from{opacity:0;transform:translateX(6px)}
+    to{opacity:1;transform:none}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cluster, .facts, .cta-rail, .watch-rail, .ask-rail, .ask-blob, .qwrap, .ask-lbl, .ask-star, .convo, .qskin, .askin, .qbeam, .qbeam-in, .dock, .gummy-patch .gp-face, .rank-glow-wash, .toast{
+      transition:none !important;
+      animation:none !important;
+    }
+    .toast{transform:translateX(-50%)}
+    .toast.on{transform:translateX(-50%)}
+    .ask-blob.is-glow{animation:none}
+    .qwrap{transform:none;opacity:0}
+    .slide.is-sheet .qwrap{opacity:1}
+    .slide.is-sheet .ask-star{transform:none}
+    .convo{transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="intro">
+    <div class="brand">AH · Gummy · Ask carousel</div>
+    <h1>Questions in a frame, tied to Ask</h1>
+    <p class="lead">
+      After a beat a full-width question frame slides in above the tab bar, and the title moves up with it.
+      The focused question sits in the centre with a glow line underneath; swipe to recolour Ask and the beam together.
+      Tapping a prompt opens the conversation sheet — answer, then follow-ups that stay with this title. Ask always opens the type-in conversation.
+    </p>
+    <div class="brief">
+      <strong>28 Aug 2026.</strong> Home and Top 10 share the Ask sheet with My Stuff and Following. Suggested questions sound like the ones you’d actually ask. Watch and Save stay on the title.
+    </div>
+    <p class="note"><a href="playground.html">Playground</a> · this is the live Home and Top 10 · candy smear is the earlier chip study</p>
+  </div>
+  <div class="stage">
+    <div class="phone" id="phone">
+      <div class="toast" id="toast"></div>
+      <div class="feed" id="feed" aria-label="For you feed"></div>
+      <div data-csheet-mount></div>
+      <div class="topfade"></div>
+      <div class="status" aria-hidden="true"><span class="status-time">9:41</span><span class="status-island"></span><span class="status-end"><svg class="status-sig" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".6"/><rect x="5" y="5" width="3" height="7" rx=".6"/><rect x="10" y="2.5" width="3" height="9.5" rx=".6"/><rect x="15" y="0" width="3" height="12" rx=".6"/></svg><svg class="status-wifi" viewBox="0 0 16 12"><path d="M1 4.2c4-4 10-4 14 0"/><path d="M3.4 6.6c2.6-2.5 6.6-2.5 9.2 0"/><path d="M6 9c1.1-1.1 2.9-1.1 4 0"/><circle cx="8" cy="11.2" r="1.15" fill="currentColor" stroke="none"/></svg><svg class="status-bat" viewBox="0 0 27 13"><rect x=".6" y=".6" width="23" height="11.8" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.25"/><rect x="2.2" y="2.3" width="17.6" height="8.4" rx="1.7"/><path d="M24.6 4v5c1.3-.5 1.8-1.3 1.8-2.5S25.9 4.5 24.6 4z"/></svg></span></div>
+      <div class="tabs">
+        <button class="filter" type="button" aria-label="Refine">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="1.8" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.8" fill="currentColor" stroke="none"/><circle cx="10" cy="17" r="1.8" fill="currentColor" stroke="none"/></svg>
+        </button>
+        <div class="tab-labels">
+          <button class="t on" type="button">For you</button>
+          <button class="t" type="button">In plan</button>
+          <button class="t" type="button">Live</button>
+          <button class="t" type="button">Films</button>
+          <button class="t" type="button">Series</button>
+          <button class="t" type="button">Sport</button>
+          <button class="t" type="button">Kids</button>
+        </div>
+      </div>
+      <div class="head-row">
+        <button class="back" type="button" data-back-top10 aria-label="Back">
+          <svg viewBox="0 0 24 24"><path d="M15 5.5 8.5 12 15 18.5"/></svg>
+        </button>
+        <div class="head-copy">
+          <div class="eyebrow">Top 10</div>
+          <h2>Movies in Belgium</h2>
+        </div>
+      </div>
+      <div class="rank-glow" data-rank-glow aria-hidden="true">
+        <div class="rank-glow-wash"></div>
+        <div class="rank-n" data-rank>1</div>
+      </div>
+      <div class="tabbar">
+        <button class="navitem on" type="button" data-nav="home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
+        <button class="navitem" type="button" data-nav="stuff"><svg viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1v16l-6-4-6 4v-16a1 1 0 0 1 1-1z"/></svg><span>My Stuff</span></button>
+        <button class="navitem" type="button" data-nav="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>Search</span></button>
+        <button class="navitem" type="button" data-nav="shop"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 11.2A2 2 0 0 1 16.8 21H7.2a2 2 0 0 1-2-1.8L4 8z"/></svg><span>Shop</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="ah-gummy-convo.js?v=aug28h"></script>
+<script src="ah-gummy-title.js?v=aug29a"></script>
+<script src="ah-gummy-bundle.js?v=aug28n"></script>
+<script>
+const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
+const TMDB = p => `https://media.themoviedb.org/t/p/w780${p}`;
+const YT = id => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+const trailerSrc = id => `trailers/${id}.mp4`;
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ASK_DELAY = 3800;
+
+const feed = [
+  {
+    title: "Wednesday",
+    syn: "Goth. Murder. Dance.",
+    kind: "Series",
+    length: "8 ep",
+    provider: "Netflix",
+    logo: "Netflix logo.webp",
+    youtube: "rFo6M8KeghE",
+    start: 2,
+    backdrop: YT("rFo6M8KeghE"),
+    poster: POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"),
+    qs: [
+      {q: "Actually scary, or just gothic?", a: "Spooky-fun, not a horror hangover. Jump scares are mild; the vibe is gothic teen drama with claws. You’ll know in the first episode if the dance is the point.",
+        follow:[
+          {id:"wed-horror", q:"Would I still be fine if I don’t like horror?", a:"Yes. If jump-scare horror is the no, this isn’t that. If you hate deadpan teen murder altogether, skip."},
+          {id:"wed-sofa", q:"Can I watch this with someone who’s easily spooked?", a:"Mostly. The Nevermore mood is the scare. Sit with them for episode one; if the Thing scene is too much, this isn’t their show."},
+          {id:"wed-jenna", q:"Where do I know her from?", a:"Jenna Ortega — you’ve seen the face. Wednesday is the one that stuck. You don’t need the old Addams films to get why she’s here.", who:"Jenna Ortega"}
+        ]},
+      {q: "Binge this, or drip it?", a: "Easy two-episode nights. Season arcs reward a weekend binge if you’re in the mood. Not a homework show — you can leave and come back.",
+        follow:[
+          {id:"wed-one", q:"What if I only have one episode tonight?", a:"That’s a good Wednesday. ~50 minutes, Netflix, you’re already mid-season. One tonight, another when the house is quiet."},
+          {id:"wed-s2", q:"Does season two need season one in my head?", a:"You’ll follow it. Season one is the map of Nevermore and the dance. Watch that if the family lore is fuzzy."}
+        ]},
+      {q: "Need the Addams movies?", a: "Nope. It’s its own universe — knowing the family lore is just bonus smirk material. The show tells you who she is.",
+        follow:[
+          {id:"wed-tone", q:"Is this more comedy or more murder?", a:"Both, on purpose. Deadpan first, then a case. If you wanted only jokes, the murders still arrive."},
+          {id:"wed-more", q:"What else has she been in that’s this weird?", a:"This is the weird one that stuck. If you want more Ortega without Nevermore, you’re leaving the goth teen lane — say if that’s the brief.", who:"Jenna Ortega"}
+        ]}
+    ]
+  },
+  {
+    title: "Dune: Part Two",
+    syn: "Sand. Prophecy. War.",
+    kind: "Film",
+    length: "2h 46",
+    provider: "HBO Max",
+    logo: "hbo-max-new-logo.jpg",
+    youtube: "U2Qp5pL3ovA",
+    start: 8,
+    backdrop: TMDB("/eZ239CUp1d6OryZEBPnO2n87gMG.jpg"),
+    poster: POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"),
+    qs: [
+      {q: "How stressful is this, really?", a: "Tense in short hits — sandworms, politics, and one very intense family dinner. You’ll know after the first big set piece whether this is your night.",
+        follow:[
+          {id:"dune-split", q:"Can I split it if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."},
+          {id:"dune-skip", q:"What if I just wanted spectacle, not prophecy?", a:"You’ll still get worms and war. The prophecy talk is the plot, though. Part One is the map if that itch is already starting."},
+          {id:"dune-stress-wk", q:"So not a Tuesday after work?", a:"Not if you want to finish. Split it, or keep it for Friday. You’ve barely started — tonight only if the sofa is yours."}
+        ]},
+      {q: "Do I need Part One first?", a: "You’ll survive without it, but Part One is the map. Watch that if prophecy talk makes you itch, or if names like Chani still bounce off.",
+        follow:[
+          {id:"dune-names", q:"What if I barely remember the names?", a:"Watch Part One. This film assumes you already took the sand. A recap will get you through a scene; it won’t get you through the politics."},
+          {id:"dune-ok", q:"I’ll be fine — I just want the war.", a:"Then start here. You’ll miss some quiet setup; you won’t miss the worms."},
+          {id:"dune-part-short", q:"Is Part One a shorter night than this?", a:"It’s still a sit. This one is 2h 46. If you need the map, watch Part One first and keep this for Friday."}
+        ]},
+      {q: "A weeknight film, or Friday?", a: "2h 46 is a Friday film. Splitable around the mid-story time jump if you must. Not a Tuesday after work unless that’s the night you wanted.",
+        follow:[
+          {id:"dune-tonight", q:"I started it already — should I just finish?", a:"Yes if you have the sofa. You’re barely in. Tonight is a proper night, not a dip."},
+          {id:"dune-wk-split", q:"Can I split it and still keep the night?", a:"Yes — around the mid-story time jump. You’ll feel the pause. Better as one sit if the sofa can take it."},
+          {id:"dune-wk-room", q:"What if people are still in the room?", a:"Then don’t. 2h 46 wants the sofa. Barbie if the room is still up. Come back to this when it’s yours."}
+        ]}
+    ],
+    top10: { rank: 2, category: "Movies", region: "Belgium" }
+  },
+  {
+    title: "Undercover",
+    syn: "Camping. XTC. Double lives.",
+    kind: "Series",
+    length: "3 seasons",
+    provider: "Netflix",
+    logo: "Netflix logo.webp",
+    youtube: "Vt4qQiM2Ahk",
+    start: 3,
+    backdrop: YT("Vt4qQiM2Ahk"),
+    poster: POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"),
+    qs: [
+      {q: "How Flemish is this, honestly?", a: "Fully — Limburg camping vibes, Dutch-Belgian border slang, and a villain you’ll weirdly root for (Ferry). Subtitles if you need them; the camping is the point.",
+        follow:[
+          {id:"uc-ferry", q:"Who is Ferry supposed to be?", a:"The man you weirdly root for. Drug boss, camping, the long game. The film Ferry is his origin — watch that after if you want more Bouman.", who:"Ferry"},
+          {id:"uc-lang", q:"Will I miss it if my Dutch isn’t great?", a:"You’ll get the camping and the double lives. The slang is flavour. Subtitles keep the jokes."}
+        ]},
+      {q: "Too violent for a weeknight?", a: "Crime-show tense, not torture porn. Ideal if you like Narcos energy without the homework. Skip if the room wanted pink.",
+        follow:[
+          {id:"uc-room", q:"What if someone else is on the sofa?", a:"Fine if they like crooks. Not fine if they wanted Barbie. Episode length is ~50 minutes — one and see."},
+          {id:"uc-narcos", q:"So it’s Narcos, but camping?", a:"That’s the closest neighbour. Border, drugs, double lives. Less homework, more Limburg."}
+        ]},
+      {q: "Start with the Ferry film?", a: "Undercover first, then Ferry if you’re hungry for more Bouman. The film is the origin; the series is the long game. You’re already in S3 — keep going, then the film as a closed night.",
+        follow:[
+          {id:"uc-order", q:"I’m already in season three — did I mess up?", a:"No. Keep going. Ferry still works after as the origin glow-up. You don’t rewind a camping for a film."},
+          {id:"uc-s4", q:"Isn’t the new season about to start?", a:"S4 premiere is Thursday on Netflix. Finish what you’re in so Thursday isn’t a pile-up."}
+        ]}
+    ]
+  }
+];
+
+const lane = [
+  {
+    title: "Oppenheimer",
+    syn: "Bomb. Guilt. Fallout.",
+    kind: "Film",
+    length: "3h 00",
+    provider: "HBO Max",
+    logo: "hbo-max-new-logo.jpg",
+    youtube: "uYPbbksJxIg",
+    start: 8,
+    backdrop: YT("uYPbbksJxIg"),
+    poster: POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"),
+    qs: [
+      {q: "Three hours too long tonight?", a: "Three hours. A weekend film. Not a Tuesday after work unless you like finishing at 1am.",
+        follow:[
+          {id:"opp-split", q:"Can I split it?", a:"You can. It will feel like you paused a trial. Better as one sit if the sofa can take it."},
+          {id:"opp-barbie", q:"Should I really pair this with Barbie?", a:"That’s the Barbenheimer joke. Pink then fallout, or the other way. They talk to each other. Only if the night can hold both."}
+        ]},
+      {q: "Do I need the science?", a: "You don’t. The physics is flavour; the film is about guilt, power, and the hangover of being right.",
+        follow:[
+          {id:"opp-feel", q:"Is it going to sit on me after?", a:"Yes. That’s the point. Not a background film. 1985 if you wanted that feeling closer to home and shorter."}
+        ]},
+      {q: "Pair this with Barbie?", a: "Yes — that’s the joke. Barbie first if you want to land soft, Oppenheimer first if you want the release. Only if the night can hold both.",
+        follow:[
+          {id:"opp-just", q:"What if I only want this one?", a:"Then don’t. Three hours of guilt doesn’t need pink to justify it."}
+        ]}
+    ]
+  },
+  {
+    title: "Dune: Part Two",
+    syn: "Sand. Prophecy. War.",
+    kind: "Film",
+    length: "2h 46",
+    provider: "HBO Max",
+    logo: "hbo-max-new-logo.jpg",
+    youtube: "U2Qp5pL3ovA",
+    start: 8,
+    backdrop: TMDB("/eZ239CUp1d6OryZEBPnO2n87gMG.jpg"),
+    poster: POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"),
+    qs: [
+      {q: "How stressful is this, really?", a: "Tense in short hits — sandworms, politics, and one very intense family dinner. You’ll know after the first big set piece whether this is your night.",
+        follow:[
+          {id:"dune-split", q:"Can I split it if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."},
+          {id:"dune-skip", q:"What if I just wanted spectacle, not prophecy?", a:"You’ll still get worms and war. The prophecy talk is the plot, though. Part One is the map if that itch is already starting."},
+          {id:"dune-stress-wk", q:"So not a Tuesday after work?", a:"Not if you want to finish. Split it, or keep it for Friday. You’ve barely started — tonight only if the sofa is yours."}
+        ]},
+      {q: "Do I need Part One first?", a: "You’ll survive without it, but Part One is the map. Watch that if prophecy talk makes you itch, or if names like Chani still bounce off.",
+        follow:[
+          {id:"dune-names", q:"What if I barely remember the names?", a:"Watch Part One. This film assumes you already took the sand. A recap will get you through a scene; it won’t get you through the politics."},
+          {id:"dune-ok", q:"I’ll be fine — I just want the war.", a:"Then start here. You’ll miss some quiet setup; you won’t miss the worms."},
+          {id:"dune-part-short", q:"Is Part One a shorter night than this?", a:"It’s still a sit. This one is 2h 46. If you need the map, watch Part One first and keep this for Friday."}
+        ]},
+      {q: "A weeknight film, or Friday?", a: "2h 46 is a Friday film. Splitable around the mid-story time jump if you must. Not a Tuesday after work unless that’s the night you wanted.",
+        follow:[
+          {id:"dune-tonight", q:"I started it already — should I just finish?", a:"Yes if you have the sofa. You’re barely in. Tonight is a proper night, not a dip."},
+          {id:"dune-wk-split", q:"Can I split it and still keep the night?", a:"Yes — around the mid-story time jump. You’ll feel the pause. Better as one sit if the sofa can take it."},
+          {id:"dune-wk-room", q:"What if people are still in the room?", a:"Then don’t. 2h 46 wants the sofa. Barbie if the room is still up. Come back to this when it’s yours."}
+        ]}
+    ]
+  },
+  {
+    title: "Wicked",
+    syn: "Green. Power. That song.",
+    kind: "Film",
+    length: "2h 40",
+    provider: "Apple TV",
+    logo: "apple tv logo.jpg",
+    youtube: "YPCqTI0PVV0",
+    start: 6,
+    backdrop: YT("YPCqTI0PVV0"),
+    poster: POSTER("/tlwzOOCxcxtE7bXGvs3QlpmM5C0.jpg"),
+    qs: [
+      {q: "Need the musical first?", a: "Helps for the songs, not required for the plot. If you know Defying Gravity, you’re already in.",
+        follow:[
+          {id:"wk-songs", q:"Will I be lost if I don’t know the songs?", a:"You’ll follow the plot. You’ll miss the ‘oh, that one’ hits. That’s the only homework."}
+        ]},
+      {q: "Too much singing for me?", a: "It’s a musical. Talking scenes exist, but the feelings arrive in song. Skip if sung-through isn’t your night.",
+        follow:[
+          {id:"wk-skip", q:"So I should skip it if I hate musicals?", a:"Yes. Don’t negotiate with a musical on a Tuesday. Barbie if you wanted colour without the belt."}
+        ]},
+      {q: "This is only part one, right?", a: "Yes — this is the first half. It ends on a lift, not a bow. Part Two is the rest of the story.",
+        follow:[
+          {id:"wk-end", q:"Will I be annoyed it doesn’t finish?", a:"If you need a bow tonight, wait for both or pick a closed film. Ferry is 1h 46 and ends."}
+        ]}
+    ]
+  },
+  {
+    title: "Deadpool & Wolverine",
+    syn: "Claws. Quips. Chaos.",
+    kind: "Film",
+    length: "2h 08",
+    provider: "Apple TV",
+    logo: "apple tv logo.jpg",
+    youtube: "73_1biulkYk",
+    start: 5,
+    backdrop: YT("73_1biulkYk"),
+    poster: POSTER("/vPVrGK4yFdV0PojNa0bi8haqvLW.jpg"),
+    qs: [
+      {q: "How crude is this, really?", a: "Very. R-rated jokes, gore gags, and breaking the fourth wall every other minute. Not a family film.",
+        follow:[
+          {id:"dp-kids", q:"So definitely not with kids in the room?", a:"Correct. House isn’t asleep? Pick Inside Out 2 or Barbie. This one talks back at the screen."}
+        ]},
+      {q: "Do I need MCU homework?", a: "Helpful for the cameos, not for the plot. If you know who Deadpool and Wolverine are, you’re in.",
+        follow:[
+          {id:"dp-cameo", q:"Will I be lost on the cameos?", a:"You’ll miss some winks. You won’t miss the claws and the jokes. That’s the deal."}
+        ]},
+      {q: "Solo or with someone laughing?", a: "Best with someone who laughs at the same dumb jokes. Solo works if you like talking back at the screen.",
+        follow:[
+          {id:"dp-date", q:"Bad date film?", a:"Depends on the date. Competitive and mean in a different way than Challengers. Pick the right person."}
+        ]}
+    ]
+  },
+  {
+    title: "Barbie",
+    syn: "Pink. Funny. Gut punch.",
+    kind: "Film",
+    length: "1h 54",
+    provider: "HBO Max",
+    logo: "hbo-max-new-logo.jpg",
+    youtube: "pBk4NYhWNMM",
+    start: 7,
+    backdrop: YT("pBk4NYhWNMM"),
+    poster: POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"),
+    qs: [
+      {q: "Just for kids, or will it land?", a: "No. Pink on the outside, a gut punch about being a person. Kids can watch; the joke is for you.",
+        follow:[
+          {id:"barb-kids", q:"Can I still put it on if kids are around?", a:"Yes. They get the pink. You get the speech. Nobody has to sit up for sandworms."},
+          {id:"barb-punch", q:"How much of a gut punch are we talking?", a:"Funny until it isn’t, on purpose. The room goes quiet once. Then it lets you out."}
+        ]},
+      {q: "Pair this with Oppenheimer?", a: "That’s the double bill. Barbie first if you want to land soft, Oppenheimer first if you want the release. Only if the night can hold both.",
+        follow:[
+          {id:"barb-only", q:"What if I just want this one?", a:"Then just this. 1h 54, HBO Max, in your plan. It doesn’t need three hours of guilt to work."}
+        ]},
+      {q: "How meta is it going to be?", a: "Very — toys, Mattel, and the speech that made the room go quiet. Funny until it isn’t, on purpose.",
+        follow:[
+          {id:"barb-sofa", q:"Will people on the sofa still have a good time?", a:"Yes if they can take a joke that turns. If they wanted only pink, they’ll still get pink."}
+        ]}
+    ]
+  },
+  {
+    title: "Inside Out 2",
+    syn: "Anxiety. Puberty. HQ.",
+    kind: "Film",
+    length: "1h 36",
+    provider: "Apple TV",
+    logo: "apple tv logo.jpg",
+    youtube: "LEjhY15eCx0",
+    start: 4,
+    backdrop: YT("LEjhY15eCx0"),
+    poster: POSTER("/wqApdCnUTQeKqEScnfGC8hUquIO.jpg"),
+    qs: [
+      {q: "Good for kids, or secretly for me?", a: "Yes, and better with a grown-up who remembers puberty. Anxiety is the new character; it lands.",
+        follow:[
+          {id:"io-age", q:"How young is too young?", a:"Fine for most kids who sat through the first one. Anxiety is named, not jumped. Sit with them if thirteen is still far away."}
+        ]},
+      {q: "Need the first film?", a: "You’ll follow it, but the first film is the map of HQ. Watch that if Joy and Sadness are fuzzy.",
+        follow:[
+          {id:"io-fuzzy", q:"Joy and Sadness are fuzzy — should I rewind?", a:"Watch the first. It’s short, and this one assumes HQ already exists in your head."}
+        ]},
+      {q: "Am I going to cry?", a: "Probably. Short, sharp, and aimed at the part of you that was thirteen once.",
+        follow:[
+          {id:"io-night", q:"Is 1h 36 a weeknight?", a:"Yes. That’s the point of this one. Not Dune. Not Oppenheimer."}
+        ]}
+    ]
+  },
+  {
+    title: "Zillion",
+    syn: "Rise. Glow. Crash.",
+    kind: "Film",
+    length: "2h 03",
+    provider: "Streamz",
+    logo: "streamz-logo.jpg",
+    youtube: "LT6ASOBIdjQ",
+    start: 4,
+    backdrop: TMDB("/embS4GPK7c8pjbuY2O2irV5rYch.jpg"),
+    poster: POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"),
+    qs: [
+      {q: "How Flemish will this feel?", a: "Fully — Ghent nightlife, 90s Belgium, and a rise-and-crash you don’t need subtitles to feel. Streamz, so it carries a lock if that’s not in your plan.",
+        follow:[
+          {id:"zill-lock", q:"I don’t have Streamz — is it worth adding for this?", a:"Only if Ghent nightlife in the 90s is the brief. Ferry covers Belgian excess on Netflix without the extra app."}
+        ]},
+      {q: "Too much 90s if I wasn’t there?", a: "The decade is the costume. The story is ego, glow, and the morning after. You don’t need to have been in the club.",
+        follow:[
+          {id:"zill-true", q:"So this is based on a real club?", a:"Yes — the club and the crash. Tightened for the screen, not a documentary."}
+        ]},
+      {q: "True story, or just vibes?", a: "Yes — based on the club and the crash. Tightened for the screen, not a documentary.",
+        follow:[
+          {id:"zill-close", q:"What’s close if I can’t play this tonight?", a:"Ferry on Netflix. Same glow-and-crash energy, Dutch-Belgian border, 1h 46, in-plan."}
+        ]}
+    ]
+  },
+  {
+    title: "Gladiator II",
+    syn: "Sand. Steel. Empire.",
+    kind: "Film",
+    length: "2h 28",
+    provider: "Apple TV",
+    logo: "apple tv logo.jpg",
+    youtube: "4rgYUipGJNo",
+    start: 6,
+    backdrop: YT("4rgYUipGJNo"),
+    poster: POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg"),
+    qs: [
+      {q: "Need the first Gladiator?", a: "You’ll follow it, but Maximus is the ghost in the room. Watch the first if that name still means something.",
+        follow:[
+          {id:"glad-ghost", q:"What if I barely remember Maximus?", a:"Watch the first, or accept a son in the shadow of a legend you can’t quite place. The arena still works."}
+        ]},
+      {q: "How brutal is the arena?", a: "Arena brutal — sand, steel, and bodies. Not torture porn, but it’s a swords-and-blood night.",
+        follow:[
+          {id:"glad-room", q:"Bad idea if the house isn’t asleep?", a:"Yes. This wants volume and blood. Inside Out 2 or Barbie if the room is mixed. Also: Apple TV, so it carries a lock."}
+        ]},
+      {q: "Worth the hype, or just a roar?", a: "If you want spectacle and a son in the shadow of a legend. Not a reinvention — a roar. And it’s Apple TV, not in your plan.",
+        follow:[
+          {id:"glad-plan", q:"What covers spectacle without another app?", a:"Dune, HBO Max, already in your plan. You’ve even started it."}
+        ]}
+    ]
+  },
+  {
+    title: "Challengers",
+    syn: "Tennis. Desire. Zendaya.",
+    kind: "Film",
+    length: "2h 11",
+    provider: "Apple TV",
+    logo: "apple tv logo.jpg",
+    youtube: "MDnVk5jIJr0",
+    start: 5,
+    backdrop: YT("MDnVk5jIJr0"),
+    poster: POSTER("/aNxqwNbtZ0COrxqTjfwlQTgeJB4.jpg"),
+    qs: [
+      {q: "Sports film, or tennis the excuse?", a: "Tennis is the excuse. It’s desire, scorekeeping, and three people who can’t quit.",
+        follow:[
+          {id:"ch-tennis", q:"Do I need to care about tennis?", a:"No. You need to care about the look they give each other between points."}
+        ]},
+      {q: "How steamy is it going to get?", a: "Steamy enough. Bodies, rallies, and a locker-room charge. Not porn; not shy either.",
+        follow:[
+          {id:"ch-shy", q:"Too much if I’m watching with parents around?", a:"Probably. Pick the right sofa. Barbie if you wanted colour without the locker room."}
+        ]},
+      {q: "Would this work as a date night?", a: "If you like talking after. Competitive, sexy, a little mean — pick the right date.",
+        follow:[
+          {id:"ch-wrong", q:"What if it’s the wrong date?", a:"Then it’s a long 2h 11. Barbie is safer. Dune if you wanted not to talk at all."}
+        ]}
+    ]
+  },
+  {
+    title: "Ferry",
+    syn: "Origin. Underworld. Glow-up.",
+    kind: "Film",
+    length: "1h 46",
+    provider: "Netflix",
+    logo: "Netflix logo.webp",
+    youtube: "MG6U7gduIwA",
+    start: 6,
+    backdrop: YT("MG6U7gduIwA"),
+    poster: POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg"),
+    qs: [
+      {q: "Watch this before Undercover?", a: "After is cleaner — this is the origin glow-up. Undercover first if you want the long game. You’re probably already in the series; keep that, then this as a closed night.",
+        follow:[
+          {id:"ferry-after", q:"I’m already in Undercover — so this is dessert?", a:"Yes. 1h 46, Netflix, in your plan. Same man, earlier. You don’t rewind the camping.", who:"Ferry"},
+          {id:"ferry-who", q:"Where do I know him from?", a:"Ferry Bouman — the one you root for in Undercover even when you shouldn’t. This is how he gets there.", who:"Ferry"}
+        ]},
+      {q: "How hard is the crime?", a: "Crime-hard, not torture. Drugs, loyalty, and a man building a myth. Weeknight-ok if you like Narcos energy.",
+        follow:[
+          {id:"ferry-week", q:"So 1h 46 is actually a weeknight?", a:"Yes. That’s why it’s on your short list. Dune is the Friday. This ends."}
+        ]},
+      {q: "Dutch or Flemish — does it matter?", a: "Dutch-Belgian border world. Limburg grit, not Randstad polish — same universe as Undercover.",
+        follow:[
+          {id:"ferry-fl", q:"What’s the more Flemish crime if I wanted that?", a:"Assisen and Jan de Lichte, both locked. Undercover and Ferry are the in-plan pair."}
+        ]}
+    ]
+  }
+];
+
+const params = new URLSearchParams(location.search);
+const isTop10 = params.has("top10");
+const isBare = params.has("bare");
+const packId = params.get("pack") || "";
+const PACKS = {
+  crime:{kicker:"YOUR STREAK", title:"Crime that doesn’t shout", titles:["Undercover","Dune: Part Two","Gladiator II"]},
+  inplan:{kicker:"PRESS PLAY", title:"No new apps tonight", titles:["Barbie","Oppenheimer","Wednesday"]},
+  here:{kicker:"CLOSE TO HOME", title:"Flanders after dark", titles:["Ferry","Zillion"]},
+  easy:{kicker:"SHORT NIGHTS", title:"Done before midnight", titles:["Inside Out 2","Challengers","Wicked","Deadpool & Wolverine"]}
+};
+const catalog = [];
+const seenTitle = new Set();
+for (const item of [...feed, ...lane]) {
+  if (seenTitle.has(item.title)) continue;
+  seenTitle.add(item.title);
+  catalog.push(item);
+}
+function itemsForPack(id){
+  const pack = PACKS[id];
+  if (!pack) return feed;
+  return pack.titles.map(t => catalog.find(i => i.title === t)).filter(Boolean);
+}
+const isPack = !!packId && !!PACKS[packId];
+const items = isTop10 ? lane : isPack ? itemsForPack(packId) : feed;
+document.documentElement.classList.toggle("is-bare", isBare);
+document.getElementById("phone")?.classList.toggle("is-top10", isTop10);
+document.getElementById("phone")?.classList.toggle("is-pack", isPack);
+if (isPack) {
+  const pack = PACKS[packId];
+  const eye = document.querySelector(".head-copy .eyebrow");
+  const h2 = document.querySelector(".head-copy h2");
+  if (eye) eye.textContent = pack.kicker;
+  if (h2) h2.textContent = pack.title;
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+function patchHTML(item){
+  const t = item.top10;
+  if (!t) return "";
+  return isTop10 ? "" : `<button class="gummy-patch" type="button" data-top10 aria-label="Open Top 10 ${esc(t.category)} in ${esc(t.region)}">
+    <span class="gp-face">
+      <span class="sp-brand"><span class="sp-top">Top</span><span class="sp-ten">10</span></span>
+      <span class="sp-rule" aria-hidden="true"></span>
+      <span class="sp-rank"><span class="sp-hash">#</span>${t.rank}</span>
+      <span class="sp-scope"><span class="sp-scope-line">${esc(t.category)}</span><span class="sp-scope-line">in ${esc(t.region)}</span></span>
+      <span class="sp-arrow" aria-hidden="true">→</span>
+    </span>
+  </button>`;
+}
+
+function slideHTML(item, i){
+  const qs = item.qs.map((chip, qi) => `<button class="qcard-q${qi === 1 ? " is-on" : ""}" type="button" data-q="${qi}">${esc(chip.q)}</button>`).join("");
+  return `<article class="slide" data-i="${i}">
+    <div class="videowrap" data-video>
+      <div class="video-poster" style="background-image:url('${item.backdrop}')"></div>
+      <div class="video-edgefade"></div>
+    </div>
+    ${patchHTML(item)}
+    <div class="dock">
+      <div class="cluster">
+        <div class="hero">
+          <div class="poster" data-poster data-title><img src="${item.poster}" alt=""></div>
+          <div class="copy">
+            <button class="title" type="button" data-title>${esc(item.title)}</button>
+            <div class="syn">${esc(item.syn)}</div>
+            <button class="watchlist" type="button" data-list>
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              My List
+            </button>
+          </div>
+        </div>
+        <div class="facts">
+          <svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg>
+          In your ${esc(item.provider)}<span>·</span>${esc(item.kind)} · ${esc(item.length)}
+        </div>
+      </div>
+      <div class="cta-rail">
+        <div class="watch-rail">
+          <span class="badge">✓</span>
+          <button class="btn-watch" type="button" data-watch aria-label="Watch on ${esc(item.provider)}"><img src="${encodeURI(item.logo)}" alt=""></button>
+          <span class="lbl">Watch</span>
+        </div>
+        <div class="ask-rail">
+          <button class="ask-blob" type="button" data-ask aria-label="Ask">
+            <span class="askin" data-askin="0"></span>
+            <span class="askin" data-askin="1"></span>
+            <span class="askin" data-askin="2"></span>
+            <img class="ask-star" src="star.svg" alt="" aria-hidden="true">
+          </button>
+          <div class="ask-lbl">Ask</div>
+        </div>
+      </div>
+    </div>
+    <div class="qwrap" data-qcard>
+      <span class="qskin" data-qskin="0"></span>
+      <span class="qskin" data-qskin="1"></span>
+      <span class="qskin" data-qskin="2"></span>
+      <div class="qcard">
+        <div class="qcard-track" data-qtrack>${qs}</div>
+      </div>
+      <div class="qbeam" data-qbeam>
+        <span class="qbeam-in" data-beamin="0"></span>
+        <span class="qbeam-in" data-beamin="1"></span>
+        <span class="qbeam-in" data-beamin="2"></span>
+      </div>
+    </div>
+  </article>`;
+}
+
+const feedEl = document.getElementById("feed");
+feedEl.innerHTML = items.map(slideHTML).join("");
+
+let current = 0;
+const timers = new Map();
+const starChip = '<img src="star.svg" alt="" aria-hidden="true">';
+
+function parkAtStart(video, item){
+  const start = item.start || 2;
+  const seek = () => {
+    try { if (Math.abs(video.currentTime - start) > 0.35) video.currentTime = start; } catch (_) {}
+  };
+  if (video.readyState >= 1) seek();
+  else video.addEventListener("loadedmetadata", seek, { once: true });
+}
+
+function ensureVideo(slide, item){
+  const wrap = slide.querySelector("[data-video]");
+  let video = wrap.querySelector("video");
+  if (wrap.dataset.loaded === item.youtube && video) return video;
+  wrap.dataset.loaded = item.youtube;
+  wrap.classList.remove("is-playing");
+  wrap.innerHTML = `
+    <div class="video-poster" style="background-image:url('${item.backdrop}')"></div>
+    <video muted loop playsinline preload="auto" disablepictureinpicture>
+      <source src="${trailerSrc(item.youtube)}" type="video/mp4">
+    </video>
+    <div class="video-edgefade"></div>`;
+  video = wrap.querySelector("video");
+  parkAtStart(video, item);
+  return video;
+}
+
+function playVideo(slide, item){
+  const wrap = slide.querySelector("[data-video]");
+  const video = ensureVideo(slide, item);
+  const i = Number(slide.dataset.i);
+  const go = () => {
+    if (i !== current) { video.pause(); return; }
+    video.play().then(() => {
+      if (i === current) wrap.classList.add("is-playing");
+      else video.pause();
+    }).catch(() => {});
+  };
+  if (video.readyState >= 2) go();
+  else {
+    video.addEventListener("canplay", go, { once: true });
+    video.load();
+  }
+  return video;
+}
+
+const TONE_GLOW = [
+  "rgba(255,70,100,.36)",
+  "rgba(40,190,160,.36)",
+  "rgba(140,100,255,.4)"
+];
+const TONE_BEAM = [
+  "linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.55) 32%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.55) 68%, rgba(255,50,95,0) 100%)",
+  "linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.5) 32%, rgba(50,210,180,.7) 50%, rgba(40,170,150,.5) 68%, rgba(40,170,150,0) 100%)",
+  "linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.52) 32%, rgba(160,110,255,.7) 50%, rgba(120,80,255,.52) 68%, rgba(120,80,255,0) 100%)"
+];
+
+function goPrototype(id, href){
+  if (window.parent && window.parent !== window) {
+    const type = document.documentElement.classList.contains("is-app") ? "app-go" : "playground-go";
+    window.parent.postMessage({type, id, href}, "*");
+    return;
+  }
+  const url = new URL(href, location.href);
+  if (document.documentElement.classList.contains("is-app")) url.searchParams.set("app", "1");
+  location.href = url.pathname + url.search + url.hash;
+}
+
+const toastEl = document.getElementById("toast");
+function toast(msg){
+  if (!toastEl || !msg) return;
+  toastEl.textContent = msg;
+  toastEl.classList.remove("on");
+  void toastEl.offsetWidth;
+  toastEl.classList.add("on");
+  clearTimeout(toastEl._t);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1800);
+}
+
+function resetPatch(patch){
+  if (!patch) return;
+  clearTimeout(patch._assembleT);
+  patch.classList.remove("is-assembling", "is-settled");
+}
+function assemblePatch(patch){
+  if (!patch || patch.classList.contains("is-assembling") || patch.classList.contains("is-settled")) return;
+  if (reduceMotion) {
+    patch.classList.add("is-settled");
+    return;
+  }
+  void patch.offsetWidth;
+  patch.classList.add("is-assembling");
+  clearTimeout(patch._assembleT);
+  patch._assembleT = setTimeout(() => {
+    patch.classList.remove("is-assembling");
+    patch.classList.add("is-settled");
+  }, 420);
+}
+
+function openTop10(){
+  goPrototype("gummy-top10", "ah-gummy-ask-carousel.html?top10=1");
+}
+
+function setRank(n){
+  const glow = document.querySelector("[data-rank-glow]");
+  const el = document.querySelector("[data-rank]");
+  if (el) el.textContent = String(n);
+  glow?.classList.toggle("is-ten", n >= 10);
+}
+
+function syncPhoneConvo(){
+  const on = !!feedEl.querySelector(".slide.is-convo");
+  document.getElementById("phone")?.classList.toggle("is-convo", on);
+}
+
+function leaveTop10(){
+  goPrototype("gummy-ask-carousel", "ah-gummy-ask-carousel.html");
+}
+
+function bindQcard(slide){
+  const track = slide.querySelector("[data-qtrack]");
+  const wrap = slide.querySelector("[data-qcard]");
+  const qSkins = slide.querySelectorAll("[data-qskin]");
+  const aSkins = slide.querySelectorAll("[data-askin]");
+  const blob = slide.querySelector("[data-ask]");
+  const qBtns = [...(track?.querySelectorAll(".qcard-q") || [])];
+  if (!track) return;
+  const startI = qBtns.length >= 3 ? 1 : 0;
+  slide._qOn = startI;
+  const padKey = () => `${track.clientWidth}:${qBtns.map(b => b.offsetWidth).join(",")}`;
+  const centerQ = (i, smooth) => {
+    const btn = qBtns[i];
+    const w = track.clientWidth;
+    if (!btn || !w) return;
+    const left = btn.offsetLeft - (w - btn.offsetWidth) / 2;
+    track.scrollTo({ left: Math.max(0, left), behavior: smooth ? "smooth" : "auto" });
+  };
+  const padTrack = () => {
+    const w = track.clientWidth;
+    if (!w || !qBtns[0]) return;
+    const key = padKey();
+    if (slide._qPadKey === key) return;
+    track.style.paddingLeft = `${Math.max(12, (w - qBtns[0].offsetWidth) / 2)}px`;
+    track.style.paddingRight = `${Math.max(12, (w - qBtns[qBtns.length - 1].offsetWidth) / 2)}px`;
+    slide._qPadKey = key;
+    centerQ(slide._qOn ?? startI, false);
+  };
+  const syncDots = () => {
+    padTrack();
+    const mid = track.scrollLeft + track.clientWidth / 2;
+    const centers = qBtns.map(btn => btn.offsetLeft + btn.offsetWidth / 2);
+    let p = 0;
+    if (centers.length > 1) {
+      p = centers.length - 1;
+      for (let i = 0; i < centers.length - 1; i++) {
+        if (mid <= centers[i + 1]) {
+          const span = centers[i + 1] - centers[i] || 1;
+          p = i + Math.max(0, Math.min(1, (mid - centers[i]) / span));
+          break;
+        }
+      }
+    }
+    const i0 = Math.floor(p);
+    const i1 = Math.min(i0 + 1, Math.max(qBtns.length - 1, 0));
+    const t = p - i0;
+    qBtns.forEach((btn, n) => {
+      const dist = Math.abs(p - n);
+      const op = reduceMotion ? (dist < 0.45 ? 1 : .38) : Math.max(.34, 1 - dist * .72);
+      btn.style.opacity = op;
+      btn.classList.toggle("is-on", dist < 0.45);
+    });
+    qSkins.forEach((el, n) => {
+      const inf = Math.max(0, 1 - Math.abs(p - n));
+      el.style.opacity = inf;
+      el.style.transform = reduceMotion ? "none" : `translateX(${((p - n) * -14).toFixed(1)}px)`;
+    });
+    aSkins.forEach((el, n) => {
+      el.style.opacity = Math.max(0, 1 - Math.abs(p - n));
+    });
+    if (blob) blob.style.setProperty("--ask-glow", TONE_GLOW[t > 0.5 ? i1 : i0]);
+    if (wrap) {
+      wrap.style.setProperty("--tone-0", String(Math.max(0, 1 - Math.abs(p - 0))));
+      wrap.style.setProperty("--tone-1", String(Math.max(0, 1 - Math.abs(p - 1))));
+      wrap.style.setProperty("--tone-2", String(Math.max(0, 1 - Math.abs(p - 2))));
+      wrap.style.setProperty("--beam", TONE_BEAM[t > 0.5 ? i1 : i0]);
+    }
+  };
+  track.addEventListener("scroll", syncDots, { passive: true });
+  requestAnimationFrame(syncDots);
+  let drag = null;
+  track.addEventListener("pointerdown", e => {
+    drag = { x: e.clientX, sl: track.scrollLeft, id: e.pointerId, moved: false };
+  });
+  track.addEventListener("pointermove", e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.x;
+    if (!drag.moved && Math.abs(dx) < 8) return;
+    if (!drag.moved) {
+      drag.moved = true;
+      try { track.setPointerCapture(e.pointerId); } catch (_) {}
+    }
+    track.scrollLeft = drag.sl - dx;
+  });
+  const endDrag = e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const moved = drag.moved;
+    drag = null;
+    if (moved) {
+      track.dataset.dragged = "1";
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      let best = 0, bestD = Infinity;
+      qBtns.forEach((btn, i) => {
+        const d = Math.abs(btn.offsetLeft + btn.offsetWidth / 2 - mid);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      slide._qOn = best;
+      centerQ(best, true);
+    }
+  };
+  track.addEventListener("pointerup", endDrag);
+  track.addEventListener("pointercancel", endDrag);
+  track.addEventListener("click", e => {
+    if (track.dataset.dragged === "1") {
+      e.preventDefault();
+      e.stopPropagation();
+      track.dataset.dragged = "0";
+    }
+  }, true);
+  slide._syncQdots = syncDots;
+}
+
+function resetQcard(slide){
+  const track = slide.querySelector("[data-qtrack]");
+  if (track) {
+    track.dataset.dragged = "0";
+    track.scrollLeft = 0;
+    track.style.paddingLeft = "";
+    track.style.paddingRight = "";
+  }
+  slide._qPadKey = "";
+  slide._qOn = undefined;
+  slide._syncQdots?.();
+}
+
+function setSheet(slide, open){
+  slide.classList.toggle("is-sheet", open);
+  if (!open) {
+    slide.classList.remove("is-assembling");
+    slide.querySelector("[data-ask]")?.classList.remove("is-glow");
+  }
+}
+
+function showSheet(slide){
+  if (slide.classList.contains("is-convo") || slide.classList.contains("is-sheet")) return;
+  setSheet(slide, true);
+  if (reduceMotion) {
+    slide.querySelector("[data-ask]")?.classList.remove("is-glow");
+  } else {
+    slide.classList.add("is-assembling");
+    clearTimeout(slide._askAnimT);
+    slide._askAnimT = setTimeout(() => {
+      slide.classList.remove("is-assembling");
+      slide.querySelector("[data-ask]")?.classList.remove("is-glow");
+    }, 680);
+  }
+  requestAnimationFrame(() => requestAnimationFrame(() => slide._syncQdots?.()));
+}
+
+function hideSheet(slide){
+  if (!slide.classList.contains("is-sheet")) return;
+  setSheet(slide, false);
+}
+
+let askItem = null;
+let convoSlide = null;
+let closingConvo = false;
+
+function qsBank(item){
+  return (item?.qs || []).map((chip, i) => ({
+    id: `q${i}`,
+    q: chip.q,
+    a: chip.a,
+    follow: (chip.follow || []).map((f, j) => ({
+      id: f.id || `q${i}f${j}`,
+      q: f.q,
+      a: f.a,
+      who: f.who,
+      keys: f.keys
+    })),
+    who: chip.who,
+    keys: chip.keys,
+    titles: item ? [item.title] : []
+  }));
+}
+
+const sheetMount = document.querySelector("[data-csheet-mount]");
+if (sheetMount) sheetMount.outerHTML = GummyConvo.markup("Ask about this title…");
+const convo = GummyConvo.create({
+  phone: document.getElementById("phone"),
+  sheet: document.querySelector("[data-csheet]"),
+  bank: [],
+  placeholder: "Ask about this title…",
+  hello(){
+    return askItem
+      ? `Ask about ${askItem.title} — or go somewhere else entirely.`
+      : "Ask about what’s on screen.";
+  },
+  starters: () => qsBank(askItem),
+  onClose(){
+    if (closingConvo) return;
+    if (convoSlide) restoreConvoSlide(convoSlide);
+  },
+  reduceMotion
+});
+
+const titlePage = GummyTitle.create({
+  phone: document.getElementById("phone"),
+  toast,
+  plan: new Set(["Netflix", "HBO Max", "VRT MAX"]),
+  reduceMotion,
+  onOpen(){
+    if (convo.isOpen()) convo.close();
+    feedEl.querySelectorAll("video").forEach(v => v.pause());
+  },
+  onClose(){ activate(current); }
+});
+
+function restoreConvoSlide(slide){
+  if (!slide) return;
+  closingConvo = true;
+  slide.classList.remove("is-convo");
+  syncPhoneConvo();
+  const restore = slide.dataset.restoreSheet === "1";
+  if (restore) setSheet(slide, true);
+  else setSheet(slide, false);
+  convoSlide = null;
+  closingConvo = false;
+}
+
+function openConvo(slide, item, chipIndex){
+  askItem = item;
+  convoSlide = slide;
+  const keepSheet = slide.classList.contains("is-sheet");
+  slide.dataset.restoreSheet = keepSheet ? "1" : "0";
+  slide.classList.add("is-convo");
+  syncPhoneConvo();
+  convo.setBank(qsBank(item));
+  const hasChip = chipIndex !== undefined && chipIndex !== null && chipIndex !== "";
+  convo.open(hasChip ? `q${Number(chipIndex)}` : undefined);
+}
+
+function closeConvo(slide){
+  if (convo.isOpen()) convo.close();
+  else restoreConvoSlide(slide);
+}
+
+function arm(slide){
+  clearTimeout(timers.get(slide));
+  if (slide.classList.contains("is-sheet") || slide.classList.contains("is-convo")) return;
+  const blob = slide.querySelector("[data-ask]");
+  const t = setTimeout(() => {
+    blob.classList.add("is-glow");
+    setTimeout(() => showSheet(slide), reduceMotion ? 0 : 700);
+  }, ASK_DELAY);
+  timers.set(slide, t);
+}
+
+function disarm(slide){
+  clearTimeout(timers.get(slide));
+  timers.delete(slide);
+}
+
+function resetSlide(slide){
+  disarm(slide);
+  clearTimeout(slide._askAnimT);
+  if (convoSlide === slide && convo.isOpen()) convo.close();
+  slide.classList.remove("is-sheet", "is-convo", "is-assembling");
+  syncPhoneConvo();
+  slide.querySelector("[data-ask]")?.classList.remove("is-glow");
+  slide.dataset.restoreSheet = "0";
+  resetQcard(slide);
+  resetPatch(slide.querySelector("[data-top10]"));
+}
+
+function activate(i){
+  current = i;
+  feedEl.querySelectorAll(".slide").forEach((slide, idx) => {
+    const item = items[idx];
+    const wrap = slide.querySelector("[data-video]");
+    const video = wrap.querySelector("video");
+    if (idx === i) {
+      playVideo(slide, item);
+      arm(slide);
+      if (isTop10) setRank(i + 1);
+      else assemblePatch(slide.querySelector("[data-top10]"));
+    } else {
+      video?.pause();
+      wrap.classList.remove("is-playing");
+      resetSlide(slide);
+      if (Math.abs(idx - i) === 1) ensureVideo(slide, item);
+    }
+  });
+}
+
+const io = new IntersectionObserver((entries) => {
+  let best = { i: current, r: 0 };
+  entries.forEach(e => {
+    if (e.intersectionRatio > best.r) {
+      best = { i: Number(e.target.dataset.i), r: e.intersectionRatio };
+    }
+  });
+  if (best.r > 0.55 && best.i !== current) activate(best.i);
+}, { threshold: [0.55, 0.8] });
+
+feedEl.querySelectorAll(".slide").forEach(slide => {
+  const item = items[Number(slide.dataset.i)];
+  io.observe(slide);
+  bindQcard(slide);
+  slide.querySelector("[data-ask]")?.addEventListener("click", e => {
+    e.stopPropagation();
+    disarm(slide);
+    openConvo(slide, item);
+  });
+  slide.querySelectorAll("[data-q]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      disarm(slide);
+      openConvo(slide, item, Number(btn.dataset.q));
+    });
+  });
+});
+ensureVideo(feedEl.querySelector(".slide"), items[0]);
+if (items[1]) ensureVideo(feedEl.querySelectorAll(".slide")[1], items[1]);
+activate(0);
+
+document.querySelector(".tabbar")?.addEventListener("click", e => {
+  const btn = e.target.closest(".navitem");
+  if (!btn) return;
+  const nav = (btn.dataset.nav || "").toLowerCase();
+  if (nav === "home") {
+    if (isTop10) leaveTop10();
+    else feedEl.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
+  }
+  else if (nav === "stuff") goPrototype("gummy-my-stuff", "ah-gummy-my-stuff.html?from=carousel");
+  else if (nav === "search") goPrototype("gummy-search", "ah-gummy-search.html");
+  else if (nav === "shop") goPrototype("gummy-shop", "ah-gummy-shop.html");
+});
+
+document.querySelector("[data-back-top10]")?.addEventListener("click", e => {
+  e.preventDefault();
+  if (isPack || isBare) {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({type:"pack-back"}, "*");
+      return;
+    }
+    goPrototype("gummy-search", "ah-gummy-search.html");
+    return;
+  }
+  leaveTop10();
+});
+
+document.querySelectorAll(".tab-labels .t").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tab-labels .t").forEach(t => t.classList.toggle("on", t === tab));
+    toast(tab.textContent);
+  });
+});
+document.querySelector(".filter")?.addEventListener("click", () => toast("Refine · coming soon"));
+
+feedEl.addEventListener("click", e => {
+  if (e.target.closest("[data-top10]")) { openTop10(); return; }
+  if (e.target.closest("[data-watch]")) {
+    const item = items[Number(e.target.closest(".slide")?.dataset.i)];
+    if (item) toast(`Opening ${item.provider}…`);
+    return;
+  }
+  if (e.target.closest("[data-title], [data-poster]")) {
+    const item = items[Number(e.target.closest(".slide")?.dataset.i)];
+    if (item) titlePage.open(item);
+    return;
+  }
+  if (e.target.closest("[data-list]")) {
+    const raw = items[Number(e.target.closest(".slide")?.dataset.i)];
+    if (!raw) return;
+    const item = GummyTitle.enrich(raw);
+    const on = GummyTitle.toggleList(item.id);
+    const bundle = GummyBundle.of(document.getElementById("phone"));
+    if (on && bundle) bundle.open({ added: item });
+    else toast(on ? "On My List" : "Removed from My List");
+    return;
+  }
+});
+
+window.addEventListener("message", e => {
+  const d = e.data;
+  if (!d || typeof d !== "object") return;
+  if (d.type === "app-pause") {
+    feedEl.querySelectorAll("video").forEach(v => v.pause());
+  }
+  if (d.type === "app-resume") {
+    activate(current);
+  }
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) feedEl.querySelectorAll("video").forEach(v => v.pause());
+  else activate(current);
+});
+(function tickClock(){
+  const t = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+  document.querySelectorAll(".status-time").forEach(el => { el.textContent = t; });
+  setTimeout(tickClock, 15000);
+})();
+</script>
+</body>
+</html>
