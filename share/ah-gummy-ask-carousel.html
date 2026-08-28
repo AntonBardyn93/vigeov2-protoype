@@ -188,8 +188,9 @@
   }
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
   html.is-app{
+    --tab-h: 50px;
     --safe-top: max(env(safe-area-inset-top, 0px), var(--app-safe-top, 0px));
-    --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--app-safe-bottom, 0px));
+    --safe-bottom: var(--app-safe-bottom, env(safe-area-inset-bottom, 0px));
     --status-h: var(--safe-top);
   }
   html.is-app .status{display:none}
@@ -198,14 +199,14 @@
   html.is-app .tabs,
   html.is-app .head-row{top: calc(10px + var(--status-h))}
   html.is-app .tabbar{
-    height: calc(64px + var(--safe-bottom));
-    padding-bottom: var(--safe-bottom);
+    height: calc(var(--tab-h) + var(--safe-bottom));
+    padding: 6px 4px var(--safe-bottom);
   }
   html.is-app .qwrap{
-    bottom: calc(64px + var(--safe-bottom) - var(--q-tuck));
+    bottom: calc(var(--tab-h) + var(--safe-bottom) - var(--q-tuck));
   }
   html.is-app .dock{
-    bottom: calc(64px + var(--dock-lift) + var(--safe-bottom));
+    bottom: calc(var(--tab-h) + var(--dock-lift) + var(--safe-bottom));
   }
   html.is-bare .tabbar,
   html.is-bare .status,
@@ -509,12 +510,9 @@
   }
   .askin{
     position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
-    opacity:0;
-    visibility:hidden;
-    transition:none;
+    display:none;
   }
-  .askin.is-on{opacity:1;visibility:visible}
-  .askin:not(.is-on){opacity:0 !important;visibility:hidden !important}
+  .askin.is-on{display:block}
   .askin[data-askin="0"]{background:var(--mesh-ask)}
   .askin[data-askin="1"]{background:var(--mesh-ask-green)}
   .askin[data-askin="2"]{background:var(--mesh-ask-purple)}
@@ -602,6 +600,7 @@
     --tone-1:1;
     --tone-2:0;
     --beam: linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.55) 38%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.2) 68%, rgba(255,50,95,0) 100%);
+    --beam-glow: rgba(255,70,100,.45);
   }
   .qskin{display:none}
   .slide.is-assembling .qwrap{
@@ -663,40 +662,18 @@
     transform:translateX(-50%);
     pointer-events:none;
     opacity:0;
-    isolation:isolate;
-    overflow:visible;
+    background: var(--beam);
+    box-shadow: 0 0 18px 3px var(--beam-glow, transparent);
   }
-  .qbeam-in{
-    position:absolute;inset:0;
-    opacity:0;
-    visibility:hidden;
+  .qbeam::after{
+    content:"";position:absolute;left:8%;right:8%;top:50%;
+    height:16px;margin-top:-8px;
+    background:inherit;
+    filter:blur(8px);
+    opacity:.9;
     pointer-events:none;
-    transition:none;
   }
-  .qbeam-in.is-on{
-    opacity:1;
-    visibility:visible;
-  }
-  .qbeam-in:not(.is-on),
-  .qbeam-in:not(.is-on)::after{
-    opacity:0 !important;
-    visibility:hidden !important;
-    filter:none;
-  }
-  .qbeam-in[data-beamin="0"]{
-    background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.7) 32%, rgba(255,110,70,.95) 50%, rgba(255,50,95,.7) 68%, rgba(255,50,95,0) 100%);
-  }
-  .qbeam-in[data-beamin="1"]{
-    background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.65) 32%, rgba(50,210,180,.95) 50%, rgba(40,170,150,.65) 68%, rgba(40,170,150,0) 100%);
-  }
-  .qbeam-in[data-beamin="2"]{
-    background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.7) 32%, rgba(160,110,255,.95) 50%, rgba(120,80,255,.7) 68%, rgba(120,80,255,0) 100%);
-  }
-  .qbeam-in::after{
-    content:"";position:absolute;left:10%;right:10%;top:50%;
-    height:18px;margin-top:-9px;
-    background:inherit;filter:blur(9px);opacity:.85;
-  }
+  .qbeam-in{display:none !important}
   .slide.is-sheet .qbeam{opacity:1}
   .slide.is-sheet:not(.is-convo):not(.is-assembling) .qbeam{
     animation:linkPulseBeam 2.4s ease-in-out infinite;
@@ -1488,11 +1465,7 @@ function slideHTML(item, i){
       <div class="qcard">
         <div class="qcard-track" data-qtrack>${qs}</div>
       </div>
-      <div class="qbeam" data-qbeam>
-        <span class="qbeam-in" data-beamin="0"></span>
-        <span class="qbeam-in is-on" data-beamin="1"></span>
-        <span class="qbeam-in" data-beamin="2"></span>
-      </div>
+      <div class="qbeam" data-qbeam></div>
     </div>
   </article>`;
 }
@@ -1667,31 +1640,24 @@ function bindQcard(slide){
     }
     const last = Math.max(qBtns.length - 1, 0);
     const nearest = Math.round(Math.max(0, Math.min(last, p)));
-    const paintTone = (el, n) => {
-      const on = n === nearest;
-      el.classList.toggle("is-on", on);
-      el.style.opacity = on ? "1" : "0";
-      el.style.visibility = on ? "visible" : "hidden";
-    };
     qBtns.forEach((btn, n) => {
       const on = n === nearest;
       btn.style.opacity = on ? "1" : ".38";
       btn.classList.toggle("is-on", on);
     });
     qSkins.forEach((el, n) => {
-      const on = n === nearest;
-      el.style.opacity = on ? "1" : "0";
-      el.style.visibility = on ? "visible" : "hidden";
-      el.style.transform = "none";
+      el.classList.toggle("is-on", n === nearest);
     });
-    aSkins.forEach((el, n) => paintTone(el, n));
+    aSkins.forEach((el, n) => {
+      el.classList.toggle("is-on", n === nearest);
+    });
     if (blob) blob.style.setProperty("--ask-glow", TONE_GLOW[nearest]);
     if (wrap) {
       wrap.style.setProperty("--tone-0", nearest === 0 ? "1" : "0");
       wrap.style.setProperty("--tone-1", nearest === 1 ? "1" : "0");
       wrap.style.setProperty("--tone-2", nearest === 2 ? "1" : "0");
       wrap.style.setProperty("--beam", TONE_BEAM[nearest]);
-      wrap.querySelectorAll("[data-beamin]").forEach((el, n) => paintTone(el, n));
+      wrap.style.setProperty("--beam-glow", TONE_GLOW[nearest]);
     }
   };
   track.addEventListener("scroll", syncDots, { passive: true });
