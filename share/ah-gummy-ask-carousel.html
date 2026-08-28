@@ -36,16 +36,31 @@
     pinAppViewport();
   }
   function pinAppViewport(){
-    if (!html.classList.contains("is-app")) {
+    const embed = window.parent !== window;
+    if (embed || !html.classList.contains("is-app")) {
+      html.classList.remove("is-keyboard");
       html.style.removeProperty("--app-h");
       html.style.removeProperty("--app-shift");
       return;
     }
+    const layoutH = Math.round(window.innerHeight);
     const vv = window.visualViewport;
-    const h = Math.max(1, Math.round((vv && vv.height) || window.innerHeight));
-    const top = Math.round((vv && vv.offsetTop) || 0);
-    html.style.setProperty("--app-h", h + "px");
-    html.style.setProperty("--app-shift", top + "px");
+    const visH = Math.round((vv && vv.height) || layoutH);
+    const visTop = Math.round((vv && vv.offsetTop) || 0);
+    const focused = (function(){
+      const el = document.activeElement;
+      return !!(el && el.matches && el.matches("input, textarea, select, [contenteditable], [contenteditable='true']"));
+    })();
+    const keyboard = focused && (layoutH - visH - visTop) > 80;
+    if (keyboard) {
+      html.classList.add("is-keyboard");
+      html.style.setProperty("--app-h", Math.max(1, visH) + "px");
+      html.style.setProperty("--app-shift", visTop + "px");
+    } else {
+      html.classList.remove("is-keyboard");
+      html.style.removeProperty("--app-h");
+      html.style.removeProperty("--app-shift");
+    }
   }
   apply();
   mq.addEventListener("change", apply);
@@ -53,6 +68,8 @@
   try { (window.top || window).matchMedia("(min-width: 541px)").addEventListener("change", apply); } catch (_) {}
   window.addEventListener("resize", pinAppViewport);
   window.addEventListener("orientationchange", pinAppViewport);
+  window.addEventListener("focusin", pinAppViewport);
+  window.addEventListener("focusout", () => setTimeout(pinAppViewport, 60));
   if (window.visualViewport) {
     visualViewport.addEventListener("resize", pinAppViewport);
     visualViewport.addEventListener("scroll", pinAppViewport);
@@ -163,10 +180,10 @@
   }
   html.is-embed.is-fill, html.is-embed.is-fill body,
   html.is-embed.is-fill .page, html.is-embed.is-fill .stage{
-    width:100%;height:var(--app-h, 100%);max-width:none;overflow:hidden;
+    width:100%;height:100%;max-width:none;overflow:hidden;
   }
   html.is-embed.is-fill .phone{
-    width:100%;height:var(--app-h, 100%);max-width:none;max-height:var(--app-h, 100%);
+    width:100%;height:100%;max-width:none;max-height:none;
     aspect-ratio:auto;
   }
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
@@ -493,8 +510,12 @@
   .askin{
     position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
     opacity:0;
+    visibility:hidden;
+    transition:none;
   }
-  .askin[data-askin="0"]{opacity:1;background:var(--mesh-ask)}
+  .askin.is-on{opacity:1;visibility:visible}
+  .askin:not(.is-on){opacity:0 !important;visibility:hidden !important}
+  .askin[data-askin="0"]{background:var(--mesh-ask)}
   .askin[data-askin="1"]{background:var(--mesh-ask-green)}
   .askin[data-askin="2"]{background:var(--mesh-ask-purple)}
   .askin::after{
@@ -650,6 +671,17 @@
     opacity:0;
     visibility:hidden;
     pointer-events:none;
+    transition:none;
+  }
+  .qbeam-in.is-on{
+    opacity:1;
+    visibility:visible;
+  }
+  .qbeam-in:not(.is-on),
+  .qbeam-in:not(.is-on)::after{
+    opacity:0 !important;
+    visibility:hidden !important;
+    filter:none;
   }
   .qbeam-in[data-beamin="0"]{
     background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.7) 32%, rgba(255,110,70,.95) 50%, rgba(255,50,95,.7) 68%, rgba(255,50,95,0) 100%);
@@ -1441,7 +1473,7 @@ function slideHTML(item, i){
         <div class="ask-rail">
           <button class="ask-blob" type="button" data-ask aria-label="Ask">
             <span class="askin" data-askin="0"></span>
-            <span class="askin" data-askin="1"></span>
+            <span class="askin is-on" data-askin="1"></span>
             <span class="askin" data-askin="2"></span>
             <img class="ask-star" src="star.svg" alt="" aria-hidden="true">
           </button>
@@ -1458,7 +1490,7 @@ function slideHTML(item, i){
       </div>
       <div class="qbeam" data-qbeam>
         <span class="qbeam-in" data-beamin="0"></span>
-        <span class="qbeam-in" data-beamin="1"></span>
+        <span class="qbeam-in is-on" data-beamin="1"></span>
         <span class="qbeam-in" data-beamin="2"></span>
       </div>
     </div>
@@ -1633,38 +1665,31 @@ function bindQcard(slide){
         }
       }
     }
-    const i0 = Math.floor(p);
-    const i1 = Math.min(i0 + 1, Math.max(qBtns.length - 1, 0));
-    const t = p - i0;
-    const nearest = t > 0.5 ? i1 : i0;
-    const tones = [0, 0, 0];
-    if (reduceMotion || Math.abs(p - nearest) < 0.2) tones[nearest] = 1;
-    else {
-      tones[i0] = 1 - t;
-      if (i1 !== i0) tones[i1] = t;
-    }
+    const last = Math.max(qBtns.length - 1, 0);
+    const nearest = Math.round(Math.max(0, Math.min(last, p)));
     const paintTone = (el, n) => {
-      const v = tones[n] || 0;
-      el.style.opacity = String(v);
-      el.style.visibility = v < 0.04 ? "hidden" : "visible";
+      const on = n === nearest;
+      el.classList.toggle("is-on", on);
+      el.style.opacity = on ? "1" : "0";
+      el.style.visibility = on ? "visible" : "hidden";
     };
     qBtns.forEach((btn, n) => {
-      const dist = Math.abs(p - n);
-      const op = reduceMotion ? (dist < 0.45 ? 1 : .38) : Math.max(.34, 1 - dist * .72);
-      btn.style.opacity = op;
-      btn.classList.toggle("is-on", dist < 0.45);
+      const on = n === nearest;
+      btn.style.opacity = on ? "1" : ".38";
+      btn.classList.toggle("is-on", on);
     });
     qSkins.forEach((el, n) => {
-      const inf = Math.max(0, 1 - Math.abs(p - n));
-      el.style.opacity = inf;
-      el.style.transform = reduceMotion ? "none" : `translateX(${((p - n) * -14).toFixed(1)}px)`;
+      const on = n === nearest;
+      el.style.opacity = on ? "1" : "0";
+      el.style.visibility = on ? "visible" : "hidden";
+      el.style.transform = "none";
     });
     aSkins.forEach((el, n) => paintTone(el, n));
     if (blob) blob.style.setProperty("--ask-glow", TONE_GLOW[nearest]);
     if (wrap) {
-      wrap.style.setProperty("--tone-0", String(tones[0]));
-      wrap.style.setProperty("--tone-1", String(tones[1]));
-      wrap.style.setProperty("--tone-2", String(tones[2]));
+      wrap.style.setProperty("--tone-0", nearest === 0 ? "1" : "0");
+      wrap.style.setProperty("--tone-1", nearest === 1 ? "1" : "0");
+      wrap.style.setProperty("--tone-2", nearest === 2 ? "1" : "0");
       wrap.style.setProperty("--beam", TONE_BEAM[nearest]);
       wrap.querySelectorAll("[data-beamin]").forEach((el, n) => paintTone(el, n));
     }

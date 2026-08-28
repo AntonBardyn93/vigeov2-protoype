@@ -31,15 +31,38 @@
   }
   function pinAppViewport(){
     if (!html.classList.contains("is-app")) {
+      html.classList.remove("is-keyboard");
       html.style.removeProperty("--app-h");
       html.style.removeProperty("--app-shift");
       return;
     }
+    const layoutH = Math.round(window.innerHeight);
     const vv = window.visualViewport;
-    const h = Math.max(1, Math.round((vv && vv.height) || window.innerHeight));
-    const top = Math.round((vv && vv.offsetTop) || 0);
-    html.style.setProperty("--app-h", h + "px");
-    html.style.setProperty("--app-shift", top + "px");
+    const visH = Math.round((vv && vv.height) || layoutH);
+    const visTop = Math.round((vv && vv.offsetTop) || 0);
+    const typing = (function textFieldOpen(){
+      const match = "input, textarea, select, [contenteditable], [contenteditable='true']";
+      const frames = document.querySelectorAll("iframe");
+      for (let i = 0; i < frames.length; i++) {
+        try {
+          const el = frames[i].contentDocument && frames[i].contentDocument.activeElement;
+          if (el && el.matches && el.matches(match)) return true;
+        } catch (_) {}
+      }
+      const el = document.activeElement;
+      return !!(el && el.matches && el.matches(match));
+    })();
+    // Only shrink for the on-screen keyboard, never for Safari chrome / home indicator.
+    const keyboard = typing && (layoutH - visH - visTop) > 80;
+    if (keyboard) {
+      html.classList.add("is-keyboard");
+      html.style.setProperty("--app-h", Math.max(1, visH) + "px");
+      html.style.setProperty("--app-shift", visTop + "px");
+    } else {
+      html.classList.remove("is-keyboard");
+      html.style.removeProperty("--app-h");
+      html.style.removeProperty("--app-shift");
+    }
   }
   apply();
   mq.addEventListener("change", apply);
@@ -171,9 +194,10 @@
   html.is-app, html.is-app body{
     display:block !important;
     width:100% !important;
-    height:var(--app-h, 100dvh) !important;
+    height:100% !important;
+    height:100dvh !important;
     min-height:0 !important;
-    max-height:var(--app-h, 100dvh) !important;
+    max-height:none !important;
     padding:0 !important;
     margin:0 !important;
     overflow:hidden !important;
@@ -186,19 +210,29 @@
   html.is-app .phone{
     display:block !important;
     position:fixed !important;
-    top:var(--app-shift, 0px) !important;
-    left:0 !important;
-    right:0 !important;
-    bottom:auto !important;
+    inset:0 !important;
     width:100% !important;
-    height:var(--app-h, 100dvh) !important;
+    height:100% !important;
     max-width:none !important;
-    max-height:var(--app-h, 100dvh) !important;
+    max-height:none !important;
     aspect-ratio:auto !important;
     margin:0 !important;
     border:0 !important;
     border-radius:0 !important;
     box-shadow:none !important;
+  }
+  html.is-app.is-keyboard,
+  html.is-app.is-keyboard body{
+    height:var(--app-h, 100dvh) !important;
+    max-height:var(--app-h, 100dvh) !important;
+  }
+  html.is-app.is-keyboard .page,
+  html.is-app.is-keyboard .stage,
+  html.is-app.is-keyboard .phone{
+    top:var(--app-shift, 0px) !important;
+    bottom:auto !important;
+    height:var(--app-h, 100dvh) !important;
+    max-height:var(--app-h, 100dvh) !important;
   }
   html.is-app .phone iframe{
     position:absolute !important;
@@ -223,11 +257,11 @@
   </div>
   <div class="stage">
     <div class="phone" id="phone">
-      <iframe data-app="home" class="is-on" title="Home" data-src="ah-gummy-ask-carousel.html?app=1&v=aug29x" src="ah-gummy-ask-carousel.html?app=1&v=aug29x" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="top10" title="Top 10" data-src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug29x" src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug29x" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="home" class="is-on" title="Home" data-src="ah-gummy-ask-carousel.html?app=1&v=aug29z" src="ah-gummy-ask-carousel.html?app=1&v=aug29z" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="top10" title="Top 10" data-src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug29z" src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug29z" allow="autoplay; encrypted-media"></iframe>
       <iframe data-app="stuff" title="My Stuff" data-src="ah-gummy-my-stuff.html?app=1&v=aug28u" src="ah-gummy-my-stuff.html?app=1&v=aug28u" allow="autoplay; encrypted-media"></iframe>
       <iframe data-app="follow" title="Following" data-src="ah-gummy-following.html?app=1&v=aug28t" src="ah-gummy-following.html?app=1&v=aug28t" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="search" title="Search" data-src="ah-gummy-search.html?app=1&v=aug29x" src="ah-gummy-search.html?app=1&v=aug29x" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="search" title="Search" data-src="ah-gummy-search.html?app=1&v=aug29z" src="ah-gummy-search.html?app=1&v=aug29z" allow="autoplay; encrypted-media"></iframe>
       <iframe data-app="shop" title="Shop" data-src="ah-gummy-shop.html?app=1&v=aug28t" src="ah-gummy-shop.html?app=1&v=aug28t" allow="autoplay; encrypted-media"></iframe>
     </div>
   </div>
@@ -275,15 +309,35 @@ function paintAllSafe(){
 function pinAppViewport(){
   const html = document.documentElement;
   if (!html.classList.contains("is-app")) {
+    html.classList.remove("is-keyboard");
     html.style.removeProperty("--app-h");
     html.style.removeProperty("--app-shift");
     return;
   }
+  const layoutH = Math.round(window.innerHeight);
   const vv = window.visualViewport;
-  const h = Math.max(1, Math.round((vv && vv.height) || window.innerHeight));
-  const top = Math.round((vv && vv.offsetTop) || 0);
-  html.style.setProperty("--app-h", h + "px");
-  html.style.setProperty("--app-shift", top + "px");
+  const visH = Math.round((vv && vv.height) || layoutH);
+  const visTop = Math.round((vv && vv.offsetTop) || 0);
+  const match = "input, textarea, select, [contenteditable], [contenteditable='true']";
+  let typing = false;
+  document.querySelectorAll("iframe").forEach(frame => {
+    try {
+      const el = frame.contentDocument && frame.contentDocument.activeElement;
+      if (el && el.matches && el.matches(match)) typing = true;
+    } catch (_) {}
+  });
+  const el = document.activeElement;
+  if (el && el.matches && el.matches(match)) typing = true;
+  const keyboard = typing && (layoutH - visH - visTop) > 80;
+  if (keyboard) {
+    html.classList.add("is-keyboard");
+    html.style.setProperty("--app-h", Math.max(1, visH) + "px");
+    html.style.setProperty("--app-shift", visTop + "px");
+  } else {
+    html.classList.remove("is-keyboard");
+    html.style.removeProperty("--app-h");
+    html.style.removeProperty("--app-shift");
+  }
 }
 function resetFrame(frame){
   const base = frame.getAttribute("data-src");
@@ -310,6 +364,10 @@ document.querySelectorAll("[data-app]").forEach(frame => {
   frame.addEventListener("load", () => {
     paintSafe(frame);
     if (!frame.classList.contains("is-on")) ping(frame, "app-pause");
+    try {
+      frame.contentDocument.addEventListener("focusin", pinAppViewport);
+      frame.contentDocument.addEventListener("focusout", () => setTimeout(pinAppViewport, 60));
+    } catch (_) {}
   });
 });
 paintAllSafe();
@@ -317,7 +375,7 @@ pinAppViewport();
 window.addEventListener("resize", () => { pinAppViewport(); paintAllSafe(); });
 window.addEventListener("orientationchange", () => { pinAppViewport(); paintAllSafe(); });
 if (window.visualViewport) {
-  visualViewport.addEventListener("resize", () => { pinAppViewport(); paintAllSafe(); });
+  visualViewport.addEventListener("resize", pinAppViewport);
   visualViewport.addEventListener("scroll", pinAppViewport);
 }
 window.addEventListener("message", e => {

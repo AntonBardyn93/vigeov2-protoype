@@ -36,16 +36,31 @@
     pinAppViewport();
   }
   function pinAppViewport(){
-    if (!html.classList.contains("is-app")) {
+    const embed = window.parent !== window;
+    if (embed || !html.classList.contains("is-app")) {
+      html.classList.remove("is-keyboard");
       html.style.removeProperty("--app-h");
       html.style.removeProperty("--app-shift");
       return;
     }
+    const layoutH = Math.round(window.innerHeight);
     const vv = window.visualViewport;
-    const h = Math.max(1, Math.round((vv && vv.height) || window.innerHeight));
-    const top = Math.round((vv && vv.offsetTop) || 0);
-    html.style.setProperty("--app-h", h + "px");
-    html.style.setProperty("--app-shift", top + "px");
+    const visH = Math.round((vv && vv.height) || layoutH);
+    const visTop = Math.round((vv && vv.offsetTop) || 0);
+    const focused = (function(){
+      const el = document.activeElement;
+      return !!(el && el.matches && el.matches("input, textarea, select, [contenteditable], [contenteditable='true']"));
+    })();
+    const keyboard = focused && (layoutH - visH - visTop) > 80;
+    if (keyboard) {
+      html.classList.add("is-keyboard");
+      html.style.setProperty("--app-h", Math.max(1, visH) + "px");
+      html.style.setProperty("--app-shift", visTop + "px");
+    } else {
+      html.classList.remove("is-keyboard");
+      html.style.removeProperty("--app-h");
+      html.style.removeProperty("--app-shift");
+    }
   }
   apply();
   mq.addEventListener("change", apply);
@@ -53,6 +68,8 @@
   try { (window.top || window).matchMedia("(min-width: 541px)").addEventListener("change", apply); } catch (_) {}
   window.addEventListener("resize", pinAppViewport);
   window.addEventListener("orientationchange", pinAppViewport);
+  window.addEventListener("focusin", pinAppViewport);
+  window.addEventListener("focusout", () => setTimeout(pinAppViewport, 60));
   if (window.visualViewport) {
     visualViewport.addEventListener("resize", pinAppViewport);
     visualViewport.addEventListener("scroll", pinAppViewport);
@@ -721,9 +738,9 @@
   html.is-app, html.is-app body{
     display:block !important;
     width:100% !important;
-    height:var(--app-h, 100%) !important;
+    height:100% !important;
     min-height:0 !important;
-    max-height:var(--app-h, 100%) !important;
+    max-height:none !important;
     padding:0 !important;
     margin:0 !important;
     overflow:hidden !important;
@@ -737,19 +754,29 @@
   html.is-app .phone{
     display:block !important;
     position:fixed !important;
-    top:var(--app-shift, 0px) !important;
-    left:0 !important;
-    right:0 !important;
-    bottom:auto !important;
+    inset:0 !important;
     width:100% !important;
-    height:var(--app-h, 100%) !important;
+    height:100% !important;
     max-width:none !important;
-    max-height:var(--app-h, 100%) !important;
+    max-height:none !important;
     aspect-ratio:auto !important;
     margin:0 !important;
     border:0 !important;
     border-radius:0 !important;
     box-shadow:none !important;
+  }
+  html.is-app.is-keyboard,
+  html.is-app.is-keyboard body{
+    height:var(--app-h, 100%) !important;
+    max-height:var(--app-h, 100%) !important;
+  }
+  html.is-app.is-keyboard .page,
+  html.is-app.is-keyboard .stage,
+  html.is-app.is-keyboard .phone{
+    top:var(--app-shift, 0px) !important;
+    bottom:auto !important;
+    height:var(--app-h, 100%) !important;
+    max-height:var(--app-h, 100%) !important;
   }
 </style>
 </head>
@@ -1754,7 +1781,7 @@ function openPack(id){
   if (!pack) return;
   closeAsk();
   scene.classList.add("is-pack");
-  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=aug29x`;
+  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=aug29z`;
 }
 
 input.addEventListener("input", setTyped);
