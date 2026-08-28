@@ -183,25 +183,25 @@
   html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
   html.is-app{
-    --tab-h: 50px;
+    --tab-h: 64px;
     --safe-top: max(env(safe-area-inset-top, 0px), var(--app-safe-top, 0px));
-    --safe-bottom: var(--app-safe-bottom, env(safe-area-inset-bottom, 0px));
+    --safe-bottom: 0px;
     --status-h: var(--safe-top);
   }
   html.is-app .status{display:none}
   html.is-app.is-mock-status{--status-h:54px}
   html.is-app.is-mock-status .status{display:flex;height:54px}
   html.is-app .tabbar{
-    height: calc(var(--tab-h) + var(--safe-bottom));
-    padding: 6px 4px var(--safe-bottom);
+    height: 64px;
+    padding: 8px 4px 0;
   }
   html.is-app .navfrost{
-    height: calc(var(--tab-h) + var(--safe-bottom));
+    height: 64px;
     border-radius: 0;
   }
   html.is-app .scene{
     --scene-top: calc(10px + var(--status-h));
-    bottom: calc(var(--tab-h) + var(--safe-bottom));
+    bottom: 64px;
     padding-top: var(--scene-top);
   }
   html.is-app .scene.is-ask .search.askdock,
@@ -1782,7 +1782,7 @@ function openPack(id){
   if (!pack) return;
   closeAsk();
   scene.classList.add("is-pack");
-  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=aug30a`;
+  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=aug30b`;
 }
 
 input.addEventListener("input", setTyped);

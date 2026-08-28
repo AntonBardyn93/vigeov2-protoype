@@ -60,8 +60,8 @@
       html.style.setProperty("--app-shift", visTop + "px");
     } else {
       html.classList.remove("is-keyboard");
-      html.style.setProperty("--app-h", Math.max(layoutH, document.documentElement.clientHeight) + "px");
-      html.style.setProperty("--app-shift", "0px");
+      html.style.removeProperty("--app-h");
+      html.style.removeProperty("--app-shift");
     }
   }
   apply();
@@ -194,7 +194,8 @@
   html.is-app, html.is-app body{
     display:block !important;
     width:100% !important;
-    height:var(--app-h, 100lvh) !important;
+    height:100% !important;
+    height:100lvh !important;
     min-height:-webkit-fill-available !important;
     max-height:none !important;
     padding:0 !important;
@@ -211,7 +212,7 @@
     position:fixed !important;
     inset:0 !important;
     width:100% !important;
-    height:var(--app-h, 100%) !important;
+    height:auto !important;
     min-height:-webkit-fill-available !important;
     max-width:none !important;
     max-height:none !important;
@@ -257,12 +258,12 @@
   </div>
   <div class="stage">
     <div class="phone" id="phone">
-      <iframe data-app="home" class="is-on" title="Home" data-src="ah-gummy-ask-carousel.html?app=1&v=aug30a" src="ah-gummy-ask-carousel.html?app=1&v=aug30a" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="top10" title="Top 10" data-src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug30a" src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug30a" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="stuff" title="My Stuff" data-src="ah-gummy-my-stuff.html?app=1&v=aug30a" src="ah-gummy-my-stuff.html?app=1&v=aug30a" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="follow" title="Following" data-src="ah-gummy-following.html?app=1&v=aug30a" src="ah-gummy-following.html?app=1&v=aug30a" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="search" title="Search" data-src="ah-gummy-search.html?app=1&v=aug30a" src="ah-gummy-search.html?app=1&v=aug30a" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="shop" title="Shop" data-src="ah-gummy-shop.html?app=1&v=aug30a" src="ah-gummy-shop.html?app=1&v=aug30a" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="home" class="is-on" title="Home" data-src="ah-gummy-ask-carousel.html?app=1&v=aug30b" src="ah-gummy-ask-carousel.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="top10" title="Top 10" data-src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug30b" src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="stuff" title="My Stuff" data-src="ah-gummy-my-stuff.html?app=1&v=aug30b" src="ah-gummy-my-stuff.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="follow" title="Following" data-src="ah-gummy-following.html?app=1&v=aug30b" src="ah-gummy-following.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="search" title="Search" data-src="ah-gummy-search.html?app=1&v=aug30b" src="ah-gummy-search.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="shop" title="Shop" data-src="ah-gummy-shop.html?app=1&v=aug30b" src="ah-gummy-shop.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
     </div>
   </div>
 </div>
@@ -335,8 +336,8 @@ function pinAppViewport(){
     html.style.setProperty("--app-shift", visTop + "px");
   } else {
     html.classList.remove("is-keyboard");
-    html.style.setProperty("--app-h", Math.max(layoutH, document.documentElement.clientHeight) + "px");
-    html.style.setProperty("--app-shift", "0px");
+    html.style.removeProperty("--app-h");
+    html.style.removeProperty("--app-shift");
   }
 }
 function resetFrame(frame){
