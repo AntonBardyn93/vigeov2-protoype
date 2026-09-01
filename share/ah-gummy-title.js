@@ -1,9 +1,10 @@
 (function (global) {
   const KEY = "alfora-watchlist";
-  const PLAN_DEFAULT = ["Netflix", "HBO Max", "VRT MAX"];
+  const PLAN_DEFAULT = ["Netflix", "HBO Max", "VRT MAX", "Play", "VTM GO"];
+  const FREE_APPS = ["Play", "VTM GO", "VRT MAX"];
   const star = '<img class="star" src="star.svg" alt="" aria-hidden="true">';
-  const plusSvg = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14"/></svg>';
-  const checkSvg = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4.5 4.5L19 7"/></svg>';
+  const plusSvg = '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
+  const checkSvg = '<svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg>';
 
   function esc(s) {
     return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -28,30 +29,13 @@
   }
 
   const F = (q, a, follow) => ({ q, a, follow: follow || [] });
-  const S = p => `https://image.tmdb.org/t/p/w780/${String(p).replace(/^\//, "")}`;
-  const promoArt = url => /ytimg\.com|img\.youtube\.com/i.test(String(url || ""));
-  function firstStill(urls) {
-    for (const u of urls) {
-      if (u && !promoArt(u)) return u;
-    }
-    return "";
-  }
-  function uniqStills(urls) {
-    const out = [];
-    for (const u of urls) {
-      if (!u || promoArt(u) || out.includes(u)) continue;
-      out.push(u);
-    }
-    return out;
-  }
 
   const catalog = {
     wed: {
       id: "wed", title: "Wednesday", syn: "Goth. Murder. Dance.", kind: "Series", length: "8 ep · ~50m",
       provider: "Netflix", logo: "Netflix logo.webp",
       poster: "https://image.tmdb.org/t/p/w500/9PFonBhy4cQy7Jz20NpMygczOkv.jpg",
-      still: S("iHSwvRVsRyxpX7FE7GbviaDvgGZ.jpg"),
-      clips: ["sNLP0dLZcVBqYa3MchCXJqgDtFb.jpg", "l56gka4kw2R4K7M4hSJRt12M6R6.jpg", "cMqf3gXP4Yk3NMqUENxoBXTD96K.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/sNLP0dLZcVBqYa3MchCXJqgDtFb.jpg",
       seasons: ["S1", "S2"],
       about: "Wednesday Addams at Nevermore — deadpan, a murder, and that dance. You don’t need the old films. You’ll know in episode one if the claws are the point.",
       chips: [
@@ -71,8 +55,7 @@
       id: "dune", title: "Dune: Part Two", syn: "Sand. Prophecy. War.", kind: "Film", length: "2h 46",
       provider: "HBO Max", logo: "hbo-max-new-logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/y4ml848KTz0zccQxfWlE8CMMC13.jpg",
-      still: S("eZ239CUp1d6OryZEBPnO2n87gMG.jpg"),
-      clips: ["24Ov8wnusgnzXwjV1eDm0Lzo5da.jpg", "rRBD8ORo9y34tYkAQJVbn4Ml6tu.jpg", "8uVKfOJUhmybNsVh089EqLHUYEG.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/eZ239CUp1d6OryZEBPnO2n87gMG.jpg",
       seasons: ["Film"],
       about: "Paul Atreides joins the Fremen and walks the line between prophecy and revenge. The rare sequel that outgrows its first half — worms, war, and one very intense family dinner.",
       chips: [
@@ -90,8 +73,7 @@
       id: "under", title: "Undercover", syn: "Camping. XTC. Double lives.", kind: "Series", length: "3 seasons · ~50m",
       provider: "Netflix", logo: "Netflix logo.webp",
       poster: "https://image.tmdb.org/t/p/w500/ziOJNiNUbomrs81behksd0z9Qoz.jpg",
-      still: S("x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg"),
-      clips: ["wrZijTMLnOih6mHQ9hcGipAFZG6.jpg", "x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg",
       seasons: ["S1", "S2", "S3", "S4"],
       about: "Limburg camping, Dutch-Belgian border slang, and a villain you’ll weirdly root for. Crime-show tense, not torture. The series is the long game; Ferry is the origin glow-up.",
       chips: [
@@ -109,8 +91,7 @@
       id: "ferry", title: "Ferry", syn: "Origin. Underworld. Glow-up.", kind: "Film", length: "1h 46",
       provider: "Netflix", logo: "Netflix logo.webp",
       poster: "https://image.tmdb.org/t/p/w500/w6n1pu9thpCVHILejsuhKf3tNCV.jpg",
-      still: S("fejok33Ijc6SppiEU1cfwA9Mo2.jpg"),
-      clips: ["aTSA5zMWlVFTYBIZxTCMbLkfOtb.jpg", "ywwGrUjLy6V4XVrt6IBjMkVqcR3.jpg", "xgCFDsqLNrpT9AkXPiM45hKd5as.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/fejok33Ijc6SppiEU1cfwA9Mo2.jpg",
       seasons: ["Film"],
       about: "Ferry Bouman before the camping empire — Limburg, the underworld, the glow-up. A closed film if you wanted Undercover without another season.",
       chips: [
@@ -125,8 +106,7 @@
       id: "bear", title: "The Bear", syn: "Kitchen. Panic. Family.", kind: "Series", length: "S3 · ~30m",
       provider: "Disney+", logo: "disney-plus-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/6FVNnVk0SZFdzb9dkvOr13XyyM4.jpg",
-      still: S("aZz0AOpYcDyYwfET9k6j3QQXPuS.jpg"),
-      clips: ["aJtG4txtmiRHwAAqENQHZvBs6kY.jpg", "wHNwlE6ftEpgjVbdhLXOtv1hLs0.jpg", "ety3PHo2W8yZZgEFp7QUBFZOYke.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/aZz0AOpYcDyYwfET9k6j3QQXPuS.jpg",
       seasons: ["S1", "S2", "S3"],
       about: "Carmy comes home to Chicago to run the family sandwich shop. Kitchen pressure, family debt, a crew that doesn’t trust him. Stress in 20–30 minute hits.",
       chips: [
@@ -141,8 +121,7 @@
       id: "y1985", title: "1985", syn: "Friends. Case. Flanders.", kind: "Series", length: "8 ep · ~50m",
       provider: "VRT MAX", logo: "vrt-max-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg",
-      still: S("2xD0w4prQttNVwoFKl2kkgJx4ze.jpg"),
-      clips: ["2xD0w4prQttNVwoFKl2kkgJx4ze.jpg", "8DJuf1ByvvlfUHTQdyLZ6tYZjGY.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w500/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg",
       seasons: ["Miniserie"],
       about: "Three young friends from the countryside get pulled into the darkest unsolved case in Belgian history. Tense rather than graphic — dread, not gore.",
       chips: [
@@ -157,8 +136,7 @@
       id: "thuis", title: "Thuis", syn: "Daily. Local. Easy.", kind: "Series", length: "Daily · ~25m",
       provider: "VRT MAX", logo: "vrt-max-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/5tSBe01mPLii0I1NoCGSFJSO97M.jpg",
-      still: S("39Se1j3FyhhL8kZKAEno5YIss5X.jpg"),
-      clips: ["wC21ODo7CREmb9dEgCX7Qy2UhA8.jpg", "6ShU8hJrmHaCBI4NQBJfpbgS39t.jpg", "39Se1j3FyhhL8kZKAEno5YIss5X.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/39Se1j3FyhhL8kZKAEno5YIss5X.jpg",
       seasons: ["Daily"],
       about: "The Flemish daily — 25 minutes, already in your plan. Not a case. The thing you chip away when the night is done, or when the room is local and talking.",
       chips: [
@@ -171,8 +149,6 @@
       id: "chantal", title: "Chantal", syn: "Crime. Humour. Flanders.", kind: "Series", length: "S2 · ~45m",
       provider: "VRT MAX", logo: "vrt-max-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/pmoicISpTRSt4bu03bwEaVazBXS.jpg",
-      still: S("oZiQKOeKLjfcRiv4oDYQ1Kj572z.jpg"),
-      clips: ["dsTvKkZE0WOztjRRjyk0PX7hHWG.jpg", "yDFyDrphljl1DhDWmlhQNZtvJQ.jpg", "k5hpEYfIZPoHVL9LdMyOHuzAauf.jpg"].map(S),
       seasons: ["S1", "S2"],
       about: "Flemish crime with a dry grin. If you liked it for the case, not the jokes, say so — that’s how the next pick stays on the crime side of the sofa.",
       chips: [
@@ -185,8 +161,7 @@
       id: "assisen", title: "Assisen", syn: "Court. Twist. Flanders.", kind: "Series", length: "S2 · ~45m",
       provider: "VTM GO", logo: "vtm-go-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg",
-      still: S("erZh4tQsSDp83Nr4MP2LhvKAmbF.jpg"),
-      clips: ["sMGmV9VM1mwXEU4EuVaxGpCuSgY.jpg", "4qSep1ivAYUI2dcFI35Uaigsamd.jpg", "phvn7VWgeDhIi8c9YQ0Afxqjk4L.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/erZh4tQsSDp83Nr4MP2LhvKAmbF.jpg",
       seasons: ["S1", "S2"],
       about: "A Flemish courtroom that turns the room. Twisty rather than violent. Locked on VTM GO — the case you want if the night can take another app.",
       chips: [
@@ -199,8 +174,7 @@
       id: "verraders", title: "De Verraders", syn: "Traitors. Sofa. Format.", kind: "Series", length: "S3 · ~50m",
       provider: "VTM GO", logo: "vtm-go-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg",
-      still: S("niS3AVdPp4pQpL46XxqTn4EG7AL.jpg"),
-      clips: ["3Hr1fEwAHZVZEfjCuso14pDnlIq.jpg", "iz3L7HOHXukwKVacHadTmlThaFY.jpg", "pVUY8OLp3oApBntckUXX18sI3Rv.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/niS3AVdPp4pQpL46XxqTn4EG7AL.jpg",
       seasons: ["S1", "S2", "S3"],
       about: "The Belgian sofa format — traitors, a round table, talking over it. Not a story-twist; a format-twist. Locked on VTM GO.",
       chips: [
@@ -213,8 +187,7 @@
       id: "squid", title: "Squid Game", syn: "Game. Debt. Survival.", kind: "Series", length: "S2 · ~55m",
       provider: "Netflix", logo: "Netflix logo.webp",
       poster: "https://image.tmdb.org/t/p/w500/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg",
-      still: S("2meX1nMdScFOoV4370rqHWKmXhY.jpg"),
-      clips: ["5aE1kxWg6RhgQxJTXTxifv4uq7P.jpg", "87mebbBtoWzHV0kILgV6M7yIfun.jpg", "oaGvjB0DvdhXhOAuADfHb261ZHa.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/2meX1nMdScFOoV4370rqHWKmXhY.jpg",
       seasons: ["S1", "S2"],
       about: "The game you already know — debt, survival, and a room that will talk after. You’re mid-season. It’s marked leaving, so this is the one you’ll feel if it goes.",
       chips: [
@@ -227,8 +200,7 @@
       id: "tlou", title: "The Last of Us", syn: "Fungus. Road. Care.", kind: "Series", length: "S2 · ~55m",
       provider: "HBO Max", logo: "hbo-max-new-logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg",
-      still: S("uDgy6hyPd82kOHh6I95FLtLnj6p.jpg"),
-      clips: ["lY2DhbA7Hy44fAKddr06UrXWWaQ.jpg", "2RSbYPDkNd3hkGp4VWpTFalU9z7.jpg", "acevLdSl5I2MK5RYAm7gwAndt1w.jpg"].map(S),
+      still: "https://image.tmdb.org/t/p/w780/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg",
       seasons: ["S1", "S2"],
       about: "Twenty years after the outbreak, what’s left of love and civilisation. You’re deep in — S2 E3, 67%. Care, not just fungus. Not background.",
       chips: [
@@ -241,8 +213,6 @@
       id: "opp", title: "Oppenheimer", syn: "Bomb. Guilt. Fallout.", kind: "Film", length: "3h 00",
       provider: "HBO Max", logo: "hbo-max-new-logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg",
-      still: S("neeNHeXjMF5fXoCJRsOmkNGC7q.jpg"),
-      clips: ["ycnO0cjsAROSGJKuMODgRtWsHQw.jpg", "7CENyUim29IEsaJhUxIGymCRvPu.jpg", "fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg"].map(S),
       seasons: ["Film"],
       about: "The man who built the bomb, and what it built in him. The physics is flavour; the film is guilt, power, and the hangover of being right. A weekend sit.",
       chips: [
@@ -257,8 +227,6 @@
       id: "barb", title: "Barbie", syn: "Pink. Funny. Gut punch.", kind: "Film", length: "1h 54",
       provider: "HBO Max", logo: "hbo-max-new-logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg",
-      still: S("ctMserH8g2SeOAnCw5gFjdQF8mo.jpg"),
-      clips: ["3N5QNUqS76GFYNoEayfkkJyAyTN.jpg", "mbYTRO33LJAgpCMrIn9ibiWHbMH.jpg", "nHf61UzkfFno5X1ofIhugCPus2R.jpg"].map(S),
       seasons: ["Film"],
       about: "Pink on the outside, a gut punch about being a person. Kids can watch; the joke is for you. 1h 54, HBO Max, already in your plan — the lighter night that still lands.",
       chips: [
@@ -273,8 +241,6 @@
       id: "zill", title: "Zillion", syn: "Rise. Glow. Crash.", kind: "Film", length: "2h 03",
       provider: "Streamz", logo: "streamz-logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg",
-      still: S("rxOh6SQzLmrl5sRhPTsTRQvthU9.jpg"),
-      clips: ["7ZZayj9CC2MY9420RfTT41ipPKg.jpg", "aMcjTPCftOq9NjhYcqlIn4R7eLk.jpg", "mmw05k9zIKeJBksG7Y8S0HI4VcQ.jpg"].map(S),
       seasons: ["Film"],
       about: "Ghent nightlife, excess, the crash. Belgian glow without the camping. Locked on Streamz — the left turn if you wanted not-the-obvious-pick.",
       chips: [
@@ -287,7 +253,6 @@
       id: "jan", title: "De Bende van Jan de Lichte", syn: "Highwaymen. Flanders. Myth.", kind: "Series", length: "10 ep · ~50m",
       provider: "Play", logo: "play-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg",
-      still: S("iE3EuOl2X9nEnmce2C0IZBma06T.jpg"),
       seasons: ["S1"],
       about: "The local highwaymen — Flanders, myth, crooks you can actually place. Locked on Play. Undercover and Ferry are the in-plan crime if you wanted to stay inside Netflix.",
       chips: [
@@ -300,8 +265,6 @@
       id: "schelde", title: "De Slag om de Schelde", syn: "War. Estuary. Home.", kind: "Film", length: "2h 04",
       provider: "Play", logo: "play-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg",
-      still: S("jw6ASGRT2gi8EjCImpGtbiJ9NQ9.jpg"),
-      clips: ["wwFBRyekDcKXJwP0mImRJjAnudL.jpg", "cLUPjvY1bZR2NNv8QXXnNshVeS.jpg", "nhOrIcoxHlaCHiRjiSm0t7nTDnO.jpg"].map(S),
       seasons: ["Film"],
       about: "The Scheldt, the war, a story that sits closer to home than a desert. Locked on Play. 1985 if you wanted Flanders without adding an app.",
       chips: [
@@ -314,8 +277,6 @@
       id: "glad", title: "Gladiator II", syn: "Sand. Steel. Empire.", kind: "Film", length: "2h 28",
       provider: "Apple TV", logo: "apple tv logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg",
-      still: S("tOqIwliWMovSIZ9DyvHcHI7p2im.jpg"),
-      clips: ["bHeUgZKqduubnNl8GshjrpHS9lF.jpg", "8mjYwWT50GkRrrRdyHzJorfEfcl.jpg", "euYIwmwkmz95mnXvufEmbL6ovhZ.jpg"].map(S),
       seasons: ["Film"],
       about: "Sand, steel, a fight the night has to be able to take. Locked on Apple TV. Dune if you wanted spectacle already in your plan.",
       chips: [
@@ -328,8 +289,6 @@
       id: "gladijs", title: "Glad IJs", syn: "Ice. Flanders. Tension.", kind: "Series", length: "8 ep · ~50m",
       provider: "VTM GO", logo: "vtm-go-logo.png",
       poster: "https://image.tmdb.org/t/p/w500/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg",
-      still: S("9biWtthwriRdEkPI1sv4746zoii.jpg"),
-      clips: ["9biWtthwriRdEkPI1sv4746zoii.jpg", "embS4GPK7c8pjbuY2O2irV5rYch.jpg"].map(S),
       seasons: ["S1"],
       about: "Flemish tension on thin ice — local, a case, locked on VTM GO. 1985 if you wanted that feeling already in your plan.",
       chips: [
@@ -342,8 +301,6 @@
       id: "penguin", title: "The Penguin", syn: "Gotham. Hustle. Colin.", kind: "Series", length: "S1 · ~60m",
       provider: "HBO Max", logo: "hbo-max-new-logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg",
-      still: S("4TdmuuwiIiKw3JOjIuhdgYxRXnN.jpg"),
-      clips: ["VSRmtRlYgd0pBISf7d34TAwWgB.jpg", "qq36sU5xH581RiNEkookMQ9D7yp.jpg", "5xzmzzko01aGF4NM6JgbF4bLKdS.jpg"].map(S),
       seasons: ["S1"],
       about: "Gotham without the cape — a hustle, a voice, crime that wants you awake. HBO Max, already in your plan. Late and wired is the brief.",
       chips: [
@@ -356,8 +313,6 @@
       id: "chefbbq", title: "Chef's Table: BBQ", syn: "Fire. Smoke. Plate.", kind: "Series", length: "Vol. 1 · ~45m",
       provider: "Netflix", logo: "Netflix logo.webp",
       poster: "https://image.tmdb.org/t/p/w500/dCOAKGHVKPgpLZNrkiqgcRxkSmZ.jpg",
-      still: S("89UhswGfiTXQgM39Pwrw5R65rX4.jpg"),
-      clips: ["89UhswGfiTXQgM39Pwrw5R65rX4.jpg"].map(S),
       seasons: ["Vol. 1"],
       about: "The Chef’s Table formula, pointed at fire and smoke. Pretty, slow, food as scenery. Netflix, already in your plan. An episode you can actually finish.",
       chips: [
@@ -384,7 +339,6 @@
       id: "twaalf", title: "De Twaalf", syn: "Jury. Flanders. Heat.", kind: "Series", length: "S1 · ~50m",
       provider: "Streamz", logo: "streamz-logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/8BHACZE4aelQ4vnXchd00Yof9jH.jpg",
-      still: S("5ADHs3vU9Kzc4lwNP8Y4IROyrrP.jpg"),
       seasons: ["S1", "S2"],
       about: "Twelve ordinary people judge an extraordinary case. Flemish intensity — the closest neighbour if The Bear’s kitchen heat is what you wanted, with a courtroom instead of a pass.",
       chips: [
@@ -397,8 +351,6 @@
       id: "sev", title: "Severance", syn: "Office. Split. Dread.", kind: "Series", length: "S2 · ~50m",
       provider: "Apple TV", logo: "apple tv logo.jpg",
       poster: "https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg",
-      still: S("ixgFmf1X59PUZam2qbAfskx2gQr.jpg"),
-      clips: ["r9KaBE7i4ovg8uSppQrCp6ZdPD9.jpg", "npD65vPa4vvn1ZHpp3o05A5vdKT.jpg", "8MtMFngDWvIdRo34rz3ao0BGBAe.jpg"].map(S),
       seasons: ["S1", "S2"],
       about: "Employees split their memory between work and life. Season 2 pays off everything the first season set up. Unsettling rather than scary. Locked on Apple TV.",
       chips: [
@@ -412,8 +364,6 @@
     wicked: {
       id: "wicked", title: "Wicked", syn: "Green. Power. That song.", kind: "Film", length: "2h 40",
       provider: "Apple TV", logo: "apple tv logo.jpg",
-      still: S("fyZ6SDUS4o9jp2EHxfZa3qS9ean.jpg"),
-      clips: ["w22GVYotTIVC1dUd58mRhwPqiS.jpg", "uVlUu174iiKhsUGqnOSy46eIIMU.jpg", "jTOeWjamUKGxWVUO1TMZXqQUarw.jpg"].map(S),
       seasons: ["Film"],
       about: "The first half — it ends on a lift, not a bow. Songs carry the feelings. Locked on Apple TV. Barbie if you wanted colour without the belt.",
       chips: [
@@ -425,8 +375,6 @@
     deadpool: {
       id: "deadpool", title: "Deadpool & Wolverine", syn: "Claws. Quips. Chaos.", kind: "Film", length: "2h 08",
       provider: "Apple TV", logo: "apple tv logo.jpg",
-      still: S("by8z9Fe8y7p4jo2YlW2SZDnptyT.jpg"),
-      clips: ["cOoVcVQ3i1m5b2xtqKBtoTSbxC1.jpg", "yDHYTfA3R0jFYba16jBB1ef8oIt.jpg", "lD4mhKoiaXpKrtBEjACeWgz7w0O.jpg"].map(S),
       seasons: ["Film"],
       about: "R-rated jokes, gore gags, breaking the fourth wall. Not a family film. Locked on Apple TV.",
       chips: [
@@ -438,8 +386,6 @@
     challengers: {
       id: "challengers", title: "Challengers", syn: "Tennis. Desire. Zendaya.", kind: "Film", length: "2h 11",
       provider: "Apple TV", logo: "apple tv logo.jpg",
-      still: S("tq8COKsI99Bivjd4CZIYVGoKcIx.jpg"),
-      clips: ["4CcUgdiGe83MeqJW1NyJVmZqRrF.jpg", "504GSaoxBA5nLlcMsJfjzLZEKUp.jpg", "hkQayhc7AmIWtB8tp7A1ZTD8ibt.jpg"].map(S),
       seasons: ["Film"],
       about: "Tennis as a three-person argument. Competitive, mean in a different way than Deadpool. Locked on Apple TV.",
       chips: [
@@ -451,8 +397,6 @@
     insideout: {
       id: "insideout", title: "Inside Out 2", syn: "Anxiety. Puberty. HQ.", kind: "Film", length: "1h 36",
       provider: "Disney+", logo: "disney-plus-logo.png",
-      still: S("p5ozvmdgsmbWe0H8Xk7Rc8SCwAB.jpg"),
-      clips: ["xg27NrXi7VXCGUr7MG75UqLl6Vg.jpg", "uVu2fBc114un7F1GD76RBouWyBP.jpg", "coATv42PoiLqAFKStJiMZs2r6Zb.jpg"].map(S),
       seasons: ["Film"],
       about: "HQ grows up. Anxiety walks in. Kids can watch; the joke is sharper if you remember being fourteen. Locked on Disney+.",
       chips: [
@@ -465,8 +409,6 @@
       id: "arcane", title: "Arcane", syn: "Sisters. City. Fire.", kind: "Series", length: "S2",
       provider: "Netflix", logo: "Netflix logo.webp",
       poster: "https://image.tmdb.org/t/p/w500/abf8tHznhSvl9BAElD2cQeRr7do.jpg",
-      still: S("q8eejQcg1bAqImEV8jh8RtBD4uH.jpg"),
-      clips: ["sYXLeu5usz6yEz0k00FYvtEdodD.jpg", "4ACkRHJCMXdNUUBem3Z0n1CclKf.jpg", "rkB4LyZHo1NHXFEDHl9vSD9r1lI.jpg"].map(S),
       seasons: ["S1", "S2"],
       about: "Two sisters on opposite sides of a city tearing itself apart. Animated, not childish. Netflix, already in your plan.",
       chips: [
@@ -476,6 +418,13 @@
       ]
     }
   };
+
+  if (global.FlemishTitles && FlemishTitles.catalog) {
+    Object.assign(catalog, FlemishTitles.catalog);
+    Object.entries(FlemishTitles.aliases || {}).forEach(([alias, id]) => {
+      if (catalog[id]) catalog[alias] = catalog[id];
+    });
+  }
 
   catalog.n1985 = catalog.y1985;
   catalog["1985"] = catalog.y1985;
@@ -505,13 +454,8 @@
     if (!item) return null;
     const byId = item.id && catalog[item.id];
     if (byId) return byId;
-    const bySlug = catalog[slug(item.title)];
-    if (bySlug) return bySlug;
-    const name = String(item.title || "").toLowerCase();
-    if (name) {
-      const hit = Object.values(catalog).find(x => String(x.title || "").toLowerCase() === name);
-      if (hit) return hit;
-    }
+    const byTitle = catalog[slug(item.title)];
+    if (byTitle) return byTitle;
     return null;
   }
 
@@ -542,22 +486,11 @@
     const cat = lookup(item) || {};
     const merged = { ...cat, ...item };
     merged.id = merged.id || cat.id || slug(merged.title);
-    merged.title = item.title || cat.title || merged.title || "";
     merged.chips = chipsOf(merged);
     merged.about = item.about || item.detail || cat.about || `${merged.syn || merged.title} · ${merged.kind || ""} · ${merged.length || ""} on ${merged.provider || ""}.`.replace(/\s+/g, " ").trim();
     merged.seasons = seasonsOf(merged);
-    merged.poster = item.poster || cat.poster || "";
-    merged.hero = firstStill([
-      cat.still,
-      cat.hero,
-      item.still,
-      item.hero,
-      promoArt(item.backdrop) ? "" : item.backdrop,
-      cat.poster,
-      item.poster
-    ]);
-    merged.clips = uniqStills([...(cat.clips || []), ...(item.clips || []), cat.still, item.still, merged.hero]).slice(0, 3);
-    if (!merged.poster) merged.poster = merged.hero;
+    merged.hero = merged.backdrop || merged.still || cat.still || cat.hero || merged.poster || cat.poster || "";
+    merged.poster = merged.poster || cat.poster || merged.hero;
     merged.syn = merged.syn || cat.syn || "";
     merged.kind = merged.kind || cat.kind || "";
     merged.length = merged.length || cat.length || "";
@@ -591,17 +524,6 @@
     const reduceMotion = opts.reduceMotion ?? window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!phone) return { open() {}, close() {}, isOpen() { return false; } };
 
-    const bundle = global.GummyBundle
-      ? global.GummyBundle.mount(phone, {
-          reduceMotion,
-          onLearnMore() {
-            close();
-            const shop = phone.querySelector('[data-nav="shop"]');
-            if (shop) shop.click();
-          }
-        })
-      : null;
-
     const root = document.createElement("div");
     root.className = "tpage";
     root.setAttribute("role", "dialog");
@@ -632,7 +554,7 @@
       });
     }
 
-    function inPlan(p) { return plan.has(p); }
+    function inPlan(p) { return plan.has(p) || FREE_APPS.includes(p); }
 
     function render() {
       const item = current;
@@ -643,24 +565,20 @@
       const chips = bankOf(item);
       const hero = item.hero || item.poster;
       const watchLbl = `Watch on ${item.provider}`;
-      const clipLbl = ["Trailer beat", "Behind the scenes", "Clip"];
-      const clipSrc = item.clips && item.clips.length ? item.clips : [hero];
-      const clipPos = ["center", "22% center", "78% center"];
-      const clips = clipLbl.map((who, i) => {
-        const src = clipSrc[i] || clipSrc[i % clipSrc.length] || hero;
-        const pos = clipSrc[i] ? "center" : clipPos[i];
-        return `<div class="tpage-clip"><div class="art" style="background-image:url('${esc(src)}');background-position:${pos}"></div><div class="who">${who}</div></div>`;
-      }).join("");
+      const clips = [18, 42, 68].map((pos, i) =>
+        `<div class="tpage-clip"><div class="art" style="background-image:url('${esc(hero)}');background-position:${pos}% center"></div><div class="who">${i === 0 ? "Trailer beat" : i === 1 ? "Behind the scenes" : "Clip"}</div></div>`
+      ).join("");
       scroll.innerHTML = `
         <button class="tpage-back" type="button" data-tpage-close aria-label="Back">
           <svg viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></svg>
         </button>
-        <div class="tpage-hero" style="background-image:url('${esc(hero)}')"></div>
-        <div class="tpage-body">
+        <div class="tpage-hero" style="background-image:url('${esc(hero)}')">
           <div class="tpage-title">
             <h1>${esc(item.title)}</h1>
             <p class="sub">${esc([item.kind, item.length, item.provider].filter(Boolean).join(" · "))}</p>
           </div>
+        </div>
+        <div class="tpage-body">
           <div class="tpage-cta">
             <button class="tpage-watch${owned ? "" : " is-out"}" type="button" data-tpage-watch>
               ${item.logo ? `<img src="${encodeURI(item.logo)}" alt="">` : ""}
@@ -668,7 +586,7 @@
             </button>
             <button class="tpage-list${on ? " is-on" : ""}" type="button" data-tpage-list>
               ${on ? checkSvg : plusSvg}
-              ${on ? "On My List" : "My List"}
+              ${on ? "On your Watch list" : "Watch list"}
             </button>
           </div>
           ${owned ? "" : `<p class="tpage-note">Watch still sends you to ${esc(item.provider)}. It isn’t in your subscriptions yet.</p>`}
@@ -701,7 +619,6 @@
     }
 
     function close() {
-      if (bundle && bundle.isOpen()) bundle.close();
       if (!root.classList.contains("is-on")) return;
       if (convo && convo.isOpen()) convo.close();
       root.classList.remove("is-on");
@@ -725,12 +642,7 @@
         const on = toggleList(item.id);
         render();
         if (typeof opts.onList === "function") opts.onList(item, on);
-        if (on && bundle) {
-          const wait = reduceMotion ? 0 : 360;
-          setTimeout(() => bundle.open({ added: item }), wait);
-        } else if (!on) {
-          toast("Removed from My List");
-        }
+        else toast(on ? "On your Watch list" : "Removed from Watch list");
         return;
       }
       const chip = e.target.closest("[data-tpage-ask]");

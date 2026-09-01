@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=overlays-content">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>AH · Gummy · Search · 28 Aug 2026</title>
 <meta http-equiv="Cache-Control" content="no-store">
 <script>
@@ -33,47 +33,11 @@
     html.classList.toggle("is-app", app);
     html.classList.toggle("is-standalone", standalone);
     html.classList.toggle("is-mock-status", topIsDesktop());
-    pinAppViewport();
-  }
-  function pinAppViewport(){
-    const embed = window.parent !== window;
-    if (embed || !html.classList.contains("is-app")) {
-      html.classList.remove("is-keyboard");
-      html.style.removeProperty("--app-h");
-      html.style.removeProperty("--app-shift");
-      return;
-    }
-    const layoutH = Math.round(window.innerHeight);
-    const vv = window.visualViewport;
-    const visH = Math.round((vv && vv.height) || layoutH);
-    const visTop = Math.round((vv && vv.offsetTop) || 0);
-    const focused = (function(){
-      const el = document.activeElement;
-      return !!(el && el.matches && el.matches("input, textarea, select, [contenteditable], [contenteditable='true']"));
-    })();
-    const keyboard = focused && (layoutH - visH - visTop) > 80;
-    if (keyboard) {
-      html.classList.add("is-keyboard");
-      html.style.setProperty("--app-h", Math.max(1, visH) + "px");
-      html.style.setProperty("--app-shift", visTop + "px");
-    } else {
-      html.classList.remove("is-keyboard");
-      html.style.removeProperty("--app-h");
-      html.style.removeProperty("--app-shift");
-    }
   }
   apply();
   mq.addEventListener("change", apply);
   standaloneMq.addEventListener("change", apply);
   try { (window.top || window).matchMedia("(min-width: 541px)").addEventListener("change", apply); } catch (_) {}
-  window.addEventListener("resize", pinAppViewport);
-  window.addEventListener("orientationchange", pinAppViewport);
-  window.addEventListener("focusin", pinAppViewport);
-  window.addEventListener("focusout", () => setTimeout(pinAppViewport, 60));
-  if (window.visualViewport) {
-    visualViewport.addEventListener("resize", pinAppViewport);
-    visualViewport.addEventListener("scroll", pinAppViewport);
-  }
   window.addEventListener("message", e => {
     const d = e.data;
     if (!d || d.type !== "app-safe") return;
@@ -85,9 +49,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug29x">
-<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
-<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28k">
 <style>
   :root{
     --desk:#0e1218;
@@ -183,25 +146,24 @@
   html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
   html.is-app{
-    --tab-h: 64px;
     --safe-top: max(env(safe-area-inset-top, 0px), var(--app-safe-top, 0px));
-    --safe-bottom: 0px;
+    --safe-bottom: var(--app-safe-bottom, env(safe-area-inset-bottom, 0px));
     --status-h: var(--safe-top);
   }
   html.is-app .status{display:none}
   html.is-app.is-mock-status{--status-h:54px}
   html.is-app.is-mock-status .status{display:flex;height:54px}
   html.is-app .tabbar{
-    height: 64px;
-    padding: 8px 4px 0;
+    height: calc(64px + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
   }
   html.is-app .navfrost{
-    height: 64px;
+    height: calc(64px + var(--safe-bottom));
     border-radius: 0;
   }
   html.is-app .scene{
     --scene-top: calc(10px + var(--status-h));
-    bottom: 64px;
+    bottom: calc(64px + var(--safe-bottom));
     padding-top: var(--scene-top);
   }
   html.is-app .scene.is-ask .search.askdock,
@@ -324,13 +286,15 @@
   .hello p{margin-top:11px;font-size:14.5px;line-height:20px;font-weight:500;color:#99a1ad}
 
   .moods{
-    overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
-    padding:12px 0 0;
+    overflow-x:auto;scrollbar-width:none;padding:18px 0 10px;
+    -webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+    mask-image:linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
   }
   .moods::-webkit-scrollbar{display:none}
   .mood-track{
     display:flex;flex-direction:column;gap:8px;width:max-content;
-    padding:12px 40px 36px 32px;
+    padding:0 40px 10px 24px;
   }
   .mood-row{display:flex;gap:6px;align-items:center}
   .mood{
@@ -399,9 +363,9 @@
     background:linear-gradient(90deg, rgba(255,210,230,0) 0%, rgba(255,170,210,.85) 36%, rgba(255,90,160,1) 50%, rgba(255,50,120,.5) 68%, transparent 100%);
   }
 
-  .genre-block{padding:10px 0 4px}
+  .genre-block{padding:18px 0 6px}
   .genre-kicker{
-    padding:0 24px 8px;
+    padding:0 24px 10px;
     font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
     color:rgba(255,255,255,.38);
   }
@@ -428,7 +392,7 @@
     padding:0 20px 18px;gap:8px;
   }
 
-  .collect{padding:30px 0 20px}
+  .collect{padding:22px 0 12px}
   .collect h3{
     padding:0 24px 11px;max-width:280px;
     font-size:18px;font-weight:600;letter-spacing:-.025em;line-height:1.2;color:#fff;
@@ -479,7 +443,7 @@
     padding:0;border:0;background:none;line-height:0;flex-shrink:0;border-radius:8px;
   }
   .pack-lane img{
-    width:54px;height:80px;object-fit:cover;border-radius:8px;display:block;
+    width:72px;height:108px;object-fit:cover;border-radius:8px;display:block;
     box-shadow:0 6px 14px rgba(0,0,0,.35);
   }
 
@@ -529,7 +493,7 @@
   }
   .field input{
     flex:1;min-width:0;width:100%;height:100%;background:none;border:0;outline:none;
-    font-size:16px;font-weight:500;color:#fff;font-family:"Inter",system-ui,sans-serif;
+    font-size:14px;font-weight:500;color:#fff;font-family:"Inter",system-ui,sans-serif;
   }
   .field input::placeholder{color:#8c8c94}
   .field.is-rec input{color:transparent;caret-color:transparent}
@@ -642,7 +606,7 @@
   }
   .lane::-webkit-scrollbar{display:none}
   .lane-card{
-    flex:0 0 108px;width:108px;text-align:left;color:#fff;
+    flex:0 0 132px;width:132px;text-align:left;color:#fff;
   }
   .lane-card:first-child{margin-left:20px}
   .lane-card:last-child{margin-right:20px}
@@ -688,48 +652,15 @@
   }
 
   .toast{
-    position:absolute;left:50%;top:96px;z-index:90;
-    padding:10px 18px;border-radius:999px;
-    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
-    line-height:1.2;white-space:nowrap;text-align:center;
-    text-shadow:0 1px 10px rgba(0,0,0,.5);
-    pointer-events:none;overflow:visible;
-    opacity:0;
-    transform:translateX(-50%) translateY(-8px) scale(.96);
+    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
+    color:#2a1208;font-size:11px;font-weight:800;
+    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
+    white-space:nowrap;
     background:
-      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
-      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
-      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
-      rgba(10,8,12,.62);
-    backdrop-filter:blur(22px) saturate(1.35);
-    -webkit-backdrop-filter:blur(22px) saturate(1.35);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.18),
-      0 0 0 1px rgba(255,255,255,.08),
-      0 10px 28px rgba(0,0,0,.45),
-      0 0 20px rgba(255,110,70,.48),
-      0 0 40px rgba(40,200,170,.34);
-    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
+      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
+      linear-gradient(135deg, #ffe56a, #ff9a50);
   }
-  .toast::after{
-    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
-    border-radius:2px;pointer-events:none;
-    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
-    box-shadow:0 0 14px rgba(70,210,170,.55);
-    opacity:0;
-    transition:opacity .32s ease;
-  }
-  .toast.on{
-    opacity:1;
-    transform:translateX(-50%) translateY(0) scale(1);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.2),
-      0 0 0 1px rgba(255,255,255,.1),
-      0 12px 30px rgba(0,0,0,.48),
-      0 0 26px rgba(255,110,70,.55),
-      0 0 52px rgba(40,200,170,.4);
-  }
-  .toast.on::after{opacity:1}
+  .toast.on{opacity:1}
 
   @media (prefers-reduced-motion:reduce){
     .headline,.search,.ask-more{transition:none}
@@ -740,13 +671,10 @@
     display:block !important;
     width:100% !important;
     height:100% !important;
-    min-height:0 !important;
-    max-height:none !important;
+    min-height:100% !important;
     padding:0 !important;
     margin:0 !important;
     overflow:hidden !important;
-    touch-action:manipulation;
-    -webkit-text-size-adjust:100%;
     align-items:stretch !important;
     justify-content:flex-start !important;
   }
@@ -766,19 +694,6 @@
     border-radius:0 !important;
     box-shadow:none !important;
   }
-  html.is-app.is-keyboard,
-  html.is-app.is-keyboard body{
-    height:var(--app-h, 100%) !important;
-    max-height:var(--app-h, 100%) !important;
-  }
-  html.is-app.is-keyboard .page,
-  html.is-app.is-keyboard .stage,
-  html.is-app.is-keyboard .phone{
-    top:var(--app-shift, 0px) !important;
-    bottom:auto !important;
-    height:var(--app-h, 100%) !important;
-    max-height:var(--app-h, 100%) !important;
-  }
 </style>
 </head>
 <body>
@@ -791,7 +706,7 @@
   <div class="brief">
     <strong>28 Aug 2026.</strong> Hints start a conversation: answer, titles, then follow-ups that stay with the brief. Collection cards are AI bundles — not chat. Service icon = in plan. Icon + lock = not in your plan.
   </div>
-  <p class="note"><a href="playground.html">Playground</a> · source: <a href="Prototype%20%E2%80%94%20Interactive.html">Interactive prototype</a></p>
+  <p class="note">source: <a href="Prototype%20%E2%80%94%20Interactive.html">Interactive prototype</a></p>
 </div>
 
 <div class="stage">
@@ -812,16 +727,18 @@
 </div>
 
 <script src="ah-gummy-convo.js?v=aug28h"></script>
-<script src="ah-gummy-title.js?v=aug29a"></script>
-<script src="ah-gummy-bundle.js?v=aug28n"></script>
+<script src="ah-flemish-titles.js?v=sep1e"></script>
+<script src="ah-gummy-title.js?v=sep1e"></script>
 <script>
 const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
 const star = '<img class="star" src="star.svg" alt="" aria-hidden="true">';
 const lockMark = '<span class="badge" aria-label="Not in your subscriptions"><svg viewBox="0 0 24 24"><rect class="body" x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>';
-const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX"]);
+const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX", "Play", "VTM GO"]);
+const FREE_APPS = new Set(["Play", "VTM GO", "VRT MAX"]);
 const chevSvg = '<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>';
 
 const titles = {
+  ...((globalThis.FlemishTitles && FlemishTitles.search) || {}),
   thuis:{title:"Thuis", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg")},
   y1985:{title:"1985", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg")},
   chantal:{title:"Chantal", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg")},
@@ -897,15 +814,18 @@ const asks = {
   },
   flanders:{
     q:"What’s close to home this week?",
-    a:"What’s playing here this week — soaps, cases, and a Friday crime. Thuis and 1985 you can start on VRT MAX now. Assisen and De Verraders sit behind VTM GO, so they carry a lock.",
+    a:"Last night’s table, then the pub. De Tafel van Gert is yesterday’s news on Play. Familie is the VTM daily — Victor, Erik, the Jan & Alleman. Zeg Eens Euh after 22:00 if the room wants a buzzer.",
     lanes:[
+      {title:"Last night, then the pub", sub:"Play and VTM GO", ids:["tafel","familie","zegeuh","jade"]},
+      {title:"Flanders on Play", sub:"the clips in your Home feed", ids:["tafel","zegeuh","jade","axel"]},
       {title:"On VRT MAX now", sub:"in your plan", ids:["thuis","y1985","chantal"]},
-      {title:"Flanders on other apps", sub:"lock if you don’t have them", ids:["assisen","verraders","jan","gladijs"]}
+      {title:"Flanders on other apps", sub:"lock if you don’t have them", ids:["assisen","verraders","agnew"]}
     ],
     more:["plan","unwind","tonight"],
     follow:[
-      {id:"fl-play", q:"What can I start on VRT MAX right now?", a:"Thuis and 1985. Chantal too. Assisen and De Verraders wait unless you add VTM GO."},
-      {id:"fl-lock", q:"What’s the local one everyone talks about?", a:"Assisen — courtroom, Flemish, locked on VTM GO. 1985 is the in-plan one that occupies the room the same way."}
+      {id:"fl-tafel", q:"What did they talk about yesterday at De Tafel?", a:"Dolly Parton, the hottest Belgian summer, and Gert on Francken’s climate post. Nicole Van Lipzig from KU Leuven sat for the heat. Last night if you want the conversation people are still having."},
+      {id:"fl-play", q:"What’s actually on Play tonight?", a:"De Tafel at 20:00. Zeg Eens Euh after 22:00. Jade on Thursday. Axel on Tuesday. The logo on those cards is Play — not VRT MAX."},
+      {id:"fl-lock", q:"And Familie — did they find Victor?", a:"That’s week one on VTM GO. Mathias is still looking. 25 minutes. Thuis if you wanted the other daily, on VRT MAX."}
     ]
   },
   belgian:{
@@ -1190,13 +1110,13 @@ const asks = {
     kind:"genre",
     label:"Comedy",
     q:"Comedy",
-    a:"You opened comedy. Barbie if the room wants pink. Abbott if you wanted 22 minutes. Wednesday if the laugh has a case. Thuis if Flanders is the joke and you don’t want another app.",
+    a:"You opened comedy. Zeg Eens Euh if you want four Vlamingen failing a forbidden word. Jade if Belgians roasting the Ring is the joke. Agnew if one man for 2h 43 is the night. Barbie if the room wants pink.",
     lanes:[
-      {title:"Comedy you can start tonight", sub:"a film, then a sit-down", ids:["barb","wed","abbott","thuis"]},
-      {title:"Popular comedy series", sub:"episode-shaped", ids:["abbott","wed","thuis","bear"]},
-      {title:"Short and funny", sub:"before the next thing", ids:["abbott","thuis","bear"]},
-      {title:"Already in your plan", sub:"no new app", ids:["barb","wed","thuis"]},
-      {title:"Locked unless you add the app", sub:"Disney+", ids:["abbott","bear"]}
+      {title:"Flemish laughs tonight", sub:"Play and VTM GO", ids:["zegeuh","jade","agnew"]},
+      {title:"Comedy you can start tonight", sub:"a film, then a sit-down", ids:["agnew","barb","wed","zegeuh"]},
+      {title:"Popular comedy series", sub:"episode-shaped", ids:["zegeuh","jade","abbott","thuis"]},
+      {title:"Short and funny", sub:"before the next thing", ids:["zegeuh","abbott","thuis"]},
+      {title:"Already in your plan", sub:"no new app", ids:["barb","wed","thuis"]}
     ],
     more:["g-family","laugh","light"],
     follow:[
@@ -1375,7 +1295,7 @@ const asks = {
     a:"You opened family. Nothing that needs the volume down. Barbie and Abbott if the room is mixed. Thuis if local and easy. Wednesday if someone still wants a plot.",
     lanes:[
       {title:"Fine with the lights on", sub:"safe for the room", ids:["barb","abbott","thuis","wed"]},
-      {title:"Flemish and easy", sub:"already in the plan", ids:["thuis","chantal"]},
+      {title:"Flemish and easy", sub:"the daily, then a game", ids:["familie","thuis","zegeuh","chantal"]},
       {title:"Short enough for the room", sub:"before bedtime", ids:["abbott","thuis"]},
       {title:"Already in your plan", sub:"no new app", ids:["barb","thuis","wed"]},
       {title:"Locked unless you add the app", sub:"Disney+", ids:["abbott"]}
@@ -1394,9 +1314,9 @@ const asks = {
     a:"You opened adventure. Dune if you wanted sand and a road that turns into war. Gladiator II if the arena is the trip — Apple TV, so it locks. The Last of Us if the road is care. De Slag om de Schelde if the war is closer.",
     lanes:[
       {title:"Adventure movies", sub:"fill the wall", ids:["dune","glad","schelde"]},
-      {title:"Adventure series", sub:"a road, not a quest log", ids:["tlou","jan"]},
+      {title:"Adventure series", sub:"a road, not a quest log", ids:["axel","tlou","jan"]},
       {title:"War and road", sub:"scale, then closer to home", ids:["dune","schelde","tlou"]},
-      {title:"Belgian adventure", sub:"local, then a lock", ids:["jan","schelde","ferry"]},
+      {title:"Belgian adventure", sub:"Axel, then a lock", ids:["axel","jan","schelde","ferry"]},
       {title:"Already in your plan", sub:"no new app", ids:["dune","tlou"]}
     ],
     more:["g-action","g-scifi","epic"],
@@ -1423,7 +1343,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 function esc(s){
   return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 }
-function inPlan(p){ return PLAN.has(p); }
+function inPlan(p){ return PLAN.has(p) || FREE_APPS.has(p); }
 function svc(item){
   const out = !inPlan(item.provider);
   return `<span class="svc" title="${out ? "Not in your subscriptions" : `Watch on ${item.provider}`}"><img src="${encodeURI(item.logo)}" alt="${esc(item.provider)}">${out ? lockMark : ""}</span>`;
@@ -1550,11 +1470,9 @@ let streamT = 0;
 
 function toast(msg){
   toastEl.textContent = msg;
-  toastEl.classList.remove("on");
-  void toastEl.offsetWidth;
   toastEl.classList.add("on");
   clearTimeout(toastEl._t);
-  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1800);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1300);
 }
 const titlePage = GummyTitle.create({
   phone,
@@ -1692,7 +1610,9 @@ function matchAsk(text){
   if (/unwind|wind down|relax|calm/.test(q)) return "unwind";
   if (/bear|kitchen/.test(q)) return "bear";
   if (/40|forty|45|short|minutes|half hour|little something/.test(q)) return "short";
-  if (/flanders|vlaander|close to home/.test(q)) return "flanders";
+  if (/tafel|gert|actualiteit|last night|gisteren/.test(q)) return "flanders";
+  if (/familie|victor|mechelen/.test(q)) return "flanders";
+  if (/flanders|vlaander|close to home|jade|zeg eens|axel|agnew/.test(q)) return "flanders";
   if (/belgian|belg|flemish|crime|crook|danger/.test(q)) return "belgian";
   if (/finish|continue|left off|company/.test(q)) return "finish";
   if (/plan|already|start now|can i play|subscription|lock/.test(q)) return "plan";
@@ -1770,6 +1690,13 @@ function closeAsk(){
 }
 function pausePack(){
   try { packFrame.contentWindow?.postMessage({type:"app-pause"}, "*"); } catch (_) {}
+  try {
+    packFrame.contentDocument?.querySelectorAll("video").forEach(v => {
+      v.muted = true;
+      v.volume = 0;
+      v.pause();
+    });
+  } catch (_) {}
 }
 function closePack(){
   pausePack();
@@ -1782,7 +1709,7 @@ function openPack(id){
   if (!pack) return;
   closeAsk();
   scene.classList.add("is-pack");
-  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=aug30b`;
+  packFrame.src = `ah-gummy-ask-carousel.html?app=1&bare=1&pack=${encodeURIComponent(id)}&v=sep1i`;
 }
 
 input.addEventListener("input", setTyped);
@@ -1833,11 +1760,6 @@ document.querySelector(".tabbar")?.addEventListener("click", e => {
   else if (nav === "search") {
     if (scene.classList.contains("is-pack")) closePack();
     else if (scene.classList.contains("is-ask")) closeAsk();
-    else {
-      input.value = "";
-      setTyped();
-      scene.querySelector(".lobby")?.scrollTo({top: 0, behavior: reduceMotion ? "auto" : "smooth"});
-    }
   }
   else if (nav === "shop") goPrototype("gummy-shop", "ah-gummy-shop.html");
 });
@@ -1846,7 +1768,6 @@ window.addEventListener("message", e => {
   if (!d || typeof d !== "object") return;
   if (d.type === "pack-back") closePack();
   if (d.type === "app-pause") pausePack();
-  if (d.type === "app-reset") { closePack(); closeAsk(); }
 });
 (function bootDemo(){
   const demo = new URLSearchParams(location.search);

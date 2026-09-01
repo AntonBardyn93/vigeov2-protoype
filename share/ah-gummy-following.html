@@ -49,9 +49,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug29x">
-<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
-<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28k">
 <style>
   :root{
     --desk:#0e1218;
@@ -151,9 +150,8 @@
   html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
   html.is-app{
-    --tab-h: 64px;
     --safe-top: max(env(safe-area-inset-top, 0px), var(--app-safe-top, 0px));
-    --safe-bottom: 0px;
+    --safe-bottom: var(--app-safe-bottom, env(safe-area-inset-bottom, 0px));
     --status-h: var(--safe-top);
   }
   html.is-app .status{display:none}
@@ -161,15 +159,15 @@
   html.is-app.is-mock-status .status{display:flex;height:54px}
   html.is-app .head-row{top: calc(10px + var(--status-h))}
   html.is-app .tabbar{
-    height: 64px;
-    padding: 8px 4px 0;
+    height: calc(64px + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
   }
   html.is-app .navfrost{
-    height: 64px;
+    height: calc(64px + var(--safe-bottom));
     border-radius: 0;
   }
-  html.is-app .scene{bottom: 64px}
-  html.is-app .ask-rail{bottom: 84px}
+  html.is-app .scene{bottom: calc(64px + var(--safe-bottom))}
+  html.is-app .ask-rail{bottom: calc(84px + var(--safe-bottom))}
 
   .phone{
     width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
@@ -876,48 +874,15 @@
   .phone.is-ask .ask-rail{opacity:0;pointer-events:none}
 
   .toast{
-    position:absolute;left:50%;top:96px;z-index:90;
-    padding:10px 18px;border-radius:999px;
-    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
-    line-height:1.2;white-space:nowrap;text-align:center;
-    text-shadow:0 1px 10px rgba(0,0,0,.5);
-    pointer-events:none;overflow:visible;
-    opacity:0;
-    transform:translateX(-50%) translateY(-8px) scale(.96);
+    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
+    color:#2a1208;font-size:11px;font-weight:800;
+    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .2s;white-space:nowrap;
     background:
-      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
-      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
-      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
-      rgba(10,8,12,.62);
-    backdrop-filter:blur(22px) saturate(1.35);
-    -webkit-backdrop-filter:blur(22px) saturate(1.35);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.18),
-      0 0 0 1px rgba(255,255,255,.08),
-      0 10px 28px rgba(0,0,0,.45),
-      0 0 20px rgba(255,110,70,.48),
-      0 0 40px rgba(40,200,170,.34);
-    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
+      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
+      linear-gradient(135deg, #ffe56a, #ff9a50);
   }
-  .toast::after{
-    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
-    border-radius:2px;pointer-events:none;
-    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
-    box-shadow:0 0 14px rgba(70,210,170,.55);
-    opacity:0;
-    transition:opacity .32s ease;
-  }
-  .toast.on{
-    opacity:1;
-    transform:translateX(-50%) translateY(0) scale(1);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.2),
-      0 0 0 1px rgba(255,255,255,.1),
-      0 12px 30px rgba(0,0,0,.48),
-      0 0 26px rgba(255,110,70,.55),
-      0 0 52px rgba(40,200,170,.4);
-  }
-  .toast.on::after{opacity:1}
+  .toast.on{opacity:1}
 
   @media (prefers-reduced-motion:reduce){
     .tcard,.jcard,.jhero,.j-poster,.ai-card,.tl-line,.j-spine,.asheet,.askfab .star,.qconvo,.pill,.mood,.plan-week,.rcard{transition:none;animation:none}
@@ -966,7 +931,7 @@
       <strong>28 Aug 2026.</strong> Back instead of Bookmarks / Following tabs. Tap Ask — or a prompt in the week — for the same conversation sheet as Home.
       Service icon = you can watch. Icon + lock = not in your plan.
     </div>
-    <p class="note"><a href="playground.html">Playground</a> · <a href="ah-gummy-my-stuff.html">My Stuff</a> · source: candy smear</p>
+    <p class="note"><a href="ah-gummy-my-stuff.html">My Stuff</a> · source: candy smear</p>
   </div>
 
   <div class="pair">
@@ -1010,8 +975,8 @@
 </template>
 
 <script src="ah-gummy-convo.js?v=aug28h"></script>
-<script src="ah-gummy-title.js?v=aug29a"></script>
-<script src="ah-gummy-bundle.js?v=aug28n"></script>
+<script src="ah-flemish-titles.js?v=sep1e"></script>
+<script src="ah-gummy-title.js?v=sep1e"></script>
 <script>
 const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
 const STILL = p => `https://image.tmdb.org/t/p/w780${p}`;
@@ -1020,12 +985,13 @@ const star = '<img class="star" src="star.svg" alt="" aria-hidden="true">';
 const tick = '<span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg></span>';
 const lockMark = '<span class="badge" aria-label="Not in your subscriptions"><svg viewBox="0 0 24 24"><rect class="body" x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>';
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX"]);
+const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX", "Play", "VTM GO"]);
+const FREE_APPS = new Set(["Play", "VTM GO", "VRT MAX"]);
 
 function esc(s){
   return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 }
-function inPlan(provider){ return PLAN.has(provider); }
+function inPlan(provider){ return PLAN.has(provider) || FREE_APPS.has(provider); }
 function imgTag(src, fallback, alt){
   return `<img src="${src}" alt="${esc(alt)}" loading="lazy" onerror="if(this.dataset.fb)return;this.dataset.fb=1;this.src='${fallback}'">`;
 }
@@ -1046,10 +1012,16 @@ function goPrototype(id, href){
 
 const events = [
   {id:"wed", bucket:"today", title:"Wednesday", when:"21:00", date:"Mon 24", kind:"Series", meta:"S2 E5", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), fallback:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg")},
+  {id:"tafel", bucket:"today", title:"De Tafel van Gert", when:"20:00", date:"Mon 1", kind:"Talk", meta:"Last night", provider:"Play", logo:"play-logo.png", poster:"posters/tafel-gert.jpg", fallback:"posters/tafel-gert.jpg"},
   {id:"thuis", bucket:"today", title:"Thuis", when:"20:20", date:"Mon 24", kind:"Series", meta:"Daily", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), fallback:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg")},
+  {id:"familie", bucket:"today", title:"Familie", when:"20:00", date:"Mon 1", kind:"Series", meta:"Daily", provider:"VTM GO", logo:"vtm-go-logo.png", poster:"posters/familie.jpg", fallback:"posters/familie.jpg"},
+  {id:"zegeuh", bucket:"today", title:"Zeg Eens Euh", when:"22:10", date:"Mon 1", kind:"Game", meta:"Tonight", provider:"Play", logo:"play-logo.png", poster:"posters/zeg-eens-euh.jpg", fallback:"posters/zeg-eens-euh.jpg"},
   {id:"tlou", bucket:"tomorrow", title:"The Last of Us", when:"New episode", date:"Tue 25", kind:"Series", meta:"S2 E4", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), fallback:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg")},
+  {id:"axel", bucket:"tomorrow", title:"Axel Terug Naar Amerika", when:"21:15", date:"Tue 2", kind:"Series", meta:"S2 · Trumpland", provider:"Play", logo:"play-logo.png", poster:"posters/axel-amerika.jpg", fallback:"posters/axel-amerika.jpg"},
   {id:"assisen", bucket:"tomorrow", title:"Assisen", when:"21:30", date:"Tue 25", kind:"Series", meta:"S2 E4", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg")},
   {id:"under", bucket:"week", title:"Undercover", when:"Premiere", date:"Thu 27", kind:"Series", meta:"S4 premiere", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), sub:"Thu 27"},
+  {id:"jade", bucket:"week", title:"Jade en de Belgen", when:"21:30", date:"Thu 4", kind:"Series", meta:"Traffic", provider:"Play", logo:"play-logo.png", poster:"posters/jade-belgen.jpg", fallback:"posters/jade-belgen.jpg", sub:"Thu 4"},
+  {id:"agnew", bucket:"week", title:"Alex Agnew", when:"Watch List", date:"Fri 5", kind:"Stand-up", meta:"Wake Me Up When It’s Over", provider:"VTM GO", logo:"vtm-go-logo.png", poster:"posters/alex-agnew.jpg", fallback:"posters/alex-agnew.jpg", sub:"Fri 5"},
   {id:"y1985", bucket:"week", title:"1985", when:"New episode", date:"Thu 27", kind:"Series", meta:"S1 E5", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), fallback:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), sub:"Thu 27"},
   {id:"verraders", bucket:"weekend", title:"De Verraders", when:"Sun", date:"Sun 30", kind:"Series", meta:"S3 E6", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), fallback:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg")},
   {id:"squid", bucket:"weekend", title:"Squid Game", when:"Sat", date:"Sat 29", kind:"Series", meta:"S2 E6", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg"), fallback:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg")},
@@ -1066,7 +1038,7 @@ const locked = events.filter(e => !inPlan(e.provider));
 
 const askBank = [
   {id:"week", q:"What’s coming this week from my follows?", keys:"week coming tonight thursday",
-    a:"Tonight: Wednesday at 21:00 on Netflix, and Thuis on VRT MAX — both in your plan. Tomorrow Last of Us drops on HBO Max, plus Assisen on VTM GO — Assisen is locked. Thursday is Undercover’s S4 premiere and 1985. Friday is empty from follows, so that’s Dune from your Watch List.",
+    a:"Tonight: De Tafel van Gert at 20:00 on Play — last night’s news. Familie at 20:00 on VTM GO. Zeg Eens Euh at 22:10. Wednesday at 21:00 if you still want Netflix. Tomorrow Axel is back in Trumpland, then Last of Us.",
     follow:[
       {id:"week-tonight", q:"If I can only watch one thing tonight, what is it?", a:"Wednesday at 21:00. You’re already in it, Netflix, in your plan. Thuis at 20:20 if you want 25 minutes first. Last of Us can wait until tomorrow’s episode."},
       {id:"week-lock", q:"What on this week would need another app?", a:"Assisen tomorrow, De Verraders and Glad IJs at the weekend, Jan de Lichte on Saturday — VTM GO and Play. Wednesday, Last of Us, Undercover, 1985 and Thuis play on what you already have."},
@@ -1419,11 +1391,9 @@ function bindJourneyNav(phone, scene){
 function toast(phone, msg){
   const el = phone.querySelector("[data-toast]");
   el.textContent = msg;
-  el.classList.remove("on");
-  void el.offsetWidth;
   el.classList.add("on");
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove("on"), 1800);
+  el._t = setTimeout(() => el.classList.remove("on"), 1300);
 }
 
 function mountPhone(host){

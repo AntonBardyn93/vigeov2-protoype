@@ -107,7 +107,7 @@
   color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);
   max-width:100%;white-space:normal;text-align:left;line-height:1.35;
 }
-.csheet .qchip .star, .csheet .qchip img{width:8px;height:9px;filter:brightness(0) invert(1);opacity:.9}
+.csheet .qchip .star, .csheet .qchip img{display:none}
 .csheet .qconvo-foot{
   flex-shrink:0;padding-top:8px;
   padding-bottom:calc(8px + var(--csheet-kb, 0px));
@@ -116,7 +116,7 @@
 .csheet .askinput input,
 .csheet .ask-freeq{
   flex:1;min-width:0;height:46px;border:0;border-radius:16px;outline:none;
-  padding:0 14px;font:inherit;font-size:16px;font-weight:500;
+  padding:0 14px;font:inherit;font-size:14px;font-weight:500;
   color:#fff;background:rgba(255,255,255,.08);
 }
 .csheet .askinput input::placeholder{color:rgba(255,255,255,.42)}

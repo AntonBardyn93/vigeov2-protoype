@@ -22,6 +22,13 @@ html_files = [
     "ah-gummy-my-stuff.html",
     "ah-gummy-following.html",
     "ah-gummy-search.html",
+    "ah-gummy-shop.html",
+    "ah-gummy-ask-carousel.html",
+    "ah-gummy-title.js",
+    "ah-gummy-title.css",
+    "ah-gummy-convo.js",
+    "ah-gummy-convo.css",
+    "ah-flemish-titles.js",
 ]
 assets = [
     "star.svg",
@@ -66,9 +73,18 @@ for name in assets:
         raise SystemExit(f"missing asset: {name}")
     shutil.copy2(path, dest / name)
 
+posters = src / "posters"
+if posters.exists():
+    shutil.copytree(posters, dest / "posters", dirs_exist_ok=True)
+stills = src / "stills"
+if stills.exists():
+    shutil.copytree(stills, dest / "stills", dirs_exist_ok=True)
+
 ids = set()
 for name in html_files:
-    ids.update(re.findall(r'youtube:\s*"([^"]+)"', (src / name).read_text()))
+    text = (src / name).read_text()
+    ids.update(re.findall(r'youtube:\s*"([^"]+)"', text))
+    ids.update(re.findall(r'item\(catalog\.\w+,\s*"([^"]+)"', text))
 ids = sorted(ids)
 missing = []
 for vid in ids:

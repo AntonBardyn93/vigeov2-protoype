@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=overlays-content">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>AH · Gummy · Ask carousel · 28 Aug 2026</title>
 <meta http-equiv="Cache-Control" content="no-store">
 <script>
@@ -33,47 +33,11 @@
     html.classList.toggle("is-app", app);
     html.classList.toggle("is-standalone", standalone);
     html.classList.toggle("is-mock-status", topIsDesktop());
-    pinAppViewport();
-  }
-  function pinAppViewport(){
-    const embed = window.parent !== window;
-    if (embed || !html.classList.contains("is-app")) {
-      html.classList.remove("is-keyboard");
-      html.style.removeProperty("--app-h");
-      html.style.removeProperty("--app-shift");
-      return;
-    }
-    const layoutH = Math.round(window.innerHeight);
-    const vv = window.visualViewport;
-    const visH = Math.round((vv && vv.height) || layoutH);
-    const visTop = Math.round((vv && vv.offsetTop) || 0);
-    const focused = (function(){
-      const el = document.activeElement;
-      return !!(el && el.matches && el.matches("input, textarea, select, [contenteditable], [contenteditable='true']"));
-    })();
-    const keyboard = focused && (layoutH - visH - visTop) > 80;
-    if (keyboard) {
-      html.classList.add("is-keyboard");
-      html.style.setProperty("--app-h", Math.max(1, visH) + "px");
-      html.style.setProperty("--app-shift", visTop + "px");
-    } else {
-      html.classList.remove("is-keyboard");
-      html.style.removeProperty("--app-h");
-      html.style.removeProperty("--app-shift");
-    }
   }
   apply();
   mq.addEventListener("change", apply);
   standaloneMq.addEventListener("change", apply);
   try { (window.top || window).matchMedia("(min-width: 541px)").addEventListener("change", apply); } catch (_) {}
-  window.addEventListener("resize", pinAppViewport);
-  window.addEventListener("orientationchange", pinAppViewport);
-  window.addEventListener("focusin", pinAppViewport);
-  window.addEventListener("focusout", () => setTimeout(pinAppViewport, 60));
-  if (window.visualViewport) {
-    visualViewport.addEventListener("resize", pinAppViewport);
-    visualViewport.addEventListener("scroll", pinAppViewport);
-  }
   window.addEventListener("message", e => {
     const d = e.data;
     if (!d || d.type !== "app-safe") return;
@@ -85,9 +49,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug29x">
-<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
-<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28k">
 <style>
   :root{
     --desk:#0e1218;
@@ -180,17 +143,13 @@
   }
   html.is-embed.is-fill, html.is-embed.is-fill body,
   html.is-embed.is-fill .page, html.is-embed.is-fill .stage{
-    width:100%;height:100%;max-width:none;overflow:hidden;
+    width:100%;height:100%;max-width:none;
   }
-  html.is-embed.is-fill .phone{
-    width:100%;height:100%;max-width:none;max-height:none;
-    aspect-ratio:auto;
-  }
+  html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
   html.is-app{
-    --tab-h: 64px;
     --safe-top: max(env(safe-area-inset-top, 0px), var(--app-safe-top, 0px));
-    --safe-bottom: 0px;
+    --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--app-safe-bottom, 0px));
     --status-h: var(--safe-top);
   }
   html.is-app .status{display:none}
@@ -199,14 +158,14 @@
   html.is-app .tabs,
   html.is-app .head-row{top: calc(10px + var(--status-h))}
   html.is-app .tabbar{
-    height: 64px;
-    padding: 8px 4px 0;
+    height: calc(64px + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
   }
   html.is-app .qwrap{
-    bottom: calc(64px - var(--q-tuck));
+    bottom: calc(64px + var(--safe-bottom));
   }
   html.is-app .dock{
-    bottom: calc(64px + var(--dock-lift));
+    bottom: calc(64px + var(--dock-lift) + var(--safe-bottom));
   }
   html.is-bare .tabbar,
   html.is-bare .status,
@@ -216,10 +175,10 @@
     top: 54px;
   }
   html.is-app.is-bare .dock{
-    bottom: var(--dock-lift);
+    bottom: calc(14px + var(--dock-lift) + var(--safe-bottom));
   }
   html.is-app.is-bare .qwrap{
-    bottom: calc(-1 * var(--q-tuck));
+    bottom: var(--safe-bottom);
   }
   html.is-app.is-bare .head-row{
     top: max(54px, calc(10px + var(--safe-top)));
@@ -246,8 +205,6 @@
     position:relative;flex:0 0 100%;height:100%;
     scroll-snap-align:start;scroll-snap-stop:always;
     --dock-lift: 10px;
-    --q-tuck: 12px;
-    --q-pad-top: 8px;
   }
   .slide.is-sheet,
   .slide.is-assembling{
@@ -268,10 +225,17 @@
     transform-origin:center center;
   }
   .videowrap .video-poster{
+    z-index:0;
     background:#000 center 32%/cover no-repeat;
+    opacity:1;transition:opacity .18s ease;
   }
-  .videowrap video{opacity:0;transition:opacity .6s ease}
+  .videowrap video{
+    z-index:1;
+    opacity:0;
+    transition:opacity .18s ease;
+  }
   .videowrap.is-playing video{opacity:1}
+  .videowrap.is-ready .video-poster{opacity:0}
   .video-edgefade{
     position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(180deg, rgba(0,0,0,.58) 0%, transparent 24%, transparent 52%, rgba(0,0,0,.22) 78%, rgba(0,0,0,.38) 100%);
@@ -510,10 +474,9 @@
   }
   .askin{
     position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
-    display:none;
+    opacity:0;
   }
-  .askin.is-on{display:block}
-  .askin[data-askin="0"]{background:var(--mesh-ask)}
+  .askin[data-askin="0"]{opacity:1;background:var(--mesh-ask)}
   .askin[data-askin="1"]{background:var(--mesh-ask-green)}
   .askin[data-askin="2"]{background:var(--mesh-ask-purple)}
   .askin::after{
@@ -584,8 +547,8 @@
 
   .qwrap{
     position:absolute;left:0;right:0;
-    bottom:calc(7.51cqh + var(--safe-bottom) - var(--q-tuck));
-    height:calc(48px + var(--q-pad-top));z-index:49;
+    bottom:calc(7.51cqh + var(--safe-bottom));
+    height:48px;z-index:40;
     overflow:visible;
     background:rgba(10,8,12,.45);
     backdrop-filter:blur(28px) saturate(1.25);
@@ -600,7 +563,6 @@
     --tone-1:1;
     --tone-2:0;
     --beam: linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.55) 38%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.2) 68%, rgba(255,50,95,0) 100%);
-    --beam-glow: rgba(255,70,100,.45);
   }
   .qskin{display:none}
   .slide.is-assembling .qwrap{
@@ -646,7 +608,7 @@
     position:relative;
     flex:0 0 auto;height:100%;
     display:flex;align-items:center;justify-content:center;
-    padding:var(--q-pad-top) 4px calc(var(--q-tuck) + 6px);
+    padding:0 4px;
     font-size:14px;font-weight:500;letter-spacing:-.02em;line-height:1;
     color:rgba(255,255,255,.92);text-align:center;
     text-shadow:0 1px 10px rgba(0,0,0,.4);
@@ -656,31 +618,59 @@
     outline:none;
   }
   .qcard-q.is-on{opacity:1}
+  .q-star,
+  .qcard-q.is-on .q-star{display:none !important}
+  .q-star-in{
+    position:absolute;inset:0;
+    opacity:0;
+  }
+  .q-star-in[data-starin="0"]{
+    opacity:var(--tone-0);
+    background:linear-gradient(180deg, #FFE9A3 0%, #FF8A3D 46%, #FF2E5A 100%);
+  }
+  .q-star-in[data-starin="1"]{
+    opacity:var(--tone-1);
+    background:linear-gradient(180deg, #D6FFA8 0%, #3ED4B4 46%, #1E9A88 100%);
+  }
+  .q-star-in[data-starin="2"]{
+    opacity:var(--tone-2);
+    background:linear-gradient(180deg, #FFC4F0 0%, #B878FF 46%, #7850FF 100%);
+  }
+  .qcard-q.is-on .q-star{opacity:1;transform:translateY(-50%)}
   .qbeam{
-    position:absolute;left:50%;bottom:var(--q-tuck);z-index:4;
+    position:absolute;left:50%;bottom:0;z-index:4;
     width:min(220px, 58%);height:2px;
     transform:translateX(-50%);
     pointer-events:none;
     opacity:0;
-    background: var(--beam);
-    box-shadow: 0 0 18px 3px var(--beam-glow, transparent);
   }
-  .qbeam::after{
-    content:"";position:absolute;left:8%;right:8%;top:50%;
-    height:16px;margin-top:-8px;
-    background:inherit;
-    filter:blur(8px);
-    opacity:.9;
-    pointer-events:none;
+  .qbeam-in{
+    position:absolute;inset:0;
+    opacity:0;
   }
-  .qbeam-in{display:none !important}
-  .slide.is-sheet .qbeam{opacity:1}
+  .qbeam-in[data-beamin="0"]{
+    opacity:var(--tone-0);
+    background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.55) 38%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.2) 68%, rgba(255,50,95,0) 100%);
+  }
+  .qbeam-in[data-beamin="1"]{
+    opacity:var(--tone-1);
+    background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.5) 38%, rgba(50,210,180,.7) 50%, rgba(40,170,150,.2) 68%, rgba(40,170,150,0) 100%);
+  }
+  .qbeam-in[data-beamin="2"]{
+    opacity:var(--tone-2);
+    background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.52) 38%, rgba(160,110,255,.7) 50%, rgba(120,80,255,.22) 68%, rgba(120,80,255,0) 100%);
+  }
+  .qbeam-in::after{
+    content:"";position:absolute;left:12%;right:12%;bottom:-3px;height:10px;
+    background:inherit;filter:blur(7px);opacity:.55;
+  }
+  .slide.is-sheet .qbeam{opacity:.92}
   .slide.is-sheet:not(.is-convo):not(.is-assembling) .qbeam{
     animation:linkPulseBeam 2.4s ease-in-out infinite;
   }
   @keyframes linkPulseBeam{
-    0%,100%{opacity:.9;filter:saturate(1.15) brightness(1.08)}
-    50%{opacity:1;filter:saturate(1.45) brightness(1.22)}
+    0%,100%{opacity:.7;filter:saturate(1) brightness(1)}
+    50%{opacity:1;filter:saturate(1.35) brightness(1.25)}
   }
   .qdots{display:none}
   .slide.is-assembling .qcard-track{
@@ -788,48 +778,15 @@
   .convo-chev svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
   .toast{
-    position:absolute;left:50%;top:96px;z-index:90;
-    padding:10px 18px;border-radius:999px;
-    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
-    line-height:1.2;white-space:nowrap;text-align:center;
-    text-shadow:0 1px 10px rgba(0,0,0,.5);
-    pointer-events:none;overflow:visible;
-    opacity:0;
-    transform:translateX(-50%) translateY(-8px) scale(.96);
+    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
+    color:#2a1208;font-size:11px;font-weight:800;
+    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .2s;white-space:nowrap;
     background:
-      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
-      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
-      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
-      rgba(10,8,12,.62);
-    backdrop-filter:blur(22px) saturate(1.35);
-    -webkit-backdrop-filter:blur(22px) saturate(1.35);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.18),
-      0 0 0 1px rgba(255,255,255,.08),
-      0 10px 28px rgba(0,0,0,.45),
-      0 0 20px rgba(255,110,70,.48),
-      0 0 40px rgba(40,200,170,.34);
-    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
+      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
+      linear-gradient(135deg, #ffe56a, #ff9a50);
   }
-  .toast::after{
-    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
-    border-radius:2px;pointer-events:none;
-    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
-    box-shadow:0 0 14px rgba(70,210,170,.55);
-    opacity:0;
-    transition:opacity .32s ease;
-  }
-  .toast.on{
-    opacity:1;
-    transform:translateX(-50%) translateY(0) scale(1);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.2),
-      0 0 0 1px rgba(255,255,255,.1),
-      0 12px 30px rgba(0,0,0,.48),
-      0 0 26px rgba(255,110,70,.55),
-      0 0 52px rgba(40,200,170,.4);
-  }
-  .toast.on::after{opacity:1}
+  .toast.on{opacity:1}
 
   .gummy-patch{
     position:absolute;right:0;top:31%;z-index:34;
@@ -912,12 +869,10 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .cluster, .facts, .cta-rail, .watch-rail, .ask-rail, .ask-blob, .qwrap, .ask-lbl, .ask-star, .convo, .qskin, .askin, .qbeam, .qbeam-in, .dock, .gummy-patch .gp-face, .rank-glow-wash, .toast{
+    .cluster, .facts, .cta-rail, .watch-rail, .ask-rail, .ask-blob, .qwrap, .ask-lbl, .ask-star, .convo, .qskin, .askin, .qbeam, .qbeam-in, .q-star-in, .dock, .gummy-patch .gp-face, .rank-glow-wash{
       transition:none !important;
       animation:none !important;
     }
-    .toast{transform:translateX(-50%)}
-    .toast.on{transform:translateX(-50%)}
     .ask-blob.is-glow{animation:none}
     .qwrap{transform:none;opacity:0}
     .slide.is-sheet .qwrap{opacity:1}
@@ -933,13 +888,13 @@
     <h1>Questions in a frame, tied to Ask</h1>
     <p class="lead">
       After a beat a full-width question frame slides in above the tab bar, and the title moves up with it.
-      The focused question sits in the centre with a glow line underneath; swipe to recolour Ask and the beam together.
+      The focused question sits in the centre with a glow beam; swipe to recolour Ask, the beam, and the star together.
       Tapping a prompt opens the conversation sheet — answer, then follow-ups that stay with this title. Ask always opens the type-in conversation.
     </p>
     <div class="brief">
       <strong>28 Aug 2026.</strong> Home and Top 10 share the Ask sheet with My Stuff and Following. Suggested questions sound like the ones you’d actually ask. Watch and Save stay on the title.
     </div>
-    <p class="note"><a href="playground.html">Playground</a> · this is the live Home and Top 10 · candy smear is the earlier chip study</p>
+    <p class="note">this is the live Home and Top 10 · candy smear is the earlier chip study</p>
   </div>
   <div class="stage">
     <div class="phone" id="phone">
@@ -985,8 +940,8 @@
   </div>
 </div>
 <script src="ah-gummy-convo.js?v=aug28h"></script>
-<script src="ah-gummy-title.js?v=aug29a"></script>
-<script src="ah-gummy-bundle.js?v=aug28n"></script>
+<script src="ah-flemish-titles.js?v=sep1e"></script>
+<script src="ah-gummy-title.js?v=sep1e"></script>
 <script>
 const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
 const TMDB = p => `https://media.themoviedb.org/t/p/w780${p}`;
@@ -995,7 +950,17 @@ const trailerSrc = id => `trailers/${id}.mp4`;
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const ASK_DELAY = 3800;
 
-const feed = [
+function weave(a, b){
+  const out = [];
+  const n = Math.max(a.length, b.length);
+  for (let i = 0; i < n; i++) {
+    if (a[i]) out.push(a[i]);
+    if (b[i]) out.push(b[i]);
+  }
+  return out;
+}
+const flemishClips = (globalThis.FlemishTitles && FlemishTitles.feed) || [];
+const feedInternational = [
   {
     title: "Wednesday",
     syn: "Goth. Murder. Dance.",
@@ -1090,7 +1055,7 @@ const feed = [
   }
 ];
 
-const lane = [
+const laneInternational = [
   {
     title: "Oppenheimer",
     syn: "Bomb. Guilt. Fallout.",
@@ -1099,7 +1064,7 @@ const lane = [
     provider: "HBO Max",
     logo: "hbo-max-new-logo.jpg",
     youtube: "uYPbbksJxIg",
-    start: 8,
+    start: 10,
     backdrop: YT("uYPbbksJxIg"),
     poster: POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"),
     qs: [
@@ -1184,7 +1149,7 @@ const lane = [
     provider: "Apple TV",
     logo: "apple tv logo.jpg",
     youtube: "73_1biulkYk",
-    start: 5,
+    start: 10,
     backdrop: YT("73_1biulkYk"),
     poster: POSTER("/vPVrGK4yFdV0PojNa0bi8haqvLW.jpg"),
     qs: [
@@ -1263,7 +1228,7 @@ const lane = [
     provider: "Streamz",
     logo: "streamz-logo.jpg",
     youtube: "LT6ASOBIdjQ",
-    start: 4,
+    start: 6,
     backdrop: TMDB("/embS4GPK7c8pjbuY2O2irV5rYch.jpg"),
     poster: POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"),
     qs: [
@@ -1289,7 +1254,7 @@ const lane = [
     provider: "Apple TV",
     logo: "apple tv logo.jpg",
     youtube: "4rgYUipGJNo",
-    start: 6,
+    start: 10,
     backdrop: YT("4rgYUipGJNo"),
     poster: POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg"),
     qs: [
@@ -1362,6 +1327,12 @@ const lane = [
   }
 ];
 
+const moreInternational = laneInternational.filter(x =>
+  ["Barbie", "Ferry", "Oppenheimer", "Zillion"].includes(x.title)
+);
+const feed = weave(flemishClips, [...feedInternational, ...moreInternational]);
+const lane = laneInternational;
+
 const params = new URLSearchParams(location.search);
 const isTop10 = params.has("top10");
 const isBare = params.has("bare");
@@ -1369,7 +1340,8 @@ const packId = params.get("pack") || "";
 const PACKS = {
   crime:{kicker:"YOUR STREAK", title:"Crime that doesn’t shout", titles:["Undercover","Dune: Part Two","Gladiator II"]},
   inplan:{kicker:"PRESS PLAY", title:"No new apps tonight", titles:["Barbie","Oppenheimer","Wednesday"]},
-  here:{kicker:"CLOSE TO HOME", title:"Flanders after dark", titles:["Ferry","Zillion"]},
+  here:{kicker:"CLOSE TO HOME", title:"Flanders after dark", titles:["De Tafel van Gert","Familie","Zeg Eens Euh","Jade en de Belgen","Axel Terug Naar Amerika","Alex Agnew","Ferry"]},
+  daily:{kicker:"LAST NIGHT", title:"The table, then the pub", titles:["De Tafel van Gert","Familie","Zeg Eens Euh"]},
   easy:{kicker:"SHORT NIGHTS", title:"Done before midnight", titles:["Inside Out 2","Challengers","Wicked","Deadpool & Wolverine"]}
 };
 const catalog = [];
@@ -1417,7 +1389,7 @@ function patchHTML(item){
 
 function slideHTML(item, i){
   const qs = item.qs.map((chip, qi) => `<button class="qcard-q${qi === 1 ? " is-on" : ""}" type="button" data-q="${qi}">${esc(chip.q)}</button>`).join("");
-  return `<article class="slide" data-i="${i}">
+  return `<article class="slide" data-i="${i}" data-start="${Number.isFinite(item.start) ? item.start : 0}">
     <div class="videowrap" data-video>
       <div class="video-poster" style="background-image:url('${item.backdrop}')"></div>
       <div class="video-edgefade"></div>
@@ -1432,7 +1404,7 @@ function slideHTML(item, i){
             <div class="syn">${esc(item.syn)}</div>
             <button class="watchlist" type="button" data-list>
               <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-              My List
+              Watchlist
             </button>
           </div>
         </div>
@@ -1450,7 +1422,7 @@ function slideHTML(item, i){
         <div class="ask-rail">
           <button class="ask-blob" type="button" data-ask aria-label="Ask">
             <span class="askin" data-askin="0"></span>
-            <span class="askin is-on" data-askin="1"></span>
+            <span class="askin" data-askin="1"></span>
             <span class="askin" data-askin="2"></span>
             <img class="ask-star" src="star.svg" alt="" aria-hidden="true">
           </button>
@@ -1465,7 +1437,11 @@ function slideHTML(item, i){
       <div class="qcard">
         <div class="qcard-track" data-qtrack>${qs}</div>
       </div>
-      <div class="qbeam" data-qbeam></div>
+      <div class="qbeam" data-qbeam>
+        <span class="qbeam-in" data-beamin="0"></span>
+        <span class="qbeam-in" data-beamin="1"></span>
+        <span class="qbeam-in" data-beamin="2"></span>
+      </div>
     </div>
   </article>`;
 }
@@ -1477,13 +1453,119 @@ let current = 0;
 const timers = new Map();
 const starChip = '<img src="star.svg" alt="" aria-hidden="true">';
 
-function parkAtStart(video, item){
-  const start = item.start || 2;
-  const seek = () => {
-    try { if (Math.abs(video.currentTime - start) > 0.35) video.currentTime = start; } catch (_) {}
-  };
-  if (video.readyState >= 1) seek();
-  else video.addEventListener("loadedmetadata", seek, { once: true });
+let soundOn = false;
+let pageLive = true;
+
+function isPageLive(){
+  if (!pageLive || document.hidden) return false;
+  try {
+    const frame = window.frameElement;
+    if (frame) {
+      if (frame.inert) return false;
+      if (frame.dataset && frame.dataset.app && !frame.classList.contains("is-on")) return false;
+    }
+  } catch (_) {}
+  return true;
+}
+
+function dropMediaSession(){
+  try {
+    if (!navigator.mediaSession) return;
+    navigator.mediaSession.playbackState = "none";
+    navigator.mediaSession.metadata = null;
+  } catch (_) {}
+}
+
+function hardMute(video){
+  if (!video) return;
+  try {
+    video.muted = true;
+    video.volume = 0;
+    video.pause();
+    video.disableRemotePlayback = true;
+  } catch (_) {}
+}
+
+function stopAll(except){
+  feedEl.querySelectorAll("video").forEach(v => {
+    if (except && v === except) return;
+    hardMute(v);
+  });
+  dropMediaSession();
+}
+
+function killAll(){
+  pageLive = false;
+  soundOn = false;
+  stopAll();
+  dropMediaSession();
+}
+
+function clipStart(item, slide){
+  const fromItem = Number(item?.start);
+  if (Number.isFinite(fromItem)) return fromItem;
+  const fromSlide = Number(slide?.dataset?.start);
+  return Number.isFinite(fromSlide) ? fromSlide : 0;
+}
+
+function unlockSound(){
+  soundOn = true;
+  applySound();
+  kickCurrentSound();
+}
+
+function applySound(){
+  feedEl.querySelectorAll(".slide").forEach(slide => {
+    const video = slide.querySelector("video");
+    if (!video) return;
+    const on = isPageLive() && soundOn && Number(slide.dataset.i) === current;
+    video.muted = !on;
+    video.volume = on ? 1 : 0;
+    if (!on && !video.paused && Number(slide.dataset.i) !== current && Math.abs(Number(slide.dataset.i) - current) > 1) {
+      video.pause();
+    }
+  });
+}
+
+function kickCurrentSound(){
+  if (!soundOn || !isPageLive()) return;
+  const slide = feedEl.querySelectorAll(".slide")[current];
+  const video = slide && slide.querySelector("video");
+  if (!video) return;
+  const i = Number(slide.dataset.i);
+  video.muted = false;
+  video.volume = 1;
+  video.play().then(() => {
+    if (!isPageLive() || i !== current) { hardMute(video); return; }
+    video.muted = false;
+    video.volume = 1;
+  }).catch(() => {
+    video.muted = true;
+    video.play().catch(() => {});
+  });
+}
+
+["pointerdown", "touchstart", "keydown", "wheel", "click"].forEach(ev => {
+  document.addEventListener(ev, unlockSound, { passive: true });
+});
+
+function parkAtStart(video, item, slide){
+  const start = clipStart(item, slide);
+  return new Promise(resolve => {
+    const finish = () => resolve(start);
+    const seek = () => {
+      try { if (!video.paused) video.pause(); } catch (_) {}
+      const onSeeked = () => { video.removeEventListener("seeked", onSeeked); finish(); };
+      try {
+        if (Math.abs((video.currentTime || 0) - start) <= 0.12) { finish(); return; }
+        video.addEventListener("seeked", onSeeked);
+        video.currentTime = start;
+        setTimeout(() => { video.removeEventListener("seeked", onSeeked); finish(); }, 350);
+      } catch (_) { finish(); }
+    };
+    if (video.readyState >= 1) seek();
+    else video.addEventListener("loadedmetadata", seek, { once: true });
+  });
 }
 
 function ensureVideo(slide, item){
@@ -1491,7 +1573,7 @@ function ensureVideo(slide, item){
   let video = wrap.querySelector("video");
   if (wrap.dataset.loaded === item.youtube && video) return video;
   wrap.dataset.loaded = item.youtube;
-  wrap.classList.remove("is-playing");
+  wrap.classList.remove("is-playing", "is-ready");
   wrap.innerHTML = `
     <div class="video-poster" style="background-image:url('${item.backdrop}')"></div>
     <video muted loop playsinline preload="auto" disablepictureinpicture>
@@ -1499,25 +1581,77 @@ function ensureVideo(slide, item){
     </video>
     <div class="video-edgefade"></div>`;
   video = wrap.querySelector("video");
-  parkAtStart(video, item);
+  video.muted = true;
+  video.volume = 0;
+  video.autoplay = false;
+  video.playsInline = true;
+  video.disableRemotePlayback = true;
+  video.addEventListener("loadeddata", () => wrap.classList.add("is-ready"));
+  parkAtStart(video, item, slide);
   return video;
 }
 
-function playVideo(slide, item){
+function runClip(slide, item, audible){
   const wrap = slide.querySelector("[data-video]");
   const video = ensureVideo(slide, item);
   const i = Number(slide.dataset.i);
-  const go = () => {
-    if (i !== current) { video.pause(); return; }
-    video.play().then(() => {
-      if (i === current) wrap.classList.add("is-playing");
-      else video.pause();
-    }).catch(() => {});
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    if (!isPageLive()) { hardMute(video); return; }
+    if (audible && i !== current) { hardMute(video); return; }
+    const playNow = () => {
+      if (!isPageLive()) { hardMute(video); return; }
+      if (audible && i !== current) { hardMute(video); return; }
+      if (audible) {
+        feedEl.querySelectorAll("video").forEach(v => {
+          if (v === video) return;
+          v.muted = true;
+          v.volume = 0;
+        });
+        video.volume = 1;
+        video.muted = !soundOn;
+      } else {
+        video.volume = 0;
+        video.muted = true;
+      }
+      const shown = () => {
+        if (!isPageLive()) { hardMute(video); return; }
+        if (audible && i !== current) { hardMute(video); return; }
+        wrap.classList.add("is-ready", "is-playing");
+        if (audible && i === current && soundOn) {
+          video.muted = false;
+          video.volume = 1;
+        } else if (!audible) {
+          video.muted = true;
+          video.volume = 0;
+        }
+      };
+      const playMuted = () => {
+        video.muted = true;
+        if (audible) video.volume = 1;
+        video.play().then(shown).catch(() => {});
+      };
+      if (audible && i === current) {
+        video.volume = 1;
+        video.muted = false;
+        video.play().then(() => {
+          soundOn = true;
+          shown();
+        }).catch(playMuted);
+      } else {
+        video.play().then(shown).catch(playMuted);
+      }
+    };
+    if (audible) parkAtStart(video, item, slide).then(playNow);
+    else playNow();
   };
-  if (video.readyState >= 2) go();
+  if (video.readyState >= 2) start();
   else {
-    video.addEventListener("canplay", go, { once: true });
-    video.load();
+    video.addEventListener("canplay", start, { once: true });
+    video.addEventListener("loadeddata", start, { once: true });
+    if (video.readyState === 0) video.load();
   }
   return video;
 }
@@ -1528,9 +1662,9 @@ const TONE_GLOW = [
   "rgba(140,100,255,.4)"
 ];
 const TONE_BEAM = [
-  "linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.55) 32%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.55) 68%, rgba(255,50,95,0) 100%)",
-  "linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.5) 32%, rgba(50,210,180,.7) 50%, rgba(40,170,150,.5) 68%, rgba(40,170,150,0) 100%)",
-  "linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.52) 32%, rgba(160,110,255,.7) 50%, rgba(120,80,255,.52) 68%, rgba(120,80,255,0) 100%)"
+  "linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.55) 38%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.2) 68%, rgba(255,50,95,0) 100%)",
+  "linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.5) 38%, rgba(50,210,180,.7) 50%, rgba(40,170,150,.2) 68%, rgba(40,170,150,0) 100%)",
+  "linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.52) 38%, rgba(160,110,255,.7) 50%, rgba(120,80,255,.22) 68%, rgba(120,80,255,0) 100%)"
 ];
 
 function goPrototype(id, href){
@@ -1548,11 +1682,9 @@ const toastEl = document.getElementById("toast");
 function toast(msg){
   if (!toastEl || !msg) return;
   toastEl.textContent = msg;
-  toastEl.classList.remove("on");
-  void toastEl.offsetWidth;
   toastEl.classList.add("on");
   clearTimeout(toastEl._t);
-  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1800);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1300);
 }
 
 function resetPatch(patch){
@@ -1638,26 +1770,29 @@ function bindQcard(slide){
         }
       }
     }
-    const last = Math.max(qBtns.length - 1, 0);
-    const nearest = Math.round(Math.max(0, Math.min(last, p)));
+    const i0 = Math.floor(p);
+    const i1 = Math.min(i0 + 1, Math.max(qBtns.length - 1, 0));
+    const t = p - i0;
     qBtns.forEach((btn, n) => {
-      const on = n === nearest;
-      btn.style.opacity = on ? "1" : ".38";
-      btn.classList.toggle("is-on", on);
+      const dist = Math.abs(p - n);
+      const op = reduceMotion ? (dist < 0.45 ? 1 : .38) : Math.max(.34, 1 - dist * .72);
+      btn.style.opacity = op;
+      btn.classList.toggle("is-on", dist < 0.45);
     });
     qSkins.forEach((el, n) => {
-      el.classList.toggle("is-on", n === nearest);
+      const inf = Math.max(0, 1 - Math.abs(p - n));
+      el.style.opacity = inf;
+      el.style.transform = reduceMotion ? "none" : `translateX(${((p - n) * -14).toFixed(1)}px)`;
     });
     aSkins.forEach((el, n) => {
-      el.classList.toggle("is-on", n === nearest);
+      el.style.opacity = Math.max(0, 1 - Math.abs(p - n));
     });
-    if (blob) blob.style.setProperty("--ask-glow", TONE_GLOW[nearest]);
+    if (blob) blob.style.setProperty("--ask-glow", TONE_GLOW[t > 0.5 ? i1 : i0]);
     if (wrap) {
-      wrap.style.setProperty("--tone-0", nearest === 0 ? "1" : "0");
-      wrap.style.setProperty("--tone-1", nearest === 1 ? "1" : "0");
-      wrap.style.setProperty("--tone-2", nearest === 2 ? "1" : "0");
-      wrap.style.setProperty("--beam", TONE_BEAM[nearest]);
-      wrap.style.setProperty("--beam-glow", TONE_GLOW[nearest]);
+      wrap.style.setProperty("--tone-0", String(Math.max(0, 1 - Math.abs(p - 0))));
+      wrap.style.setProperty("--tone-1", String(Math.max(0, 1 - Math.abs(p - 1))));
+      wrap.style.setProperty("--tone-2", String(Math.max(0, 1 - Math.abs(p - 2))));
+      wrap.style.setProperty("--beam", TONE_BEAM[t > 0.5 ? i1 : i0]);
     }
   };
   track.addEventListener("scroll", syncDots, { passive: true });
@@ -1791,13 +1926,13 @@ const convo = GummyConvo.create({
 const titlePage = GummyTitle.create({
   phone: document.getElementById("phone"),
   toast,
-  plan: new Set(["Netflix", "HBO Max", "VRT MAX"]),
+  plan: new Set(["Netflix", "HBO Max", "VRT MAX", "Play", "VTM GO"]),
   reduceMotion,
   onOpen(){
     if (convo.isOpen()) convo.close();
-    feedEl.querySelectorAll("video").forEach(v => v.pause());
+    stopAll();
   },
-  onClose(){ activate(current); }
+  onClose(){ if (isPageLive()) activate(current); }
 });
 
 function restoreConvoSlide(slide){
@@ -1858,25 +1993,39 @@ function resetSlide(slide){
 }
 
 function activate(i){
+  if (!isPageLive()) { stopAll(); return; }
   current = i;
   feedEl.querySelectorAll(".slide").forEach((slide, idx) => {
     const item = items[idx];
     const wrap = slide.querySelector("[data-video]");
-    const video = wrap.querySelector("video");
-    if (idx === i) {
-      playVideo(slide, item);
+    const dist = Math.abs(idx - i);
+    if (dist === 0) {
+      runClip(slide, item, true);
       arm(slide);
       if (isTop10) setRank(i + 1);
       else assemblePatch(slide.querySelector("[data-top10]"));
+    } else if (dist === 1) {
+      runClip(slide, item, false);
+      resetSlide(slide);
     } else {
-      video?.pause();
+      hardMute(wrap.querySelector("video"));
       wrap.classList.remove("is-playing");
       resetSlide(slide);
-      if (Math.abs(idx - i) === 1) ensureVideo(slide, item);
     }
   });
 }
 
+function nearestSlide(){
+  const mid = feedEl.scrollTop + feedEl.clientHeight / 2;
+  let best = current, bestD = Infinity;
+  feedEl.querySelectorAll(".slide").forEach(slide => {
+    const i = Number(slide.dataset.i);
+    const c = slide.offsetTop + slide.offsetHeight / 2;
+    const d = Math.abs(c - mid);
+    if (d < bestD) { bestD = d; best = i; }
+  });
+  return best;
+}
 const io = new IntersectionObserver((entries) => {
   let best = { i: current, r: 0 };
   entries.forEach(e => {
@@ -1884,8 +2033,13 @@ const io = new IntersectionObserver((entries) => {
       best = { i: Number(e.target.dataset.i), r: e.intersectionRatio };
     }
   });
-  if (best.r > 0.55 && best.i !== current) activate(best.i);
-}, { threshold: [0.55, 0.8] });
+  if (best.r > 0.35 && best.i !== current) activate(best.i);
+}, { threshold: [0.35, 0.55, 0.8] });
+feedEl.addEventListener("scroll", () => {
+  unlockSound();
+  const i = nearestSlide();
+  if (i !== current) activate(i);
+}, { passive: true });
 
 feedEl.querySelectorAll(".slide").forEach(slide => {
   const item = items[Number(slide.dataset.i)];
@@ -1906,7 +2060,9 @@ feedEl.querySelectorAll(".slide").forEach(slide => {
 });
 ensureVideo(feedEl.querySelector(".slide"), items[0]);
 if (items[1]) ensureVideo(feedEl.querySelectorAll(".slide")[1], items[1]);
-activate(0);
+if (items[2]) ensureVideo(feedEl.querySelectorAll(".slide")[2], items[2]);
+if (isPageLive()) activate(0);
+else stopAll();
 
 document.querySelector(".tabbar")?.addEventListener("click", e => {
   const btn = e.target.closest(".navitem");
@@ -1914,11 +2070,7 @@ document.querySelector(".tabbar")?.addEventListener("click", e => {
   const nav = (btn.dataset.nav || "").toLowerCase();
   if (nav === "home") {
     if (isTop10) leaveTop10();
-    else {
-      feedEl.querySelectorAll(".slide").forEach(resetSlide);
-      feedEl.scrollTo({top:0, behavior:"auto"});
-      activate(0);
-    }
+    else feedEl.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
   }
   else if (nav === "stuff") goPrototype("gummy-my-stuff", "ah-gummy-my-stuff.html?from=carousel");
   else if (nav === "search") goPrototype("gummy-search", "ah-gummy-search.html");
@@ -1941,9 +2093,6 @@ document.querySelector("[data-back-top10]")?.addEventListener("click", e => {
 document.querySelectorAll(".tab-labels .t").forEach(tab => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".tab-labels .t").forEach(t => t.classList.toggle("on", t === tab));
-    feedEl.querySelectorAll(".slide").forEach(resetSlide);
-    feedEl.scrollTo({top:0, behavior:"auto"});
-    activate(0);
     toast(tab.textContent);
   });
 });
@@ -1961,37 +2110,34 @@ feedEl.addEventListener("click", e => {
     if (item) titlePage.open(item);
     return;
   }
-  if (e.target.closest("[data-list]")) {
-    const raw = items[Number(e.target.closest(".slide")?.dataset.i)];
-    if (!raw) return;
-    const item = GummyTitle.enrich(raw);
-    const on = GummyTitle.toggleList(item.id);
-    const bundle = GummyBundle.of(document.getElementById("phone"));
-    if (on && bundle) bundle.open({ added: item });
-    else toast(on ? "On My List" : "Removed from My List");
-    return;
-  }
+  if (e.target.closest("[data-list]")) toast("On your Watch list");
 });
 
 window.addEventListener("message", e => {
   const d = e.data;
   if (!d || typeof d !== "object") return;
   if (d.type === "app-pause") {
-    feedEl.querySelectorAll("video").forEach(v => v.pause());
+    pageLive = false;
+    stopAll();
   }
   if (d.type === "app-resume") {
+    pageLive = true;
     activate(current);
-  }
-  if (d.type === "app-reset") {
-    feedEl.querySelectorAll(".slide").forEach(resetSlide);
-    feedEl.scrollTo({top:0, behavior:"auto"});
-    activate(0);
   }
 });
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) feedEl.querySelectorAll("video").forEach(v => v.pause());
-  else activate(current);
+  if (document.hidden) { pageLive = false; stopAll(); }
+  else { pageLive = true; activate(current); }
 });
+window.addEventListener("pagehide", killAll);
+window.addEventListener("beforeunload", killAll);
+window.addEventListener("freeze", killAll);
+try {
+  if (navigator.mediaSession) {
+    navigator.mediaSession.setActionHandler("pause", () => { pageLive = false; stopAll(); });
+    navigator.mediaSession.setActionHandler("stop", killAll);
+  }
+} catch (_) {}
 (function tickClock(){
   const t = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
   document.querySelectorAll(".status-time").forEach(el => { el.textContent = t; });

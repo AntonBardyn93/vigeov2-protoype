@@ -49,9 +49,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug29x">
-<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
-<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28k">
 <style>
   :root{
     --desk:#0e1218;
@@ -137,6 +136,7 @@
   }
   html.is-embed .intro,
   html.is-embed .brand,
+  html.is-embed h1,
   html.is-embed .lead,
   html.is-embed .brief,
   html.is-embed .note{display:none}
@@ -1295,48 +1295,15 @@
   }
 
   .toast{
-    position:absolute;left:50%;top:96px;z-index:90;
-    padding:10px 18px;border-radius:999px;
-    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
-    line-height:1.2;white-space:nowrap;text-align:center;
-    text-shadow:0 1px 10px rgba(0,0,0,.5);
-    pointer-events:none;overflow:visible;
-    opacity:0;
-    transform:translateX(-50%) translateY(-8px) scale(.96);
+    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
+    color:#2a1208;font-size:11px;font-weight:800;
+    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .2s;white-space:nowrap;
     background:
-      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
-      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
-      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
-      rgba(10,8,12,.62);
-    backdrop-filter:blur(22px) saturate(1.35);
-    -webkit-backdrop-filter:blur(22px) saturate(1.35);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.18),
-      0 0 0 1px rgba(255,255,255,.08),
-      0 10px 28px rgba(0,0,0,.45),
-      0 0 20px rgba(255,110,70,.48),
-      0 0 40px rgba(40,200,170,.34);
-    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
+      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
+      linear-gradient(135deg, #ffe56a, #ff9a50);
   }
-  .toast::after{
-    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
-    border-radius:2px;pointer-events:none;
-    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
-    box-shadow:0 0 14px rgba(70,210,170,.55);
-    opacity:0;
-    transition:opacity .32s ease;
-  }
-  .toast.on{
-    opacity:1;
-    transform:translateX(-50%) translateY(0) scale(1);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.2),
-      0 0 0 1px rgba(255,255,255,.1),
-      0 12px 30px rgba(0,0,0,.48),
-      0 0 26px rgba(255,110,70,.55),
-      0 0 52px rgba(40,200,170,.4);
-  }
-  .toast.on::after{opacity:1}
+  .toast.on{opacity:1}
 
   @media (prefers-reduced-motion:reduce){
     .gummy-patch .gp-face,
@@ -1420,7 +1387,7 @@
   <div class="brief">
     <strong>28 Aug 2026.</strong> Home and Top 10 use the same Ask sheet as My Stuff and Following. Suggested questions sound like the ones you’d actually ask. Watch and Save stay on the title.
   </div>
-  <p class="note"><a href="playground.html">Playground</a> · <a href="ah-gummy-ask-history.html">iteration history</a> · earlier today: <a href="ah-gummy-ask-reveal.html">bright mesh</a> · previous: <a href="ah-gummy-latest.html">14 Aug latest</a></p>
+  <p class="note"><a href="ah-gummy-ask-history.html">iteration history</a> · earlier today: <a href="ah-gummy-ask-reveal.html">bright mesh</a> · previous: <a href="ah-gummy-latest.html">14 Aug latest</a></p>
   </div>
 
   <div class="stage">
@@ -1527,8 +1494,8 @@
 </div>
 
 <script src="ah-gummy-convo.js?v=aug28h"></script>
-<script src="ah-gummy-title.js?v=aug29a"></script>
-<script src="ah-gummy-bundle.js?v=aug28n"></script>
+<script src="ah-flemish-titles.js?v=sep1a"></script>
+<script src="ah-gummy-title.js?v=sep1a"></script>
 <script>
 const TMDB = p => `https://media.themoviedb.org/t/p/w780${p}`;
 const YT = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
@@ -2012,7 +1979,7 @@ function slideHTML(item, i, extra){
               <span class="watchlist-btn" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
               </span>
-              <span class="watchlist-lbl">Add to<br>My List</span>
+              <span class="watchlist-lbl">Add to<br>Watchlist</span>
             </button>
           </div>
           <div class="title-row">
@@ -2156,7 +2123,11 @@ function createReel(feedRoot, items, hooks){
   }
 
   function pauseAll(){
-    feedRoot.querySelectorAll("video").forEach(v => v.pause());
+    feedRoot.querySelectorAll("video").forEach(v => {
+      v.muted = true;
+      v.volume = 0;
+      v.pause();
+    });
   }
 
   function bind(){
@@ -2387,11 +2358,9 @@ function setRank(n){
 
 function toast(msg){
   toastEl.textContent = msg;
-  toastEl.classList.remove("on");
-  void toastEl.offsetWidth;
   toastEl.classList.add("on");
   clearTimeout(toastEl._t);
-  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1800);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1300);
 }
 
 feedEl.innerHTML = feed.map((item, i) => slideHTML(item, i, patchHTML(item))).join("");
@@ -2553,6 +2522,16 @@ window.addEventListener("message", e => {
     else forYou.syncPlayers(forYou.getIndex());
   }
 });
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    forYou.pauseAll();
+    top10.pauseAll();
+  }
+});
+window.addEventListener("pagehide", () => {
+  forYou.pauseAll();
+  top10.pauseAll();
+});
 
 feedEl.addEventListener("wheel", cancelDemo, { passive: true, once: true });
 feedEl.addEventListener("touchstart", cancelDemo, { passive: true, once: true });
@@ -2618,7 +2597,7 @@ const convo = GummyConvo.create({
 const titlePage = GummyTitle.create({
   phone: document.getElementById("phone"),
   toast,
-  plan: new Set(["Netflix", "HBO Max", "VRT MAX"]),
+  plan: new Set(["Netflix", "HBO Max", "VRT MAX", "Play", "VTM GO"]),
   reduceMotion,
   onOpen(){
     if (convo.isOpen()) convo.close();
@@ -2948,14 +2927,7 @@ feedEl.addEventListener("click", e => {
     toast(`Open on ${feed[forYou.getIndex()].provider}`);
     return;
   }
-  if (e.target.closest("[data-list]")) {
-    const item = GummyTitle.enrich(feed[forYou.getIndex()]);
-    const on = GummyTitle.toggleList(item.id);
-    const bundle = GummyBundle.of(document.getElementById("phone"));
-    if (on && bundle) bundle.open({ added: item });
-    else toast(on ? "On My List" : "Removed from My List");
-    return;
-  }
+  if (e.target.closest("[data-list]")) { toast("Saved to My List"); return; }
   if (e.target.closest("[data-top10]")) {
     showTop10();
     return;
@@ -2968,14 +2940,7 @@ laneEl.addEventListener("click", e => {
     toast(`Open on ${lane[top10.getIndex()].provider}`);
     return;
   }
-  if (e.target.closest("[data-list]")) {
-    const item = GummyTitle.enrich(lane[top10.getIndex()]);
-    const on = GummyTitle.toggleList(item.id);
-    const bundle = GummyBundle.of(document.getElementById("phone"));
-    if (on && bundle) bundle.open({ added: item });
-    else toast(on ? "On My List" : "Removed from My List");
-    return;
-  }
+  if (e.target.closest("[data-list]")) { toast("Saved to My List"); return; }
 });
 
 document.getElementById("backTop10").addEventListener("click", () => {
@@ -2992,15 +2957,7 @@ showpage.addEventListener("click", e => {
     toast(`Open on ${onTop10 ? lane[top10.getIndex()].provider : feed[forYou.getIndex()].provider}`);
     return;
   }
-  if (e.target.closest("[data-title-list]")) {
-    const src = onTop10 ? lane[top10.getIndex()] : feed[forYou.getIndex()];
-    const item = GummyTitle.enrich(src);
-    const on = GummyTitle.toggleList(item.id);
-    const bundle = GummyBundle.of(document.getElementById("phone"));
-    if (on && bundle) bundle.open({ added: item });
-    else toast(on ? "On My List" : "Removed from My List");
-    return;
-  }
+  if (e.target.closest("[data-title-list]")) { toast("Saved to My List"); return; }
 });
 
 document.querySelectorAll(".tab-labels .t").forEach(tab => {

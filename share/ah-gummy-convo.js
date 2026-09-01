@@ -120,7 +120,7 @@
       except = exceptId ?? except;
       const list = collectStarters(except);
       row.innerHTML = list.map(item =>
-        `<button class="qchip" type="button" data-ask-q="${esc(item.id)}">${star}${esc(item.q)}</button>`
+        `<button class="qchip" type="button" data-ask-q="${esc(item.id)}">${esc(item.q)}</button>`
       ).join("");
       row.classList.toggle("hid", list.length === 0);
       const label = sheet.querySelector(".label-mini");

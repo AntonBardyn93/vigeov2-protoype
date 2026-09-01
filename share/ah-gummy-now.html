@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=overlays-content">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
@@ -27,51 +27,10 @@
     html.classList.toggle("is-embed", window.parent !== window);
     html.classList.toggle("is-app", app);
     html.classList.toggle("is-standalone", standalone);
-    pinAppViewport();
-  }
-  function pinAppViewport(){
-    if (!html.classList.contains("is-app")) {
-      html.classList.remove("is-keyboard");
-      html.style.removeProperty("--app-h");
-      html.style.removeProperty("--app-shift");
-      return;
-    }
-    const layoutH = Math.round(window.innerHeight);
-    const vv = window.visualViewport;
-    const visH = Math.round((vv && vv.height) || layoutH);
-    const visTop = Math.round((vv && vv.offsetTop) || 0);
-    const typing = (function textFieldOpen(){
-      const match = "input, textarea, select, [contenteditable], [contenteditable='true']";
-      const frames = document.querySelectorAll("iframe");
-      for (let i = 0; i < frames.length; i++) {
-        try {
-          const el = frames[i].contentDocument && frames[i].contentDocument.activeElement;
-          if (el && el.matches && el.matches(match)) return true;
-        } catch (_) {}
-      }
-      const el = document.activeElement;
-      return !!(el && el.matches && el.matches(match));
-    })();
-    const keyboard = typing && (layoutH - visH - visTop) > 80;
-    if (keyboard) {
-      html.classList.add("is-keyboard");
-      html.style.setProperty("--app-h", Math.max(1, visH) + "px");
-      html.style.setProperty("--app-shift", visTop + "px");
-    } else {
-      html.classList.remove("is-keyboard");
-      html.style.removeProperty("--app-h");
-      html.style.removeProperty("--app-shift");
-    }
   }
   apply();
   mq.addEventListener("change", apply);
   standaloneMq.addEventListener("change", apply);
-  window.addEventListener("resize", pinAppViewport);
-  window.addEventListener("orientationchange", pinAppViewport);
-  if (window.visualViewport) {
-    visualViewport.addEventListener("resize", pinAppViewport);
-    visualViewport.addEventListener("scroll", pinAppViewport);
-  }
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,11 +81,13 @@
   }
   html.is-embed .intro,
   html.is-embed .brand,
+  html.is-embed h1,
   html.is-embed .lead,
   html.is-embed .brief,
   html.is-embed .note,
   html.is-app .intro,
   html.is-app .brand,
+  html.is-app h1,
   html.is-app .lead,
   html.is-app .brief,
   html.is-app .note{display:none}
@@ -194,13 +155,11 @@
     display:block !important;
     width:100% !important;
     height:100% !important;
-    height:100lvh !important;
-    min-height:-webkit-fill-available !important;
-    max-height:none !important;
+    min-height:100dvh !important;
+    min-height:100lvh !important;
     padding:0 !important;
     margin:0 !important;
     overflow:hidden !important;
-    touch-action:manipulation;
     align-items:stretch !important;
     justify-content:flex-start !important;
   }
@@ -211,8 +170,7 @@
     position:fixed !important;
     inset:0 !important;
     width:100% !important;
-    height:auto !important;
-    min-height:-webkit-fill-available !important;
+    height:100% !important;
     max-width:none !important;
     max-height:none !important;
     aspect-ratio:auto !important;
@@ -220,19 +178,6 @@
     border:0 !important;
     border-radius:0 !important;
     box-shadow:none !important;
-  }
-  html.is-app.is-keyboard,
-  html.is-app.is-keyboard body{
-    height:var(--app-h, 100dvh) !important;
-    max-height:var(--app-h, 100dvh) !important;
-  }
-  html.is-app.is-keyboard .page,
-  html.is-app.is-keyboard .stage,
-  html.is-app.is-keyboard .phone{
-    top:var(--app-shift, 0px) !important;
-    bottom:auto !important;
-    height:var(--app-h, 100dvh) !important;
-    max-height:var(--app-h, 100dvh) !important;
   }
   html.is-app .phone iframe{
     position:absolute !important;
@@ -251,18 +196,18 @@
       One phone. Home, My Stuff, Following, Search, and Shop stay in this prototype — tap through the app without leaving this screen.
     </p>
     <div class="brief">
-      <strong>Latest · 28 Aug 2026.</strong> Ask is a conversation in context: a real question, a relevant answer, then follow-ups that stay with the title. Posters open a title page — Watch and My List stay the main actions; questions sit on the page.
+      <strong>Latest · 28 Aug 2026.</strong> Ask is a conversation in context: a real question, a relevant answer, then follow-ups that stay with the title. Posters open a title page — Watch and Watch list stay the main actions; questions sit on the page.
     </div>
-    <p class="note">On a phone, open this page in Safari or Chrome, then Add to Home Screen. The saved app opens full screen.</p>
+    <p class="note">On a phone, open this page in Safari or Chrome, then Add to Home Screen. The saved app opens full screen. </p>
   </div>
   <div class="stage">
     <div class="phone" id="phone">
-      <iframe data-app="home" class="is-on" title="Home" data-src="ah-gummy-ask-carousel.html?app=1&v=aug30b" src="ah-gummy-ask-carousel.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="top10" title="Top 10" data-src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug30b" src="ah-gummy-ask-carousel.html?app=1&top10=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="stuff" title="My Stuff" data-src="ah-gummy-my-stuff.html?app=1&v=aug30b" src="ah-gummy-my-stuff.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="follow" title="Following" data-src="ah-gummy-following.html?app=1&v=aug30b" src="ah-gummy-following.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="search" title="Search" data-src="ah-gummy-search.html?app=1&v=aug30b" src="ah-gummy-search.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
-      <iframe data-app="shop" title="Shop" data-src="ah-gummy-shop.html?app=1&v=aug30b" src="ah-gummy-shop.html?app=1&v=aug30b" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="home" class="is-on" title="Home" src="ah-gummy-ask-carousel.html?app=1&v=sep1i" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="top10" title="Top 10" src="ah-gummy-ask-carousel.html?app=1&top10=1&v=sep1i" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="stuff" title="My Stuff" src="ah-gummy-my-stuff.html?app=1&v=sep1e" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="follow" title="Following" src="ah-gummy-following.html?app=1&v=sep1e" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="search" title="Search" src="ah-gummy-search.html?app=1&v=sep1e" allow="autoplay; encrypted-media"></iframe>
+      <iframe data-app="shop" title="Shop" src="ah-gummy-shop.html?app=1&v=sep1e" allow="autoplay; encrypted-media"></iframe>
     </div>
   </div>
 </div>
@@ -280,6 +225,23 @@ function screenFor(data){
 }
 function ping(frame, type, extra){
   try { frame.contentWindow.postMessage({type, ...(extra || {})}, "*"); } catch (_) {}
+}
+function muteDocs(root){
+  if (!root) return;
+  try {
+    root.querySelectorAll("video").forEach(v => {
+      v.muted = true;
+      v.volume = 0;
+      v.pause();
+    });
+    root.querySelectorAll("iframe").forEach(f => {
+      try { muteDocs(f.contentDocument); } catch (_) {}
+    });
+  } catch (_) {}
+}
+function muteFrame(frame){
+  ping(frame, "app-pause");
+  try { muteDocs(frame.contentDocument); } catch (_) {}
 }
 function readSafe(){
   const el = document.createElement("div");
@@ -306,78 +268,36 @@ function paintSafe(frame){
 function paintAllSafe(){
   document.querySelectorAll("[data-app]").forEach(paintSafe);
 }
-function pinAppViewport(){
-  const html = document.documentElement;
-  if (!html.classList.contains("is-app")) {
-    html.classList.remove("is-keyboard");
-    html.style.removeProperty("--app-h");
-    html.style.removeProperty("--app-shift");
-    return;
-  }
-  const layoutH = Math.round(window.innerHeight);
-  const vv = window.visualViewport;
-  const visH = Math.round((vv && vv.height) || layoutH);
-  const visTop = Math.round((vv && vv.offsetTop) || 0);
-  const match = "input, textarea, select, [contenteditable], [contenteditable='true']";
-  let typing = false;
-  document.querySelectorAll("iframe").forEach(frame => {
-    try {
-      const el = frame.contentDocument && frame.contentDocument.activeElement;
-      if (el && el.matches && el.matches(match)) typing = true;
-    } catch (_) {}
-  });
-  const el = document.activeElement;
-  if (el && el.matches && el.matches(match)) typing = true;
-  const keyboard = typing && (layoutH - visH - visTop) > 80;
-  if (keyboard) {
-    html.classList.add("is-keyboard");
-    html.style.setProperty("--app-h", Math.max(1, visH) + "px");
-    html.style.setProperty("--app-shift", visTop + "px");
-  } else {
-    html.classList.remove("is-keyboard");
-    html.style.removeProperty("--app-h");
-    html.style.removeProperty("--app-shift");
-  }
-}
-function resetFrame(frame){
-  const base = frame.getAttribute("data-src");
-  if (!base) return;
-  const url = new URL(base, location.href);
-  url.searchParams.set("_r", String(Date.now()));
-  frame.src = url.pathname + url.search + url.hash;
-}
 function show(key){
   document.querySelectorAll("[data-app]").forEach(frame => {
     const on = frame.dataset.app === key;
     const was = frame.classList.contains("is-on");
-    if (was && !on) {
-      ping(frame, "app-pause");
-      resetFrame(frame);
-    }
     frame.classList.toggle("is-on", on);
     frame.inert = !on;
-    if (on && !was) resetFrame(frame);
+    if (on && !was) ping(frame, "app-resume");
+    if (!on && was) muteFrame(frame);
   });
 }
 document.querySelectorAll("[data-app]").forEach(frame => {
   frame.inert = !frame.classList.contains("is-on");
   frame.addEventListener("load", () => {
     paintSafe(frame);
-    if (!frame.classList.contains("is-on")) ping(frame, "app-pause");
-    try {
-      frame.contentDocument.addEventListener("focusin", pinAppViewport);
-      frame.contentDocument.addEventListener("focusout", () => setTimeout(pinAppViewport, 60));
-    } catch (_) {}
+    if (!frame.classList.contains("is-on")) muteFrame(frame);
   });
 });
 paintAllSafe();
-pinAppViewport();
-window.addEventListener("resize", () => { pinAppViewport(); paintAllSafe(); });
-window.addEventListener("orientationchange", () => { pinAppViewport(); paintAllSafe(); });
-if (window.visualViewport) {
-  visualViewport.addEventListener("resize", pinAppViewport);
-  visualViewport.addEventListener("scroll", pinAppViewport);
+function muteAll(){
+  document.querySelectorAll("[data-app]").forEach(muteFrame);
 }
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) muteAll();
+  else document.querySelectorAll("[data-app].is-on").forEach(frame => ping(frame, "app-resume"));
+});
+window.addEventListener("pagehide", muteAll);
+window.addEventListener("freeze", muteAll);
+window.addEventListener("resize", paintAllSafe);
+window.addEventListener("orientationchange", paintAllSafe);
+if (window.visualViewport) visualViewport.addEventListener("resize", paintAllSafe);
 window.addEventListener("message", e => {
   const d = e.data;
   if (!d || typeof d !== "object") return;

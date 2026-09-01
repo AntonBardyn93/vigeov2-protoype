@@ -49,9 +49,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug29x">
-<link rel="stylesheet" href="ah-gummy-title.css?v=aug28z">
-<link rel="stylesheet" href="ah-gummy-bundle.css?v=aug28p">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-title.css?v=aug28k">
 <style>
   :root{
     --desk:#0e1218;
@@ -128,6 +127,7 @@
   html.is-embed .page{width:auto;max-width:none;height:100%;display:flex;align-items:center;justify-content:center}
   html.is-embed .intro,
   html.is-embed .brand,
+  html.is-embed h1,
   html.is-embed .lead,
   html.is-embed .brief,
   html.is-embed .note{display:none}
@@ -138,9 +138,8 @@
   html.is-embed.is-fill .phone{width:100%;height:100%;max-width:none;aspect-ratio:auto}
   html.is-embed.is-app .phone{border:0;border-radius:0;box-shadow:none}
   html.is-app{
-    --tab-h: 64px;
     --safe-top: max(env(safe-area-inset-top, 0px), var(--app-safe-top, 0px));
-    --safe-bottom: 0px;
+    --safe-bottom: var(--app-safe-bottom, env(safe-area-inset-bottom, 0px));
     --status-h: var(--safe-top);
   }
   html.is-app .status{display:none}
@@ -149,15 +148,15 @@
   html.is-app .scene{padding-top: calc(32px + var(--status-h))}
   html.is-app.is-mock-status .scene{padding-top: 86px}
   html.is-app .tabbar{
-    height: 64px;
-    padding: 8px 4px 0;
+    height: calc(64px + var(--safe-bottom));
+    padding-bottom: var(--safe-bottom);
   }
   html.is-app .navfrost{
-    height: 64px;
+    height: calc(64px + var(--safe-bottom));
     border-radius: 0;
   }
-  html.is-app .scene{bottom: 64px}
-  html.is-app .ask-rail{bottom: 84px}
+  html.is-app .scene{bottom: calc(64px + var(--safe-bottom))}
+  html.is-app .ask-rail{bottom: calc(84px + var(--safe-bottom))}
 
   .phone{
     width:min(100%,393px);aspect-ratio:393/852;border-radius:42px;overflow:hidden;
@@ -512,12 +511,12 @@
   .lane-card:first-child{margin-left:20px}
   .lane-card:last-child{margin-right:20px}
   .lane-card{
-    flex:0 0 108px;width:108px;scroll-snap-align:start;
+    flex:0 0 132px;width:132px;scroll-snap-align:start;
     text-align:left;color:#fff;
     animation:cardIn .48s var(--ease-jelly) both;
   }
   .lane-card:active{transform:scale(.97)}
-  .lane-card .gposter{width:108px}
+  .lane-card .gposter{width:132px}
 
   .up{
     display:flex;gap:10px;padding:0 0 22px;overflow-x:auto;scrollbar-width:none;
@@ -706,24 +705,67 @@
   .lane-q .qcard-q{
     position:relative;
     flex:0 0 auto;height:100%;
-    display:flex;align-items:center;justify-content:center;
+    display:grid;grid-template-columns:max-content;justify-content:center;justify-items:center;align-items:center;
     padding:0 4px 8px;
-    font-size:12.5px;font-weight:500;line-height:1;text-align:center;
+    font-size:12.5px;font-weight:400;line-height:1;text-align:center;
     color:rgba(255,255,255,.92);
     white-space:nowrap;
     scroll-snap-align:center;scroll-snap-stop:normal;
     opacity:.42;
     outline:none;
   }
-  .lane-q .q-copy{font-weight:500}
+  .lane-q .q-copy{grid-area:1/1;font-weight:400}
   .lane-q .qcard-q.is-on{opacity:1}
+  .lane-q .qcard-q.is-on .q-copy{font-weight:500}
+  .lane-q .qcard-q::after{
+    content:attr(data-q);
+    grid-area:1/1;
+    font-weight:500;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .lane-q .q-star,
+  .lane-q .qcard-q.is-on .q-star{display:none !important}
+  .lane-q .q-star-off{
+    position:absolute;right:100%;top:50%;
+    width:12px;height:13px;margin-right:4px;margin-top:-4px;
+    opacity:0;
+    -webkit-mask-image:url("star.svg");
+    -webkit-mask-size:contain;
+    -webkit-mask-repeat:no-repeat;
+    -webkit-mask-position:center;
+    mask-image:url("star.svg");
+    mask-size:contain;
+    mask-repeat:no-repeat;
+    mask-position:center;
+    transform-origin:right center;
+    transform:translateY(-50%) scale(.7);
+    transition:opacity .28s ease, transform .28s ease;
+    pointer-events:none;
+  }
+  .lane-q .q-star-in{
+    position:absolute;inset:0;
+    opacity:0;
+  }
+  .lane-q .q-star-in[data-starin="0"]{
+    opacity:var(--tone-0);
+    background:linear-gradient(180deg, #FFE9A3 0%, #FF8A3D 46%, #FF2E5A 100%);
+  }
+  .lane-q .q-star-in[data-starin="1"]{
+    opacity:var(--tone-1);
+    background:linear-gradient(180deg, #D6FFA8 0%, #3ED4B4 46%, #1E9A88 100%);
+  }
+  .lane-q .q-star-in[data-starin="2"]{
+    opacity:var(--tone-2);
+    background:linear-gradient(180deg, #FFC4F0 0%, #B878FF 46%, #7850FF 100%);
+  }
+  .lane-q .qcard-q.is-on .q-star{opacity:.88;transform:translateY(-50%) scale(.7)}
   .lane-q .qbeam{
-    position:absolute;left:50%;bottom:5px;z-index:4;
-    width:min(220px,58%);height:2px;
+    position:absolute;left:50%;bottom:6px;z-index:4;
+    width:min(200px,52%);height:2px;
     transform:translateX(-50%);
     pointer-events:none;
-    opacity:.86;
-    animation:laneBeamPulse 2.4s ease-in-out infinite;
+    opacity:.78;
   }
   .lane-q .qbeam-in{
     position:absolute;inset:0;
@@ -731,73 +773,36 @@
   }
   .lane-q .qbeam-in[data-beamin="0"]{
     opacity:var(--tone-0);
-    background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.48) 32%, rgba(255,110,70,.72) 50%, rgba(255,50,95,.48) 68%, rgba(255,50,95,0) 100%);
+    background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.48) 38%, rgba(255,110,70,.62) 50%, rgba(255,50,95,.16) 68%, rgba(255,50,95,0) 100%);
   }
   .lane-q .qbeam-in[data-beamin="1"]{
     opacity:var(--tone-1);
-    background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.44) 32%, rgba(50,210,180,.7) 50%, rgba(40,170,150,.44) 68%, rgba(40,170,150,0) 100%);
+    background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.44) 38%, rgba(50,210,180,.6) 50%, rgba(40,170,150,.16) 68%, rgba(40,170,150,0) 100%);
   }
   .lane-q .qbeam-in[data-beamin="2"]{
     opacity:var(--tone-2);
-    background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.45) 32%, rgba(160,110,255,.7) 50%, rgba(120,80,255,.45) 68%, rgba(120,80,255,0) 100%);
+    background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.45) 38%, rgba(160,110,255,.6) 50%, rgba(120,80,255,.16) 68%, rgba(120,80,255,0) 100%);
   }
   .lane-q .qbeam-in::after{
-    content:"";position:absolute;left:8%;right:8%;bottom:-4px;height:10px;
-    background:inherit;filter:blur(7px);opacity:.55;
-  }
-  @keyframes laneBeamPulse{
-    0%,100%{opacity:.72;filter:saturate(1) brightness(1)}
-    50%{opacity:1;filter:saturate(1.3) brightness(1.2)}
+    content:"";position:absolute;left:12%;right:12%;bottom:-3px;height:8px;
+    background:inherit;filter:blur(6px);opacity:.42;
   }
 
   .top10.mesh{overflow:hidden;color:#fff}
 
   .toast{
-    position:absolute;left:50%;top:96px;z-index:90;
-    padding:10px 18px;border-radius:999px;
-    color:#fff;font-size:12.5px;font-weight:650;letter-spacing:-.02em;
-    line-height:1.2;white-space:nowrap;text-align:center;
-    text-shadow:0 1px 10px rgba(0,0,0,.5);
-    pointer-events:none;overflow:visible;
-    opacity:0;
-    transform:translateX(-50%) translateY(-8px) scale(.96);
+    position:absolute;left:50%;top:96px;transform:translateX(-50%);z-index:90;
+    color:#2a1208;font-size:11px;font-weight:800;
+    padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .2s;white-space:nowrap;
     background:
-      radial-gradient(110% 90% at 12% 10%, rgba(255,236,140,.42) 0%, transparent 42%),
-      radial-gradient(90% 80% at 78% 28%, rgba(70,210,170,.28) 0%, transparent 48%),
-      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.34) 0%, transparent 52%),
-      rgba(10,8,12,.62);
-    backdrop-filter:blur(22px) saturate(1.35);
-    -webkit-backdrop-filter:blur(22px) saturate(1.35);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.18),
-      0 0 0 1px rgba(255,255,255,.08),
-      0 10px 28px rgba(0,0,0,.45),
-      0 0 20px rgba(255,110,70,.48),
-      0 0 40px rgba(40,200,170,.34);
-    transition:opacity .28s ease, transform .4s cubic-bezier(.22,.82,.28,1), box-shadow .4s ease;
+      radial-gradient(120% 110% at 20% 15%, rgba(255,245,180,.9) 0%, transparent 45%),
+      linear-gradient(135deg, #ffe56a, #ff9a50);
   }
-  .toast::after{
-    content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;
-    border-radius:2px;pointer-events:none;
-    background:linear-gradient(90deg, rgba(255,228,150,0), rgba(255,182,119,.85) 28%, rgba(70,210,170,.95) 50%, rgba(255,110,70,.8) 72%, rgba(255,50,95,0));
-    box-shadow:0 0 14px rgba(70,210,170,.55);
-    opacity:0;
-    transition:opacity .32s ease;
-  }
-  .toast.on{
-    opacity:1;
-    transform:translateX(-50%) translateY(0) scale(1);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.2),
-      0 0 0 1px rgba(255,255,255,.1),
-      0 12px 30px rgba(0,0,0,.48),
-      0 0 26px rgba(255,110,70,.55),
-      0 0 52px rgba(40,200,170,.4);
-  }
-  .toast.on::after{opacity:1}
+  .toast.on{opacity:1}
 
   @media (prefers-reduced-motion:reduce){
-    .scene,.gcard,.lane-card,.cont-card,.up-card,.event,.curate-line,.asheet,.askfab .star,.qconvo,.lane-q,.lane-q .qbeam,.ai-zone,.j-cal{transition:none;animation:none}
+    .scene,.gcard,.lane-card,.cont-card,.up-card,.event,.curate-line,.asheet,.askfab .star,.qconvo,.lane-q,.ai-zone,.j-cal{transition:none;animation:none}
     .gcard.is-out{opacity:.2;transform:none;filter:none}
     .phone.is-ask.is-open .qconvo{transition:none}
   }
@@ -843,7 +848,7 @@
     <div class="brief">
       <strong>28 Aug 2026.</strong> Lane questions open the same Ask sheet as Home. Each prompt maps to its own answer and follow-ups — not a generic chat.
     </div>
-    <p class="note"><a href="playground.html">Playground</a> · source: <a href="ah-gummy-ask-smear.html">Ask conversation · candy smear</a></p>
+    <p class="note">source: <a href="ah-gummy-ask-smear.html">Ask conversation · candy smear</a></p>
   </div>
 
   <div class="stage">
@@ -873,8 +878,8 @@
 </div>
 
 <script src="ah-gummy-convo.js?v=aug28h"></script>
-<script src="ah-gummy-title.js?v=aug29a"></script>
-<script src="ah-gummy-bundle.js?v=aug28n"></script>
+<script src="ah-flemish-titles.js?v=sep1e"></script>
+<script src="ah-gummy-title.js?v=sep1e"></script>
 <script>
 const POSTER = p => `https://image.tmdb.org/t/p/w500${p}`;
 const STILL = p => `https://image.tmdb.org/t/p/w780${p}`;
@@ -882,29 +887,41 @@ const YT = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 const star = '<img class="star" src="star.svg" alt="" aria-hidden="true">';
 const lockMark = '<span class="badge" aria-label="Not in your subscriptions"><svg viewBox="0 0 24 24"><rect class="body" x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>';
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX"]);
+const PLAN = new Set(["Netflix", "HBO Max", "VRT MAX", "Play", "VTM GO"]);
+const FREE_APPS = new Set(["Play", "VTM GO", "VRT MAX"]);
 
 document.querySelector(".askfab").innerHTML = star;
 const sheetMount = document.querySelector("[data-csheet-mount]");
 if (sheetMount) sheetMount.outerHTML = GummyConvo.markup("Ask about your Watch List…");
 
+const localById = Object.fromEntries(((globalThis.FlemishTitles && FlemishTitles.stuff) || []).map(t => [t.id, t]));
+function mixLocal(id, extra){
+  return Object.assign({}, localById[id] || {id}, extra);
+}
+
 const titles = [
   {id:"wed", title:"Wednesday", kind:"Series", length:"8 ep · ~50m", mins:50, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), still:STILL("/sNLP0dLZcVBqYa3MchCXJqgDtFb.jpg"), fallback:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), tags:["leaving","friday","friends","easy"], progress:.42, continue:true, ep:"S2 E4"},
+  mixLocal("tafel", { still:"stills/tafel-gert-card.jpg", fallback:"stills/tafel-gert-card.jpg", continue:true, progress:.74, ep:"Last night" }),
   {id:"thuis", title:"Thuis", kind:"Series", length:"Daily · ~25m", mins:25, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), still:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), fallback:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), tags:["easy","leaving"], progress:.58, continue:true, ep:"Daily"},
   {id:"dune", title:"Dune: Part Two", kind:"Film", length:"2h 46", mins:166, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"), still:STILL("/eZ239CUp1d6OryZEBPnO2n87gMG.jpg"), fallback:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"), tags:["friday","acclaimed","friends"], progress:.18, continue:true, top10:true},
+  mixLocal("familie", { still:"stills/familie-card.jpg", fallback:"stills/familie-card.jpg", continue:true, progress:.61, ep:"Daily" }),
   {id:"assisen", title:"Assisen", kind:"Series", length:"S2 · ~45m", mins:45, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), still:STILL("/erZh4tQsSDp83Nr4MP2LhvKAmbF.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), tags:["friday","acclaimed"]},
   {id:"under", title:"Undercover", kind:"Series", length:"3 seasons · ~50m", mins:50, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), still:STILL("/x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), tags:["friends","easy"], progress:.12, continue:true, ep:"S3 E2"},
+  mixLocal("zegeuh", { still:"stills/zegeuh-card.jpg", fallback:"stills/zegeuh-card.jpg", continue:false }),
   {id:"y1985", title:"1985", kind:"Series", length:"8 ep · ~50m", mins:50, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), still:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), fallback:POSTER("/ma1FtkhQ1mQRbyYUTWY5ngi4Xne.jpg"), tags:["acclaimed","friday"]},
   {id:"opp", title:"Oppenheimer", kind:"Film", length:"3h 00", mins:180, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), still:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), fallback:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"), tags:["acclaimed"], top10:true},
   {id:"verraders", title:"De Verraders", kind:"Series", length:"S3 · ~50m", mins:50, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), still:STILL("/niS3AVdPp4pQpL46XxqTn4EG7AL.jpg"), fallback:POSTER("/dB0LuvCwbXQTK2h3R8H8e0pVr2z.jpg"), tags:["friends","friday"]},
   {id:"barb", title:"Barbie", kind:"Film", length:"1h 54", mins:114, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), still:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), fallback:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"), tags:["friday","friends","easy","acclaimed","short"]},
+  mixLocal("jade", { still:"stills/jade-card.jpg", fallback:"stills/jade-card.jpg", continue:false }),
   {id:"chantal", title:"Chantal", kind:"Series", length:"S2 · ~45m", mins:45, provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), still:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), fallback:POSTER("/pmoicISpTRSt4bu03bwEaVazBXS.jpg"), tags:["easy","friends","friday"]},
   {id:"tlou", title:"The Last of Us", kind:"Series", length:"S2 · ~55m", mins:55, provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), still:STILL("/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg"), fallback:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), tags:["friday","acclaimed","leaving"], progress:.67, continue:true, ep:"S2 E3"},
   {id:"schelde", title:"De Slag om de Schelde", kind:"Film", length:"2h 04", mins:124, provider:"Play", logo:"play-logo.png", poster:POSTER("/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg"), still:POSTER("/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg"), fallback:POSTER("/sCEmbkFF2Ijz35QDMFtBBTcY7Qb.jpg"), tags:["friday","acclaimed"]},
+  mixLocal("axel", { still:"stills/axel-card.jpg", fallback:"stills/axel-card.jpg", continue:false }),
   {id:"squid", title:"Squid Game", kind:"Series", length:"S2 · ~55m", mins:55, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg"), still:STILL("/2meX1nMdScFOoV4370rqHWKmXhY.jpg"), fallback:POSTER("/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg"), tags:["leaving","friends","friday"], progress:.55, continue:true, ep:"S2 E5"},
   {id:"gladijs", title:"Glad IJs", kind:"Series", length:"8 ep · ~50m", mins:50, provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg"), still:POSTER("/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg"), fallback:POSTER("/5QdsbTX15dxlIsTdwD4xQVVH7W6.jpg"), tags:["friday","friends"]},
   {id:"bear", title:"The Bear", kind:"Series", length:"S3 · ~30m", mins:30, provider:"Disney+", logo:"disney-plus-logo.png", poster:POSTER("/6FVNnVk0SZFdzb9dkvOr13XyyM4.jpg"), still:STILL("/aZz0AOpYcDyYwfET9k6j3QQXPuS.jpg"), fallback:POSTER("/6FVNnVk0SZFdzb9dkvOr13XyyM4.jpg"), tags:["short","easy","acclaimed","friends"], progress:.31, continue:true, ep:"S3 E4", crop:true},
   {id:"jan", title:"De Bende van Jan de Lichte", kind:"Series", length:"10 ep · ~50m", mins:50, provider:"Play", logo:"play-logo.png", poster:POSTER("/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg"), still:POSTER("/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg"), fallback:POSTER("/py2KVZZLIa0YDCZNxhy1zdUhPDX.jpg"), tags:["friday","acclaimed","friends"]},
+  mixLocal("agnew", { still:"stills/agnew-card.jpg", fallback:"stills/agnew-card.jpg", continue:false, kind:"Film" }),
   {id:"ferry", title:"Ferry", kind:"Film", length:"1h 46", mins:106, provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg"), still:STILL("/fejok33Ijc6SppiEU1cfwA9Mo2.jpg"), fallback:POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg"), tags:["short","easy"]},
   {id:"zill", title:"Zillion", kind:"Film", length:"2h 03", mins:123, provider:"Streamz", logo:"streamz-logo.jpg", poster:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"), still:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"), fallback:POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"), tags:["easy"]},
   {id:"glad", title:"Gladiator II", kind:"Film", length:"2h 28", mins:148, provider:"Apple TV", logo:"apple tv logo.jpg", poster:POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg"), still:POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg"), fallback:POSTER("/gUPnmDkNRSLFynbpNw9VJrYBEgT.jpg"), tags:["friday"], top10:true}
@@ -1002,33 +1019,33 @@ const moods = [
       {id:"fi-easy-ferry", q:"Is Ferry actually easy, or is it still crime homework?", a:"Crime-hard, not torture. 1h 46 and it ends. You don’t need Undercover first, though you’ll smirk more if you’ve met him.", who:"Ferry"},
       {id:"fi-easy-fl", q:"What’s the Flemish easy one?", a:"There isn’t a sit-back Flemish film on this list. Thuis if you meant easy Flanders in 25 minutes. Zillion if glow is easy and you add Streamz."}
     ]},
-  {id:"fl-easy", q:"Easy Flemish I can just sit with?", cls:"c3", tag:"easy", line:"Belgian series you can just sit with.",
-    a:"Thuis — 25 minutes, VRT MAX, you’re already in it. Chantal if you want a series without the case files. 1985 is Flanders but not easy.",
+  {id:"fl-easy", q:"What did they talk about yesterday at De Tafel?", cls:"c3", tag:"easy", line:"Last night’s table, then the daily.",
+    a:"De Tafel van Gert is last night’s news — Dolly, the hottest summer, Francken’s climate post. You’re 74% into that episode on Play. Familie if you wanted Mechelen and Victor instead of the paper.",
     follow:[
-      {id:"fl-easy-leave", q:"Is Thuis still leaving?", a:"Yes. Daily, and you’re more than halfway. Easy to chip at this week so it doesn’t vanish mid-habit.", who:"Thuis"},
-      {id:"fl-easy-which", q:"Chantal or Thuis if tonight is just sitting?", a:"Thuis if you want 25 minutes and you’re already in. Chantal if you want to start something that isn’t the daily. Both VRT MAX, both in-plan."},
-      {id:"fl-easy-film", q:"Anything Flemish that’s a film?", a:"Ferry on Netflix — Dutch-Belgian border, 1h 46. Zillion is Ghent, Streamz, locked. De Slag om de Schelde is war, Play, locked."}
+      {id:"fl-easy-tafel", q:"Do I need last night, or any night?", a:"Last night if you want the conversation the house is still having. A week-old table is already stale. Play keeps it.", who:"De Tafel van Gert"},
+      {id:"fl-easy-which", q:"Tafel or Familie if tonight is just sitting?", a:"Tafel if you want to argue with the news. Familie if you want 25 minutes and the pub. Both dailies. Different rooms."},
+      {id:"fl-easy-euh", q:"Something we can shout at after?", a:"Zeg Eens Euh — James Cooke, no euh, four Vlamingen with a buzzer. Play, after De Tafel. That’s the night they built."}
     ]},
   {id:"fl-sofa", q:"Flemish we could watch together?", cls:"ask", tag:"friends", line:"Flanders, easy to share a sofa with.",
-    a:"Chantal and Thuis are the sofa ones on VRT MAX. De Verraders if you add VTM GO — that’s the one people talk over. Assisen is together-but-quiet.",
+    a:"De Tafel if the room wants last night’s news. Zeg Eens Euh if they want a buzzer. Jade if they want Belgians roasting the Ring. Familie if the sofa is a daily habit.",
     follow:[
-      {id:"fl-sofa-plan", q:"Without adding another app?", a:"Thuis or Chantal. 1985 if the room can sit still. That’s VRT MAX. Undercover isn’t Flemish, but it’s the in-plan crime if the room wants that instead."},
-      {id:"fl-sofa-talk", q:"Something we can talk through?", a:"De Verraders — locked on VTM GO. Thuis if talking is allowed to win. Skip Assisen and 1985 if pausing for comments will annoy someone."},
-      {id:"fl-sofa-soap", q:"Too soapy for this room?", a:"Skip Thuis then. Chantal is still Flanders without the daily. 1985 if they can do archive. Ferry if the room actually wanted crooks."}
+      {id:"fl-sofa-talk", q:"Something we can talk through?", a:"De Tafel — that’s the point. Jade too. Skip Familie if comments will bury Victor. Agnew if one person wanted to sit still for two hours."},
+      {id:"fl-sofa-play", q:"What’s actually on Play tonight?", a:"De Tafel at 20:00, Zeg Eens Euh after 22:00. Jade on Thursday. Axel on Tuesday. The logos on those cards are Play, not VRT MAX."},
+      {id:"fl-sofa-soap", q:"Too soapy for this room?", a:"Skip Familie and Thuis. De Tafel is the paper. Axel if they wanted America. Agnew if they wanted one man, no soap."}
     ]},
-  {id:"fl-new", q:"What’s new from Flanders on my list?", cls:"c2", tag:"friday", line:"Assisen, 1985, Chantal — on your list.",
-    a:"Assisen, 1985, and Chantal. 1985 and Chantal are on VRT MAX now. Assisen sits behind VTM GO.",
+  {id:"fl-new", q:"What’s new from Flanders on my list?", cls:"c2", tag:"friday", line:"The table, the pub, the word fight.",
+    a:"De Tafel van Gert, Familie, Zeg Eens Euh, Jade en de Belgen, Axel Terug Naar Amerika, and Agnew’s zaalshow. Play and VTM GO. The clips in your Home feed are these — not a Netflix leftover.",
     follow:[
-      {id:"fl-new-play", q:"Which of those can I play tonight?", a:"1985 and Chantal. Assisen waits unless you add VTM GO. 1985 if you want the one that turns; Chantal if you want to sit."},
-      {id:"fl-new-1985", q:"Is 1985 a crime thing?", a:"Archive Flanders — it sits next to crime in how it occupies the room, not camping-and-XTC crime. ~50 minutes, in your plan.", who:"1985"},
-      {id:"fl-new-chantal", q:"What’s Chantal actually like?", a:"Flemish, ~45 minutes, VRT MAX. Easier than Assisen, less daily than Thuis. The one you saved for sitting, not for a case.", who:"Chantal"}
+      {id:"fl-new-play", q:"Which of those can I put on tonight?", a:"De Tafel if you want last night. Familie if you want the daily. Zeg Eens Euh after 22:00. Agnew if the sofa is yours for 2h 43."},
+      {id:"fl-new-axel", q:"What’s Axel actually doing in America?", a:"Season two opened in Trumpland — border, Trumpettes, a Trumborrito. Sedona next: aliens and the QAnon shaman. Tuesday, Play, about an hour.", who:"Axel Terug Naar Amerika"},
+      {id:"fl-new-jade", q:"Is Jade just Geubels with a new host?", a:"The format, yes. The voice is hers. Episode one is traffic — the Ring, fatbikes, the keuring. Thursday, Play.", who:"Jade en de Belgen"}
     ]},
-  {id:"fl-leave", q:"Any Flemish leaving on VRT or VTM?", cls:"c4", tag:"leaving", line:"Flemish titles that won’t sit forever.",
-    a:"Thuis is the Flemish one marked leaving — VRT MAX, and you’re more than halfway. Wednesday and Squid Game are leaving too, but they’re not Flanders.",
+  {id:"fl-leave", q:"Will I miss last night’s table if I wait?", cls:"c4", tag:"leaving", line:"Dailies that go stale.",
+    a:"De Tafel van Gert is last night’s paper — you’re 74% in. Familie is the other daily, 61%. Wait a week and both are a different conversation. Thuis on VRT MAX is marked leaving too.",
     follow:[
-      {id:"fl-leave-thuis", q:"Can I finish Thuis this week?", a:"Daily, ~25 minutes, you’re at 58%. Yes, if you let it be the short sit this week instead of hunting a film.", who:"Thuis"},
-      {id:"fl-leave-else", q:"What else is leaving that isn’t Flemish?", a:"Wednesday and Squid Game on Netflix, Last of Us on HBO Max. Last of Us is the one you’re furthest into."},
-      {id:"fl-leave-ignore", q:"Should I just ignore Thuis?", a:"Only if you won’t miss the daily. It’s the easy Flemish habit, and it’s the one on VRT actually marked leaving. Wednesday will shout louder when it goes."}
+      {id:"fl-leave-tafel", q:"Can I finish last night’s Tafel tonight?", a:"Yes. About an hour, Play, and you’re already most of the way. That’s the one that goes stale first.", who:"De Tafel van Gert"},
+      {id:"fl-leave-fam", q:"And Familie — did they find Victor yet?", a:"That’s week one. Mathias is still looking. 25 minutes, VTM GO, you’re over halfway this week. Chip tonight so Thursday isn’t a pile-up.", who:"Familie"},
+      {id:"fl-leave-thuis", q:"Is Thuis still the VRT daily that’s leaving?", a:"Yes. 25 minutes, VRT MAX. Familie is the VTM one. Two dailies if that’s the habit. One if you pick a village."}
     ]},
   {id:"mo-tlou", q:"Liked Last of Us — what else is here?", cls:"c4", tag:"acclaimed", line:"Close to how you watch the heavy ones.",
     a:"You’re 67% into S2. Squid Game if you want stakes without the fungus. 1985 if you want it closer to home. The Penguin isn’t saved yet — that’s the next-door pick on HBO Max.",
@@ -1066,15 +1083,19 @@ const moods = [
 const following = [
   {day:"Tonight", items:[
     {title:"Wednesday", kicker:"Episode", meta:"S2 E5 · 21:00", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"), still:STILL("/iHSwvRVsRyxpX7FE7GbviaDvgGZ.jpg"), fallback:STILL("/sNLP0dLZcVBqYa3MchCXJqgDtFb.jpg")},
-    {title:"Club Brugge vs Anderlecht", kicker:"Sport", meta:"Jupiler Pro League · 20:45", provider:"Play Sports", logo:"play sports logo.png", poster:STILL("/nE94ejEbzNCU48bW1oju0dqBONz.jpg"), still:STILL("/nE94ejEbzNCU48bW1oju0dqBONz.jpg"), fallback:STILL("/nE94ejEbzNCU48bW1oju0dqBONz.jpg")}
+    {title:"De Tafel van Gert", kicker:"Talk", meta:"Last night · 20:00", provider:"Play", logo:"play-logo.png", poster:"posters/tafel-gert.jpg", still:"stills/tafel-gert-card.jpg", fallback:"stills/tafel-gert-card.jpg"},
+    {title:"Thuis", kicker:"Episode", meta:"Daily · 20:20", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), still:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), fallback:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg")},
+    {title:"Familie", kicker:"Episode", meta:"Daily · 20:00", provider:"VTM GO", logo:"vtm-go-logo.png", poster:"posters/familie.jpg", still:"stills/familie-card.jpg", fallback:"stills/familie-card.jpg"}
   ]},
   {day:"Tomorrow", items:[
     {title:"The Last of Us", kicker:"Episode", meta:"S2 E4 · new episode", provider:"HBO Max", logo:"hbo-max-new-logo.jpg", poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg"), still:STILL("/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg"), fallback:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg")},
-    {title:"Thuis", kicker:"Episode", meta:"Daily · 20:20", provider:"VRT MAX", logo:"vrt-max-logo.png", poster:POSTER("/5tSBe01mPLii0I1NoCGSFJSO97M.jpg"), still:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg"), fallback:STILL("/39Se1j3FyhhL8kZKAEno5YIss5X.jpg")}
+    {title:"Axel Terug Naar Amerika", kicker:"Episode", meta:"S2 · Trumpland · 21:15", provider:"Play", logo:"play-logo.png", poster:"posters/axel-amerika.jpg", still:"stills/axel-card.jpg", fallback:"stills/axel-card.jpg"},
+    {title:"Assisen", kicker:"Episode", meta:"S2 E4 · 21:30", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), still:STILL("/erZh4tQsSDp83Nr4MP2LhvKAmbF.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg")}
   ]},
   {day:"Thursday", items:[
-    {title:"Assisen", kicker:"Episode", meta:"S2 E4 · 21:30", provider:"VTM GO", logo:"vtm-go-logo.png", poster:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg"), still:STILL("/erZh4tQsSDp83Nr4MP2LhvKAmbF.jpg"), fallback:POSTER("/1VSSxdlbP5Tqow1eZBVIk6Ngy8E.jpg")},
-    {title:"Undercover", kicker:"Season", meta:"S4 premiere", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), still:STILL("/x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg")}
+    {title:"Undercover", kicker:"Season", meta:"S4 premiere", provider:"Netflix", logo:"Netflix logo.webp", poster:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"), still:STILL("/x2kmiy3RS3hC0SQC0N2sLN3rsdB.jpg"), fallback:POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg")},
+    {title:"Jade en de Belgen", kicker:"Episode", meta:"Traffic · 21:30", provider:"Play", logo:"play-logo.png", poster:"posters/jade-belgen.jpg", still:"stills/jade-card.jpg", fallback:"stills/jade-card.jpg"},
+    {title:"Zeg Eens Euh", kicker:"Game", meta:"Tonight · 22:10", provider:"Play", logo:"play-logo.png", poster:"posters/zeg-eens-euh.jpg", still:"stills/zegeuh-card.jpg", fallback:"stills/zegeuh-card.jpg"}
   ]},
   {day:"This weekend", items:[
     {title:"F1 Sprint · Belgium", kicker:"Sport", meta:"Sat 15:00", provider:"Play Sports", logo:"play sports logo.png", poster:STILL("/xefmNmSGCApfRPaqhIRTaAjFlpo.jpg"), still:STILL("/xefmNmSGCApfRPaqhIRTaAjFlpo.jpg"), fallback:STILL("/xefmNmSGCApfRPaqhIRTaAjFlpo.jpg")},
@@ -1085,7 +1106,7 @@ const following = [
 function esc(s){
   return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 }
-function inPlan(provider){ return PLAN.has(provider); }
+function inPlan(provider){ return PLAN.has(provider) || FREE_APPS.has(provider); }
 function imgTag(src, fallback, alt){
   return `<img src="${src}" alt="${esc(alt)}" loading="lazy" onerror="if(this.dataset.fb)return;this.dataset.fb=1;this.src='${fallback}'">`;
 }
@@ -1106,11 +1127,9 @@ let moodT = 0;
 
 function toast(msg){
   toastEl.textContent = msg;
-  toastEl.classList.remove("on");
-  void toastEl.offsetWidth;
   toastEl.classList.add("on");
   clearTimeout(toastEl._t);
-  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1800);
+  toastEl._t = setTimeout(() => toastEl.classList.remove("on"), 1300);
 }
 function goPrototype(id, href){
   if (window.parent && window.parent !== window) {
@@ -1147,11 +1166,12 @@ function parkedFilms(){
   return titles.filter(t => t.kind === "Film" && (t.progress || 0) < .4);
 }
 function flemishSaves(){
-  return titles.filter(t =>
-    ["VRT MAX", "VTM GO", "Play", "Streamz"].includes(t.provider) &&
-    t.kind === "Series" &&
-    (t.progress || 0) < .4
-  );
+  const order = ["tafel", "familie", "zegeuh", "jade", "axel", "agnew", "thuis", "chantal", "y1985", "assisen", "verraders"];
+  return order.map(id => titles.find(t => t.id === id)).filter(Boolean);
+}
+function playTonight(){
+  const order = ["tafel", "zegeuh", "jade", "axel", "familie", "agnew"];
+  return order.map(id => titles.find(t => t.id === id)).filter(Boolean);
 }
 function findTitle(id){
   return titles.find(t => t.id === id) || recs.find(t => t.id === id);
@@ -1278,8 +1298,9 @@ function renderWatch(){
       <h2 class="coll-lede"><span class="coll-word">Collections</span> from what you’re watching and what you saved</h2>
       ${aiLane("crime", "Crooks are your type", crimeSaves(), ["cr-night","cr-case","cr-belgian","cr-twist"])}
       ${aiLane("films", "Films you parked", parkedFilms(), ["fi-night","fi-two","fi-big","fi-easy"])}
-      ${aiLane("flanders", "Flanders on your list", flemishSaves(), ["fl-easy","fl-sofa","fl-new","fl-leave"])}
       ${aiLane("more", "Close to how you watch", recs, ["mo-tlou","mo-under","mo-bear","mo-close"])}
+      ${aiLane("playnow", "On Play and VTM GO tonight", playTonight(), ["fl-easy","fl-sofa","fl-new","fl-leave"])}
+      ${aiLane("flanders", "Flanders on your list", flemishSaves(), ["fl-easy","fl-sofa","fl-new","fl-leave"])}
     </section>
   `;
   bindLaneQs();
@@ -1359,16 +1380,10 @@ function bindLaneQs(){
     const padKey = () => `${track.clientWidth}:${qBtns.map(b => b.offsetWidth).join(",")}`;
     const centerQ = (i, smooth) => {
       const btn = qBtns[i];
-      if (!btn || !track.clientWidth) return;
-      const wrapMid = wrap.getBoundingClientRect().left + wrap.clientWidth / 2;
-      const btnMid = btn.getBoundingClientRect().left + btn.offsetWidth / 2;
-      track.scrollTo({left: track.scrollLeft + (btnMid - wrapMid), behavior: smooth ? "smooth" : "auto"});
-    };
-    const sizeBeam = (btn) => {
-      const beam = wrap.querySelector(".qbeam");
-      const copy = btn?.querySelector(".q-copy");
-      if (!beam || !copy) return;
-      beam.style.width = `${Math.max(72, Math.round(copy.getBoundingClientRect().width))}px`;
+      const w = track.clientWidth;
+      if (!btn || !w) return;
+      const left = btn.offsetLeft - (w - btn.offsetWidth) / 2;
+      track.scrollTo({left: Math.max(0, left), behavior: smooth ? "smooth" : "auto"});
     };
     const padTrack = () => {
       const w = track.clientWidth;
@@ -1411,7 +1426,6 @@ function bindLaneQs(){
       wrap.style.setProperty("--tone-2", String(Math.min(1, tones[2])));
       const on = qBtns.find(btn => btn.classList.contains("is-on")) || qBtns[Math.round(p)];
       if (on?.dataset.mesh) wrap.dataset.mesh = on.dataset.mesh;
-      sizeBeam(on);
     };
     track.addEventListener("scroll", sync, {passive:true});
     requestAnimationFrame(sync);
