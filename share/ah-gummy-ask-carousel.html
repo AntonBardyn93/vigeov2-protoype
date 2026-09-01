@@ -199,6 +199,7 @@
     scroll-snap-type:y mandatory;
     scrollbar-width:none;
     overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
   }
   .feed::-webkit-scrollbar{display:none}
   .slide{
@@ -232,9 +233,9 @@
   .videowrap video{
     z-index:1;
     opacity:0;
-    transition:opacity .18s ease;
+    transition:opacity .12s linear;
   }
-  .videowrap.is-playing video{opacity:1}
+  .videowrap.is-ready video{opacity:1}
   .videowrap.is-ready .video-poster{opacity:0}
   .video-edgefade{
     position:absolute;inset:0;pointer-events:none;
@@ -1549,18 +1550,18 @@ function kickCurrentSound(){
   document.addEventListener(ev, unlockSound, { passive: true });
 });
 
-function parkAtStart(video, item, slide){
+function parkAtStart(video, item, slide, { pauseFirst = false } = {}){
   const start = clipStart(item, slide);
   return new Promise(resolve => {
     const finish = () => resolve(start);
     const seek = () => {
-      try { if (!video.paused) video.pause(); } catch (_) {}
+      if (Math.abs((video.currentTime || 0) - start) <= 0.2) { finish(); return; }
+      if (pauseFirst) try { video.pause(); } catch (_) {}
       const onSeeked = () => { video.removeEventListener("seeked", onSeeked); finish(); };
       try {
-        if (Math.abs((video.currentTime || 0) - start) <= 0.12) { finish(); return; }
         video.addEventListener("seeked", onSeeked);
         video.currentTime = start;
-        setTimeout(() => { video.removeEventListener("seeked", onSeeked); finish(); }, 350);
+        setTimeout(() => { video.removeEventListener("seeked", onSeeked); finish(); }, 280);
       } catch (_) { finish(); }
     };
     if (video.readyState >= 1) seek();
@@ -1587,7 +1588,6 @@ function ensureVideo(slide, item){
   video.playsInline = true;
   video.disableRemotePlayback = true;
   video.addEventListener("loadeddata", () => wrap.classList.add("is-ready"));
-  parkAtStart(video, item, slide);
   return video;
 }
 
@@ -1595,65 +1595,83 @@ function runClip(slide, item, audible){
   const wrap = slide.querySelector("[data-video]");
   const video = ensureVideo(slide, item);
   const i = Number(slide.dataset.i);
-  let started = false;
-  const start = () => {
-    if (started) return;
-    started = true;
+  let armed = false;
+  const playNow = () => {
+    if (armed) return;
+    armed = true;
     if (!isPageLive()) { hardMute(video); return; }
     if (audible && i !== current) { hardMute(video); return; }
-    const playNow = () => {
+    if (audible) {
+      feedEl.querySelectorAll("video").forEach(v => {
+        if (v === video) return;
+        v.muted = true;
+        v.volume = 0;
+      });
+      video.volume = 1;
+      video.muted = !soundOn;
+    } else {
+      video.volume = 0;
+      video.muted = true;
+    }
+    const shown = () => {
       if (!isPageLive()) { hardMute(video); return; }
-      if (audible && i !== current) { hardMute(video); return; }
-      if (audible) {
-        feedEl.querySelectorAll("video").forEach(v => {
-          if (v === video) return;
-          v.muted = true;
-          v.volume = 0;
-        });
-        video.volume = 1;
-        video.muted = !soundOn;
-      } else {
-        video.volume = 0;
-        video.muted = true;
-      }
-      const shown = () => {
-        if (!isPageLive()) { hardMute(video); return; }
-        if (audible && i !== current) { hardMute(video); return; }
-        wrap.classList.add("is-ready", "is-playing");
-        if (audible && i === current && soundOn) {
-          video.muted = false;
-          video.volume = 1;
-        } else if (!audible) {
-          video.muted = true;
-          video.volume = 0;
-        }
-      };
-      const playMuted = () => {
-        video.muted = true;
-        if (audible) video.volume = 1;
-        video.play().then(shown).catch(() => {});
-      };
-      if (audible && i === current) {
-        video.volume = 1;
+      if (audible && i !== current) return;
+      wrap.classList.add("is-ready", "is-playing");
+      if (audible && i === current && soundOn) {
         video.muted = false;
-        video.play().then(() => {
-          soundOn = true;
-          shown();
-        }).catch(playMuted);
-      } else {
-        video.play().then(shown).catch(playMuted);
+        video.volume = 1;
+      } else if (!audible) {
+        video.muted = true;
+        video.volume = 0;
       }
     };
-    if (audible) parkAtStart(video, item, slide).then(playNow);
-    else playNow();
+    const go = () => video.play().then(shown).catch(() => {
+      video.muted = true;
+      video.play().then(shown).catch(() => {});
+    });
+    if (audible && soundOn && i === current) {
+      video.muted = false;
+      video.volume = 1;
+      video.play().then(() => { soundOn = true; shown(); }).catch(go);
+    } else {
+      go();
+    }
   };
-  if (video.readyState >= 2) start();
+  if (video.readyState >= 2) playNow();
   else {
-    video.addEventListener("canplay", start, { once: true });
-    video.addEventListener("loadeddata", start, { once: true });
+    video.addEventListener("canplay", playNow, { once: true });
+    video.addEventListener("loadeddata", playNow, { once: true });
     if (video.readyState === 0) video.load();
   }
   return video;
+}
+
+function primeNeighbor(idx){
+  if (idx < 0 || idx >= items.length) return;
+  const slide = feedEl.querySelectorAll(".slide")[idx];
+  const item = items[idx];
+  if (!slide || !item) return;
+  const wrap = slide.querySelector("[data-video]");
+  const video = ensureVideo(slide, item);
+  parkAtStart(video, item, slide, { pauseFirst: true }).then(() => {
+    if (!isPageLive()) return;
+    if (Math.abs(idx - current) !== 1) return;
+    video.muted = true;
+    video.volume = 0;
+    video.play().then(() => wrap.classList.add("is-ready", "is-playing")).catch(() => {});
+  });
+}
+
+function primeAround(i){
+  primeNeighbor(i - 1);
+  primeNeighbor(i + 1);
+  feedEl.querySelectorAll(".slide").forEach((slide, idx) => {
+    if (Math.abs(idx - i) <= 1) return;
+    const video = slide.querySelector("video");
+    if (!video) return;
+    hardMute(video);
+    parkAtStart(video, items[idx], slide, { pauseFirst: true });
+  });
 }
 
 const TONE_GLOW = [
@@ -2009,7 +2027,6 @@ function activate(i){
       resetSlide(slide);
     } else {
       hardMute(wrap.querySelector("video"));
-      wrap.classList.remove("is-playing");
       resetSlide(slide);
     }
   });
@@ -2027,19 +2044,24 @@ function nearestSlide(){
   return best;
 }
 const io = new IntersectionObserver((entries) => {
-  let best = { i: current, r: 0 };
   entries.forEach(e => {
-    if (e.intersectionRatio > best.r) {
-      best = { i: Number(e.target.dataset.i), r: e.intersectionRatio };
-    }
+    if (e.intersectionRatio < 0.08) return;
+    const i = Number(e.target.dataset.i);
+    const item = items[i];
+    if (item) ensureVideo(e.target, item);
   });
-  if (best.r > 0.35 && best.i !== current) activate(best.i);
-}, { threshold: [0.35, 0.55, 0.8] });
+}, { threshold: [0.08, 0.5] });
 feedEl.addEventListener("scroll", () => {
   unlockSound();
   const i = nearestSlide();
   if (i !== current) activate(i);
+  clearTimeout(feedEl._primeT);
+  feedEl._primeT = setTimeout(() => primeAround(current), 140);
 }, { passive: true });
+feedEl.addEventListener("scrollend", () => {
+  clearTimeout(feedEl._primeT);
+  primeAround(current);
+});
 
 feedEl.querySelectorAll(".slide").forEach(slide => {
   const item = items[Number(slide.dataset.i)];
@@ -2061,8 +2083,10 @@ feedEl.querySelectorAll(".slide").forEach(slide => {
 ensureVideo(feedEl.querySelector(".slide"), items[0]);
 if (items[1]) ensureVideo(feedEl.querySelectorAll(".slide")[1], items[1]);
 if (items[2]) ensureVideo(feedEl.querySelectorAll(".slide")[2], items[2]);
-if (isPageLive()) activate(0);
-else stopAll();
+if (isPageLive()) {
+  activate(0);
+  primeAround(0);
+} else stopAll();
 
 document.querySelector(".tabbar")?.addEventListener("click", e => {
   const btn = e.target.closest(".navitem");
