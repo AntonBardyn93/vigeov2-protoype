@@ -694,6 +694,70 @@
     border-radius:0 !important;
     box-shadow:none !important;
   }
+
+  /* ================= search lobby: prompts + previous searches ================= */
+  .sr-genres{padding:16px 0 4px}
+
+  .qgrid{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+    padding:16px 24px 4px;
+  }
+  .qcell{
+    position:relative;overflow:hidden;border-radius:16px;
+    padding:13px 13px 14px;min-height:108px;
+    display:flex;flex-direction:column;align-items:flex-start;gap:9px;text-align:left;
+    background:
+      radial-gradient(125% 115% at 12% 6%, rgba(var(--hue),.17) 0%, transparent 54%),
+      radial-gradient(90% 90% at 100% 100%, rgba(var(--hue),.1) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(20,15,22,.82) 0%, rgba(11,9,14,.94) 100%);
+    transition:transform .22s var(--ease-jelly, cubic-bezier(.22,.82,.28,1));
+  }
+  .qcell::after{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    padding:1px;opacity:.55;
+    background:linear-gradient(140deg, rgba(var(--hue),.85) 0%, rgba(var(--hue),.28) 55%, rgba(var(--hue),.55) 100%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask-composite:exclude;
+  }
+  .qcell:active{transform:scale(.978)}
+  .qcell .qi{display:block;width:21px;height:21px}
+  .qcell .qi svg{
+    width:100%;height:100%;display:block;
+    fill:none;stroke:rgb(var(--hue));stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .qcell .qt{
+    font-size:14px;font-weight:650;letter-spacing:-.02em;line-height:1.26;
+    color:color-mix(in srgb, rgb(var(--hue)) 42%, #ffffff);
+  }
+
+  .prev{padding:22px 0 6px}
+  .prev h3{
+    padding:0 24px 11px;
+    font-size:16px;font-weight:700;letter-spacing:-.025em;color:#fff;
+  }
+  .prev-lane{
+    display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;
+    padding:0 24px 4px;scroll-snap-type:x proximity;
+  }
+  .prev-lane::-webkit-scrollbar{display:none}
+  .prev-card{
+    flex:0 0 196px;scroll-snap-align:start;text-align:left;
+    border-radius:16px;padding:12px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    display:flex;flex-direction:column;gap:10px;
+    transition:transform .22s var(--ease-jelly, cubic-bezier(.22,.82,.28,1)), background .22s ease;
+  }
+  .prev-card:active{transform:scale(.982)}
+  .prev-term{
+    font-size:13px;font-weight:650;letter-spacing:-.02em;line-height:1.25;color:#fff;
+  }
+  .prev-strip{display:flex;gap:6px}
+  .prev-strip img{
+    width:40px;height:60px;border-radius:7px;object-fit:cover;display:block;
+    background:#15151a;
+  }
+
 </style>
 </head>
 <body>
@@ -766,7 +830,7 @@ const titles = {
 
 const asks = {
   unwind:{
-    q:"Something I can unwind with?",
+    q:"Something familiar to unwind",
     a:"Nothing that asks you to sit up. Crime you can leave on in the background, then a couple of easy landings if the room goes quiet. Most of this is already in a plan you pay for.",
     lanes:[
       {title:"Soft crime you can leave on", sub:"from how you watch", ids:["under","ferry","squid","tlou"]},
@@ -813,7 +877,7 @@ const asks = {
     ]
   },
   flanders:{
-    q:"What’s close to home this week?",
+    q:"What’s hot in Flanders?",
     a:"Last night’s table, then the pub. De Tafel van Gert is yesterday’s news on Play. Familie is the VTM daily — Victor, Erik, the Jan & Alleman. Zeg Eens Euh after 22:00 if the room wants a buzzer.",
     lanes:[
       {title:"Last night, then the pub", sub:"Play and VTM GO", ids:["tafel","familie","zegeuh","jade"]},
@@ -1077,13 +1141,43 @@ const asks = {
     ]
   },
   episode:{
-    q:"Just one more episode, then bed",
+    q:"One episode, then bed",
     a:"Kept to things that end before you regret it. The Bear is half an hour. Abbott is shorter. Thuis if you want Flanders in a sit-down.",
     lanes:[{title:"Then go to bed", sub:"episode-shaped", ids:["bear","abbott","chefbbq","thuis"]}],
     more:["short","finish","think"],
     follow:[
       {id:"episode-plan", q:"Without adding Disney+?", a:"Thuis, 25 minutes, VRT MAX. Chef’s Table: BBQ is Netflix if food can be the last sit. The Bear and Abbott wait."},
       {id:"episode-continue", q:"Should I use this on something I already started?", a:"If you’re picking up Last of Us, that’s not a ‘then bed’ — it wants you. Thuis or an Undercover episode if ~50 minutes still counts as one more."}
+    ]
+  },
+  buzz:{
+    q:"The one everyone talked about last week",
+    a:"Last week the house was talking about De Tafel van Gert \u2014 Gert on Francken\u2019s climate post, with Van Lipzig\u2019s graphs disagreeing live. Wednesday is the other one people keep quoting. Both already in your plan.",
+    lanes:[{title:"What the room was on about", sub:"last week", ids:["tafel","wed","zegeuh","under"]}],
+    more:["flanders","fresh","surprise"],
+    follow:[
+      {id:"buzz-why", q:"Why that Tafel episode?", a:"It was the row people repeated: Gert said he understood the post, the KU Leuven graphs did not. Play keeps last night, and a week-old table is already stale \u2014 so watch it as the argument, not the archive."},
+      {id:"buzz-skip", q:"Anything I can skip?", a:"If you did not follow the climate row, the Dolly block stands on its own. Wednesday needs no context at all \u2014 the dance is the whole conversation."}
+    ]
+  },
+  leaving:{
+    q:"Leaving soon, watch it now",
+    a:"Marked leaving: Wednesday, Squid Game, The Last of Us and Thuis. You are 67% into Last of Us and part-way through Wednesday \u2014 those two are the ones you will actually feel going.",
+    lanes:[{title:"Going soon", sub:"finish these first", ids:["tlou","wed","squid","thuis"]}],
+    more:["finish","episode","short"],
+    follow:[
+      {id:"leaving-first", q:"Which one first?", a:"The Last of Us. S2 E3, 67% in \u2014 the shortest distance to done, and the one with the most left to lose."},
+      {id:"leaving-time", q:"How long have I got?", a:"Days rather than weeks. Wednesday is ~50 minutes an episode, Thuis 25. Squid Game is the one that needs a real run at it."}
+    ]
+  },
+  live:{
+    q:"What\u2019s actually on right now",
+    a:"On now: De Tafel van Gert at 20:00 on Play, the day\u2019s news with six guests. Zeg Eens Euh follows after 22:00. Familie ran earlier \u2014 VTM GO has tonight\u2019s episode already.",
+    lanes:[{title:"On right now", sub:"live and tonight", ids:["tafel","zegeuh","familie","thuis"]}],
+    more:["flanders","episode","plan"],
+    follow:[
+      {id:"live-late", q:"Anything later tonight?", a:"Zeg Eens Euh at 22:10 \u2014 one minute, no euh, four Vlamingen and a buzzer. Monday to Thursday, so it is on if the table was."},
+      {id:"live-missed", q:"I missed the start \u2014 worth joining?", a:"The table is blocks, not a plot. Join mid-way and you will pick it up inside a minute. Play keeps last night if you would rather start clean."}
     ]
   },
   "g-action":{
@@ -1385,6 +1479,51 @@ function genreChip(id){
 function moodAskIds(){
   return Object.keys(asks).filter(id => asks[id].kind !== "genre");
 }
+const QI = {
+  buzz:'<svg viewBox="0 0 24 24"><path d="M20.5 11.5a7.5 7.5 0 0 1-7.5 7.5H9l-4.5 3v-4.7A7.5 7.5 0 0 1 3 11.5 7.5 7.5 0 0 1 10.5 4h2.5a7.5 7.5 0 0 1 7.5 7.5z"/></svg>',
+  leaving:'<svg viewBox="0 0 24 24"><path d="M14.5 4H18a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3.5"/><path d="M10 8.5l3.5 3.5L10 15.5"/><path d="M13.5 12H4"/></svg>',
+  episode:'<svg viewBox="0 0 24 24"><path d="M3.5 19v-9.5"/><path d="M3.5 13.5H20a1.5 1.5 0 0 1 1.5 1.5V19"/><path d="M20 13.5v-2a2.5 2.5 0 0 0-2.5-2.5H10"/><circle cx="7.2" cy="11" r="2.1"/></svg>',
+  flanders:'<svg viewBox="0 0 24 24"><path d="M12 3.5s5.2 4.3 5.2 9.1a5.2 5.2 0 0 1-10.4 0c0-2.1 1-3.7 2.1-4.7 0 1.7.9 2.6 1.8 2.6 1.4 0 .3-3.1 1.3-7z"/></svg>',
+  unwind:'<svg viewBox="0 0 24 24"><path d="M5.5 12V9.2A2.2 2.2 0 0 1 7.7 7h8.6a2.2 2.2 0 0 1 2.2 2.2V12"/><path d="M4.6 12h14.8A1.6 1.6 0 0 1 21 13.6V17H3v-3.4A1.6 1.6 0 0 1 4.6 12z"/><path d="M6.6 17v2.2M17.4 17v2.2"/></svg>',
+  live:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.6"/><path d="M7.9 7.9a5.8 5.8 0 0 0 0 8.2"/><path d="M16.1 16.1a5.8 5.8 0 0 0 0-8.2"/><path d="M5.1 5.1a9.8 9.8 0 0 0 0 13.8"/><path d="M18.9 18.9a9.8 9.8 0 0 0 0-13.8"/></svg>'
+};
+
+// six prompts from the wireframe, each on its own hue
+const SEARCH_Q = [
+  {id:"buzz",     hue:"255,196,90"},
+  {id:"leaving",  hue:"255,126,74"},
+  {id:"episode",  hue:"158,120,255"},
+  {id:"flanders", hue:"80,220,180"},
+  {id:"unwind",   hue:"255,86,124"},
+  {id:"live",     hue:"92,168,255"}
+];
+
+// search terms the catalogue can actually illustrate
+const PREV = [
+  {term:"Belgian crime",        ask:"belgian", ids:["under","ferry","zill","jan"]},
+  {term:"30 minute laughs",     ask:"laugh",   ids:["abbott","bear","chefbbq"]},
+  {term:"Big screen energy",    ask:"epic",    ids:["dune","glad","opp"]},
+  {term:"Something familiar",   ask:"comfort", ids:["thuis","familie","bear"]}
+];
+
+function qCell(cfg){
+  const item = findAsk(cfg.id);
+  if (!item) return "";
+  return `<button class="qcell" type="button" data-ask="${cfg.id}" style="--hue:${cfg.hue}">
+    <span class="qi">${QI[cfg.id] || ""}</span>
+    <span class="qt">${esc(item.q)}</span>
+  </button>`;
+}
+function prevCard(p){
+  const shots = p.ids.map(id => titles[id]).filter(Boolean).slice(0, 4);
+  return `<button class="prev-card" type="button" data-ask="${p.ask}">
+    <span class="prev-term">${esc(p.term)}</span>
+    <span class="prev-strip">${shots.map(t => `<img src="${t.poster}" alt="" loading="lazy">`).join("")}</span>
+  </button>`;
+}
+function qGridHtml(){ return SEARCH_Q.map(qCell).join(""); }
+function prevLaneHtml(){ return PREV.map(prevCard).join(""); }
+
 function moodTrackHtml(){
   const tones = ["", "gold", "violet", "mint", "blue", "rose"];
   const rows = [[],[],[]];
@@ -1411,23 +1550,18 @@ scene.innerHTML = `
   </div>
   <div class="lobby">
     <div class="hello">
-      <h2>What are we watching?</h2>
-      <p>Tap a mood to start</p>
+      <h2>How can I help?</h2>
+      <p>Tap one, or type your own</p>
     </div>
-    <div class="moods">
-      <div class="mood-track">
-        ${moodTrackHtml()}
-      </div>
-    </div>
-    <div class="genre-block">
-      <p class="genre-kicker">Or a genre</p>
+    <div class="genre-block sr-genres">
       <div class="genres">
         <div class="genre-track">${genreTrackHtml()}</div>
       </div>
     </div>
-    <div class="collect">
-      <h3>Nights we already mixed</h3>
-      <div class="packs">${packs.map(packCard).join("")}</div>
+    <div class="qgrid">${qGridHtml()}</div>
+    <div class="prev">
+      <h3>Previous searches</h3>
+      <div class="prev-lane">${prevLaneHtml()}</div>
     </div>
   </div>
   <div class="convo">
