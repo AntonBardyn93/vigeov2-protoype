@@ -964,7 +964,7 @@ const flemishClips = (globalThis.FlemishTitles && FlemishTitles.feed) || [];
 const feedInternational = [
   {
     title: "Wednesday",
-    syn: "Goth. Murder. Dance.",
+    syn: "Goth, funny, murder on the side",
     kind: "Series",
     length: "8 ep",
     provider: "Netflix",
@@ -974,27 +974,30 @@ const feedInternational = [
     backdrop: YT("rFo6M8KeghE"),
     poster: POSTER("/9PFonBhy4cQy7Jz20NpMygczOkv.jpg"),
     qs: [
-      {q: "Actually scary, or just gothic?", a: "Spooky-fun, not a horror hangover. Jump scares are mild; the vibe is gothic teen drama with claws. You’ll know in the first episode if the dance is the point.",
+      {q: "How scary does it get?", a: "Spooky-fun, not a horror hangover. Jump scares are mild; the vibe is gothic teen drama with claws. You’ll know in the first episode if the dance is the point.",
         follow:[
           {id:"wed-horror", q:"Would I still be fine if I don’t like horror?", a:"Yes. If jump-scare horror is the no, this isn’t that. If you hate deadpan teen murder altogether, skip."},
-          {id:"wed-sofa", q:"Can I watch this with someone who’s easily spooked?", a:"Mostly. The Nevermore mood is the scare. Sit with them for episode one; if the Thing scene is too much, this isn’t their show."},
+          {id:"wed-tone", q:"Is this more comedy or more murder?", a:"Both, on purpose. Deadpan first, then a case. If you wanted only jokes, the murders still arrive."}
+        ]},
+      {q: "Give me a recap of season 1", a: "Wednesday gets shipped to Nevermore, a school for outcasts, and starts solving a monster case nobody wants solved. Thing is her hand. There’s a dance that went everywhere. She ends the season having saved the school and trusting roughly one person.",
+        follow:[
+          {id:"wed-s2", q:"Does season two need season one in my head?", a:"You’ll follow it. Season one is the map of Nevermore and the dance. Watch that if the family lore is fuzzy."},
           {id:"wed-jenna", q:"Where do I know her from?", a:"Jenna Ortega — you’ve seen the face. Wednesday is the one that stuck. You don’t need the old Addams films to get why she’s here.", who:"Jenna Ortega"}
         ]},
-      {q: "Binge this, or drip it?", a: "Easy two-episode nights. Season arcs reward a weekend binge if you’re in the mood. Not a homework show — you can leave and come back.",
+      {q: "Is it okay for a 12-year-old?", a: "Twelve is about right. Bodies turn up and the monster is properly monstrous, but it’s deadpan more than gory. Sit through episode one with them — if the Thing scene lands badly, it isn’t their show.",
         follow:[
-          {id:"wed-one", q:"What if I only have one episode tonight?", a:"That’s a good Wednesday. ~50 minutes, Netflix, you’re already mid-season. One tonight, another when the house is quiet."},
-          {id:"wed-s2", q:"Does season two need season one in my head?", a:"You’ll follow it. Season one is the map of Nevermore and the dance. Watch that if the family lore is fuzzy."}
+          {id:"wed-sofa", q:"Can I watch this with someone who’s easily spooked?", a:"Mostly. The Nevermore mood is the scare. Sit with them for episode one; if the Thing scene is too much, this isn’t their show."},
+          {id:"wed-one", q:"What if we only have one episode tonight?", a:"That’s a good Wednesday. ~50 minutes, Netflix, you’re already mid-season. One tonight, another when the house is quiet."}
         ]},
-      {q: "Need the Addams movies?", a: "Nope. It’s its own universe — knowing the family lore is just bonus smirk material. The show tells you who she is.",
+      {q: "Are there other Addams Family films or shows?", a: "Plenty, and none of them are homework. The two 90s films are the ones people mean, plus the old black-and-white series and the animated ones. This show is its own universe — the lore is bonus smirk material.",
         follow:[
-          {id:"wed-tone", q:"Is this more comedy or more murder?", a:"Both, on purpose. Deadpan first, then a case. If you wanted only jokes, the murders still arrive."},
           {id:"wed-more", q:"What else has she been in that’s this weird?", a:"This is the weird one that stuck. If you want more Ortega without Nevermore, you’re leaving the goth teen lane — say if that’s the brief.", who:"Jenna Ortega"}
         ]}
     ]
   },
   {
     title: "Dune: Part Two",
-    syn: "Sand. Prophecy. War.",
+    syn: "Spectacle you feel in the couch",
     kind: "Film",
     length: "2h 46",
     provider: "HBO Max",
@@ -1004,22 +1007,24 @@ const feedInternational = [
     backdrop: TMDB("/eZ239CUp1d6OryZEBPnO2n87gMG.jpg"),
     poster: POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"),
     qs: [
-      {q: "How stressful is this, really?", a: "Tense in short hits — sandworms, politics, and one very intense family dinner. You’ll know after the first big set piece whether this is your night.",
-        follow:[
-          {id:"dune-split", q:"Can I split it if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."},
-          {id:"dune-skip", q:"What if I just wanted spectacle, not prophecy?", a:"You’ll still get worms and war. The prophecy talk is the plot, though. Part One is the map if that itch is already starting."},
-          {id:"dune-stress-wk", q:"So not a Tuesday after work?", a:"Not if you want to finish. Split it, or keep it for Friday. You’ve barely started — tonight only if the sofa is yours."}
-        ]},
-      {q: "Do I need Part One first?", a: "You’ll survive without it, but Part One is the map. Watch that if prophecy talk makes you itch, or if names like Chani still bounce off.",
+      {q: "Do I need to see Part One first?", a: "You’ll survive without it, but Part One is the map. Watch that if prophecy talk makes you itch, or if names like Chani still bounce off.",
         follow:[
           {id:"dune-names", q:"What if I barely remember the names?", a:"Watch Part One. This film assumes you already took the sand. A recap will get you through a scene; it won’t get you through the politics."},
-          {id:"dune-ok", q:"I’ll be fine — I just want the war.", a:"Then start here. You’ll miss some quiet setup; you won’t miss the worms."},
-          {id:"dune-part-short", q:"Is Part One a shorter night than this?", a:"It’s still a sit. This one is 2h 46. If you need the map, watch Part One first and keep this for Friday."}
+          {id:"dune-ok", q:"I’ll be fine — I just want the war.", a:"Then start here. You’ll miss some quiet setup; you won’t miss the worms."}
         ]},
-      {q: "A weeknight film, or Friday?", a: "2h 46 is a Friday film. Splitable around the mid-story time jump if you must. Not a Tuesday after work unless that’s the night you wanted.",
+      {q: "Recap Part One for me", a: "House Atreides is handed Arrakis, the planet that makes the spice everyone needs. It’s a trap. The Harkonnens take it back in one night, Duke Leto dies, and Paul and his mother escape into the desert to the Fremen. Part Two starts there.",
+        follow:[
+          {id:"dune-part-short", q:"Is Part One a shorter night than this?", a:"It’s still a sit. This one is 2h 46. If you need the map, watch Part One first and keep this for Friday."},
+          {id:"dune-skip", q:"What if I just wanted spectacle, not prophecy?", a:"You’ll still get worms and war. The prophecy talk is the plot, though. Part One is the map if that itch is already starting."}
+        ]},
+      {q: "What’s it about, without spoilers?", a: "A young duke with nothing left joins the desert people who might become his army, and everyone — him included — starts wondering whether he’s a liberator or a weapon. Sandworms, politics, one very intense family dinner.",
+        follow:[
+          {id:"dune-split", q:"Can I split it if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."},
+          {id:"dune-stress-wk", q:"So not a Tuesday after work?", a:"Not if you want to finish. Split it, or keep it for Friday. You’ve barely started — tonight only if the sofa is yours."}
+        ]},
+      {q: "Show me more epic sci-fi like this", a: "Nothing else in your plan hits this scale. Gladiator II is the closest sit for spectacle and empire, on Apple TV. Otherwise Part One is the obvious next night — same desert, the half you skipped.",
         follow:[
           {id:"dune-tonight", q:"I started it already — should I just finish?", a:"Yes if you have the sofa. You’re barely in. Tonight is a proper night, not a dip."},
-          {id:"dune-wk-split", q:"Can I split it and still keep the night?", a:"Yes — around the mid-story time jump. You’ll feel the pause. Better as one sit if the sofa can take it."},
           {id:"dune-wk-room", q:"What if people are still in the room?", a:"Then don’t. 2h 46 wants the sofa. Barbie if the room is still up. Come back to this when it’s yours."}
         ]}
     ],
@@ -1027,7 +1032,7 @@ const feedInternational = [
   },
   {
     title: "Undercover",
-    syn: "Camping. XTC. Double lives.",
+    syn: "Camping cover, drug lab underneath",
     kind: "Series",
     length: "3 seasons",
     provider: "Netflix",
@@ -1037,20 +1042,20 @@ const feedInternational = [
     backdrop: YT("Vt4qQiM2Ahk"),
     poster: POSTER("/ziOJNiNUbomrs81behksd0z9Qoz.jpg"),
     qs: [
-      {q: "How Flemish is this, honestly?", a: "Fully — Limburg camping vibes, Dutch-Belgian border slang, and a villain you’ll weirdly root for (Ferry). Subtitles if you need them; the camping is the point.",
-        follow:[
-          {id:"uc-ferry", q:"Who is Ferry supposed to be?", a:"The man you weirdly root for. Drug boss, camping, the long game. The film Ferry is his origin — watch that after if you want more Bouman.", who:"Ferry"},
-          {id:"uc-lang", q:"Will I miss it if my Dutch isn’t great?", a:"You’ll get the camping and the double lives. The slang is flavour. Subtitles keep the jokes."}
-        ]},
-      {q: "Too violent for a weeknight?", a: "Crime-show tense, not torture porn. Ideal if you like Narcos energy without the homework. Skip if the room wanted pink.",
+      {q: "How violent or dark does it get?", a: "Crime-show tense, not torture porn. Narcos energy without the homework — the dread is the double life, not the gore. Skip if the room wanted pink.",
         follow:[
           {id:"uc-room", q:"What if someone else is on the sofa?", a:"Fine if they like crooks. Not fine if they wanted Barbie. Episode length is ~50 minutes — one and see."},
           {id:"uc-narcos", q:"So it’s Narcos, but camping?", a:"That’s the closest neighbour. Border, drugs, double lives. Less homework, more Limburg."}
         ]},
-      {q: "Start with the Ferry film?", a: "Undercover first, then Ferry if you’re hungry for more Bouman. The film is the origin; the series is the long game. You’re already in S3 — keep going, then the film as a closed night.",
+      {q: "Should I watch Ferry before this?", a: "Undercover first, then Ferry. The film is the origin; the series is the long game. You’re already in S3 — keep going, then the film as a closed night.",
         follow:[
           {id:"uc-order", q:"I’m already in season three — did I mess up?", a:"No. Keep going. Ferry still works after as the origin glow-up. You don’t rewind a camping for a film."},
           {id:"uc-s4", q:"Isn’t the new season about to start?", a:"S4 premiere is Thursday on Netflix. Finish what you’re in so Thursday isn’t a pile-up."}
+        ]},
+      {q: "Is it based on a true story?", a: "Loosely. Police really did work a camping on the Belgian-Dutch border against an XTC lab — the setting and the method come from that. The people are written, Ferry Bouman included.",
+        follow:[
+          {id:"uc-ferry", q:"Who is Ferry supposed to be?", a:"The man you weirdly root for. Drug boss, camping, the long game. The film Ferry is his origin — watch that after if you want more Bouman.", who:"Ferry"},
+          {id:"uc-lang", q:"Will I miss it if my Dutch isn’t great?", a:"You’ll get the camping and the double lives. The slang is flavour. Subtitles keep the jokes."}
         ]}
     ]
   }
@@ -1059,7 +1064,7 @@ const feedInternational = [
 const laneInternational = [
   {
     title: "Oppenheimer",
-    syn: "Bomb. Guilt. Fallout.",
+    syn: "Prestige history, loud and very quiet",
     kind: "Film",
     length: "3h 00",
     provider: "HBO Max",
@@ -1069,24 +1074,26 @@ const laneInternational = [
     backdrop: YT("uYPbbksJxIg"),
     poster: POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg"),
     qs: [
-      {q: "Three hours too long tonight?", a: "Three hours. A weekend film. Not a Tuesday after work unless you like finishing at 1am.",
+      {q: "How close is it to the real history?", a: "Close on the spine — Los Alamos, the test, and the security hearing that took him apart afterwards. It’s built from a biography, so the beats are real. The private rooms are Nolan filling in what nobody recorded.",
         follow:[
-          {id:"opp-split", q:"Can I split it?", a:"You can. It will feel like you paused a trial. Better as one sit if the sofa can take it."},
-          {id:"opp-barbie", q:"Should I really pair this with Barbie?", a:"That’s the Barbenheimer joke. Pink then fallout, or the other way. They talk to each other. Only if the night can hold both."}
-        ]},
-      {q: "Do I need the science?", a: "You don’t. The physics is flavour; the film is about guilt, power, and the hangover of being right.",
-        follow:[
+          {id:"opp-hearing", q:"What was the hearing actually about?", a:"Whether he was a security risk. 1954, clearance stripped in a closed room. The film treats that as the real detonation — it’s most of the second half."},
           {id:"opp-feel", q:"Is it going to sit on me after?", a:"Yes. That’s the point. Not a background film. 1985 if you wanted that feeling closer to home and shorter."}
         ]},
-      {q: "Pair this with Barbie?", a: "Yes — that’s the joke. Barbie first if you want to land soft, Oppenheimer first if you want the release. Only if the night can hold both.",
+      {q: "Do I need to understand the science to follow it?", a: "You don’t. The physics is flavour; the film is about guilt, power, and the hangover of being right.",
         follow:[
-          {id:"opp-just", q:"What if I only want this one?", a:"Then don’t. Three hours of guilt doesn’t need pink to justify it."}
+          {id:"opp-cast", q:"Who am I looking at?", a:"Cillian Murphy carries it. Robert Downey Jr. is the one people talk about after. You don’t need to place the rest — the film keeps telling you."},
+          {id:"opp-split", q:"Can I split it?", a:"You can. It will feel like you paused a trial. Better as one sit if the sofa can take it."}
+        ]},
+      {q: "Is it suitable for teenagers?", a: "Teenagers, yes — it’s talk, not carnage. Three hours of politics and guilt, some nudity, a lot of smoking. Younger than that and the hearing will lose them long before the test does.",
+        follow:[
+          {id:"opp-barbie", q:"Should I really pair this with Barbie?", a:"That’s the Barbenheimer joke. Pink then fallout, or the other way. They talk to each other. Only if the night can hold both."},
+          {id:"opp-just", q:"What if I only want this one?", a:"Then don’t pair it. Three hours of guilt doesn’t need pink to justify it."}
         ]}
     ]
   },
   {
     title: "Dune: Part Two",
-    syn: "Sand. Prophecy. War.",
+    syn: "Spectacle you feel in the couch",
     kind: "Film",
     length: "2h 46",
     provider: "HBO Max",
@@ -1096,22 +1103,24 @@ const laneInternational = [
     backdrop: TMDB("/eZ239CUp1d6OryZEBPnO2n87gMG.jpg"),
     poster: POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg"),
     qs: [
-      {q: "How stressful is this, really?", a: "Tense in short hits — sandworms, politics, and one very intense family dinner. You’ll know after the first big set piece whether this is your night.",
-        follow:[
-          {id:"dune-split", q:"Can I split it if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."},
-          {id:"dune-skip", q:"What if I just wanted spectacle, not prophecy?", a:"You’ll still get worms and war. The prophecy talk is the plot, though. Part One is the map if that itch is already starting."},
-          {id:"dune-stress-wk", q:"So not a Tuesday after work?", a:"Not if you want to finish. Split it, or keep it for Friday. You’ve barely started — tonight only if the sofa is yours."}
-        ]},
-      {q: "Do I need Part One first?", a: "You’ll survive without it, but Part One is the map. Watch that if prophecy talk makes you itch, or if names like Chani still bounce off.",
+      {q: "Do I need to see Part One first?", a: "You’ll survive without it, but Part One is the map. Watch that if prophecy talk makes you itch, or if names like Chani still bounce off.",
         follow:[
           {id:"dune-names", q:"What if I barely remember the names?", a:"Watch Part One. This film assumes you already took the sand. A recap will get you through a scene; it won’t get you through the politics."},
-          {id:"dune-ok", q:"I’ll be fine — I just want the war.", a:"Then start here. You’ll miss some quiet setup; you won’t miss the worms."},
-          {id:"dune-part-short", q:"Is Part One a shorter night than this?", a:"It’s still a sit. This one is 2h 46. If you need the map, watch Part One first and keep this for Friday."}
+          {id:"dune-ok", q:"I’ll be fine — I just want the war.", a:"Then start here. You’ll miss some quiet setup; you won’t miss the worms."}
         ]},
-      {q: "A weeknight film, or Friday?", a: "2h 46 is a Friday film. Splitable around the mid-story time jump if you must. Not a Tuesday after work unless that’s the night you wanted.",
+      {q: "Recap Part One for me", a: "House Atreides is handed Arrakis, the planet that makes the spice everyone needs. It’s a trap. The Harkonnens take it back in one night, Duke Leto dies, and Paul and his mother escape into the desert to the Fremen. Part Two starts there.",
+        follow:[
+          {id:"dune-part-short", q:"Is Part One a shorter night than this?", a:"It’s still a sit. This one is 2h 46. If you need the map, watch Part One first and keep this for Friday."},
+          {id:"dune-skip", q:"What if I just wanted spectacle, not prophecy?", a:"You’ll still get worms and war. The prophecy talk is the plot, though. Part One is the map if that itch is already starting."}
+        ]},
+      {q: "What’s it about, without spoilers?", a: "A young duke with nothing left joins the desert people who might become his army, and everyone — him included — starts wondering whether he’s a liberator or a weapon. Sandworms, politics, one very intense family dinner.",
+        follow:[
+          {id:"dune-split", q:"Can I split it if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."},
+          {id:"dune-stress-wk", q:"So not a Tuesday after work?", a:"Not if you want to finish. Split it, or keep it for Friday. You’ve barely started — tonight only if the sofa is yours."}
+        ]},
+      {q: "Show me more epic sci-fi like this", a: "Nothing else in your plan hits this scale. Gladiator II is the closest sit for spectacle and empire, on Apple TV. Otherwise Part One is the obvious next night — same desert, the half you skipped.",
         follow:[
           {id:"dune-tonight", q:"I started it already — should I just finish?", a:"Yes if you have the sofa. You’re barely in. Tonight is a proper night, not a dip."},
-          {id:"dune-wk-split", q:"Can I split it and still keep the night?", a:"Yes — around the mid-story time jump. You’ll feel the pause. Better as one sit if the sofa can take it."},
           {id:"dune-wk-room", q:"What if people are still in the room?", a:"Then don’t. 2h 46 wants the sofa. Barbie if the room is still up. Come back to this when it’s yours."}
         ]}
     ]
@@ -1170,7 +1179,7 @@ const laneInternational = [
   },
   {
     title: "Barbie",
-    syn: "Pink. Funny. Gut punch.",
+    syn: "Pink comedy with a sting",
     kind: "Film",
     length: "1h 54",
     provider: "HBO Max",
@@ -1180,18 +1189,20 @@ const laneInternational = [
     backdrop: YT("pBk4NYhWNMM"),
     poster: POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg"),
     qs: [
-      {q: "Just for kids, or will it land?", a: "No. Pink on the outside, a gut punch about being a person. Kids can watch; the joke is for you.",
+      {q: "What’s it actually about?", a: "A doll who has never had a bad day starts having them, leaves Barbie Land for the real world, and finds out what being a person costs. Pink on the outside, a gut punch underneath. Funny until it isn’t, on purpose.",
+        follow:[
+          {id:"barb-punch", q:"How much of a gut punch are we talking?", a:"Funny until it isn’t, on purpose. The room goes quiet once. Then it lets you out."},
+          {id:"barb-sofa", q:"Will people on the sofa still have a good time?", a:"Yes if they can take a joke that turns. If they wanted only pink, they’ll still get pink."}
+        ]},
+      {q: "Is it okay for a 9-year-old?", a: "Yes. They get the pink, you get the speech. Nothing they shouldn’t see — the jokes aimed at you will simply go over them.",
         follow:[
           {id:"barb-kids", q:"Can I still put it on if kids are around?", a:"Yes. They get the pink. You get the speech. Nobody has to sit up for sandworms."},
-          {id:"barb-punch", q:"How much of a gut punch are we talking?", a:"Funny until it isn’t, on purpose. The room goes quiet once. Then it lets you out."}
+          {id:"barb-length", q:"How long is it?", a:"1h 54 on HBO Max, in your plan. Ends before midnight even if you start late."}
         ]},
-      {q: "Pair this with Oppenheimer?", a: "That’s the double bill. Barbie first if you want to land soft, Oppenheimer first if you want the release. Only if the night can hold both.",
+      {q: "Show me more comedies like this", a: "Nothing else in your plan turns the same way. Zeg Eens Euh if you want a laugh you can talk over, Jade en de Belgen for the weekly roast. Neither will punch you at the end.",
         follow:[
+          {id:"barb-double", q:"Is the Oppenheimer double bill worth it?", a:"That’s the joke. Barbie first if you want to land soft. Only if the night can hold five hours."},
           {id:"barb-only", q:"What if I just want this one?", a:"Then just this. 1h 54, HBO Max, in your plan. It doesn’t need three hours of guilt to work."}
-        ]},
-      {q: "How meta is it going to be?", a: "Very — toys, Mattel, and the speech that made the room go quiet. Funny until it isn’t, on purpose.",
-        follow:[
-          {id:"barb-sofa", q:"Will people on the sofa still have a good time?", a:"Yes if they can take a joke that turns. If they wanted only pink, they’ll still get pink."}
         ]}
     ]
   },
@@ -1223,7 +1234,7 @@ const laneInternational = [
   },
   {
     title: "Zillion",
-    syn: "Rise. Glow. Crash.",
+    syn: "Antwerp nightlife, rise and crash",
     kind: "Film",
     length: "2h 03",
     provider: "Streamz",
@@ -1233,17 +1244,20 @@ const laneInternational = [
     backdrop: TMDB("/embS4GPK7c8pjbuY2O2irV5rYch.jpg"),
     poster: POSTER("/ns7LIqVWrPbO2FYPQ0ec6mfziSc.jpg"),
     qs: [
-      {q: "How Flemish will this feel?", a: "Fully — Ghent nightlife, 90s Belgium, and a rise-and-crash you don’t need subtitles to feel. Streamz, so it carries a lock if that’s not in your plan.",
+      {q: "Do I need to know the real story first?", a: "No. It’s the Antwerp club and the man who built it — the glow, the money, the crash. The film tells you what you need. Knowing the headlines just changes which scenes sting.",
         follow:[
-          {id:"zill-lock", q:"I don’t have Streamz — is it worth adding for this?", a:"Only if Ghent nightlife in the 90s is the brief. Ferry covers Belgian excess on Netflix without the extra app."}
+          {id:"zill-true", q:"So this is based on a real club?", a:"Yes — the club and the crash. Tightened for the screen, not a documentary."},
+          {id:"zill-club", q:"Who is the man it’s built around?", a:"Frank Verstraeten, the owner. He built the place, then lost it — courts, prison, the lot. The film is his rise and his morning after."}
         ]},
-      {q: "Too much 90s if I wasn’t there?", a: "The decade is the costume. The story is ego, glow, and the morning after. You don’t need to have been in the club.",
+      {q: "How explicit is it?", a: "Explicit. Drugs, sex and 90s excess played straight, not winked at. Not the film for a room where someone small is still in the doorway.",
         follow:[
-          {id:"zill-true", q:"So this is based on a real club?", a:"Yes — the club and the crash. Tightened for the screen, not a documentary."}
+          {id:"zill-room", q:"Fine with people in the room?", a:"Depends on the people. It’s a night of excess played straight. Barbie if the sofa wanted pink."},
+          {id:"zill-lock", q:"I don’t have Streamz — is it worth adding for this?", a:"Only if Antwerp nightlife in the 90s is the brief. Ferry covers Belgian excess on Netflix without the extra app."}
         ]},
-      {q: "True story, or just vibes?", a: "Yes — based on the club and the crash. Tightened for the screen, not a documentary.",
+      {q: "Show me more Belgian films like this", a: "Ferry on Netflix — same glow-and-crash energy, Dutch-Belgian border, 1h 46, and no extra app. Undercover if you want it stretched over three seasons instead of one night.",
         follow:[
-          {id:"zill-close", q:"What’s close if I can’t play this tonight?", a:"Ferry on Netflix. Same glow-and-crash energy, Dutch-Belgian border, 1h 46, in-plan."}
+          {id:"zill-close", q:"What’s close if I can’t play this tonight?", a:"Ferry on Netflix. Same glow-and-crash energy, Dutch-Belgian border, 1h 46, in-plan."},
+          {id:"zill-belg", q:"Anything Flemish that isn’t crime?", a:"Alex Agnew for two hours of Antwerp with no plot, or Jade en de Belgen for the country laughing at itself. Different night entirely."}
         ]}
     ]
   },
@@ -1301,7 +1315,7 @@ const laneInternational = [
   },
   {
     title: "Ferry",
-    syn: "Origin. Underworld. Glow-up.",
+    syn: "Undercover’s origin story",
     kind: "Film",
     length: "1h 46",
     provider: "Netflix",
@@ -1311,18 +1325,20 @@ const laneInternational = [
     backdrop: YT("MG6U7gduIwA"),
     poster: POSTER("/w6n1pu9thpCVHILejsuhKf3tNCV.jpg"),
     qs: [
-      {q: "Watch this before Undercover?", a: "After is cleaner — this is the origin glow-up. Undercover first if you want the long game. You’re probably already in the series; keep that, then this as a closed night.",
+      {q: "How violent is it?", a: "Crime-hard, not torture. Drugs, loyalty, and a man building a myth. Weeknight-ok if you like Narcos energy.",
+        follow:[
+          {id:"ferry-week", q:"So 1h 46 is actually a weeknight?", a:"Yes. That’s why it’s on your short list. Dune is the Friday. This ends."},
+          {id:"ferry-fl", q:"What’s the more Flemish crime if I wanted that?", a:"Assisen and Jan de Lichte, both locked. Undercover and Ferry are the in-plan pair."}
+        ]},
+      {q: "Does the film stand on its own?", a: "Yes. A man, a trade, and the moment he decides who he’s going to be. Undercover makes it richer because you know where he ends up, but the film closes itself.",
+        follow:[
+          {id:"ferry-who", q:"Where do I know him from?", a:"Ferry Bouman — the one you root for in Undercover even when you shouldn’t. This is how he gets there.", who:"Ferry"},
+          {id:"ferry-alone", q:"Will I be lost if I’ve never seen Undercover?", a:"No. Nothing in the film asks you to remember the series. It’s the earlier chapter, not the sequel."}
+        ]},
+      {q: "In what order should I watch Ferry and Undercover?", a: "Undercover first, then Ferry. After is cleaner — this is the origin glow-up. You’re probably already in the series; keep that, then this as a closed night.",
         follow:[
           {id:"ferry-after", q:"I’m already in Undercover — so this is dessert?", a:"Yes. 1h 46, Netflix, in your plan. Same man, earlier. You don’t rewind the camping.", who:"Ferry"},
-          {id:"ferry-who", q:"Where do I know him from?", a:"Ferry Bouman — the one you root for in Undercover even when you shouldn’t. This is how he gets there.", who:"Ferry"}
-        ]},
-      {q: "How hard is the crime?", a: "Crime-hard, not torture. Drugs, loyalty, and a man building a myth. Weeknight-ok if you like Narcos energy.",
-        follow:[
-          {id:"ferry-week", q:"So 1h 46 is actually a weeknight?", a:"Yes. That’s why it’s on your short list. Dune is the Friday. This ends."}
-        ]},
-      {q: "Dutch or Flemish — does it matter?", a: "Dutch-Belgian border world. Limburg grit, not Randstad polish — same universe as Undercover.",
-        follow:[
-          {id:"ferry-fl", q:"What’s the more Flemish crime if I wanted that?", a:"Assisen and Jan de Lichte, both locked. Undercover and Ferry are the in-plan pair."}
+          {id:"ferry-series", q:"Isn’t there a Ferry series as well?", a:"There is, after the film, on Netflix. Film first if you’re starting here — the series picks up from it."}
         ]}
     ]
   }
