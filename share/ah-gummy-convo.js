@@ -145,6 +145,23 @@
       sync();
     }
 
+    // an answer that names titles gets their posters under it, so the reply
+    // reads visually before you have finished reading it
+    function addLane(afterEl, item, text) {
+      if (typeof opts.posters !== "function" || !afterEl) return;
+      let shots = [];
+      try { shots = opts.posters(item, text) || []; } catch (_) { shots = []; }
+      if (!shots.length) return;
+      const lane = document.createElement("div");
+      lane.className = "ask-lane";
+      lane.innerHTML = shots.slice(0, 12).map(sh => `<button class="ask-shot" type="button" data-open-title="${esc(sh.title)}"${sh.id ? ` data-title-id="${esc(sh.id)}"` : ""}>
+          <img src="${sh.poster}" alt="" loading="lazy">
+          <span>${esc(sh.title)}</span>
+        </button>`).join("");
+      afterEl.insertAdjacentElement("afterend", lane);
+      afterEl.parentElement && (afterEl.parentElement.scrollTop = afterEl.parentElement.scrollHeight);
+    }
+
     function setTalking(on) {
       sheet.classList.toggle("is-talking", !!on);
     }
@@ -159,7 +176,9 @@
       const an = seed(q);
       const row = startersEl();
       row?.classList.add("hid");
-      streamText(textOf(item), an, () => {
+      const answerText = textOf(item);
+      streamText(answerText, an, () => {
+        addLane(an, item, answerText);
         row?.classList.remove("hid");
         renderStarters(item.id);
         an.parentElement && (an.parentElement.scrollTop = an.parentElement.scrollHeight);
@@ -324,6 +343,28 @@
     return { open, close, ask, askText, isOpen, setBank, setStarters, find };
   }
 
+  // Resolves the posters for an answer from an explicit list on the bank item.
+  // Deliberately no free-text scanning: title names collide with ordinary words
+  // ("Wednesday" the weekday) and with brands, which produced posters on answers
+  // that were not suggesting anything to watch.
+  function posterScanner(catalog) {
+    const byName = {};
+    (catalog || []).forEach(t => {
+      if (t && t.title && t.poster) byName[String(t.title).toLowerCase()] = t;
+    });
+    return function (item) {
+      const want = item && (item.posterTitles || item.posters);
+      if (!want || !want.length) return [];
+      const out = [];
+      const seen = {};
+      want.forEach(entry => {
+        const hit = typeof entry === "string" ? byName[entry.toLowerCase()] : entry;
+        if (hit && hit.title && hit.poster && !seen[hit.title]) { seen[hit.title] = 1; out.push(hit); }
+      });
+      return out;
+    };
+  }
+
   function markup(placeholder) {
     return `<div class="csheet" data-csheet aria-hidden="true">
       <div class="csheet-scrim" data-csheet-dismiss></div>
@@ -355,5 +396,5 @@
     </div>`;
   }
 
-  global.GummyConvo = { create, markup, esc };
+  global.GummyConvo = { create, markup, esc, posterScanner };
 })(window);

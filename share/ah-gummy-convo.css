@@ -174,3 +174,23 @@ html.is-app.is-bare .csheet-panel,
 @media (prefers-reduced-motion:reduce){
   .csheet-scrim, .csheet-panel{transition:none}
 }
+
+/* posters under an answer, so a reply reads visually straight away */
+.ask-lane{
+  display:flex;gap:8px;margin:12px 0 2px;padding-bottom:2px;
+  overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.ask-lane::-webkit-scrollbar{display:none}
+.ask-shot{
+  flex:0 0 76px;padding:0;border:0;background:none;text-align:left;cursor:pointer;
+  transition:transform .2s cubic-bezier(.22,.82,.28,1);
+}
+.ask-shot:active{transform:scale(.96)}
+.ask-shot img{
+  width:76px;height:114px;border-radius:9px;object-fit:cover;display:block;
+  background:#15151a;box-shadow:0 6px 16px rgba(0,0,0,.34);
+}
+.ask-shot span{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  margin-top:6px;font-size:10.5px;font-weight:600;line-height:1.22;color:rgba(255,255,255,.74);
+}
