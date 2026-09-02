@@ -421,6 +421,34 @@
   .syn{
     font-size:12px;font-weight:500;color:rgba(255,255,255,.84);
   }
+  /* --- sponsored ad slide --- */
+  .hero.is-ad-brand{align-items:center;gap:10px}
+  .ad-logo{
+    width:11.4cqw;height:11.4cqw;border-radius:10px;overflow:hidden;flex-shrink:0;
+    background:#FAEB5C;box-shadow:0 8px 18px rgba(0,0,0,.4);
+    pointer-events:auto;
+  }
+  .ad-logo img{width:100%;height:100%;object-fit:cover;display:block}
+  .is-ad-brand .copy{gap:1px}
+  .is-ad-brand .title{font-size:17px}
+  .ad-sponsored{color:rgba(255,255,255,.62);font-weight:500}
+  .ad-copy{
+    margin:0;pointer-events:auto;
+    font-size:13px;font-weight:500;line-height:1.35;letter-spacing:-.01em;
+    color:rgba(255,255,255,.92);
+    text-shadow:0 1px 10px rgba(0,0,0,.45);
+  }
+  .ad-cta{
+    width:100%;pointer-events:auto;
+    padding:13px 16px;border-radius:12px;
+    background:#FAEB5C;color:#111;
+    font-size:15px;font-weight:700;letter-spacing:-.01em;line-height:1;
+    box-shadow:0 8px 20px rgba(0,0,0,.34);
+    transition:transform .18s ease, filter .18s ease;
+  }
+  .ad-cta:active{transform:scale(.985);filter:brightness(.95)}
+  .slide.is-convo .ad-cta{opacity:.35}
+
   .watchlist{
     display:inline-flex;align-items:center;gap:4px;
     padding:7px 11px 7px 7px;border-radius:8px;
@@ -1347,7 +1375,41 @@ const laneInternational = [
 const moreInternational = laneInternational.filter(x =>
   ["Barbie", "Ferry", "Oppenheimer", "Zillion"].includes(x.title)
 );
+const telenetAd = {
+  ad: true,
+  title: "Telenet",
+  syn: "Sponsored",
+  adCopy: "Customise your Telenet exactly how you use it: we suggest, you decide. You know exactly what you get for every penny.",
+  cta: "Build your own bundle",
+  kind: "Ad",
+  length: "",
+  provider: "Telenet",
+  logo: "telenet-logo.svg",
+  youtube: "telenet-bingefoot",
+  start: 0,
+  backdrop: "stills/telenet-bingefoot.jpg",
+  poster: "telenet-logo.svg",
+  qs: [
+    {q: "What does Telenet offer?", a: "Internet, mobile and TV \u2014 on their own or together. The point of building your own bundle is that you\u2019re not picking a fixed pack: you choose the parts you actually use and leave the rest out.",
+      follow:[
+        {id:"tn-tv", q:"What\u2019s in the TV part?", a:"Live channels, on demand, and the streaming apps you already watch, in one place. You add what you want on top and skip the rest."},
+        {id:"tn-mobile", q:"Can I add mobile to it?", a:"Yes. Mobile sits in the same bundle as internet and TV, so it stays one bill and one place to change things."}
+      ]},
+    {q: "What are the prices?", a: "There isn\u2019t one price \u2014 the bundle prices what you pick. Choose your internet speed, then whether you want mobile and TV, and the total moves with it, so you can see what each part is costing you.",
+      follow:[
+        {id:"tn-cheaper", q:"How do I keep it cheap?", a:"Leave out what you don\u2019t use. That\u2019s the whole idea \u2014 you\u2019re not paying for a pack built around somebody else\u2019s evening."},
+        {id:"tn-change", q:"Can I change it later?", a:"Yes. The bundle is meant to be adjusted when what you use changes, not locked for a year and forgotten."}
+      ]},
+    {q: "Can I easily switch from my current provider?", a: "Yes. The switch is arranged for you, so you\u2019re not left without a connection in between, and your mobile number comes with you.",
+      follow:[
+        {id:"tn-number", q:"Do I keep my number?", a:"Yes. Your mobile number moves to Telenet with you \u2014 you don\u2019t have to tell everyone a new one."},
+        {id:"tn-when", q:"How long does it take?", a:"You get a date for the changeover when you order, so you know exactly when the old line stops and the new one starts."}
+      ]}
+  ]
+};
+const AD_SLOT = 3;
 const feed = weave(flemishClips, [...feedInternational, ...moreInternational]);
+feed.splice(Math.min(AD_SLOT, feed.length), 0, telenetAd);
 const lane = laneInternational;
 
 const params = new URLSearchParams(location.search);
@@ -1406,7 +1468,7 @@ function patchHTML(item){
 
 function slideHTML(item, i){
   const qs = item.qs.map((chip, qi) => `<button class="qcard-q${qi === 1 ? " is-on" : ""}" type="button" data-q="${qi}">${esc(chip.q)}</button>`).join("");
-  return `<article class="slide" data-i="${i}" data-start="${Number.isFinite(item.start) ? item.start : 0}">
+  return `<article class="slide${item.ad ? " is-ad" : ""}" data-i="${i}" data-start="${Number.isFinite(item.start) ? item.start : 0}">
     <div class="videowrap" data-video>
       <div class="video-poster" style="background-image:url('${item.backdrop}')"></div>
       <div class="video-edgefade"></div>
@@ -1414,6 +1476,17 @@ function slideHTML(item, i){
     ${patchHTML(item)}
     <div class="dock">
       <div class="cluster">
+        ${item.ad ? `
+        <div class="hero is-ad-brand">
+          <div class="ad-logo"><img src="${encodeURI(item.logo)}" alt=""></div>
+          <div class="copy">
+            <div class="title">${esc(item.title)}</div>
+            <div class="syn ad-sponsored">${esc(item.syn)}</div>
+          </div>
+        </div>
+        <p class="ad-copy">${esc(item.adCopy)}</p>
+        <button class="ad-cta" type="button" data-cta>${esc(item.cta)}</button>
+        ` : `
         <div class="hero">
           <div class="poster" data-poster data-title><img src="${item.poster}" alt=""></div>
           <div class="copy">
@@ -1429,13 +1502,16 @@ function slideHTML(item, i){
           <svg viewBox="0 0 24 24"><path d="M5 12.5 10 17.5 19 7"/></svg>
           In your ${esc(item.provider)}<span>·</span>${esc(item.kind)} · ${esc(item.length)}
         </div>
+        `}
       </div>
       <div class="cta-rail">
+        ${item.ad ? "" : `
         <div class="watch-rail">
           <span class="badge">✓</span>
           <button class="btn-watch" type="button" data-watch aria-label="Watch on ${esc(item.provider)}"><img src="${encodeURI(item.logo)}" alt=""></button>
           <span class="lbl">Watch</span>
         </div>
+        `}
         <div class="ask-rail">
           <button class="ask-blob" type="button" data-ask aria-label="Ask">
             <span class="askin" data-askin="0"></span>
@@ -2150,6 +2226,7 @@ feedEl.addEventListener("click", e => {
     if (item) titlePage.open(item);
     return;
   }
+  if (e.target.closest("[data-cta]")) { toast("Opening the bundle builder"); return; }
   if (e.target.closest("[data-list]")) toast("On your Watch list");
 });
 
