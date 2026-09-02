@@ -834,6 +834,75 @@
     border-radius:0 !important;
     box-shadow:none !important;
   }
+
+  /* ---- For You block + ask chips (same component as the Shop page) ---- */
+  .sb-foryou{
+    border-radius:18px;padding:16px 16px 17px;margin:28px 0 22px;
+    position:relative;overflow:hidden;border:0;
+    background:
+      radial-gradient(110% 90% at 10% 12%, rgba(255,236,140,.14) 0%, transparent 40%),
+      radial-gradient(90% 80% at 72% 38%, rgba(255,90,70,.13) 0%, transparent 50%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.2) 0%, transparent 54%),
+      linear-gradient(180deg, rgba(18,10,14,.78) 0%, rgba(10,8,12,.92) 100%);
+    box-shadow:0 10px 26px rgba(0,0,0,.3);
+  }
+  .sb-foryou::after{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:2;
+    padding:1px;opacity:.55;background:var(--line-candy);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask-composite:exclude;
+  }
+  .sb-foryou > *{position:relative;z-index:1}
+  .sb-eyebrow{
+    display:flex;align-items:center;gap:6px;
+    font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    margin-bottom:9px;
+    color:transparent;
+    background:linear-gradient(100deg, #fff6c4 0%, #ffe08a 22%, #ffc889 45%, #ffaa72 70%, #ff8b6a 100%);
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .sb-eyebrow img{width:11px;height:12px;filter:brightness(0) invert(1);opacity:.9}
+  .sb-foryou h3{font-size:16px;font-weight:700;letter-spacing:-.025em;line-height:1.28;color:#fff}
+  .sb-foryou p{margin-top:6px;font-size:13px;line-height:1.45;color:rgba(255,255,255,.66)}
+  .sb-fychips{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+  .sb-fychip{
+    position:relative;overflow:hidden;
+    padding:9px 14px;border-radius:999px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.94);
+    background:
+      radial-gradient(120% 130% at 12% 10%, rgba(255,236,140,.12) 0%, transparent 46%),
+      rgba(255,255,255,.06);
+    border:0;
+    transition:transform .2s var(--ease-jelly), background .2s ease;
+  }
+  .sb-fychip::after{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    padding:1px;opacity:.42;background:var(--line-candy);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask-composite:exclude;
+  }
+  .sb-fychip:active{transform:scale(.96)}
+  .sb-fychip.round{display:grid;place-items:center;width:38px;height:38px;padding:0}
+  .sb-fychip.round img{width:14px;height:16px;filter:brightness(0) invert(1)}
+  .sb-fychip.round::after{opacity:.6}
+  /* this scene uses 20px gutters instead of the Shop page's 16px */
+  .sb-foryou{margin:0 20px 30px}
+  .ms-title{
+    margin:0 20px 18px;padding-top:4px;
+    font-size:28px;font-weight:800;letter-spacing:-.035em;color:#fff;
+    text-shadow:0 2px 12px rgba(0,0,0,.55);
+  }
+  .wl-ask{margin:2px 20px 14px}
+  .wl-ask-line{
+    display:flex;align-items:center;gap:7px;margin-bottom:11px;
+    font-size:13.5px;font-weight:650;letter-spacing:-.01em;
+    color:transparent;
+    background:linear-gradient(100deg, #fff6c4 0%, #ffe08a 22%, #ffc889 45%, #ffaa72 70%, #ff8b6a 100%);
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .wl-ask-line img{width:11px;height:12px;filter:brightness(0) invert(1);opacity:.9;flex:0 0 auto}
+  .wl-ask .sb-fychips{margin-top:0}
+  .wl-ask .sb-fychip{padding:8px 12px;font-size:12px}
+
 </style>
 </head>
 <body>
@@ -1272,7 +1341,19 @@ function renderWatch(){
   const rail = continuing();
   const coming = upcoming();
   sceneWatch.innerHTML = `
-    <p class="page-lede">Where you are and what you saved</p>
+    <div class="ms-title" role="heading" aria-level="1">My stuff</div>
+    <div class="sb-foryou">
+      <div class="sb-eyebrow">${star} For you</div>
+      <h3>You just finished Chantal</h3>
+      <p>What would you like to see more (or less) of? Your answer helps us improve your future recommendations.</p>
+      <div class="sb-fychips">
+        <button class="sb-fychip" type="button" data-fy-ask="fy-crime">Crime stories</button>
+        <button class="sb-fychip" type="button" data-fy-ask="fy-humour">West-Flemish humour</button>
+        <button class="sb-fychip" type="button" data-fy-ask="fy-loved">I loved all of it</button>
+        <button class="sb-fychip" type="button" data-fy-ask="fy-nope">I didn\u2019t like it</button>
+        <button class="sb-fychip round" type="button" data-open-ask aria-label="Ask">${star}</button>
+      </div>
+    </div>
     <section class="block">
       <div class="sec-head">
         <h2>Continue</h2>
@@ -1284,8 +1365,15 @@ function renderWatch(){
         <h2>Watch List</h2>
         <button class="see" type="button" data-see-all>See all</button>
       </div>
+      <div class="wl-ask">
+        <div class="wl-ask-line">${star}<span>Want to start something new tonight?</span></div>
+        <div class="sb-fychips">
+          <button class="sb-fychip" type="button" data-fy-ask="wl-short">Under 30 min</button>
+          <button class="sb-fychip" type="button" data-fy-ask="wl-light">Something light</button>
+          <button class="sb-fychip" type="button" data-fy-ask="wl-flemish">Only Flemish</button>
+        </div>
+      </div>
       ${laneHTML(titles)}
-      ${laneQHTML(["wl-tonight","wl-leave","wl-finish","wl-share"])}
     </section>
     <section class="block">
       <div class="sec-head">
@@ -1486,8 +1574,53 @@ function asAsk(m){
   return {id:m.id, q:m.q, a:m.a, follow:m.follow, who:m.who, keys:m.keys || m.q, titles:m.titles};
 }
 
+const FY_ASK = [
+  {id:"fy-crime", q:"More crime stories",
+    a:"Noted \u2014 more crime. That is already the strongest signal on your list: Undercover in season three, Ferry saved, Zillion parked. I will push Belgian and Dutch crime up and stop offering you the gentle stuff.",
+    follow:[
+      {id:"fy-crime-next", q:"What is the next one then?", a:"Ferry. 1h 46, Netflix, in your plan \u2014 the origin story for the Undercover you are already inside. Closed in one night, no season to commit to."},
+      {id:"fy-crime-belg", q:"Keep it Belgian?", a:"Zillion for the Antwerp nightlife rise and crash, Undercover for the camping. Assisen and Jan de Lichte sit behind a lock, so they are a different conversation."}
+    ]},
+  {id:"fy-humour", q:"More West-Flemish humour",
+    a:"Got it. That is a narrower shelf than crime, but it is there: Jade en de Belgen on Play does the Belgian clich\u00e9 by the week, and Zeg Eens Euh is the word game if you want a laugh you can talk over.",
+    follow:[
+      {id:"fy-hum-jade", q:"Start with Jade?", a:"Episode one is traffic \u2014 the Ring, fatbikes, the keuring. About 40 minutes on Play, Thursday. Nothing carries over, so any episode is a fine entry."},
+      {id:"fy-hum-more", q:"Anything longer in that lane?", a:"Alex Agnew, but that is 2h 43 and R-rated Antwerp rather than West-Flemish warmth. A Friday, not a weeknight."}
+    ]},
+  {id:"fy-loved", q:"I loved all of it",
+    a:"Then I will keep the whole shape of Chantal in play \u2014 the Flemish drama, the pace, the humour underneath. Expect more like Familie and Thuis near the top, and I will stop treating the funny bits as a separate thing from the drama.",
+    follow:[
+      {id:"fy-loved-next", q:"So what is closest to it?", a:"Familie is the daily that scratches the same itch \u2014 25 minutes, Mechelen, VTM GO. Thuis if you would rather chip at VRT MAX instead."}
+    ]},
+  {id:"fy-nope", q:"I didn\u2019t like it",
+    a:"Useful \u2014 that is the more valuable answer. I will stop leading with Flemish drama of that shape and lean on what you actually finish: crime you are already inside, and films that close in one night.",
+    follow:[
+      {id:"fy-nope-what", q:"What do I actually finish?", a:"Series you are mid-way through \u2014 Last of Us at 67%, Undercover in season three. Films you save and park; those are the ones that need a Friday, not a Tuesday."},
+      {id:"fy-nope-less", q:"Show me less of this generally", a:"Done. Flemish daily drama drops down the list. Say the word if that goes too far \u2014 De Tafel van Gert is the same shelf and you do watch that."}
+    ]},
+
+  {id:"wl-short", q:"Show me something under 30 minutes",
+    a(){ return "From your list: Familie at ~25 minutes and Thuis at about the same, both dailies you are already part-way into. De Tafel van Gert is an hour, so it does not make the cut tonight."; },
+    follow:[
+      {id:"wl-short-pick", q:"Which of those two?", a:"Familie if you want the kidnapping week \u2014 Victor is still gone and Erik just walked into the Jan & Alleman. Thuis if you would rather not pick up three fires at once."}
+    ]},
+  {id:"wl-light", q:"Show me something light",
+    a:"Barbie is the one \u2014 1h 54 on HBO Max, funny until it turns, and nobody has to sit up for sandworms. Zeg Eens Euh if you want something you can talk over and leave whenever.",
+    follow:[
+      {id:"wl-light-room", q:"Something the whole room can watch?", a:"Barbie. Kids get the pink, you get the speech. Jade en de Belgen also works if the room wants Belgians roasting the Ring."},
+      {id:"wl-light-not", q:"What should I avoid tonight then?", a:"Dune: Part Two and Oppenheimer \u2014 both are Friday films. Alex Agnew is 2h 43 and not light in any sense."}
+    ]},
+  {id:"wl-flemish", q:"Only Flemish",
+    a:"Then the list is De Tafel van Gert for last night\u2019s news, Familie for the daily, Zeg Eens Euh for the word game, and Jade en de Belgen on Thursday. Zillion if you want a film rather than a night of telly.",
+    follow:[
+      {id:"wl-fl-tonight", q:"Which one for tonight?", a:"De Tafel van Gert if you want the conversation the house is still having \u2014 about an hour, Play, and last night is the one that counts."},
+      {id:"wl-fl-film", q:"Make it a film", a:"Zillion \u2014 Antwerp nightlife, 2h 03, Streamz. It carries a lock if Streamz is not in your plan; Ferry on Netflix is the in-plan alternative."}
+    ]}
+];
+
 const askBank = [
   ...moods.map(asAsk),
+  ...FY_ASK,
   {
     id:"tonight",
     q:"What should I watch from this list tonight?",
@@ -1634,6 +1767,8 @@ sceneWatch.addEventListener("click", e => {
 });
 
 phoneEl.addEventListener("click", e => {
+  const fy = e.target.closest("[data-fy-ask]");
+  if (fy){ e.stopPropagation(); openAsk(fy.getAttribute("data-fy-ask")); return; }
   const start = e.target.closest("[data-ask-start]");
   if (start){
     const id = start.dataset.askStart;

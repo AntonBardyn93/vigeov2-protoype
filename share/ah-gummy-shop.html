@@ -534,6 +534,338 @@
     max-height:none !important;aspect-ratio:auto !important;margin:0 !important;
     border:0 !important;border-radius:0 !important;box-shadow:none !important;
   }
+
+  /* ================= subscriptions redesign ================= */
+  .sb-title{
+    font-size:28px;font-weight:800;letter-spacing:-.035em;color:#fff;margin:0 2px 14px;
+    text-shadow:0 2px 12px rgba(0,0,0,.5);
+  }
+  .sb-summary{
+    display:flex;align-items:stretch;border-radius:18px;overflow:hidden;position:relative;
+    background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);
+    margin-bottom:22px;
+  }
+  .sb-sum{flex:1;padding:14px 16px 15px;text-align:center}
+  .sb-sum + .sb-sum{border-left:1px solid rgba(255,255,255,.1)}
+  .sb-sum .n{
+    font-size:22px;font-weight:800;letter-spacing:-.04em;color:#fff;
+    font-variant-numeric:tabular-nums;transition:color .35s ease;
+  }
+  .sb-sum .n.is-up{color:#ffb070}
+  .sb-sum .n.is-down{color:#7dffc0}
+  .sb-sum .k{margin-top:3px;font-size:11.5px;font-weight:500;color:rgba(255,255,255,.55)}
+
+  .sb-sec{font-size:15px;font-weight:700;letter-spacing:-.02em;color:#fff;margin:0 2px 10px}
+
+  /* owned row -- horizontal scroll of portrait cards */
+  .sb-owned{
+    display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+    margin:0 -16px 14px 0;padding:0 0 2px;scroll-snap-type:x proximity;
+  }
+  .sb-owned::-webkit-scrollbar{display:none}
+  .sb-cardp{
+    position:relative;flex:0 0 120px;width:120px;height:180px;border-radius:19.2px;
+    background-size:cover;background-position:center;scroll-snap-align:start;
+    display:flex;flex-direction:column;padding:38px 10px 10px;overflow:hidden;
+    transition:opacity .28s ease, filter .28s ease;
+  }
+  .sb-cardp.is-off{opacity:.5;filter:saturate(.5)}
+  .sb-cardp .sb-brandmark{
+    flex:1;display:grid;place-items:center;padding:6px 2px 2px;pointer-events:none;
+  }
+  .sb-cardp .sb-brandmark img{max-width:100px;max-height:54px;width:auto;height:auto;display:block}
+  .sb-cardp .sb-foot{text-align:center;pointer-events:none}
+  .sb-cardp .sb-tier{font-size:12.5px;font-weight:700;letter-spacing:-.02em;color:#fff}
+  .sb-cardp .sb-cost{margin-top:1px;font-size:11px;font-weight:500;color:rgba(255,255,255,.66)}
+
+  /* add-a-subscription tile */
+  .sb-add{
+    flex:0 0 120px;width:120px;height:180px;border-radius:19.2px;
+    background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    color:rgba(255,255,255,.72);text-align:center;padding:12px;
+    transition:transform .24s var(--ease-jelly), background .24s ease;
+  }
+  .sb-add:active{transform:scale(.97)}
+  .sb-add img{width:34px;height:34px;opacity:.9}
+  .sb-add span{font-size:11.5px;font-weight:600;line-height:1.25}
+
+  /* catalog grid -- landscape cards */
+  .sb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-bottom:18px}
+  .sb-cardl{
+    position:relative;height:111px;border-radius:12px;overflow:hidden;
+    background-size:cover;background-position:center;
+    display:flex;flex-direction:column;padding:34px 10px 9px;
+    transition:transform .24s var(--ease-jelly), opacity .28s ease;
+  }
+  .sb-cardl.no-art{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09)}
+  .sb-cardl:active{transform:scale(.985)}
+  .sb-cardl.is-on{box-shadow:0 0 0 1.5px rgba(52,199,89,.55), 0 8px 20px rgba(0,0,0,.3)}
+  .sb-cardl .sb-brandmark{flex:1;display:grid;place-items:center;pointer-events:none;padding:2px}
+  .sb-cardl .sb-brandmark img{max-width:132px;max-height:50px;width:auto;height:auto;display:block}
+  .sb-cardl .sb-wordmark{
+    font-size:14px;font-weight:700;letter-spacing:-.02em;color:#fff;
+    padding:4px 10px;border-radius:8px;background:rgba(255,255,255,.1);
+  }
+  .sb-cardl .sb-foot{display:flex;align-items:center;justify-content:center;gap:8px}
+  .sb-cardl .sb-from{
+    font-size:11px;font-weight:600;color:rgba(255,255,255,.82);white-space:nowrap;
+    text-shadow:0 1px 6px rgba(0,0,0,.6);
+  }
+  .sb-cardl .sb-from b{font-size:12.5px;font-weight:800;color:#fff}
+
+  /* toggle */
+  .sb-tog{
+    position:relative;flex:0 0 auto;width:38px;height:22px;border-radius:11px;
+    background:rgba(120,120,128,.55);border:0;padding:0;cursor:pointer;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);
+    transition:background .26s var(--ease-jelly);
+  }
+  .sb-tog i{
+    position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35);
+    transition:transform .26s var(--ease-jelly);
+  }
+  .sb-tog.on{background:#34C759}
+  .sb-tog.on i{transform:translateX(16px)}
+  .sb-cardp .sb-tog,
+  .sb-cardl .sb-tog{position:absolute;top:9px;left:50%;transform:translateX(-50%);z-index:2}
+
+  /* question row -- same component as the Watch List lane */
+  .lane-q{
+    position:relative;height:44px;margin:0;
+    background:none;border:0;box-shadow:none;
+    overflow:visible;
+    --tone-0:0;
+    --tone-1:1;
+    --tone-2:0;
+  }
+  .lane-q .qcard{
+    position:absolute;inset:0;z-index:2;
+  }
+  .lane-q .qcard-track{
+    position:absolute;inset:0;z-index:1;
+    display:flex;align-items:stretch;gap:36px;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    scrollbar-width:none;touch-action:pan-x;
+    overscroll-behavior-x:contain;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+    mask-image:linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  }
+  .lane-q .qcard-track::-webkit-scrollbar{display:none}
+  .lane-q .qcard-q{
+    position:relative;
+    flex:0 0 auto;height:100%;
+    display:grid;grid-template-columns:max-content;justify-content:center;justify-items:center;align-items:center;
+    padding:0 4px 8px;
+    font-size:12.5px;font-weight:400;line-height:1;text-align:center;
+    color:rgba(255,255,255,.92);
+    white-space:nowrap;
+    scroll-snap-align:center;scroll-snap-stop:normal;
+    opacity:.42;
+    outline:none;
+  }
+  .lane-q .q-copy{grid-area:1/1;font-weight:400}
+  .lane-q .qcard-q.is-on{opacity:1}
+  .lane-q .qcard-q.is-on .q-copy{font-weight:500}
+  .lane-q .qcard-q::after{
+    content:attr(data-q);
+    grid-area:1/1;
+    font-weight:500;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .lane-q .q-star,
+  .lane-q .qcard-q.is-on .q-star{display:none !important}
+  .lane-q .q-star-off{
+    position:absolute;right:100%;top:50%;
+    width:12px;height:13px;margin-right:4px;margin-top:-4px;
+    opacity:0;
+    -webkit-mask-image:url("star.svg");
+    -webkit-mask-size:contain;
+    -webkit-mask-repeat:no-repeat;
+    -webkit-mask-position:center;
+    mask-image:url("star.svg");
+    mask-size:contain;
+    mask-repeat:no-repeat;
+    mask-position:center;
+    transform-origin:right center;
+    transform:translateY(-50%) scale(.7);
+    transition:opacity .28s ease, transform .28s ease;
+    pointer-events:none;
+  }
+  .lane-q .q-star-in{
+    position:absolute;inset:0;
+    opacity:0;
+  }
+  .lane-q .q-star-in[data-starin="0"]{
+    opacity:var(--tone-0);
+    background:linear-gradient(180deg, #FFE9A3 0%, #FF8A3D 46%, #FF2E5A 100%);
+  }
+  .lane-q .q-star-in[data-starin="1"]{
+    opacity:var(--tone-1);
+    background:linear-gradient(180deg, #D6FFA8 0%, #3ED4B4 46%, #1E9A88 100%);
+  }
+  .lane-q .q-star-in[data-starin="2"]{
+    opacity:var(--tone-2);
+    background:linear-gradient(180deg, #FFC4F0 0%, #B878FF 46%, #7850FF 100%);
+  }
+  .lane-q .qcard-q.is-on .q-star{opacity:.88;transform:translateY(-50%) scale(.7)}
+  .lane-q .qbeam{
+    position:absolute;left:50%;bottom:6px;z-index:4;
+    width:min(200px,52%);height:2px;
+    transform:translateX(-50%);
+    pointer-events:none;
+    opacity:.78;
+  }
+  .lane-q .qbeam-in{
+    position:absolute;inset:0;
+    opacity:0;
+  }
+  .lane-q .qbeam-in[data-beamin="0"]{
+    opacity:var(--tone-0);
+    background:linear-gradient(90deg, rgba(255,228,150,0) 0%, rgba(255,182,119,.48) 38%, rgba(255,110,70,.62) 50%, rgba(255,50,95,.16) 68%, rgba(255,50,95,0) 100%);
+  }
+  .lane-q .qbeam-in[data-beamin="1"]{
+    opacity:var(--tone-1);
+    background:linear-gradient(90deg, rgba(210,255,170,0) 0%, rgba(140,255,190,.44) 38%, rgba(50,210,180,.6) 50%, rgba(40,170,150,.16) 68%, rgba(40,170,150,0) 100%);
+  }
+  .lane-q .qbeam-in[data-beamin="2"]{
+    opacity:var(--tone-2);
+    background:linear-gradient(90deg, rgba(255,190,230,0) 0%, rgba(200,160,255,.45) 38%, rgba(160,110,255,.6) 50%, rgba(120,80,255,.16) 68%, rgba(120,80,255,0) 100%);
+  }
+  .lane-q .qbeam-in::after{
+    content:"";position:absolute;left:12%;right:12%;bottom:-3px;height:8px;
+    background:inherit;filter:blur(6px);opacity:.42;
+  }
+
+  /* for you card */
+  .sb-foryou{
+    border-radius:18px;padding:16px 16px 17px;margin:28px 0 22px;
+    position:relative;overflow:hidden;border:0;
+    background:
+      radial-gradient(110% 90% at 10% 12%, rgba(255,236,140,.14) 0%, transparent 40%),
+      radial-gradient(90% 80% at 72% 38%, rgba(255,90,70,.13) 0%, transparent 50%),
+      radial-gradient(100% 90% at 100% 100%, rgba(255,40,80,.2) 0%, transparent 54%),
+      linear-gradient(180deg, rgba(18,10,14,.78) 0%, rgba(10,8,12,.92) 100%);
+    box-shadow:0 10px 26px rgba(0,0,0,.3);
+  }
+  .sb-foryou::after{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:2;
+    padding:1px;opacity:.55;background:var(--line-candy);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask-composite:exclude;
+  }
+  .sb-foryou > *{position:relative;z-index:1}
+  .sb-eyebrow{
+    display:flex;align-items:center;gap:6px;
+    font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    margin-bottom:9px;
+    color:transparent;
+    background:linear-gradient(100deg, #fff6c4 0%, #ffe08a 22%, #ffc889 45%, #ffaa72 70%, #ff8b6a 100%);
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .sb-eyebrow img{width:11px;height:12px;filter:brightness(0) invert(1);opacity:.9}
+  .sb-foryou h3{font-size:16px;font-weight:700;letter-spacing:-.025em;line-height:1.28;color:#fff}
+  .sb-foryou p{margin-top:6px;font-size:13px;line-height:1.45;color:rgba(255,255,255,.66)}
+  .sb-fychips{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+  .sb-fychip{
+    position:relative;overflow:hidden;
+    padding:9px 14px;border-radius:999px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.94);
+    background:
+      radial-gradient(120% 130% at 12% 10%, rgba(255,236,140,.12) 0%, transparent 46%),
+      rgba(255,255,255,.06);
+    border:0;
+    transition:transform .2s var(--ease-jelly), background .2s ease;
+  }
+  .sb-fychip::after{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    padding:1px;opacity:.42;background:var(--line-candy);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask-composite:exclude;
+  }
+  .sb-fychip:active{transform:scale(.96)}
+  .sb-fychip.round{display:grid;place-items:center;width:38px;height:38px;padding:0}
+  .sb-fychip.round img{width:14px;height:16px;filter:brightness(0) invert(1)}
+  .sb-fychip.round::after{opacity:.6}
+
+  /* yellow telenet banner */
+  .sb-banner{
+    position:relative;border-radius:18px;padding:16px 17px 17px;overflow:hidden;
+    background:#FAEB5C;color:#141414;
+  }
+  .sb-banner h3{font-size:15.5px;font-weight:800;letter-spacing:-.02em;line-height:1.25}
+  .sb-banner p{margin-top:7px;font-size:12.5px;line-height:1.45;color:rgba(20,20,20,.82)}
+  .sb-banner a{
+    display:inline-block;margin-top:11px;font-size:12.5px;font-weight:700;color:#141414;
+    text-decoration:none;border-bottom:1.5px solid rgba(20,20,20,.5);
+  }
+
+  /* ================= tier bottom sheet ================= */
+  .tiersheet{position:absolute;inset:0;z-index:60;pointer-events:none}
+  .tiersheet[hidden]{display:none}
+  .ts-scrim{
+    position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;
+    transition:opacity .34s var(--ease-jelly);
+  }
+  .ts-panel{
+    position:absolute;left:0;right:0;bottom:0;
+    border-radius:22px 22px 0 0;padding:10px 0 calc(18px + var(--safe-bottom,0px));
+    background:linear-gradient(180deg, rgba(30,28,34,.98) 0%, rgba(14,13,17,.99) 100%);
+    border-top:1px solid rgba(255,255,255,.1);
+    box-shadow:0 -18px 50px rgba(0,0,0,.5);
+    transform:translateY(102%);
+    transition:transform .42s var(--ease-jelly);
+    max-height:88%;overflow-y:auto;scrollbar-width:none;
+  }
+  .ts-panel::-webkit-scrollbar{display:none}
+  .tiersheet.is-on{pointer-events:auto}
+  .tiersheet.is-on .ts-scrim{opacity:1}
+  .tiersheet.is-on .ts-panel{transform:translateY(0)}
+  .ts-grab{width:56px;height:4px;border-radius:2px;background:rgba(255,255,255,.28);margin:0 auto 14px}
+  .ts-head{font-size:19px;font-weight:800;letter-spacing:-.03em;color:#fff;padding:0 18px;margin-bottom:14px}
+  .ts-track{
+    display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;
+    padding:2px 18px 4px;scroll-snap-type:x mandatory;
+  }
+  .ts-track::-webkit-scrollbar{display:none}
+  .ts-card{
+    flex:0 0 275px;scroll-snap-align:center;border-radius:16px;padding:15px 16px 16px;
+    background:rgba(255,255,255,.045);border:1.5px solid rgba(255,255,255,.1);
+    display:flex;flex-direction:column;
+    transition:border-color .26s ease, background .26s ease;
+  }
+  .ts-card.is-sel{
+    border-color:#FAEB5C;
+    background:linear-gradient(180deg, rgba(250,235,92,.1) 0%, rgba(250,235,92,.03) 100%);
+  }
+  .ts-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .ts-name{font-size:19px;font-weight:800;letter-spacing:-.03em;color:#fff}
+  .ts-price{font-size:13px;font-weight:600;color:rgba(255,255,255,.82);white-space:nowrap}
+  .ts-price b{font-size:15px;font-weight:800;color:#fff}
+  .ts-rule{height:1px;background:rgba(255,255,255,.12);margin:12px 0 13px}
+  .ts-spec{display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.35;color:rgba(255,255,255,.9)}
+  .ts-spec + .ts-spec{margin-top:9px}
+  .ts-spec svg{flex:0 0 auto;width:14px;height:14px;margin-top:1px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .ts-pick{
+    margin-top:15px;width:100%;padding:12px;border-radius:11px;
+    font-size:14px;font-weight:700;letter-spacing:-.01em;
+    background:rgba(255,255,255,.1);color:#fff;
+    transition:background .22s ease, transform .2s var(--ease-jelly);
+  }
+  .ts-pick:active{transform:scale(.98)}
+  .ts-card.is-sel .ts-pick{background:rgba(255,255,255,.2)}
+  .ts-offer{
+    margin:16px 18px 0;border-radius:16px;padding:15px 16px 16px;background:#FAEB5C;color:#141414;
+  }
+  .ts-offer h4{font-size:14.5px;font-weight:800;letter-spacing:-.02em}
+  .ts-offer p{margin-top:6px;font-size:12.5px;line-height:1.4;color:rgba(20,20,20,.82)}
+  .ts-btn{
+    display:block;width:100%;margin-top:10px;padding:12px;border-radius:10px;
+    font-size:13.5px;font-weight:700;color:#141414;background:rgba(20,20,20,.12);
+    transition:background .2s ease, transform .2s var(--ease-jelly);
+  }
+  .ts-btn:active{transform:scale(.985)}
 </style>
 </head>
 <body>
@@ -570,6 +902,11 @@
         <span class="ask-lbl">Ask</span>
       </div>
       <div data-csheet-mount></div>
+
+      <div class="tiersheet" id="tiersheet" hidden aria-hidden="true">
+        <div class="ts-scrim" data-ts-close></div>
+        <div class="ts-panel" id="tsPanel"></div>
+      </div>
 
       <div class="tabbar">
         <button class="navitem" type="button" data-nav="home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
@@ -715,27 +1052,88 @@ function askBankFor(s){
         : `${s.like} comes off the lock. The month goes up by ${euro(s.price)}, minus any combo.`}
   ];
 }
+function onNames(){ return allSubs().filter(x => x.on).map(x => x.name); }
+function offNames(){ return CATALOG.filter(x => !x.on).map(x => x.name); }
+function streamzTierLine(){
+  const sz = subById("streamz");
+  return sz.tiers.map(t => `${t.name} ${euro(t.price)}`).join(", ");
+}
+
 function globalAsk(){
   return [
-    {id:"plan", q:"What’s in my plan right now?",
-      a(){ return onSet().length
-        ? `On: ${onSet().map(s => s.short).join(", ")}. Due this month ${euro(monthDue())}, yearly ${euro(yearDue())}.${comboSave() ? ` Combo saving ${euro(comboSave())}.` : ""}`
-        : "Nothing paid is on. VRT MAX is still included."; },
-      follow:[
-        {id:"add-what", q:"What should I add if I want one more night?",
-          a:"HBO Max if Dune or Last of Us is the night. Apple TV if Gladiator II. Disney+ is already doing The Bear."}
-      ]},
-    {id:"save", q:"Where am I actually saving?",
-      a(){ return comboSave()
-        ? `The Netflix + Disney+ combo is taking ${euro(comboSave())} off this month.`
-        : "No combo yet. Netflix + Disney+ is the one that knocks € 2,40 off."; }},
-    {id:"like-all", q:"Show me what I’d like from what’s off",
+    {id:"sub-double", q:"What am I paying for twice?",
       a(){
-        const off = offSet();
-        return off.length
-          ? off.map(s => `${s.short}: ${s.like}`).join(". ") + "."
-          : "Everything paid is already on. Ask about a title instead.";
-      }}
+        const on = onNames();
+        if (on.length < 2) return `Only ${on[0] || "nothing"} is running, so nothing is doubled up yet.`;
+        return `Nothing is a straight duplicate today \u2014 ${on.join(" and ")} barely overlap. The overlap starts if you put HBO Max and Streamz on together: both carry a lot of the same films, and you would be paying twice for one shelf.`;
+      },
+      follow:[
+        {id:"dbl-fix", q:"So which one would I drop?",
+          a(){ return `Keep the one your list actually points at. Ten of your saved titles sit on HBO Max; Streamz is the Belgian shelf \u2014 Zillion, local drama. If your list is mostly the ten, HBO Max wins.`; }}
+      ]},
+
+    {id:"sub-idle", q:"Which subscription do I hardly use?",
+      a(){
+        const on = allSubs().filter(x => x.on);
+        if (!on.length) return "Nothing is on right now, so nothing is going to waste.";
+        const idle = on.find(x => x.id === "disney") || on[on.length - 1];
+        return `${idle.name}. It has been on all month at ${euro(subPrice(idle))} and the only thing you keep saving from it is The Bear. That is roughly ${euro(subPrice(idle) * 12)} a year for one show.`;
+      },
+      follow:[
+        {id:"idle-pause", q:"Can I pause it instead of cancelling?",
+          a:"Switch it off here and it stops at the end of the month. Your list and profiles stay, so turning it back on for a season is a tap."},
+        {id:"idle-combo", q:"Do I lose the combo discount if I drop it?",
+          a(){ return subsOnCount() >= 2
+            ? `Yes \u2014 the ${euro(COMBO_DISCOUNT)} combo needs two subscriptions running. Dropping to one takes the discount with it, so the real saving is smaller than the sticker price.`
+            : `The ${euro(COMBO_DISCOUNT)} combo needs two subscriptions running, so there is nothing to lose right now.`; }}
+      ]},
+
+    {id:"sub-optim", q:"Help me optimise my subscriptions",
+      a(){
+        const on = onNames();
+        return `You are at ${euro(subsMonthly())} a month across ${on.length} ${on.length === 1 ? "subscription" : "subscriptions"}${subsDiscount() ? `, after ${euro(subsDiscount())} combo discount` : ""}. The honest move: keep the two you watch weekly, and take the rest as a month on, month off rather than standing orders. Streamz starts at ${euro(fromPrice(subById("streamz")))} on its lowest tier \u2014 cheaper than the tier most people default to.`;
+      },
+      follow:[
+        {id:"opt-tier", q:"Am I on the right tier?",
+          a(){ return `Netflix Standard and Disney+ Premium are both mid-tier. If nobody watches on two screens at once, the step down pays for itself \u2014 that is usually where the quiet money is.`; }},
+        {id:"opt-telenet", q:"Is the Telenet offer worth it?",
+          a:"Six months free on one streaming subscription, plus 5% off the rest if you have two or more. Worth it if your internet is up for renewal anyway. Not worth switching internet for on its own."}
+      ]},
+
+    {id:"fy-ten", q:"Show me those ten titles on HBO Max",
+      a:"The ones that matter on your list: Dune: Part Two, which you started and parked, The Last of Us mid-season, and Barbie. The other seven are films you saved this year and have not opened. Three of the ten are things you are actively part-way through.",
+      follow:[
+        {id:"ten-worth", q:"Is that worth a subscription?",
+          a(){ const hbo = subById("hbomax");
+            return `${euro(hbo.from)} a month for ten titles is fine for one month, poor as a standing order. Take it, clear the three you started, then switch it off here.`; }}
+      ]},
+
+    {id:"fy-compare", q:"Compare HBO Max with Streamz",
+      a(){
+        const hbo = subById("hbomax"), sz = subById("streamz");
+        return `HBO Max is ${euro(hbo.from)} and holds the ten from your list \u2014 Dune, Last of Us, Barbie. Streamz starts at ${euro(fromPrice(sz))} and is the Belgian shelf: Zillion, local drama, the things nothing else carries. Different jobs. HBO Max clears your backlog; Streamz is for the nights you want something from here.`;
+      },
+      follow:[
+        {id:"cmp-both", q:"What if I took both?",
+          a(){ const hbo = subById("hbomax"), sz = subById("streamz");
+            return `${euro(hbo.from + fromPrice(sz))} on top of what you pay now. That is where the doubling-up starts \u2014 both carry a lot of the same films. One at a time is the cheaper habit.`; }}
+      ]},
+
+    {id:"fy-tier", q:"Which tier should I take?",
+      a(){
+        const sz = subById("streamz");
+        return `For Streamz: ${streamzTierLine()}. Premium is the one that fits how you watch \u2014 four screens, no ads, downloads. Basic is ads and one screen, which will annoy you by the second night. Premium+ only earns it if you want the recent blockbusters.`;
+      },
+      follow:[
+        {id:"tier-open", q:"Open the tiers so I can pick",
+          a:"Tap the Streamz switch in the catalog \u2014 the tiers open there and you can take the offer in the same step."}
+      ]},
+
+    {id:"plan", q:"What am I paying right now?",
+      a(){ const on = onNames();
+        return on.length
+          ? `${on.join(", ")}. That is ${euro(subsMonthly())} a month${subsDiscount() ? `, after ${euro(subsDiscount())} combo discount` : ""} \u2014 ${euro(subsMonthly() * 12)} across a year.`
+          : "Nothing is on. Your bill is zero this month."; }}
   ];
 }
 
@@ -754,7 +1152,7 @@ peekHost.hidden = true;
 peekHost.dataset.peek = "";
 sheet.querySelector(".qconvo-scroll")?.prepend(peekHost);
 
-let lastNums = {month: monthDue(), year: yearDue()};
+let lastNums = null;   // seeded on first render from the subscriptions model
 let pulseT = 0;
 const shopPlan = new Set(["Netflix", "Disney+", "VRT MAX", "Play", "VTM GO"]);
 
@@ -865,28 +1263,337 @@ function includedHTML(){
   return `<div class="inc"><span class="logo"><img src="vrt-max-logo.png" alt=""></span><div><b>VRT MAX</b> included · no extra</div></div>`;
 }
 
-function renderA(){
-  return `${totalsHTML()}
-    <p class="sec-lbl">Active services</p>
-    <div class="svc-list">${onSet().map(rowHTML).join("")}</div>
-    ${saveHTML()}
-    ${includedHTML()}
-    <p class="sec-lbl">Inactive</p>
-    <div class="svc-list">${offSet().map(rowHTML).join("")}</div>`;
+/* ---------------- subscriptions page ---------------- */
+const SUBA = f => encodeURI("subscription cards/" + f);
+const COMBO_DISCOUNT = 2.30;
+
+const OWNED = [
+  {id:"netflix", name:"Netflix", tier:"Standard", price:13.99, card:"card-netflix.svg", logo:"logo-netflix.svg", on:true},
+  {id:"disney",  name:"Disney+", tier:"Premium",  price:15.99, card:"card-disney.svg",  logo:"logo-disney.svg",  on:true}
+];
+
+const CATALOG = [
+  {id:"streamz",   name:"Streamz",         from:30.99, card:"Card-streamz.svg",         logo:"logo-streamz.svg",         on:false,
+    tiers:[
+      {id:"basic",    name:"Basic",     price:7.95,  specs:["Max. 1 screen at the same time","Max. 2 profiles","With ads","No downloads"]},
+      {id:"premium",  name:"Premium",   price:12.95, specs:["Max. 4 screens at the same time","Max. 5 profiles","Ad-free","Download & watch offline"]},
+      {id:"premplus", name:"Premium+",  price:20.95, specs:["Everything in Streamz Premium","Access to recent blockbusters","Ad-free","Download & watch offline"]}
+    ], picked:"premium"},
+  {id:"playmore",  name:"Play More",       from:25.95, card:"Card-playmore.svg",        logo:"logo-play-more.svg",       on:false},
+  {id:"playsports",name:"Play Sports",     from:21.99, card:"Card-playsports.svg",      logo:"logo-play-sports.svg",     on:false},
+  {id:"ytprem",    name:"YouTube Premium", from:13.99, card:"Card-youtube-premium.svg", logo:"logo-youtube-premium.svg", on:false},
+  {id:"hbomax",    name:"HBO Max",         from:30.99, card:"Card-hbo-max.svg",         logo:"logo-hbo-max.svg",         on:false},
+  {id:"dazn",      name:"DAZN",            from:30.99, card:"Card-dazn.svg",            logo:"logo-DAZN.svg",            on:false},
+  {id:"tvzenders", name:"TV zenders",      from:5.99,  card:null,                       logo:null,                       on:false}
+];
+
+const allSubs = () => OWNED.concat(CATALOG);
+const subById = id => allSubs().find(x => x.id === id);
+function subPrice(x){
+  if (x.tiers) { const t = x.tiers.find(t => t.id === x.picked); return t ? t.price : x.from; }
+  return x.price != null ? x.price : x.from;
+}
+function fromPrice(x){
+  // cheapest way in: the lowest tier when a service has tiers, otherwise its single price
+  return x.tiers ? Math.min.apply(null, x.tiers.map(t => t.price)) : x.from;
+}
+function subsOnCount(){ return allSubs().filter(x => x.on).length; }
+function subsDiscount(){ return subsOnCount() >= 2 ? COMBO_DISCOUNT : 0; }
+function subsMonthly(){
+  const gross = allSubs().filter(x => x.on).reduce((n,x) => n + subPrice(x), 0);
+  return Math.max(0, gross - subsDiscount());
 }
 
+function togBtn(id, on){
+  return `<button class="sb-tog${on?" on":""}" type="button" data-sub-tog="${id}" role="switch" aria-checked="${on}" aria-label="${on?"Turn off":"Turn on"} ${esc(subById(id)?subById(id).name:id)}"><i></i></button>`;
+}
+function ownedCard(x){
+  return `<div class="sb-cardp${x.on?"":" is-off"}" data-sub="${x.id}" style="background-image:url('${SUBA(x.card)}')">
+    ${togBtn(x.id, x.on)}
+    <div class="sb-brandmark"><img src="${SUBA(x.logo)}" alt="${esc(x.name)}"></div>
+    <div class="sb-foot"><div class="sb-tier">${esc(x.tier)}</div><div class="sb-cost">${euro(x.price)}/month</div></div>
+  </div>`;
+}
+function catalogCard(x){
+  const art = x.card ? ` style="background-image:url('${SUBA(x.card)}')"` : "";
+  const mark = x.logo
+    ? `<img src="${SUBA(x.logo)}" alt="${esc(x.name)}">`
+    : `<span class="sb-wordmark">${esc(x.name)}</span>`;
+  return `<div class="sb-cardl${x.card?"":" no-art"}${x.on?" is-on":""}" data-sub="${x.id}"${art}>
+    ${togBtn(x.id, x.on)}
+    <div class="sb-brandmark">${mark}</div>
+    <div class="sb-foot">
+      <span class="sb-from">${x.on ? `<b>${euro(subPrice(x))}</b>/month` : `starting <b>${euro(fromPrice(x))}</b>`}</span>
+    </div>
+  </div>`;
+}
+
+const SUB_QS = [
+  {id:"sub-double", cls:"c3", q:"What am I paying for twice?"},
+  {id:"sub-idle",   cls:"ask", q:"Which subscription do I hardly use?"},
+  {id:"sub-optim",  cls:"c4", q:"Help me optimise my subscriptions"}
+];
+
+function meshTone(cls){
+  if (cls === "c3") return 1;
+  if (cls === "c4") return 2;
+  return 0;
+}
+function laneQHTML(items){
+  if (!items.length) return "";
+  return `<div class="lane-q" data-lane-q data-mesh="${(items[1] || items[0]).cls}">
+    <div class="qcard">
+      <div class="qcard-track" data-qtrack>
+        ${items.map((m, i) => `<button class="qcard-q${i === 1 ? " is-on" : ""}" type="button" data-sub-ask="${m.id}" data-mesh="${m.cls}"><span class="q-copy">${esc(m.q)}</span></button>`).join("")}
+      </div>
+    </div>
+    <div class="qbeam">
+      <span class="qbeam-in" data-beamin="0"></span>
+      <span class="qbeam-in" data-beamin="1"></span>
+      <span class="qbeam-in" data-beamin="2"></span>
+    </div>
+  </div>`;
+}
+
+function bindLaneQs(){
+  scene.querySelectorAll("[data-lane-q]").forEach(wrap => {
+    const track = wrap.querySelector("[data-qtrack]");
+    const qBtns = [...(track?.querySelectorAll(".qcard-q") || [])];
+    if (!track || !qBtns.length) return;
+    const startI = qBtns.length >= 3 ? 1 : 0;
+    wrap._qOn = startI;
+    const padKey = () => `${track.clientWidth}:${qBtns.map(b => b.offsetWidth).join(",")}`;
+    const centerQ = (i, smooth) => {
+      const btn = qBtns[i];
+      const w = track.clientWidth;
+      if (!btn || !w) return;
+      const left = btn.offsetLeft - (w - btn.offsetWidth) / 2;
+      track.scrollTo({left: Math.max(0, left), behavior: smooth ? "smooth" : "auto"});
+    };
+    const padTrack = () => {
+      const w = track.clientWidth;
+      if (!w || !qBtns[0]) return;
+      const key = padKey();
+      if (wrap._qPadKey === key) return;
+      const first = !wrap._qPadKey;
+      track.style.paddingLeft = `${Math.max(12, (w - qBtns[0].offsetWidth) / 2)}px`;
+      track.style.paddingRight = `${Math.max(12, (w - qBtns[qBtns.length - 1].offsetWidth) / 2)}px`;
+      wrap._qPadKey = key;
+      if (first) centerQ(wrap._qOn ?? startI, false);
+    };
+    const sync = () => {
+      padTrack();
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      const centers = qBtns.map(btn => btn.offsetLeft + btn.offsetWidth / 2);
+      let p = 0;
+      if (centers.length > 1) {
+        p = centers.length - 1;
+        for (let i = 0; i < centers.length - 1; i++) {
+          if (mid <= centers[i + 1]) {
+            const span = centers[i + 1] - centers[i] || 1;
+            p = i + Math.max(0, Math.min(1, (mid - centers[i]) / span));
+            break;
+          }
+        }
+      }
+      qBtns.forEach((btn, n) => {
+        const dist = Math.abs(p - n);
+        const op = reduceMotion ? (dist < 0.45 ? 1 : .42) : Math.max(.38, 1 - dist * .68);
+        btn.style.opacity = op;
+        btn.classList.toggle("is-on", dist < 0.45);
+      });
+      const tones = [0, 0, 0];
+      qBtns.forEach((btn, n) => {
+        tones[meshTone(btn.dataset.mesh)] += Math.max(0, 1 - Math.abs(p - n));
+      });
+      wrap.style.setProperty("--tone-0", String(Math.min(1, tones[0])));
+      wrap.style.setProperty("--tone-1", String(Math.min(1, tones[1])));
+      wrap.style.setProperty("--tone-2", String(Math.min(1, tones[2])));
+      const on = qBtns.find(btn => btn.classList.contains("is-on")) || qBtns[Math.round(p)];
+      if (on?.dataset.mesh) wrap.dataset.mesh = on.dataset.mesh;
+    };
+    track.addEventListener("scroll", sync, {passive:true});
+    sync();
+    let drag = null;
+    track.addEventListener("pointerdown", e => {
+      drag = {x: e.clientX, sl: track.scrollLeft, id: e.pointerId, moved: false};
+    });
+    track.addEventListener("pointermove", e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x;
+      if (!drag.moved && Math.abs(dx) < 8) return;
+      if (!drag.moved) {
+        drag.moved = true;
+        track.style.scrollSnapType = "none";
+        try { track.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      track.scrollLeft = drag.sl - dx;
+    });
+    const endDrag = e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const moved = drag.moved;
+      drag = null;
+      track.style.scrollSnapType = "";
+      if (moved) {
+        track._swiped = true;
+        const mid = track.scrollLeft + track.clientWidth / 2;
+        let best = 0, bestD = Infinity;
+        qBtns.forEach((btn, i) => {
+          const d = Math.abs(btn.offsetLeft + btn.offsetWidth / 2 - mid);
+          if (d < bestD) { bestD = d; best = i; }
+        });
+        wrap._qOn = best;
+        centerQ(best, !reduceMotion);
+      }
+    };
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
+    track.addEventListener("click", e => {
+      if (!track._swiped) return;
+      e.preventDefault();
+      e.stopPropagation();
+      track._swiped = false;
+    }, true);
+  });
+}
+
+function renderA(){
+  return `<div class="sb-title" role="heading" aria-level="1">My subscriptions</div>
+
+    <div class="sb-summary" data-totals>
+      <div class="sb-sum"><div class="n" data-month>${euro(subsMonthly())}</div><div class="k">per month</div></div>
+      <div class="sb-sum"><div class="n" data-combo>${euro(subsDiscount())}</div><div class="k">monthly combo discount</div></div>
+    </div>
+
+    <p class="sb-sec">Subscriptions in my package</p>
+    <div class="sb-owned">
+      ${OWNED.map(ownedCard).join("")}
+      <button class="sb-add" type="button" data-sub-add>
+        <img src="${SUBA("icon-add-service.svg")}" alt="">
+        <span>Add a subscription</span>
+      </button>
+    </div>
+
+    ${laneQHTML(SUB_QS)}
+
+    <div class="sb-foryou">
+      <div class="sb-eyebrow">${star} For you</div>
+      <h3>Ten titles on your saved list are available through HBO Max.</h3>
+      <p>Want to see whether that makes the subscription worthwhile for you?</p>
+      <div class="sb-fychips">
+        <button class="sb-fychip" type="button" data-sub-ask="fy-ten">Show those ten</button>
+        <button class="sb-fychip" type="button" data-sub-ask="fy-compare">Compare with Streamz</button>
+        <button class="sb-fychip" type="button" data-sub-ask="fy-tier">Which tier should I take?</button>
+        <button class="sb-fychip round" type="button" data-open-ask aria-label="Ask">${star}</button>
+      </div>
+    </div>
+
+    <p class="sb-sec">Subscription catalog</p>
+    <div class="sb-grid">${CATALOG.map(catalogCard).join("")}</div>
+
+    <div class="sb-banner">
+      <h3>Get 6 months of free streaming with Telenet internet</h3>
+      <p>Subscribe to Telenet internet and get a streaming subscription free for six months. Have two or more? You save 5% every month.</p>
+      <a href="#" data-sub-offers>See offers</a>
+    </div>`;
+}
+
+/* ---------------- tier bottom sheet ---------------- */
+const tsEl = document.getElementById("tiersheet");
+const tsPanel = document.getElementById("tsPanel");
+let tsFor = null;
+
+function checkSvg(){ return '<svg viewBox="0 0 24 24"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></svg>'; }
+
+function tierCard(sub, t){
+  const sel = sub.picked === t.id;
+  return `<div class="ts-card${sel?" is-sel":""}" data-tier="${t.id}">
+    <div class="ts-top">
+      <div class="ts-name">${esc(t.name)}</div>
+      <div class="ts-price"><b>${euro(t.price)}</b> /month</div>
+    </div>
+    <div class="ts-rule"></div>
+    ${t.specs.map(sp => `<div class="ts-spec">${checkSvg()}<span>${esc(sp)}</span></div>`).join("")}
+    <button class="ts-pick" type="button" data-pick="${t.id}">${sel?"\u2713 Selected":"Select"}</button>
+  </div>`;
+}
+function paintTierSheet(){
+  const sub = subById(tsFor);
+  if (!sub) return;
+  tsPanel.innerHTML = `<div class="ts-grab"></div>
+    <div class="ts-head">Subscribe to ${esc(sub.name)}</div>
+    <div class="ts-track">${sub.tiers.map(t => tierCard(sub, t)).join("")}</div>
+    <div class="ts-offer">
+      <h4>Get 6 months for free with Telenet</h4>
+      <p>Take your internet connection via Telenet and get 6 months of ${esc(sub.name)} for free. As a plus you get 5% discount on your current streaming services.</p>
+      <button class="ts-btn" type="button" data-ts-accept>Yes, accept offer</button>
+      <button class="ts-btn" type="button" data-ts-plain>No, I only want ${esc(sub.name)}</button>
+    </div>`;
+  // centre the picked tier horizontally without letting any ancestor scroll vertically
+  const track = tsPanel.querySelector(".ts-track");
+  const sel = tsPanel.querySelector(".ts-card.is-sel");
+  if (track && sel) track.scrollLeft = Math.max(0, sel.offsetLeft - (track.clientWidth - sel.offsetWidth) / 2);
+}
+function openTierSheet(id){
+  const sub = subById(id);
+  if (!sub || !sub.tiers) return false;
+  tsFor = id;
+  tsEl.hidden = false;
+  tsEl.setAttribute("aria-hidden","false");
+  paintTierSheet();
+  void tsEl.offsetHeight;              // flush layout so the slide-up transition runs
+  tsEl.classList.add("is-on");
+  return true;
+}
+function closeTierSheet(){
+  tsEl.classList.remove("is-on");
+  tsEl.setAttribute("aria-hidden","true");
+  setTimeout(() => { if (!tsEl.classList.contains("is-on")) tsEl.hidden = true; }, 420);
+}
+function confirmTier(withOffer){
+  const sub = subById(tsFor);
+  if (sub){
+    sub.on = true;
+    const t = sub.tiers.find(t => t.id === sub.picked);
+    toast(withOffer ? `${sub.name} ${t.name} on \u2014 6 months free` : `${sub.name} ${t.name} added`);
+  }
+  closeTierSheet();
+  render(true);
+}
+
+function toggleSub(id){
+  const x = subById(id);
+  if (!x) return;
+  if (!x.on && x.tiers){ openTierSheet(id); return; }   // pick a tier before switching on
+  x.on = !x.on;
+  toast(x.on ? `${x.name} added` : `${x.name} switched off`);
+  render(true);
+}
+
+tsEl.addEventListener("click", e => {
+  if (e.target.closest("[data-ts-close]")) { closeTierSheet(); return; }
+  const pick = e.target.closest("[data-pick]");
+  if (pick){
+    const sub = subById(tsFor);
+    if (sub){ sub.picked = pick.getAttribute("data-pick"); paintTierSheet(); }
+    return;
+  }
+  if (e.target.closest("[data-ts-accept]")) { confirmTier(true); return; }
+  if (e.target.closest("[data-ts-plain]"))  { confirmTier(false); return; }
+});
+
 function paintTotals(animate){
-  const month = monthDue();
-  const year = yearDue();
+  const month = subsMonthly();
+  const combo = subsDiscount();
   scene.querySelectorAll("[data-month]").forEach(el => tickEuro(el, month, animate));
-  scene.querySelectorAll("[data-year]").forEach(el => tickEuro(el, year, animate));
+  scene.querySelectorAll("[data-combo]").forEach(el => tickEuro(el, combo, animate));
   const box = scene.querySelector("[data-totals]");
   if (box && animate){
     box.classList.add("is-pulse");
     clearTimeout(pulseT);
     pulseT = setTimeout(() => box.classList.remove("is-pulse"), 420);
   }
-  lastNums = {month, year};
+  lastNums = {month, combo};
 }
 function tickEuro(el, next, animate){
   const prev = Number(el.dataset.n ?? String(next));
@@ -914,10 +1621,14 @@ function tickEuro(el, next, animate){
 }
 
 function render(animateTotals){
+  const prevMonth = lastNums ? lastNums.month : subsMonthly();
+  const prevCombo = lastNums ? lastNums.combo : subsDiscount();
   scene.innerHTML = renderA();
-  scene.querySelectorAll("[data-month]").forEach(el => { el.dataset.n = monthDue(); });
-  scene.querySelectorAll("[data-year]").forEach(el => { el.dataset.n = yearDue(); });
+  scene.querySelectorAll("[data-month]").forEach(el => { el.dataset.n = prevMonth; });
+  scene.querySelectorAll("[data-combo]").forEach(el => { el.dataset.n = prevCombo; });
   if (animateTotals) paintTotals(true);
+  else lastNums = {month: subsMonthly(), combo: subsDiscount()};
+  bindLaneQs();
 }
 
 function toggleService(id){
@@ -947,6 +1658,16 @@ function closeStory(silent){
 }
 
 phoneEl.addEventListener("click", e => {
+  const subTog = e.target.closest("[data-sub-tog]");
+  if (subTog){
+    e.preventDefault(); e.stopPropagation();
+    toggleSub(subTog.getAttribute("data-sub-tog"));
+    return;
+  }
+  const subAsk = e.target.closest("[data-sub-ask]");
+  if (subAsk){ e.stopPropagation(); openAsk(subAsk.getAttribute("data-sub-ask")); return; }
+  if (e.target.closest("[data-sub-add]")){ toast("Pick one from the catalog below"); return; }
+  if (e.target.closest("[data-sub-offers]")){ e.preventDefault(); toast("Opening Telenet offers"); return; }
   const tog = e.target.closest("[data-tog]");
   if (tog){ e.preventDefault(); e.stopPropagation(); toggleService(tog.dataset.tog); return; }
   const askSvc = e.target.closest("[data-ask-svc]");
