@@ -49,7 +49,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=sep2a">
 <link rel="stylesheet" href="ah-gummy-title.css?v=aug28k">
 <style>
   :root{
@@ -560,7 +560,11 @@
   /* owned row -- horizontal scroll of portrait cards */
   .sb-owned{
     display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
-    margin:0 -16px 14px 0;padding:0 0 2px;scroll-snap-type:x proximity;
+    /* full-bleed lane, inset by its own padding -- same pattern as .prev-lane on
+       Search. scroll-padding keeps the snap on that inset instead of yanking the
+       first card to the container edge on load. */
+    margin:0 -16px 14px;padding:0 16px 2px;scroll-snap-type:x proximity;
+    scroll-padding-inline:16px;
   }
   .sb-owned::-webkit-scrollbar{display:none}
   .sb-cardp{
@@ -875,6 +879,10 @@
   }
   .ts-pick:active{transform:scale(.98)}
   .ts-card.is-sel .ts-pick{background:rgba(255,255,255,.2)}
+  .ts-confirm{margin:16px 18px 0}
+  .ts-btn.is-solo{
+    margin-top:0;background:#FAEB5C;color:#141414;font-size:14px;padding:14px;border-radius:12px;
+  }
   .ts-offer{
     margin:16px 18px 0;border-radius:16px;padding:15px 16px 16px;background:#FAEB5C;color:#141414;
   }
@@ -886,6 +894,18 @@
     transition:background .2s ease, transform .2s var(--ease-jelly);
   }
   .ts-btn:active{transform:scale(.985)}
+  /* main navigation icons -- masked so they keep inheriting currentColor */
+  .navitem .nav-ico{
+    width:22px;height:22px;display:block;background:currentColor;
+    -webkit-mask:var(--ico) center/contain no-repeat;
+            mask:var(--ico) center/contain no-repeat;
+  }
+  .navitem.on .nav-ico{-webkit-mask-image:var(--ico-on);mask-image:var(--ico-on)}
+  .navitem[data-nav="home"]   .nav-ico{--ico:url("ico-home.svg");   --ico-on:url("ico-home-filled.svg")}
+  .navitem[data-nav="stuff"]  .nav-ico{--ico:url("ico-saved.svg");  --ico-on:url("ico-saved-filled.svg")}
+  .navitem[data-nav="search"] .nav-ico{--ico:url("ico-search.svg"); --ico-on:url("ico-search-filled.svg")}
+  .navitem[data-nav="shop"]   .nav-ico{--ico:url("ico-shop.svg");   --ico-on:url("ico-shop-filled.svg")}
+
 </style>
 </head>
 <body>
@@ -929,16 +949,16 @@
       </div>
 
       <div class="tabbar">
-        <button class="navitem" type="button" data-nav="home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
-        <button class="navitem" type="button" data-nav="stuff" aria-label="My Stuff"><svg viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1v16l-6-4-6 4v-16a1 1 0 0 1 1-1z"/></svg><span>My Stuff</span></button>
-        <button class="navitem" type="button" data-nav="search" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>Search</span></button>
-        <button class="navitem on" type="button" data-nav="shop" aria-label="Shop"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 11.2A2 2 0 0 1 16.8 21H7.2a2 2 0 0 1-2-1.8L4 8z"/><path d="M8 8V6.5A4 4 0 0 1 12 2.5a4 4 0 0 1 4 4V8"/></svg><span>Shop</span></button>
+        <button class="navitem" type="button" data-nav="home" aria-label="Home"><i class="nav-ico" aria-hidden="true"></i><span>Home</span></button>
+        <button class="navitem" type="button" data-nav="stuff" aria-label="My Stuff"><i class="nav-ico" aria-hidden="true"></i><span>My Stuff</span></button>
+        <button class="navitem" type="button" data-nav="search" aria-label="Search"><i class="nav-ico" aria-hidden="true"></i><span>Search</span></button>
+        <button class="navitem on" type="button" data-nav="shop" aria-label="Shop"><i class="nav-ico" aria-hidden="true"></i><span>Shop</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<script src="ah-gummy-convo.js?v=aug28h"></script>
+<script src="ah-gummy-convo.js?v=sep2a"></script>
 <script src="ah-flemish-titles.js?v=sep1a"></script>
 <script src="ah-gummy-title.js?v=sep1a"></script>
 <script>
@@ -1103,9 +1123,9 @@ function globalAsk(){
         {id:"idle-pause", q:"Can I pause it instead of cancelling?",
           a:"Switch it off here and it stops at the end of the month. Your list and profiles stay, so turning it back on for a season is a tap."},
         {id:"idle-combo", q:"Do I lose the combo discount if I drop it?",
-          a(){ return subsOnCount() >= 2
-            ? `Yes \u2014 the ${euro(COMBO_DISCOUNT)} combo needs two subscriptions running. Dropping to one takes the discount with it, so the real saving is smaller than the sticker price.`
-            : `The ${euro(COMBO_DISCOUNT)} combo needs two subscriptions running, so there is nothing to lose right now.`; }}
+          a(){ return subsDiscount()
+            ? `Yes \u2014 the 5% combo needs two subscriptions running. Dropping to one takes ${euro(subsDiscount())} a month with it, so the real saving is smaller than the sticker price.`
+            : `The 5% combo needs two subscriptions running at Telenet, so there is nothing to lose right now.`; }}
       ]},
 
     {id:"sub-optim", q:"Help me optimise my subscriptions",
@@ -1121,7 +1141,8 @@ function globalAsk(){
       ]},
 
     {id:"fy-ten", q:"Show me those ten titles on HBO Max",
-      a:"The ones that matter on your list: Dune: Part Two, which you started and parked, The Last of Us mid-season, and Barbie. The other seven are films you saved this year and have not opened. Three of the ten are things you are actively part-way through.",
+      posterTitles: ["Dune: Part Two","The Last of Us","Barbie","Oppenheimer","The Penguin","The White Lotus","House of the Dragon","Succession","Chernobyl","Game of Thrones"],
+      a:"All ten, in the order I would clear them: Dune: Part Two and The Last of Us first \u2014 you are part-way into both \u2014 then Barbie, Oppenheimer, The Penguin, The White Lotus, House of the Dragon, Succession, Chernobyl and Game of Thrones. Three you have started; the rest you saved this year and have not opened.",
       follow:[
         {id:"ten-worth", q:"Is that worth a subscription?",
           a(){ const hbo = subById("hbomax");
@@ -1129,6 +1150,7 @@ function globalAsk(){
       ]},
 
     {id:"fy-compare", q:"Compare HBO Max with Streamz",
+      posterTitles:["Dune: Part Two","The Last of Us","Barbie","Zillion"],
       a(){
         const hbo = subById("hbomax"), sz = subById("streamz");
         return `HBO Max is ${euro(hbo.from)} and holds the ten from your list \u2014 Dune, Last of Us, Barbie. Streamz starts at ${euro(fromPrice(sz))} and is the Belgian shelf: Zillion, local drama, the things nothing else carries. Different jobs. HBO Max clears your backlog; Streamz is for the nights you want something from here.`;
@@ -1176,7 +1198,22 @@ let lastNums = null;   // seeded on first render from the subscriptions model
 let pulseT = 0;
 const shopPlan = new Set(["Netflix", "Disney+", "VRT MAX", "Play", "VTM GO"]);
 
+// the ten saved titles that sit on HBO Max -- named so the answer can show them
+const HBO_TEN = [
+  {title:"Dune: Part Two",      poster:POSTER("/y4ml848KTz0zccQxfWlE8CMMC13.jpg")},
+  {title:"The Last of Us",      poster:POSTER("/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg")},
+  {title:"Barbie",              poster:POSTER("/tnS9DqsJvFjmg4FK4R2LghvOhs5.jpg")},
+  {title:"Oppenheimer",         poster:POSTER("/jtTHxuJhuZpFAnCI4vGjg1LGmpY.jpg")},
+  {title:"The Penguin",         poster:POSTER("/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg")},
+  {title:"The White Lotus",     poster:POSTER("/gbSaK9v1CbcYH1ISgbM7XObD2dW.jpg")},
+  {title:"House of the Dragon", poster:POSTER("/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg")},
+  {title:"Succession",          poster:POSTER("/z0XiwdrCQ9yVIr4O0pxzaAYRxdW.jpg")},
+  {title:"Chernobyl",           poster:POSTER("/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg")},
+  {title:"Game of Thrones",     poster:POSTER("/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg")}
+];
+const askPosters = SERVICES.reduce((all, s) => all.concat(s.titles || []), []).concat(HBO_TEN);
 const convo = GummyConvo.create({
+  posters: GummyConvo.posterScanner(askPosters),
   phone: phoneEl,
   sheet,
   bank: globalAsk(),
@@ -1285,8 +1322,9 @@ function includedHTML(){
 
 /* ---------------- subscriptions page ---------------- */
 const SUBA = f => encodeURI("subscription cards/" + f);
-const COMBO_DISCOUNT = 2.30;
-// the combo discount is a Telenet perk -- you do not have it until you subscribe
+// Telenet gives 5% off when you combine two or more streaming services
+const COMBO_RATE = 0.05;
+// and only once you are a Telenet customer, which is what subscribing makes you
 let telenetCustomer = false;
 
 const OWNED = [
@@ -1303,12 +1341,43 @@ const CATALOG = [
       {id:"premium",  name:"Premium",   price:12.95, specs:["Max. 4 screens at the same time","Max. 5 profiles","Ad-free","Download & watch offline"]},
       {id:"premplus", name:"Premium+",  price:20.95, specs:["Everything in Streamz Premium","Access to recent blockbusters","Ad-free","Download & watch offline"]}
     ], picked:"premium"},
-  {id:"playmore",  name:"Play More",       from:25.95, card:"Card-playmore.svg",        logo:"logo-play-more.svg",       on:false},
-  {id:"playsports",name:"Play Sports",     from:21.99, card:"Card-playsports.svg",      logo:"logo-play-sports.svg",     on:false},
-  {id:"ytprem",    name:"YouTube Premium", from:13.99, card:"Card-youtube-premium.svg", logo:"logo-youtube-premium.svg", on:false},
-  {id:"hbomax",    name:"HBO Max",         from:30.99, card:"Card-hbo-max.svg",         logo:"logo-hbo-max.svg",         on:false},
-  {id:"dazn",      name:"DAZN",            from:30.99, card:"Card-dazn.svg",            logo:"logo-DAZN.svg",            on:false},
-  {id:"tvzenders", name:"TV zenders",      from:5.99,  card:null,                       logo:null,                       on:false}
+  {id:"playmore",  name:"Play More",       from:27.99, card:"Card-playmore.svg",        logo:"logo-play-more.svg",       on:false,
+    portrait:{c1:"#0A3560", c2:"#000B16"},
+    tiers:[
+      {id:"pm", name:"Play More", price:27.99, specs:["Films and series on demand","Extra entertainment channels","Included in the Telenet TV box","One price, no formulas"]}
+    ], picked:"pm"},
+  {id:"playsports",name:"Play Sports",     from:19.99, card:"Card-playsports.svg",      logo:"logo-play-sports.svg",     on:false,
+    portrait:{c1:"#075437", c2:"#00140C"},
+    tiers:[
+      {id:"ps",     name:"Play Sports",        price:19.99, specs:["8 sports channels","Pro League highlights","Eurosport and more","Watch on the Play app"]},
+      {id:"psdazn", name:"DAZN via Play Sports", price:24.99, specs:["Everything in DAZN Total","Belgian football live","La Liga and Serie A","Through your Play Sports app"]},
+      {id:"psfull", name:"Play Sports + DAZN",  price:34.99, specs:["Both packages together","The widest sports offer","Belgian and European football","US sports and fight nights"]}
+    ], picked:"ps"},
+  {id:"ytprem",    name:"YouTube Premium", from:8.99,  card:"Card-youtube-premium.svg", logo:"logo-youtube-premium.svg", on:false,
+    portrait:{c1:"#3A1414", c2:"#101010"},
+    tiers:[
+      {id:"student",    name:"Student",    price:8.99,  specs:["Ad-free YouTube","Background play","Downloads","Proof of enrolment needed"]},
+      {id:"individual", name:"Individual", price:13.99, specs:["Ad-free YouTube","Background play","Downloads","YouTube Music included"]},
+      {id:"family",     name:"Family",     price:25.99, specs:["Up to 5 members","Ad-free for everyone","Background play","Same household required"]}
+    ], picked:"individual"},
+  {id:"hbomax",    name:"HBO Max",         from:6.99,  card:"Card-hbo-max.svg",         logo:"logo-hbo-max.svg",         on:false,
+    portrait:{c1:"#3A4A52", c2:"#00060F"},
+    tiers:[
+      {id:"basic",    name:"Basic with ads", price:6.99,  specs:["2 screens at the same time","Full HD","With ads","No downloads"]},
+      {id:"standard", name:"Standard",       price:10.99, specs:["2 screens at the same time","Full HD","Ad-free","Up to 30 downloads"]},
+      {id:"premium",  name:"Premium",        price:15.99, specs:["4 screens at the same time","4K UHD and Dolby Atmos","Ad-free","Up to 100 downloads"]}
+    ], picked:"standard"},
+  {id:"dazn",      name:"DAZN",            from:24.99, card:"Card-dazn.svg",            logo:"logo-DAZN.svg",            on:false,
+    portrait:{c1:"#16303F", c2:"#04080B"},
+    tiers:[
+      {id:"annual",  name:"Total, yearly",  price:24.99, specs:["12 month commitment","All Belgian football","La Liga, Serie A, NBA, NFL","Cheapest per month"]},
+      {id:"monthly", name:"Total, monthly", price:34.99, specs:["No commitment","All Belgian football","La Liga, Serie A, NBA, NFL","Cancel any month"]}
+    ], picked:"annual"},
+  {id:"tvzenders", name:"TV zenders",      from:5.99,  card:null,                       logo:null,                       on:false,
+    portrait:{c1:"#2A2A32", c2:"#0B0B0E"},
+    tiers:[
+      {id:"tv", name:"Channel pack", price:5.99, specs:["Extra channels on your TV box","No app needed","Month to month"]}
+    ], picked:"tv"}
 ];
 
 const allSubs = () => OWNED.concat(CATALOG);
@@ -1322,11 +1391,13 @@ function fromPrice(x){
   return x.tiers ? Math.min.apply(null, x.tiers.map(t => t.price)) : x.from;
 }
 function subsOnCount(){ return allSubs().filter(x => x.on).length; }
-function subsDiscount(){ return telenetCustomer && subsOnCount() >= 2 ? COMBO_DISCOUNT : 0; }
-function subsMonthly(){
-  const gross = allSubs().filter(x => x.on).reduce((n,x) => n + subPrice(x), 0);
-  return Math.max(0, gross - subsDiscount());
+function subsGross(){
+  return allSubs().filter(x => x.on).reduce((n,x) => n + subPrice(x), 0);
 }
+function subsDiscount(){
+  return telenetCustomer && subsOnCount() >= 2 ? subsGross() * COMBO_RATE : 0;
+}
+function subsMonthly(){ return Math.max(0, subsGross() - subsDiscount()); }
 
 function togBtn(id, on){
   return `<button class="sb-tog${on?" on":""}" type="button" data-sub-tog="${id}" role="switch" aria-checked="${on}" aria-label="${on?"Turn off":"Turn on"} ${esc(subById(id)?subById(id).name:id)}"><i></i></button>`;
@@ -1548,15 +1619,20 @@ function tierCard(sub, t){
 function paintTierSheet(){
   const sub = subById(tsFor);
   if (!sub) return;
+  const tier = sub.tiers.find(t => t.id === sub.picked) || sub.tiers[0];
   tsPanel.innerHTML = `<div class="ts-grab"></div>
     <div class="ts-head">Subscribe to ${esc(sub.name)}</div>
     <div class="ts-track">${sub.tiers.map(t => tierCard(sub, t)).join("")}</div>
+    ${telenetCustomer ? `
+    <div class="ts-confirm">
+      <button class="ts-btn is-solo" type="button" data-ts-plain>Subscribe to ${esc(sub.name)} ${esc(tier.name)} \u00B7 ${euro(tier.price)}/month</button>
+    </div>` : `
     <div class="ts-offer">
-      <h4>Get 6 months for free with Telenet</h4>
-      <p>Take your internet connection via Telenet and get 6 months of ${esc(sub.name)} for free. As a plus you get 5% discount on your current streaming services.</p>
-      <button class="ts-btn" type="button" data-ts-accept>Yes, accept offer</button>
+      <h4>Get 6 months of ${esc(sub.name)} ${esc(tier.name)} for \u20AC0</h4>
+      <p>Choose Telenet internet and save ${euro(tier.price * 6)} on ${esc(sub.name)} ${esc(tier.name)}.<br>\u20AC0 for 6 months \u00B7 then ${euro(tier.price)}/month</p>
+      <button class="ts-btn" type="button" data-ts-accept>Get this offer</button>
       <button class="ts-btn" type="button" data-ts-plain>No, I only want ${esc(sub.name)}</button>
-    </div>`;
+    </div>`}`;
   // centre the picked tier horizontally without letting any ancestor scroll vertically
   const track = tsPanel.querySelector(".ts-track");
   const sel = tsPanel.querySelector(".ts-card.is-sel");

@@ -49,7 +49,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=sep2a">
 <link rel="stylesheet" href="ah-gummy-title.css?v=aug28k">
 <style>
   :root{
@@ -738,6 +738,9 @@
   .prev-lane{
     display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;
     padding:0 24px 4px;scroll-snap-type:x proximity;
+    /* without this the first card snaps to the container edge on load and slides
+       out from under the 24px inset the rest of the content sits on */
+    scroll-padding-inline:24px;
   }
   .prev-lane::-webkit-scrollbar{display:none}
   .prev-card{
@@ -757,6 +760,18 @@
     width:40px;height:60px;border-radius:7px;object-fit:cover;display:block;
     background:#15151a;
   }
+
+  /* main navigation icons -- masked so they keep inheriting currentColor */
+  .navitem .nav-ico{
+    width:22px;height:22px;display:block;background:currentColor;
+    -webkit-mask:var(--ico) center/contain no-repeat;
+            mask:var(--ico) center/contain no-repeat;
+  }
+  .navitem.on .nav-ico{-webkit-mask-image:var(--ico-on);mask-image:var(--ico-on)}
+  .navitem[data-nav="home"]   .nav-ico{--ico:url("ico-home.svg");   --ico-on:url("ico-home-filled.svg")}
+  .navitem[data-nav="stuff"]  .nav-ico{--ico:url("ico-saved.svg");  --ico-on:url("ico-saved-filled.svg")}
+  .navitem[data-nav="search"] .nav-ico{--ico:url("ico-search.svg"); --ico-on:url("ico-search-filled.svg")}
+  .navitem[data-nav="shop"]   .nav-ico{--ico:url("ico-shop.svg");   --ico-on:url("ico-shop-filled.svg")}
 
 </style>
 </head>
@@ -782,15 +797,15 @@
     <div class="status" aria-hidden="true"><span class="status-time">9:41</span><span class="status-island"></span><span class="status-end"><svg class="status-sig" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".6"/><rect x="5" y="5" width="3" height="7" rx=".6"/><rect x="10" y="2.5" width="3" height="9.5" rx=".6"/><rect x="15" y="0" width="3" height="12" rx=".6"/></svg><svg class="status-wifi" viewBox="0 0 16 12"><path d="M1 4.2c4-4 10-4 14 0"/><path d="M3.4 6.6c2.6-2.5 6.6-2.5 9.2 0"/><path d="M6 9c1.1-1.1 2.9-1.1 4 0"/><circle cx="8" cy="11.2" r="1.15" fill="currentColor" stroke="none"/></svg><svg class="status-bat" viewBox="0 0 27 13"><rect x=".6" y=".6" width="23" height="11.8" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.25"/><rect x="2.2" y="2.3" width="17.6" height="8.4" rx="1.7"/><path d="M24.6 4v5c1.3-.5 1.8-1.3 1.8-2.5S25.9 4.5 24.6 4z"/></svg></span></div>
     <div class="scene" id="scene"></div>
     <div class="tabbar">
-      <button class="navitem" type="button" data-nav="home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 10.8 12 3.8l8.5 7V20a1.2 1.2 0 0 1-1.2 1.2h-5.3v-6.2h-4v6.2H4.7A1.2 1.2 0 0 1 3.5 20v-9.2z"/></svg><span>Home</span></button>
-      <button class="navitem" type="button" data-nav="stuff" aria-label="My Stuff"><svg viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1v16l-6-4-6 4v-16a1 1 0 0 1 1-1z"/></svg><span>My Stuff</span></button>
-      <button class="navitem on" type="button" data-nav="search" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>Search</span></button>
-      <button class="navitem" type="button" data-nav="shop" aria-label="Shop"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 11.2A2 2 0 0 1 16.8 21H7.2a2 2 0 0 1-2-1.8L4 8z"/><path d="M8 8V6.5A4 4 0 0 1 12 2.5a4 4 0 0 1 4 4V8"/></svg><span>Shop</span></button>
+      <button class="navitem" type="button" data-nav="home" aria-label="Home"><i class="nav-ico" aria-hidden="true"></i><span>Home</span></button>
+      <button class="navitem" type="button" data-nav="stuff" aria-label="My Stuff"><i class="nav-ico" aria-hidden="true"></i><span>My Stuff</span></button>
+      <button class="navitem on" type="button" data-nav="search" aria-label="Search"><i class="nav-ico" aria-hidden="true"></i><span>Search</span></button>
+      <button class="navitem" type="button" data-nav="shop" aria-label="Shop"><i class="nav-ico" aria-hidden="true"></i><span>Shop</span></button>
     </div>
   </div>
 </div>
 
-<script src="ah-gummy-convo.js?v=aug28h"></script>
+<script src="ah-gummy-convo.js?v=sep2a"></script>
 <script src="ah-flemish-titles.js?v=sep1e"></script>
 <script src="ah-gummy-title.js?v=sep1e"></script>
 <script>

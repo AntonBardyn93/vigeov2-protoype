@@ -49,7 +49,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ah-gummy-convo.css?v=aug28h">
+<link rel="stylesheet" href="ah-gummy-convo.css?v=sep2a">
 <link rel="stylesheet" href="ah-gummy-title.css?v=aug28k">
 <style>
   :root{
@@ -968,7 +968,7 @@
     </div>
   </div>
 </div>
-<script src="ah-gummy-convo.js?v=aug28h"></script>
+<script src="ah-gummy-convo.js?v=sep2a"></script>
 <script src="ah-flemish-titles.js?v=sep1e"></script>
 <script src="ah-gummy-title.js?v=sep1e"></script>
 <script>
@@ -977,7 +977,7 @@ const TMDB = p => `https://media.themoviedb.org/t/p/w780${p}`;
 const YT = id => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
 const trailerSrc = id => `trailers/${id}.mp4`;
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const ASK_DELAY = 3800;
+const ASK_DELAY = 2500;
 
 function weave(a, b){
   const out = [];
@@ -1050,7 +1050,8 @@ const feedInternational = [
           {id:"dune-split", q:"Can I split it if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."},
           {id:"dune-stress-wk", q:"So not a Tuesday after work?", a:"Not if you want to finish. Split it, or keep it for Friday. You’ve barely started — tonight only if the sofa is yours."}
         ]},
-      {q: "Show me more epic sci-fi like this", a: "Nothing else in your plan hits this scale. Gladiator II is the closest sit for spectacle and empire, on Apple TV. Otherwise Part One is the obvious next night — same desert, the half you skipped.",
+      {q: "Show me more epic sci-fi like this",
+      posterTitles:["Gladiator II"], a: "Nothing else in your plan hits this scale. Gladiator II is the closest sit for spectacle and empire, on Apple TV. Otherwise Part One is the obvious next night — same desert, the half you skipped.",
         follow:[
           {id:"dune-tonight", q:"I started it already — should I just finish?", a:"Yes if you have the sofa. You’re barely in. Tonight is a proper night, not a dip."},
           {id:"dune-wk-room", q:"What if people are still in the room?", a:"Then don’t. 2h 46 wants the sofa. Barbie if the room is still up. Come back to this when it’s yours."}
@@ -1075,7 +1076,8 @@ const feedInternational = [
           {id:"uc-room", q:"What if someone else is on the sofa?", a:"Fine if they like crooks. Not fine if they wanted Barbie. Episode length is ~50 minutes — one and see."},
           {id:"uc-narcos", q:"So it’s Narcos, but camping?", a:"That’s the closest neighbour. Border, drugs, double lives. Less homework, more Limburg."}
         ]},
-      {q: "Should I watch Ferry before this?", a: "Undercover first, then Ferry. The film is the origin; the series is the long game. You’re already in S3 — keep going, then the film as a closed night.",
+      {q: "Should I watch Ferry before this?",
+      posterTitles:["Undercover","Ferry"], a: "Undercover first, then Ferry. The film is the origin; the series is the long game. You’re already in S3 — keep going, then the film as a closed night.",
         follow:[
           {id:"uc-order", q:"I’m already in season three — did I mess up?", a:"No. Keep going. Ferry still works after as the origin glow-up. You don’t rewind a camping for a film."},
           {id:"uc-s4", q:"Isn’t the new season about to start?", a:"S4 premiere is Thursday on Netflix. Finish what you’re in so Thursday isn’t a pile-up."}
@@ -1146,7 +1148,8 @@ const laneInternational = [
           {id:"dune-split", q:"Can I split it if 2h 46 is too much?", a:"Yes — around the mid-story time jump. It’s still a Friday film. Don’t start at 22:30 unless finishing at 1am is the point."},
           {id:"dune-stress-wk", q:"So not a Tuesday after work?", a:"Not if you want to finish. Split it, or keep it for Friday. You’ve barely started — tonight only if the sofa is yours."}
         ]},
-      {q: "Show me more epic sci-fi like this", a: "Nothing else in your plan hits this scale. Gladiator II is the closest sit for spectacle and empire, on Apple TV. Otherwise Part One is the obvious next night — same desert, the half you skipped.",
+      {q: "Show me more epic sci-fi like this",
+      posterTitles:["Gladiator II"], a: "Nothing else in your plan hits this scale. Gladiator II is the closest sit for spectacle and empire, on Apple TV. Otherwise Part One is the obvious next night — same desert, the half you skipped.",
         follow:[
           {id:"dune-tonight", q:"I started it already — should I just finish?", a:"Yes if you have the sofa. You’re barely in. Tonight is a proper night, not a dip."},
           {id:"dune-wk-room", q:"What if people are still in the room?", a:"Then don’t. 2h 46 wants the sofa. Barbie if the room is still up. Come back to this when it’s yours."}
@@ -1227,7 +1230,8 @@ const laneInternational = [
           {id:"barb-kids", q:"Can I still put it on if kids are around?", a:"Yes. They get the pink. You get the speech. Nobody has to sit up for sandworms."},
           {id:"barb-length", q:"How long is it?", a:"1h 54 on HBO Max, in your plan. Ends before midnight even if you start late."}
         ]},
-      {q: "Show me more comedies like this", a: "Nothing else in your plan turns the same way. Zeg Eens Euh if you want a laugh you can talk over, Jade en de Belgen for the weekly roast. Neither will punch you at the end.",
+      {q: "Show me more comedies like this",
+      posterTitles:["Zeg Eens Euh","Jade en de Belgen"], a: "Nothing else in your plan turns the same way. Zeg Eens Euh if you want a laugh you can talk over, Jade en de Belgen for the weekly roast. Neither will punch you at the end.",
         follow:[
           {id:"barb-double", q:"Is the Oppenheimer double bill worth it?", a:"That’s the joke. Barbie first if you want to land soft. Only if the night can hold five hours."},
           {id:"barb-only", q:"What if I just want this one?", a:"Then just this. 1h 54, HBO Max, in your plan. It doesn’t need three hours of guilt to work."}
@@ -1282,7 +1286,8 @@ const laneInternational = [
           {id:"zill-room", q:"Fine with people in the room?", a:"Depends on the people. It’s a night of excess played straight. Barbie if the sofa wanted pink."},
           {id:"zill-lock", q:"I don’t have Streamz — is it worth adding for this?", a:"Only if Antwerp nightlife in the 90s is the brief. Ferry covers Belgian excess on Netflix without the extra app."}
         ]},
-      {q: "Show me more Belgian films like this", a: "Ferry on Netflix — same glow-and-crash energy, Dutch-Belgian border, 1h 46, and no extra app. Undercover if you want it stretched over three seasons instead of one night.",
+      {q: "Show me more Belgian films like this",
+      posterTitles:["Ferry","Undercover"], a: "Ferry on Netflix — same glow-and-crash energy, Dutch-Belgian border, 1h 46, and no extra app. Undercover if you want it stretched over three seasons instead of one night.",
         follow:[
           {id:"zill-close", q:"What’s close if I can’t play this tonight?", a:"Ferry on Netflix. Same glow-and-crash energy, Dutch-Belgian border, 1h 46, in-plan."},
           {id:"zill-belg", q:"Anything Flemish that isn’t crime?", a:"Alex Agnew for two hours of Antwerp with no plot, or Jade en de Belgen for the country laughing at itself. Different night entirely."}
@@ -1363,7 +1368,8 @@ const laneInternational = [
           {id:"ferry-who", q:"Where do I know him from?", a:"Ferry Bouman — the one you root for in Undercover even when you shouldn’t. This is how he gets there.", who:"Ferry"},
           {id:"ferry-alone", q:"Will I be lost if I’ve never seen Undercover?", a:"No. Nothing in the film asks you to remember the series. It’s the earlier chapter, not the sequel."}
         ]},
-      {q: "In what order should I watch Ferry and Undercover?", a: "Undercover first, then Ferry. After is cleaner — this is the origin glow-up. You’re probably already in the series; keep that, then this as a closed night.",
+      {q: "In what order should I watch Ferry and Undercover?",
+      posterTitles:["Undercover","Ferry"], a: "Undercover first, then Ferry. After is cleaner — this is the origin glow-up. You’re probably already in the series; keep that, then this as a closed night.",
         follow:[
           {id:"ferry-after", q:"I’m already in Undercover — so this is dessert?", a:"Yes. 1h 46, Netflix, in your plan. Same man, earlier. You don’t rewind the camping.", who:"Ferry"},
           {id:"ferry-series", q:"Isn’t there a Ferry series as well?", a:"There is, after the film, on Netflix. Film first if you’re starting here — the series picks up from it."}
@@ -1390,20 +1396,21 @@ const telenetAd = {
   backdrop: "stills/telenet-bingefoot.jpg",
   poster: "telenet-logo.svg",
   qs: [
+
     {q: "What does Telenet offer?", a: "Internet, mobile and TV \u2014 on their own or together. The point of building your own bundle is that you\u2019re not picking a fixed pack: you choose the parts you actually use and leave the rest out.",
       follow:[
         {id:"tn-tv", q:"What\u2019s in the TV part?", a:"Live channels, on demand, and the streaming apps you already watch, in one place. You add what you want on top and skip the rest."},
         {id:"tn-mobile", q:"Can I add mobile to it?", a:"Yes. Mobile sits in the same bundle as internet and TV, so it stays one bill and one place to change things."}
       ]},
-    {q: "What are the prices?", a: "There isn\u2019t one price \u2014 the bundle prices what you pick. Choose your internet speed, then whether you want mobile and TV, and the total moves with it, so you can see what each part is costing you.",
-      follow:[
-        {id:"tn-cheaper", q:"How do I keep it cheap?", a:"Leave out what you don\u2019t use. That\u2019s the whole idea \u2014 you\u2019re not paying for a pack built around somebody else\u2019s evening."},
-        {id:"tn-change", q:"Can I change it later?", a:"Yes. The bundle is meant to be adjusted when what you use changes, not locked for a year and forgotten."}
-      ]},
     {q: "Can I easily switch from my current provider?", a: "Yes. The switch is arranged for you, so you\u2019re not left without a connection in between, and your mobile number comes with you.",
       follow:[
         {id:"tn-number", q:"Do I keep my number?", a:"Yes. Your mobile number moves to Telenet with you \u2014 you don\u2019t have to tell everyone a new one."},
         {id:"tn-when", q:"How long does it take?", a:"You get a date for the changeover when you order, so you know exactly when the old line stops and the new one starts."}
+      ]},
+    {q: "What are the prices?", a: "There isn\u2019t one price \u2014 the bundle prices what you pick. Choose your internet speed, then whether you want mobile and TV, and the total moves with it, so you can see what each part is costing you.",
+      follow:[
+        {id:"tn-cheaper", q:"How do I keep it cheap?", a:"Leave out what you don\u2019t use. That\u2019s the whole idea \u2014 you\u2019re not paying for a pack built around somebody else\u2019s evening."},
+        {id:"tn-change", q:"Can I change it later?", a:"Yes. The bundle is meant to be adjusted when what you use changes, not locked for a year and forgotten."}
       ]}
   ]
 };
@@ -2016,6 +2023,7 @@ function qsBank(item){
 const sheetMount = document.querySelector("[data-csheet-mount]");
 if (sheetMount) sheetMount.outerHTML = GummyConvo.markup("Ask about this title…");
 const convo = GummyConvo.create({
+  posters: GummyConvo.posterScanner(catalog),
   phone: document.getElementById("phone"),
   sheet: document.querySelector("[data-csheet]"),
   bank: [],
