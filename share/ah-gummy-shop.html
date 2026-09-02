@@ -570,6 +570,14 @@
     transition:opacity .28s ease, filter .28s ease;
   }
   .sb-cardp.is-off{opacity:.5;filter:saturate(.5)}
+  /* top-row card drawn from the brand gradient, for services with no portrait art */
+  .sb-cardp.gen{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,0) 42%),
+      linear-gradient(168deg, var(--c1) 0%, var(--c2) 100%);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+  }
+  .sb-cardp.gen .sb-brandmark img{max-width:92px}
   .sb-cardp .sb-brandmark{
     flex:1;display:grid;place-items:center;padding:6px 2px 2px;pointer-events:none;
   }
@@ -630,6 +638,18 @@
   .sb-tog.on i{transform:translateX(16px)}
   .sb-cardp .sb-tog,
   .sb-cardl .sb-tog{position:absolute;top:9px;left:50%;transform:translateX(-50%);z-index:2}
+
+  @keyframes sbInCard{
+    0%{opacity:0;transform:translateY(14px) scale(.9)}
+    55%{opacity:1}
+    100%{opacity:1;transform:none}
+  }
+  @keyframes sbInCombo{
+    0%{opacity:0;transform:translateX(16px)}
+    100%{opacity:1;transform:none}
+  }
+  .sb-in-card{animation:sbInCard .68s var(--ease-jelly) both}
+  .sb-in-combo{animation:sbInCombo .5s var(--ease-jelly) both}
 
   /* question row -- same component as the Watch List lane */
   .lane-q{
@@ -1266,6 +1286,8 @@ function includedHTML(){
 /* ---------------- subscriptions page ---------------- */
 const SUBA = f => encodeURI("subscription cards/" + f);
 const COMBO_DISCOUNT = 2.30;
+// the combo discount is a Telenet perk -- you do not have it until you subscribe
+let telenetCustomer = false;
 
 const OWNED = [
   {id:"netflix", name:"Netflix", tier:"Standard", price:13.99, card:"card-netflix.svg", logo:"logo-netflix.svg", on:true},
@@ -1274,6 +1296,8 @@ const OWNED = [
 
 const CATALOG = [
   {id:"streamz",   name:"Streamz",         from:30.99, card:"Card-streamz.svg",         logo:"logo-streamz.svg",         on:false,
+    // no portrait card art exists, so the top-row card is drawn from the brand gradient
+    portrait:{c1:"#0A1B63", c2:"#01001F"},
     tiers:[
       {id:"basic",    name:"Basic",     price:7.95,  specs:["Max. 1 screen at the same time","Max. 2 profiles","With ads","No downloads"]},
       {id:"premium",  name:"Premium",   price:12.95, specs:["Max. 4 screens at the same time","Max. 5 profiles","Ad-free","Download & watch offline"]},
@@ -1298,7 +1322,7 @@ function fromPrice(x){
   return x.tiers ? Math.min.apply(null, x.tiers.map(t => t.price)) : x.from;
 }
 function subsOnCount(){ return allSubs().filter(x => x.on).length; }
-function subsDiscount(){ return subsOnCount() >= 2 ? COMBO_DISCOUNT : 0; }
+function subsDiscount(){ return telenetCustomer && subsOnCount() >= 2 ? COMBO_DISCOUNT : 0; }
 function subsMonthly(){
   const gross = allSubs().filter(x => x.on).reduce((n,x) => n + subPrice(x), 0);
   return Math.max(0, gross - subsDiscount());
@@ -1308,7 +1332,10 @@ function togBtn(id, on){
   return `<button class="sb-tog${on?" on":""}" type="button" data-sub-tog="${id}" role="switch" aria-checked="${on}" aria-label="${on?"Turn off":"Turn on"} ${esc(subById(id)?subById(id).name:id)}"><i></i></button>`;
 }
 function ownedCard(x){
-  return `<div class="sb-cardp${x.on?"":" is-off"}" data-sub="${x.id}" style="background-image:url('${SUBA(x.card)}')">
+  const art = x.portrait
+    ? ` style="--c1:${x.portrait.c1};--c2:${x.portrait.c2}"`
+    : ` style="background-image:url('${SUBA(x.card)}')"`;
+  return `<div class="sb-cardp${x.portrait?" gen":""}${x.on?"":" is-off"}" data-sub="${x.id}"${art}>
     ${togBtn(x.id, x.on)}
     <div class="sb-brandmark"><img src="${SUBA(x.logo)}" alt="${esc(x.name)}"></div>
     <div class="sb-foot"><div class="sb-tier">${esc(x.tier)}</div><div class="sb-cost">${euro(x.price)}/month</div></div>
@@ -1462,7 +1489,7 @@ function renderA(){
 
     <div class="sb-summary" data-totals>
       <div class="sb-sum"><div class="n" data-month>${euro(subsMonthly())}</div><div class="k">per month</div></div>
-      <div class="sb-sum"><div class="n" data-combo>${euro(subsDiscount())}</div><div class="k">monthly combo discount</div></div>
+      ${subsDiscount() ? `<div class="sb-sum"><div class="n" data-combo>${euro(subsDiscount())}</div><div class="k">monthly combo discount</div></div>` : ""}
     </div>
 
     <p class="sb-sec">Subscriptions in my package</p>
@@ -1491,11 +1518,12 @@ function renderA(){
     <p class="sb-sec">Subscription catalog</p>
     <div class="sb-grid">${CATALOG.map(catalogCard).join("")}</div>
 
+    ${telenetCustomer ? "" : `
     <div class="sb-banner">
       <h3>Get 6 months of free streaming with Telenet internet</h3>
       <p>Subscribe to Telenet internet and get a streaming subscription free for six months. Have two or more? You save 5% every month.</p>
       <a href="#" data-sub-offers>See offers</a>
-    </div>`;
+    </div>`}`;
 }
 
 /* ---------------- tier bottom sheet ---------------- */
@@ -1553,12 +1581,44 @@ function closeTierSheet(){
 function confirmTier(withOffer){
   const sub = subById(tsFor);
   if (sub){
-    sub.on = true;
     const t = sub.tiers.find(t => t.id === sub.picked);
+    sub.on = true;
+    sub.tier = t.name;
+    sub.price = t.price;
+    // subscribing makes you a Telenet customer, which is what unlocks the combo
+    telenetCustomer = true;
+    // and it moves out of the catalog into the subscriptions you pay for
+    const i = CATALOG.indexOf(sub);
+    if (i > -1){ CATALOG.splice(i, 1); OWNED.push(sub); }
     toast(withOffer ? `${sub.name} ${t.name} on \u2014 6 months free` : `${sub.name} ${t.name} added`);
   }
+  const addedId = sub ? sub.id : null;
   closeTierSheet();
   render(true);
+  revealAdded(addedId);
+}
+
+// bring the page back to the top and play the two changes in, so the
+// subscription landing in the package is something you actually see
+function revealAdded(id){
+  if (!id) return;
+  scene.scrollTo({top: 0, behavior: reduceMotion ? "auto" : "smooth"});
+  const card  = scene.querySelector(`.sb-cardp[data-sub="${id}"]`);
+  const combo = scene.querySelector("[data-combo]")?.closest(".sb-sum");
+  // the entrances hold their first frame until they run, so always clear them
+  // afterwards -- a tab that never composites must not be left with an invisible card
+  const play = (el, cls, delay) => {
+    if (!el) return;
+    el.classList.add(cls);
+    el.style.animationDelay = reduceMotion ? "0ms" : delay;
+    const done = () => { el.classList.remove(cls); el.style.animationDelay = ""; };
+    el.addEventListener("animationend", done, {once:true});
+    setTimeout(done, 1600);
+  };
+  play(combo, "sb-in-combo", "300ms");
+  play(card,  "sb-in-card",  "440ms");
+  // smooth scrolling is frame-driven, so guarantee the end state either way
+  setTimeout(() => { if (scene.scrollTop > 0) scene.scrollTop = 0; }, 700);
 }
 
 function toggleSub(id){
