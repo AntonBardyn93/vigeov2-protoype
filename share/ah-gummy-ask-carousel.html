@@ -2192,9 +2192,17 @@ feedEl.querySelectorAll(".slide").forEach(slide => {
     });
   });
 });
-ensureVideo(feedEl.querySelector(".slide"), items[0]);
-if (items[1]) ensureVideo(feedEl.querySelectorAll(".slide")[1], items[1]);
-if (items[2]) ensureVideo(feedEl.querySelectorAll(".slide")[2], items[2]);
+// Videos mount lazily -- everything past this window waits for the observer.
+// The sponsored slide sits at AD_SLOT, so the window has to reach it: as the
+// first slide outside it, its clip only began fetching once you scrolled it
+// into view, and regularly lost that race against the scroll.
+const EAGER_SLIDES = Math.max(3, (typeof AD_SLOT === "number" ? AD_SLOT : 2) + 1);
+(function mountEagerVideos(){
+  const slides = feedEl.querySelectorAll(".slide");
+  for (let i = 0; i < Math.min(EAGER_SLIDES, items.length); i++) {
+    if (slides[i] && items[i]) ensureVideo(slides[i], items[i]);
+  }
+})();
 if (isPageLive()) {
   activate(0);
   primeAround(0);
