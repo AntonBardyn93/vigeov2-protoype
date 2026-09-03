@@ -350,14 +350,14 @@
   .cont-card:first-child{margin-left:20px}
   .cont-card:last-child{margin-right:20px}
   .cont-card{
-    flex:0 0 176px;scroll-snap-align:start;
+    flex:0 0 280px;scroll-snap-align:start;
     text-align:left;color:#fff;
     transform-origin:center;
     transition:transform .28s var(--ease-jelly);
   }
   .cont-card:active{transform:scale(.98)}
   .cont-still{
-    position:relative;width:176px;height:100px;border-radius:14px;overflow:hidden;
+    position:relative;width:280px;height:157px;border-radius:16px;overflow:hidden;
     background:#111;
     box-shadow:0 10px 24px rgba(0,0,0,.35);
   }
@@ -475,7 +475,7 @@
     pointer-events:none;
   }
   .gposter{
-    position:relative;aspect-ratio:2/3;border-radius:12px;overflow:hidden;background:#16161a;
+    position:relative;aspect-ratio:162/246;border-radius:14px;overflow:hidden;background:#16161a;
     box-shadow:0 8px 18px rgba(0,0,0,.32);
   }
   .gposter > img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
@@ -511,12 +511,12 @@
   .lane-card:first-child{margin-left:20px}
   .lane-card:last-child{margin-right:20px}
   .lane-card{
-    flex:0 0 132px;width:132px;scroll-snap-align:start;
+    flex:0 0 162px;width:162px;scroll-snap-align:start;
     text-align:left;color:#fff;
     animation:cardIn .48s var(--ease-jelly) both;
   }
   .lane-card:active{transform:scale(.97)}
-  .lane-card .gposter{width:132px}
+  .lane-card .gposter{width:162px}
 
   .up{
     display:flex;gap:10px;padding:0 0 22px;overflow-x:auto;scrollbar-width:none;
@@ -914,6 +914,89 @@
   .navitem[data-nav="stuff"]  .nav-ico{--ico:url("ico-saved.svg");  --ico-on:url("ico-saved-filled.svg")}
   .navitem[data-nav="search"] .nav-ico{--ico:url("ico-search.svg"); --ico-on:url("ico-search-filled.svg")}
   .navitem[data-nav="shop"]   .nav-ico{--ico:url("ico-shop.svg");   --ico-on:url("ico-shop-filled.svg")}
+
+
+  /* ---------- hero card: poster art edge to edge, poster floating on it ---------- */
+  /* palette sampled from img-chantal.jpg: sand, rust, brick, slate */
+  .sb-foryou.is-hero{
+    --sand:#D2C2AA; --khaki:#8E7F5E; --rust:#60443B; --teal:#415A5B; --taupe:#2F2A26;
+    --card-base:#171410;
+    position:relative;overflow:hidden;isolation:isolate;
+    padding:0 16px 18px;
+  }
+  .ms-hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .ms-hero-bg > img{
+    position:absolute;left:0;top:0;width:100%;height:74%;
+    object-fit:cover;object-position:50% 34%;
+    display:block;
+  }
+  /* fades out fast, so the art reads as a wash rather than a photo behind text */
+  .ms-hero-fade{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,
+      rgba(23,20,16,.28) 0%,
+      rgba(23,20,16,.60) 26%,
+      rgba(23,20,16,.93) 44%,
+      var(--card-base) 56%,
+      var(--card-base) 100%);
+  }
+  /* a little colour left in the flat lower half */
+  .ms-hero-glow{position:absolute;inset:0;pointer-events:none}
+  .ms-hero-glow span{position:absolute;border-radius:50%;filter:blur(56px)}
+  .ms-hero-glow .g1{width:220px;height:220px;left:-60px;top:46%;background:var(--rust);opacity:.34}
+  .ms-hero-glow .g2{width:200px;height:200px;right:-50px;top:58%;background:var(--teal);opacity:.38}
+  .ms-hero-glow .g3{width:120px;height:120px;left:44%;bottom:-30px;background:var(--khaki);opacity:.22}
+
+  .ms-hero-stage{
+    position:relative;z-index:1;display:grid;place-items:center;
+    perspective:900px;padding:38px 0 32px;
+  }
+  .ms-hero-card{
+    width:148px;aspect-ratio:148/223;border-radius:11px;overflow:hidden;
+    transform-style:preserve-3d;
+    transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    box-shadow:0 26px 50px rgba(0,0,0,.6), 0 4px 14px rgba(0,0,0,.45);
+    background:#111;
+  }
+  .ms-hero-card img{width:100%;height:100%;object-fit:cover;display:block}
+  .ms-hero-card .sheen{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(var(--sheen-a,110deg),
+      rgba(255,255,255,0) 36%, rgba(255,255,255,.16) 50%, rgba(255,255,255,0) 64%);
+  }
+  @media (prefers-reduced-motion:reduce){
+    .ms-hero-card{transform:none}
+  }
+
+  /* the For You block picks up the image's colours instead of the app amber */
+  .sb-foryou{
+    --line-image:linear-gradient(135deg, rgba(210,194,170,.9), rgba(142,127,94,.62) 46%, rgba(65,90,91,.8));
+  }
+  .sb-foryou::after{background:var(--line-image)}
+  .sb-foryou:not(.is-hero){
+    background:
+      radial-gradient(110% 90% at 10% 12%, rgba(210,194,170,.16) 0%, transparent 42%),
+      radial-gradient(90% 80% at 74% 34%, rgba(96,68,59,.18) 0%, transparent 52%),
+      radial-gradient(100% 90% at 100% 100%, rgba(65,90,91,.42) 0%, transparent 56%),
+      linear-gradient(180deg, rgba(24,20,16,.82) 0%, rgba(14,12,10,.93) 100%);
+  }
+  .sb-foryou.is-hero{background:var(--card-base)}
+  /* content sits above the art */
+  .sb-foryou.is-hero > .sb-eyebrow,
+  .sb-foryou.is-hero > h3,
+  .sb-foryou.is-hero > p,
+  .sb-foryou.is-hero > .sb-fychips{position:relative;z-index:2}
+  .sb-eyebrow{
+    background:linear-gradient(100deg, #F1E7D4 0%, #D2C2AA 40%, #8E7F5E 100%);
+    -webkit-background-clip:text;background-clip:text;
+  }
+  .sb-foryou .sb-fychip{
+    background:
+      radial-gradient(120% 130% at 12% 10%, rgba(210,194,170,.15) 0%, transparent 48%),
+      rgba(255,255,255,.055);
+  }
+  .sb-foryou .sb-fychip::after{background:var(--line-image);opacity:.5}
+  .sb-foryou .sb-fychip.round::after{opacity:.72}
 
 </style>
 </head>
@@ -1354,7 +1437,18 @@ function renderWatch(){
   const coming = upcoming();
   sceneWatch.innerHTML = `
     <div class="ms-title" role="heading" aria-level="1">My stuff</div>
-    <div class="sb-foryou">
+    <div class="sb-foryou is-hero">
+      <div class="ms-hero-bg" aria-hidden="true">
+        <img src="img-chantal-bg.jpg" alt="">
+        <span class="ms-hero-fade"></span>
+        <span class="ms-hero-glow"><span class="g1"></span><span class="g2"></span><span class="g3"></span></span>
+      </div>
+      <div class="ms-hero-stage">
+        <div class="ms-hero-card" data-tilt>
+          <img src="img-chantal.jpg" alt="Chantal 3">
+          <span class="sheen" aria-hidden="true"></span>
+        </div>
+      </div>
       <div class="sb-eyebrow">${star} For you</div>
       <h3>You just finished Chantal</h3>
       <p>What would you like to see more (or less) of? Your answer helps us improve your future recommendations.</p>
@@ -1368,7 +1462,7 @@ function renderWatch(){
     </div>
     <section class="block">
       <div class="sec-head">
-        <h2>Continue</h2>
+        <h2>Continue watching</h2>
       </div>
       <div class="cont">${rail.map(contCard).join("")}</div>
     </section>
@@ -1404,6 +1498,7 @@ function renderWatch(){
     </section>
   `;
   bindLaneQs();
+  bindHeroTilt();
 }
 
 function contCard(item){
@@ -1468,6 +1563,74 @@ function setMood(id, {toggle=false}={}){
     if (!keep.has(card.dataset.id)) card.classList.add("is-out");
   });
   moodT = setTimeout(paint, 240);
+}
+
+// ---------- hero tilt ----------
+// Tilts the Chantal poster with the phone's gyroscope, easing toward the target
+// so raw sensor jitter does not shake the card. Falls back to pointer position
+// on desktop, and does nothing at all under reduced motion.
+let heroTiltBound = false;
+function bindHeroTilt(){
+  if (reduceMotion || heroTiltBound) return;
+  // resolve the card at use time: renderWatch() replaces the scene, so a
+  // reference captured here would go stale and the tilt would quietly stop
+  const cardNow = () => sceneWatch.querySelector("[data-tilt]");
+  if (!cardNow()) return;
+
+  const MAX = 14;                       // degrees at full tilt
+  const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+  let targetX = 0, targetY = 0, curX = 0, curY = 0, raf = 0, idle = 0;
+
+  const frame = () => {
+    const card = cardNow();
+    if (!card) { raf = 0; return; }
+    curX += (targetX - curX) * 0.12;
+    curY += (targetY - curY) * 0.12;
+    card.style.setProperty("--rx", curX.toFixed(2) + "deg");
+    card.style.setProperty("--ry", curY.toFixed(2) + "deg");
+    card.style.setProperty("--sheen-a", (110 + curY * 2).toFixed(1) + "deg");
+    // stop the loop once it has settled, restart on the next input
+    if (Math.abs(targetX - curX) < 0.02 && Math.abs(targetY - curY) < 0.02) {
+      if (++idle > 30) { raf = 0; return; }
+    } else idle = 0;
+    raf = requestAnimationFrame(frame);
+  };
+  const kick = () => { idle = 0; if (!raf) raf = requestAnimationFrame(frame); };
+
+  const onOrient = e => {
+    if (e.beta == null && e.gamma == null) return;
+    // beta is front-to-back; a phone is usually held ~45deg back, so offset it
+    targetX = clamp(((e.beta || 0) - 45) * 0.35, MAX);
+    targetY = clamp((e.gamma || 0) * 0.45, MAX);
+    kick();
+  };
+  const onPointer = e => {
+    const card = cardNow();
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    targetY = clamp(((e.clientX - (r.left + r.width / 2)) / r.width) * MAX * 2, MAX);
+    targetX = clamp((((r.top + r.height / 2) - e.clientY) / r.height) * MAX * 2, MAX);
+    kick();
+  };
+
+  heroTiltBound = true;                 // listeners are global, bind them once
+
+  const listen = () => window.addEventListener("deviceorientation", onOrient, true);
+  const DOE = window.DeviceOrientationEvent;
+  if (DOE && typeof DOE.requestPermission === "function") {
+    // iOS needs a gesture before it will hand over motion data
+    const askOnce = () => {
+      DOE.requestPermission().then(state => { if (state === "granted") listen(); }).catch(() => {});
+      document.removeEventListener("touchend", askOnce);
+      document.removeEventListener("click", askOnce);
+    };
+    document.addEventListener("touchend", askOnce, { once: true });
+    document.addEventListener("click", askOnce, { once: true });
+  } else if (DOE) {
+    listen();
+  }
+  // desktop, and anywhere the sensor is silent
+  phoneEl.addEventListener("pointermove", onPointer);
 }
 
 function bindLaneQs(){
