@@ -916,29 +916,46 @@
   .navitem[data-nav="shop"]   .nav-ico{--ico:url("ico-shop.svg");   --ico-on:url("ico-shop-filled.svg")}
 
 
-  /* ---------- hero: Chantal poster, tilting on the gyroscope ---------- */
+  /* ---------- hero card: poster art edge to edge, poster floating on it ---------- */
   /* palette sampled from img-chantal.jpg: sand, rust, brick, slate */
-  .ms-hero{
-    --sand:#BFB099; --rust:#8B6255; --brick:#623634; --slate:#1E262A; --olive:#A19682;
-    position:relative;padding:10px 20px 22px;margin-bottom:2px;
-    isolation:isolate;
+  .sb-foryou.is-hero{
+    --sand:#D2C2AA; --khaki:#8E7F5E; --rust:#60443B; --teal:#415A5B; --taupe:#2F2A26;
+    --card-base:#171410;
+    position:relative;overflow:hidden;isolation:isolate;
+    padding:0 16px 18px;
   }
-  .ms-hero-glow{position:absolute;inset:-60px -20px 0;z-index:0;pointer-events:none;overflow:hidden}
-  .ms-hero-glow span{
-    position:absolute;border-radius:50%;filter:blur(58px);opacity:.5;
-    will-change:transform;
+  .ms-hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .ms-hero-bg > img{
+    position:absolute;left:0;top:0;width:100%;height:74%;
+    object-fit:cover;object-position:50% 34%;
+    display:block;
   }
-  .ms-hero-glow .g1{width:320px;height:320px;left:-70px;top:-40px;background:var(--rust);opacity:.42}
-  .ms-hero-glow .g2{width:322px;height:322px;left:60px;top:-90px;background:var(--sand);opacity:.28}
-  .ms-hero-glow .g3{width:320px;height:320px;left:150px;top:40px;background:var(--slate);opacity:.55}
-  .ms-hero-glow .g4{width:96px;height:96px;left:56px;top:120px;background:var(--olive);opacity:.36;filter:blur(38px)}
+  /* fades out fast, so the art reads as a wash rather than a photo behind text */
+  .ms-hero-fade{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,
+      rgba(23,20,16,.28) 0%,
+      rgba(23,20,16,.60) 26%,
+      rgba(23,20,16,.93) 44%,
+      var(--card-base) 56%,
+      var(--card-base) 100%);
+  }
+  /* a little colour left in the flat lower half */
+  .ms-hero-glow{position:absolute;inset:0;pointer-events:none}
+  .ms-hero-glow span{position:absolute;border-radius:50%;filter:blur(56px)}
+  .ms-hero-glow .g1{width:220px;height:220px;left:-60px;top:46%;background:var(--rust);opacity:.34}
+  .ms-hero-glow .g2{width:200px;height:200px;right:-50px;top:58%;background:var(--teal);opacity:.38}
+  .ms-hero-glow .g3{width:120px;height:120px;left:44%;bottom:-30px;background:var(--khaki);opacity:.22}
 
-  .ms-hero-stage{position:relative;z-index:1;display:grid;place-items:center;perspective:900px}
+  .ms-hero-stage{
+    position:relative;z-index:1;display:grid;place-items:center;
+    perspective:900px;padding:38px 0 32px;
+  }
   .ms-hero-card{
     width:148px;aspect-ratio:148/223;border-radius:11px;overflow:hidden;
     transform-style:preserve-3d;
     transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-    box-shadow:0 26px 50px rgba(0,0,0,.55), 0 4px 14px rgba(0,0,0,.4);
+    box-shadow:0 26px 50px rgba(0,0,0,.6), 0 4px 14px rgba(0,0,0,.45);
     background:#111;
   }
   .ms-hero-card img{width:100%;height:100%;object-fit:cover;display:block}
@@ -953,23 +970,29 @@
 
   /* the For You block picks up the image's colours instead of the app amber */
   .sb-foryou{
-    --line-image:linear-gradient(135deg, rgba(191,176,153,.9), rgba(139,98,85,.62) 48%, rgba(30,38,42,.8));
+    --line-image:linear-gradient(135deg, rgba(210,194,170,.9), rgba(142,127,94,.62) 46%, rgba(65,90,91,.8));
   }
   .sb-foryou::after{background:var(--line-image)}
-  .sb-foryou{
+  .sb-foryou:not(.is-hero){
     background:
-      radial-gradient(110% 90% at 10% 12%, rgba(191,176,153,.16) 0%, transparent 42%),
-      radial-gradient(90% 80% at 74% 34%, rgba(139,98,85,.16) 0%, transparent 52%),
-      radial-gradient(100% 90% at 100% 100%, rgba(30,38,42,.5) 0%, transparent 56%),
-      linear-gradient(180deg, rgba(20,16,14,.8) 0%, rgba(10,9,10,.92) 100%);
+      radial-gradient(110% 90% at 10% 12%, rgba(210,194,170,.16) 0%, transparent 42%),
+      radial-gradient(90% 80% at 74% 34%, rgba(96,68,59,.18) 0%, transparent 52%),
+      radial-gradient(100% 90% at 100% 100%, rgba(65,90,91,.42) 0%, transparent 56%),
+      linear-gradient(180deg, rgba(24,20,16,.82) 0%, rgba(14,12,10,.93) 100%);
   }
+  .sb-foryou.is-hero{background:var(--card-base)}
+  /* content sits above the art */
+  .sb-foryou.is-hero > .sb-eyebrow,
+  .sb-foryou.is-hero > h3,
+  .sb-foryou.is-hero > p,
+  .sb-foryou.is-hero > .sb-fychips{position:relative;z-index:2}
   .sb-eyebrow{
-    background:linear-gradient(100deg, #EFE6D2 0%, #BFB099 42%, #A8776A 100%);
+    background:linear-gradient(100deg, #F1E7D4 0%, #D2C2AA 40%, #8E7F5E 100%);
     -webkit-background-clip:text;background-clip:text;
   }
   .sb-foryou .sb-fychip{
     background:
-      radial-gradient(120% 130% at 12% 10%, rgba(191,176,153,.14) 0%, transparent 48%),
+      radial-gradient(120% 130% at 12% 10%, rgba(210,194,170,.15) 0%, transparent 48%),
       rgba(255,255,255,.055);
   }
   .sb-foryou .sb-fychip::after{background:var(--line-image);opacity:.5}
@@ -1413,16 +1436,19 @@ function renderWatch(){
   const rail = continuing();
   const coming = upcoming();
   sceneWatch.innerHTML = `
-    <div class="ms-hero">
-      <div class="ms-hero-glow" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="g3"></span><span class="g4"></span></div>
+    <div class="ms-title" role="heading" aria-level="1">My stuff</div>
+    <div class="sb-foryou is-hero">
+      <div class="ms-hero-bg" aria-hidden="true">
+        <img src="img-chantal-bg.jpg" alt="">
+        <span class="ms-hero-fade"></span>
+        <span class="ms-hero-glow"><span class="g1"></span><span class="g2"></span><span class="g3"></span></span>
+      </div>
       <div class="ms-hero-stage">
         <div class="ms-hero-card" data-tilt>
           <img src="img-chantal.jpg" alt="Chantal 3">
           <span class="sheen" aria-hidden="true"></span>
         </div>
       </div>
-    </div>
-    <div class="sb-foryou">
       <div class="sb-eyebrow">${star} For you</div>
       <h3>You just finished Chantal</h3>
       <p>What would you like to see more (or less) of? Your answer helps us improve your future recommendations.</p>
@@ -1434,7 +1460,6 @@ function renderWatch(){
         <button class="sb-fychip round" type="button" data-open-ask aria-label="Ask">${star}</button>
       </div>
     </div>
-    <div class="ms-title" role="heading" aria-level="1">My stuff</div>
     <section class="block">
       <div class="sec-head">
         <h2>Continue watching</h2>
