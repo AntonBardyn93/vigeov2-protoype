@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta name="theme-color" content="#0e1218">
+<meta name="robots" content="noindex, nofollow">
+<title>Alfora · Access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --desk:#0e1218;
+    --ink:#f6f7fb;
+    --mut:#9aa3b2;
+    --line:rgba(255,255,255,.1);
+    --accent:#ff7846;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;min-height:100dvh;color:var(--ink);font-family:"Outfit",system-ui,sans-serif;
+    background:
+      radial-gradient(900px 480px at 12% -8%, rgba(255,120,70,.16) 0%, transparent 50%),
+      radial-gradient(800px 420px at 88% 0%, rgba(80,220,160,.1) 0%, transparent 48%),
+      var(--desk);
+    padding:28px 18px 48px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  button,input{font:inherit;color:inherit}
+  .card{
+    width:min(420px,100%);
+    padding:28px 24px 24px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    background:rgba(255,255,255,.03);
+    box-shadow:0 24px 56px rgba(0,0,0,.35);
+  }
+  .brand{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  h1{font-size:clamp(26px,6vw,34px);font-weight:700;letter-spacing:-.03em;margin-top:8px}
+  .lead{font-size:14.5px;line-height:1.55;color:var(--mut);margin-top:10px}
+  form{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+  label{font-size:12px;font-weight:650;color:var(--mut);letter-spacing:.02em}
+  input{
+    width:100%;padding:14px 14px;border-radius:14px;
+    border:1px solid var(--line);background:rgba(0,0,0,.28);
+    outline:none;
+  }
+  input:focus{border-color:rgba(255,120,70,.55);box-shadow:0 0 0 3px rgba(255,120,70,.14)}
+  input::placeholder{color:#6d7686}
+  .code-input{letter-spacing:.28em;text-align:center;font-size:22px;font-weight:700}
+  button[type="submit"]{
+    margin-top:4px;padding:14px 16px;border:0;border-radius:14px;cursor:pointer;
+    background:linear-gradient(180deg,#ff8a5b,#ff7846);
+    color:#1a0d08;font-weight:700;
+  }
+  button[type="submit"]:disabled{opacity:.55;cursor:wait}
+  .back{
+    appearance:none;background:none;border:0;padding:0;margin-top:14px;
+    color:#d7dde8;font-size:13px;font-weight:650;cursor:pointer;
+    text-decoration:none;border-bottom:1px solid rgba(215,221,232,.35);
+    align-self:flex-start;
+  }
+  .msg{margin-top:14px;font-size:13px;line-height:1.45;color:#ffb4a2;min-height:1.3em}
+  .msg.is-ok{color:#9ee6c3}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">Alfora</div>
+    <h1>Invitation only</h1>
+    <p class="lead" id="lead">Enter the email Anton approved. We will send a one-time code there.</p>
+
+    <form id="emailForm" autocomplete="on">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" inputmode="email" autocomplete="username email" placeholder="you@company.com" required>
+      <button type="submit" id="emailBtn">Send code</button>
+    </form>
+
+    <form id="codeForm" class="hidden" autocomplete="one-time-code">
+      <label for="code">One-time code</label>
+      <input id="code" name="code" class="code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required>
+      <button type="submit" id="codeBtn">Open prototype</button>
+      <button type="button" class="back" id="backBtn">Use a different email</button>
+    </form>
+
+    <p class="msg" id="msg" role="status"></p>
+  </div>
+
+<script>
+(function(){
+  const emailForm = document.getElementById("emailForm");
+  const codeForm = document.getElementById("codeForm");
+  const emailInput = document.getElementById("email");
+  const codeInput = document.getElementById("code");
+  const emailBtn = document.getElementById("emailBtn");
+  const codeBtn = document.getElementById("codeBtn");
+  const backBtn = document.getElementById("backBtn");
+  const lead = document.getElementById("lead");
+  const msg = document.getElementById("msg");
+  const params = new URLSearchParams(location.search);
+  const next = safeNext(params.get("next"));
+
+  let clerk = null;
+  let mode = "";
+
+  function safeNext(value){
+    const path = String(value || "/");
+    if (!path.startsWith("/") || path.startsWith("//") || path.startsWith("/access.html")) return "/";
+    return path;
+  }
+
+  function setMsg(text, ok){
+    msg.textContent = text || "";
+    msg.classList.toggle("is-ok", Boolean(ok));
+  }
+
+  function clerkError(err){
+    return err?.errors?.[0]?.longMessage || err?.errors?.[0]?.message || err?.message || "Something went wrong. Try again.";
+  }
+
+  async function loadClerk(publishableKey){
+    if (clerk) return clerk;
+    await new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/@clerk/clerk-js@5/dist/clerk.browser.js";
+      script.async = true;
+      script.onload = resolve;
+      script.onerror = () => reject(new Error("Could not load sign-in."));
+      document.head.appendChild(script);
+    });
+    const Clerk = window.Clerk;
+    clerk = typeof Clerk === "function" ? new Clerk(publishableKey) : Clerk;
+    await clerk.load({ publishableKey });
+    return clerk;
+  }
+
+  emailForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    setMsg("");
+    const email = emailInput.value.trim();
+    emailBtn.disabled = true;
+    try{
+      const allow = await fetch("/api/auth/allowlist", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const allowData = await allow.json();
+      if (!allowData.ok){
+        setMsg("This email is not approved.");
+        return;
+      }
+
+      const config = await fetch("/api/auth/config").then(r => r.json());
+      if (!config.ok || !config.publishableKey){
+        setMsg("Access is not configured yet.");
+        return;
+      }
+
+      await loadClerk(config.publishableKey);
+      try{
+        await clerk.client.signIn.create({ identifier: email });
+        const factor = (clerk.client.signIn.supportedFirstFactors || []).find(item => item.strategy === "email_code");
+        if (!factor?.emailAddressId) throw new Error("Email codes are not enabled.");
+        await clerk.client.signIn.prepareFirstFactor({
+          strategy: "email_code",
+          emailAddressId: factor.emailAddressId,
+        });
+        mode = "signin";
+      } catch (err){
+        const code = err?.errors?.[0]?.code || "";
+        if (code && code !== "form_identifier_not_found") throw err;
+        await clerk.client.signUp.create({ emailAddress: email });
+        await clerk.client.signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+        mode = "signup";
+      }
+
+      emailForm.classList.add("hidden");
+      codeForm.classList.remove("hidden");
+      lead.textContent = "We sent a 6-digit code to " + email + ".";
+      setMsg("Check your inbox for the code.", true);
+      codeInput.focus();
+    } catch (err){
+      setMsg(clerkError(err));
+    } finally {
+      emailBtn.disabled = false;
+    }
+  });
+
+  codeForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    setMsg("");
+    const code = codeInput.value.replace(/\s+/g, "");
+    codeBtn.disabled = true;
+    try{
+      if (mode === "signin"){
+        const result = await clerk.client.signIn.attemptFirstFactor({ strategy: "email_code", code });
+        await clerk.setActive({ session: result.createdSessionId });
+      } else {
+        const result = await clerk.client.signUp.attemptEmailAddressVerification({ strategy: "email_code", code });
+        await clerk.setActive({ session: result.createdSessionId });
+      }
+      const token = await clerk.session.getToken();
+      const session = await fetch("/api/auth/session", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + token },
+        credentials: "same-origin",
+      });
+      const sessionData = await session.json();
+      if (!sessionData.ok){
+        setMsg("This email is not approved.");
+        return;
+      }
+      location.replace(next);
+    } catch (err){
+      setMsg(clerkError(err));
+    } finally {
+      codeBtn.disabled = false;
+    }
+  });
+
+  backBtn.addEventListener("click", () => {
+    mode = "";
+    codeInput.value = "";
+    codeForm.classList.add("hidden");
+    emailForm.classList.remove("hidden");
+    lead.textContent = "Enter the email Anton approved. We will send a one-time code there.";
+    setMsg("");
+    emailInput.focus();
+  });
+})();
+</script>
+</body>
+</html>

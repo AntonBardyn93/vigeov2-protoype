@@ -1,6 +1,16 @@
 {
+  "buildCommand": "true",
   "outputDirectory": "share",
+  "framework": null,
   "cleanUrls": false,
+  "functions": {
+    "api/auth/*.js": {
+      "includeFiles": "allowed-emails.txt"
+    },
+    "middleware.js": {
+      "includeFiles": "allowed-emails.txt"
+    }
+  },
   "headers": [
     {
       "source": "/manifest.webmanifest",

@@ -1,0 +1,13 @@
+{
+  "name": "alfora-prototype",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pack": "./pack-share.sh",
+    "invites": "node scripts/invite-admin.mjs"
+  },
+  "dependencies": {
+    "@clerk/backend": "^2.4.1",
+    "jose": "^6.0.11"
+  }
+}

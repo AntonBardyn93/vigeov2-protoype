@@ -17,6 +17,7 @@ dest.mkdir(parents=True)
 (dest / "trailers").mkdir()
 
 html_files = [
+    "access.html",
     "ah-gummy-now.html",
     "ah-gummy-ask-smear.html",
     "ah-gummy-my-stuff.html",
