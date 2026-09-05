@@ -1,8 +1,7 @@
-import { isEmailAllowed } from "./lib/allowlist.js";
+import { isEmailAllowed } from "./lib/allowlist-core.js";
 import { COOKIE_NAME, readCookie, readSessionEmail } from "./lib/session.js";
 
 export const config = {
-  runtime: "nodejs",
   matcher: ["/((?!access\\.html|api/auth/).*)"],
 };
 

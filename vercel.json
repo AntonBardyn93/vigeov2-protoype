@@ -1,5 +1,6 @@
 {
-  "outputDirectory": "share",
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
   "cleanUrls": false,
   "functions": {
     "api/auth/*.js": {
