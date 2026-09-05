@@ -1,7 +1,6 @@
 {
-  "buildCommand": "true",
-  "outputDirectory": "share",
-  "framework": null,
+  "buildCommand": "mkdir -p dist && cp -R share/. dist/",
+  "outputDirectory": "dist",
   "cleanUrls": false,
   "functions": {
     "api/auth/*.js": {
