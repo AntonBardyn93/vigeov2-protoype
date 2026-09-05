@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/prepare-deploy.mjs",
+    "build": "node -e \"require('fs').accessSync('share')\"",
     "pack": "./pack-share.sh",
     "invites": "node scripts/invite-admin.mjs"
   },

@@ -59,6 +59,33 @@ for name in html_files:
     text = strip_playground((src / name).read_text())
     (dest / name).write_text(text)
 
+(dest / "gate.js").write_text(r"""(function(){
+  if (/\/access\.html$/.test(location.pathname)) return;
+  document.documentElement.classList.add("alfora-gate-pending");
+  fetch("/api/auth/session-check", { credentials: "same-origin" })
+    .then(function(r){ return r.json().then(function(d){ return r.ok && d.ok; }); })
+    .catch(function(){ return false; })
+    .then(function(ok){
+      if (ok) {
+        document.documentElement.classList.remove("alfora-gate-pending");
+        return;
+      }
+      var next = location.pathname + location.search;
+      location.replace("/access.html" + (next && next !== "/" ? "?next=" + encodeURIComponent(next) : ""));
+    });
+})();
+""")
+
+GATE = '<style data-alfora-gate>html.alfora-gate-pending body{visibility:hidden!important}</style><script data-alfora-gate src="/gate.js"></script>'
+
+def inject_gate(text: str, name: str) -> str:
+    if name == "access.html" or "data-alfora-gate" in text:
+        return text
+    return re.sub(r"<head>", "<head>" + GATE, text, count=1, flags=re.I)
+
+for path in dest.glob("*.html"):
+    path.write_text(inject_gate(path.read_text(), path.name))
+
 index = (dest / "ah-gummy-now.html").read_text()
 (dest / "index.html").write_text(index)
 
