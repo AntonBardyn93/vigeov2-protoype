@@ -5,7 +5,7 @@ import { syncGeneratedAllowlist } from "../lib/allowlist.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SHARE = join(ROOT, "share");
-const DIST = join(ROOT, "dist");
+const DESTINATIONS = [join(ROOT, "dist"), join(ROOT, "public")];
 
 const GATE_JS = `(function(){
   if (/\\/access\\.html$/.test(location.pathname)) return;
@@ -42,11 +42,17 @@ function injectGate(html) {
 }
 
 syncGeneratedAllowlist();
-rmSync(DIST, { recursive: true, force: true });
-mkdirSync(DIST, { recursive: true });
-cpSync(SHARE, DIST, { recursive: true });
-writeFileSync(join(DIST, "gate.js"), GATE_JS);
-for (const file of walkHtml(DIST)) {
-  writeFileSync(file, injectGate(readFileSync(file, "utf8")));
+if (!statSync(SHARE, { throwIfNoEntry: false })?.isDirectory()) {
+  throw new Error("share/ is missing. Found: " + readdirSync(ROOT).join(", "));
 }
-console.log("prepared dist/ from share/");
+
+for (const dest of DESTINATIONS) {
+  rmSync(dest, { recursive: true, force: true });
+  mkdirSync(dest, { recursive: true });
+  cpSync(SHARE, dest, { recursive: true });
+  writeFileSync(join(dest, "gate.js"), GATE_JS);
+  for (const file of walkHtml(dest)) {
+    writeFileSync(file, injectGate(readFileSync(file, "utf8")));
+  }
+  console.log("prepared " + dest.replace(ROOT + "/", "") + "/ from share/");
+}
