@@ -5,8 +5,9 @@ import { parseAllowlist } from "../lib/allowlist-core.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const emails = [...parseAllowlist(readFileSync(join(ROOT, "allowed-emails.txt"), "utf8"))];
+const FALLBACK_PUBLISHABLE_KEY = "pk_test_YmlnLWJ1enphcmQtNzQ2MC5jbGVyay5hY2NvdW50cy5kZXYk";
 const config = {
-  publishableKey: process.env.CLERK_PUBLISHABLE_KEY || "",
+  publishableKey: process.env.CLERK_PUBLISHABLE_KEY || FALLBACK_PUBLISHABLE_KEY,
   emails,
 };
 const file = join(ROOT, "share", "auth-config.js");
