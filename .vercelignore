@@ -4,6 +4,9 @@ drop-latest
 .git
 pack-share.sh
 pack-netlify-latest.sh
-dist
 !share
 !share/**
+!dist
+!dist/**
+!public
+!public/**
