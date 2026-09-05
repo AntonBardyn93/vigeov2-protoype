@@ -1,12 +1,9 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "public",
+  "outputDirectory": "dist",
   "cleanUrls": false,
   "functions": {
     "api/auth/*.js": {
-      "includeFiles": "allowed-emails.txt"
-    },
-    "middleware.js": {
       "includeFiles": "allowed-emails.txt"
     }
   },
