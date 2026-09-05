@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node -e \"require('fs').accessSync('share')\"",
+    "build": "node scripts/write-auth-config.mjs",
     "pack": "./pack-share.sh",
     "invites": "node scripts/invite-admin.mjs"
   },

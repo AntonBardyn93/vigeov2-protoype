@@ -89,6 +89,7 @@
     <p class="msg" id="msg" role="status"></p>
   </div>
 
+<script src="/auth-config.js"></script>
 <script>
 (function(){
   const emailForm = document.getElementById("emailForm");
@@ -102,6 +103,8 @@
   const msg = document.getElementById("msg");
   const params = new URLSearchParams(location.search);
   const next = safeNext(params.get("next"));
+  const auth = window.ALFORA_AUTH || {};
+  const allowed = (auth.emails || []).map((email) => String(email).toLowerCase());
 
   let clerk = null;
   let mode = "";
@@ -140,27 +143,19 @@
   emailForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     setMsg("");
-    const email = emailInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
     emailBtn.disabled = true;
     try{
-      const allow = await fetch("/api/auth/allowlist", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const allowData = await allow.json();
-      if (!allowData.ok){
+      if (!allowed.includes(email)){
         setMsg("This email is not approved.");
         return;
       }
-
-      const config = await fetch("/api/auth/config").then(r => r.json());
-      if (!config.ok || !config.publishableKey){
+      if (!auth.publishableKey){
         setMsg("Access is not configured yet.");
         return;
       }
 
-      await loadClerk(config.publishableKey);
+      await loadClerk(auth.publishableKey);
       try{
         await clerk.client.signIn.create({ identifier: email });
         const factor = (clerk.client.signIn.supportedFirstFactors || []).find(item => item.strategy === "email_code");
@@ -203,14 +198,8 @@
         const result = await clerk.client.signUp.attemptEmailAddressVerification({ strategy: "email_code", code });
         await clerk.setActive({ session: result.createdSessionId });
       }
-      const token = await clerk.session.getToken();
-      const session = await fetch("/api/auth/session", {
-        method: "POST",
-        headers: { Authorization: "Bearer " + token },
-        credentials: "same-origin",
-      });
-      const sessionData = await session.json();
-      if (!sessionData.ok){
+      const signedIn = clerk.user?.primaryEmailAddress?.emailAddress || emailInput.value;
+      if (!allowed.includes(String(signedIn).toLowerCase())){
         setMsg("This email is not approved.");
         return;
       }
